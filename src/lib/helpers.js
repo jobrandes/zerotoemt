@@ -14,12 +14,6 @@ export function pickQuiz(questions, n = 5) {
   return shuffleQuiz(shuffle(questions).slice(0, n));
 }
 
-export function renderBold(text) {
-  return text.split(/\*\*(.*?)\*\*/g).map((p, i) =>
-    i % 2 === 1 ? <strong key={i}>{p}</strong> : p
-  );
-}
-
 export function calcProgress(completed, total) {
   return Math.round((completed.length / total) * 100);
 }

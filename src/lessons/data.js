@@ -1,8 +1,6 @@
 // ─── ALL LESSON AND MODULE DATA ─────────────────────────────────────────────
 // Add new lessons here and register them in LESSON_DATA at the bottom
 
-export const TOTAL_LESSONS = 42; // Update as lessons are built
-
 const MODULES = [
   {
     id: 0, code: "START HERE", codeColor: "#e8193c", accentColor: "#e8193c",
@@ -50,6 +48,7 @@ const MODULES = [
 ];
 
 const TOTAL_LESSONS = MODULES.reduce((sum, m) => sum + m.lessons.length, 0);
+export { TOTAL_LESSONS };
 
 const L1 = {
   moduleId: 0, id: 1,

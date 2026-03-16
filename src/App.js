@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
 import { supabase } from "./lib/supabase";
-import { shuffle, pickQuiz, renderBold, calcProgress } from "./lib/helpers";
-import { MODULES, LESSON_DATA } from "./lessons/data";
+import { shuffle, pickQuiz, calcProgress } from "./lib/helpers";
+import { MODULES, LESSON_DATA, TOTAL_LESSONS } from "./lessons/data";
 import "./App.css";
 import Auth from "./components/Auth";
 
-const TOTAL_LESSONS = 42;
+function renderBold(text) {
+  return text.split(/\*\*(.*?)\*\*/g).map((p, i) =>
+    i % 2 === 1 ? <strong key={i}>{p}</strong> : p
+  );
+}
 
 export default function App() {
   const [screen, setScreen] = useState("home");
