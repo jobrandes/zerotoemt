@@ -8,6 +8,10 @@ exports.handler = async function(event) {
   try {
     const body = JSON.parse(event.body);
 
+    console.log("API Key present:", !!process.env.ANTHROPIC_API_KEY);
+    console.log("API Key prefix:", process.env.ANTHROPIC_API_KEY?.slice(0, 10));
+    console.log("Messages count:", body.messages?.length);
+
     const payload = JSON.stringify({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1000,
@@ -29,9 +33,16 @@ exports.handler = async function(event) {
       }, (res) => {
         let data = "";
         res.on("data", chunk => data += chunk);
-        res.on("end", () => resolve({ status: res.statusCode, body: data }));
+        res.on("end", () => {
+          console.log("Anthropic status:", res.statusCode);
+          console.log("Anthropic response preview:", data.slice(0, 200));
+          resolve({ status: res.statusCode, body: data });
+        });
       });
-      req.on("error", reject);
+      req.on("error", (err) => {
+        console.error("Request error:", err.message);
+        reject(err);
+      });
       req.write(payload);
       req.end();
     });
