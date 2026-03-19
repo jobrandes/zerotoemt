@@ -57,12 +57,13 @@ export default function App() {
   async function loadProgress(userId) {
     const { data } = await supabase.from("progress").select("completed_lessons").eq("user_id", userId).maybeSingle();
     if (data?.completed_lessons) {
-      setCompletedLessons(data.completed_lessons);
-      try { localStorage.setItem("zte-progress", JSON.stringify(data.completed_lessons)); } catch {}
+      const deduped = [...new Set(data.completed_lessons)];
+      setCompletedLessons(deduped);
+      try { localStorage.setItem("zte-progress", JSON.stringify(deduped)); } catch {}
     } else {
       try {
         const local = JSON.parse(localStorage.getItem("zte-progress") || "null");
-        if (Array.isArray(local) && local.length > 0) setCompletedLessons(local);
+        if (Array.isArray(local) && local.length > 0) setCompletedLessons([...new Set(local)]);
       } catch {}
     }
     setProgressLoaded(true);
@@ -145,8 +146,13 @@ export default function App() {
     const lessons = activeModule.lessons;
     const idx = lessons.findIndex(l => l.id === activeLessonId);
     if (idx < lessons.length - 1) {
-      const next = lessons[idx + 1];
-      return { mId: activeModuleId, lId: next.id };
+      return { mId: activeModuleId, lId: lessons[idx + 1].id };
+    }
+    // Cross into next module if it has built content
+    const nextMod = MODULES[activeModuleId + 1];
+    if (nextMod) {
+      const firstBuilt = nextMod.lessons.find(l => LESSON_DATA[`${nextMod.id}-${l.id}`]);
+      if (firstBuilt) return { mId: nextMod.id, lId: firstBuilt.id };
     }
     return null;
   };
@@ -313,8 +319,7 @@ export default function App() {
 
     const completeLesson = () => {
       if (!alreadyDone) {
-        const updated = [...completedLessons, lessonKey];
-        setCompletedLessons(updated);
+        setCompletedLessons(prev => [...new Set([...prev, lessonKey])]);
       }
     };
 
@@ -485,7 +490,7 @@ export default function App() {
                     <button className="zte-btn-secondary" onClick={() => { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, lesson.id === 6 ? 10 : 5)); }}>Retake Quiz</button>
                     <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>🤖 Ask AI Tutor</button>
                     {nextLesson
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>Next Lesson →</button>
+                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} →` : "Next Lesson →"}</button>
                       : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum →</button>
                     }
                   </div>
@@ -614,7 +619,7 @@ export default function App() {
                   <div className="zte-tutor-disclaimer">AI Tutor is for learning only. Always follow your training program and medical director's protocols.</div>
                   <div className="zte-tutor-nav">
                     {nextLesson
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>Next Lesson →</button>
+                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} →` : "Next Lesson →"}</button>
                       : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum →</button>
                     }
                   </div>
