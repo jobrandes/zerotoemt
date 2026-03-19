@@ -56,11 +56,20 @@ export default function App() {
 
   async function loadProgress(userId) {
     const { data } = await supabase.from("progress").select("completed_lessons").eq("user_id", userId).maybeSingle();
-    if (data?.completed_lessons) setCompletedLessons(data.completed_lessons);
+    if (data?.completed_lessons) {
+      setCompletedLessons(data.completed_lessons);
+      try { localStorage.setItem("zte-progress", JSON.stringify(data.completed_lessons)); } catch {}
+    } else {
+      try {
+        const local = JSON.parse(localStorage.getItem("zte-progress") || "null");
+        if (Array.isArray(local) && local.length > 0) setCompletedLessons(local);
+      } catch {}
+    }
     setProgressLoaded(true);
   }
 
   async function saveProgress(lessons) {
+    try { localStorage.setItem("zte-progress", JSON.stringify(lessons)); } catch {}
     if (!user) return;
     await supabase.from("progress").upsert(
       { user_id: user.id, completed_lessons: lessons, updated_at: new Date().toISOString() },
