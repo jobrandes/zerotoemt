@@ -492,6 +492,818 @@ const M1L1 = {
   ]
 };
 
-const LESSON_DATA = { "0-1": L1, "0-2": L2, "0-3": L3, "0-4": L4, "0-5": L5, "0-6": L6, "1-1": M1L1 };
+// ─── MODULE 1 — AIRWAY, LESSON 2 ─────────────────────────────────────────────
+const M1L2 = {
+  moduleId: 1, id: 2,
+  title: "Patient Assessment: Airway",
+  subtitle: "How to assess breathing — look, listen, feel, and what it all means",
+  duration: "10 min",
+  dispatch: {
+    call: `"Unit 4, respond to 552 Harbor Blvd — 67-year-old male, found slumped in chair by wife, breathing but unresponsive."`,
+    time: "9:22 AM", eta: "5 minutes",
+    hook: "He's breathing. But is he breathing well enough? There's a massive difference between 'has a pulse and is breathing' and 'is ventilating adequately.' Your job in the next 60 seconds is to figure out which one this is.",
+    bridge: "Airway assessment isn't a checkbox — it's a sequence of questions you answer with your eyes, ears, and hands. This lesson teaches you exactly what to look for and what it means."
+  },
+  content: [
+    {
+      heading: "The Sequence: Look, Listen, Feel",
+      body: "Every airway assessment follows the same sequence:\n\n**Look** — Is the chest rising and falling? Symmetrically? Are there signs of distress — nasal flaring, retractions (skin pulling in between ribs), accessory muscle use?\n\n**Listen** — Open your ears before your stethoscope. Snoring, stridor, gurgling, wheezing — all tell you something. Listen at the mouth and nose for air movement. Then auscultate.\n\n**Feel** — Hold your hand near the patient's mouth and nose. Do you feel air movement? Is it warm? Any abnormal sounds you can feel?\n\nThis takes about 10 seconds when you're trained. Practice until it's automatic."
+    },
+    {
+      heading: "Respiratory Rate and Quality",
+      body: "Count respirations for 30 seconds and multiply by 2. Normal ranges:\n\n• **Adult:** 12–20 breaths/min\n• **Child (1-12):** 15–30 breaths/min\n• **Infant (<1 year):** 25–50 breaths/min\n\nBut rate alone isn't enough. Assess **quality**:\n\n• **Depth** — Are breaths shallow (barely moving) or deep?\n• **Effort** — Is breathing labored? Using neck/shoulder muscles?\n• **Regularity** — Regular rhythm or irregular?\n• **Symmetry** — Both sides of the chest rising equally?\n\nA patient breathing 22 times per minute with full, easy breaths is fine. A patient breathing 22 times with shallow, labored, asymmetric breaths is in serious trouble."
+    },
+    {
+      heading: "Signs of Adequate vs Inadequate Breathing",
+      body: "**Adequate breathing:**\n• Rate within normal range\n• Regular rhythm\n• Equal chest rise bilaterally\n• Pink, warm, dry skin\n• Speaking in full sentences\n• SpO₂ ≥ 94%\n\n**Inadequate breathing — intervene now:**\n• Rate too fast (>30 adult) or too slow (<8 adult)\n• Shallow, barely visible chest rise\n• Asymmetric chest movement\n• Cyanosis (blue lips, fingertips)\n• Altered mental status\n• Accessory muscle use\n• Speaking only in single words or unable to speak\n• SpO₂ < 94%\n\nInadequate breathing = you take over. Adequate breathing = support with oxygen."
+    },
+    {
+      heading: "Pulse Oximetry (SpO₂)",
+      body: "The pulse ox clips to a finger and measures oxygen saturation — the percentage of hemoglobin carrying oxygen.\n\n**Normal:** 94-100%\n**Concerning:** 90-93% — supplement oxygen, monitor closely\n**Critical:** <90% — immediate intervention\n\n**Limitations you must know:**\n• **Carbon monoxide poisoning** — SpO₂ reads falsely normal. CO binds hemoglobin just like oxygen. A CO patient can read 100% while dying.\n• **Poor perfusion** — Cold fingers, shock, poor circulation give unreliable readings.\n• **Nail polish** — Dark polish blocks the sensor. Remove or use a different site.\n• **Motion** — Movement causes artifact.\n\nTreat the patient, not the number. If they look bad, they are bad — even with a good SpO₂."
+    },
+    {
+      heading: "Positioning for Airway",
+      body: "Position is your first intervention for airway problems:\n\n• **Head-tilt chin-lift** — Standard maneuver for unconscious patients with no suspected spinal injury. Tilt head back, lift chin forward. Opens the airway by moving the tongue off the posterior pharynx.\n\n• **Jaw thrust** — For patients with suspected spinal injury. Grip the angles of the jaw and thrust forward without moving the head or neck.\n\n• **Recovery position** — For unconscious patients who are breathing adequately. Roll to their side so secretions drain out rather than into the airway.\n\n• **Sniffing position** — For pediatric patients. Slight forward head tilt, like sniffing a flower. Aligns the airway axes.\n\n• **Sitting up / tripod position** — Patients in respiratory distress naturally assume this. Don't force them supine — you'll make it worse."
+    }
+  ],
+  flashcards: [
+    { front: "What is the normal adult respiratory rate?", back: "12-20 breaths per minute" },
+    { front: "What SpO₂ level is considered critical?", back: "Below 90% — immediate intervention needed" },
+    { front: "What is the head-tilt chin-lift used for?", back: "Opening the airway in unconscious patients without suspected spinal injury" },
+    { front: "When do you use a jaw thrust instead of head-tilt chin-lift?", back: "When spinal injury is suspected — moves the jaw forward without moving the head/neck" },
+    { front: "What does cyanosis look like and what does it mean?", back: "Blue/purple lips and fingertips — indicates severe hypoxia, oxygen not reaching tissues" },
+    { front: "Why is SpO₂ unreliable in CO poisoning?", back: "CO binds hemoglobin like oxygen — the monitor reads it as normal saturation even while the patient is dying" },
+    { front: "What are retractions?", back: "Skin pulling in between ribs during breathing — sign of increased respiratory effort/distress" },
+    { front: "What is the normal infant respiratory rate?", back: "25-50 breaths per minute" },
+    { front: "What is the recovery position used for?", back: "Unconscious patients breathing adequately — rolled to their side so secretions drain out" },
+    { front: "Name 3 signs of inadequate breathing in an adult", back: "Rate <8 or >30, cyanosis, shallow chest rise, SpO₂ <94%, accessory muscle use, altered mental status" },
+    { front: "What does accessory muscle use look like?", back: "Neck and shoulder muscles visibly working during breathing — sign of increased respiratory effort" },
+    { front: "What is tidal volume?", back: "Amount of air in one normal breath — ~500mL in adults" },
+    { front: "What is the sniffing position used for?", back: "Pediatric airway management — slight forward head tilt to align airway axes" },
+    { front: "What SpO₂ is normal?", back: "94-100%" },
+    { front: "What does asymmetric chest rise suggest?", back: "One lung not ventilating — could be pneumothorax, hemothorax, or mainstem intubation" },
+    { front: "What is the tripod position?", back: "Patient sitting up, leaning forward on hands — self-assumed position of respiratory distress, do not force supine" },
+  ],
+  quiz: [
+    { q: "An adult patient is breathing 8 times per minute with shallow chest rise. You should:", options: ["Monitor and apply oxygen", "Begin assisted ventilations with BVM", "Place in recovery position", "Obtain a pulse ox reading first"], answer: 1, explanation: "A rate of 8 with shallow breathing in an adult is inadequate. Take over ventilations with a BVM — don't wait for more assessment." },
+    { q: "A patient's SpO₂ reads 99% but you suspect carbon monoxide poisoning. You should:", options: ["Trust the reading — 99% is normal", "Remove the pulse ox — it's broken", "Treat for CO poisoning regardless — SpO₂ is falsely normal in CO poisoning", "Give high-flow oxygen only if SpO₂ drops"], answer: 2, explanation: "CO binds hemoglobin just like oxygen, so the pulse ox can't distinguish. A CO patient can read 100% while dying. Treat the mechanism, not the number." },
+    { q: "You arrive to find an unconscious patient with possible spinal injury. To open the airway you should use:", options: ["Head-tilt chin-lift", "Jaw thrust", "Recovery position", "Hyperextension"], answer: 1, explanation: "Jaw thrust opens the airway by moving the mandible forward without moving the cervical spine — critical when spinal injury is suspected." },
+    { q: "A patient in severe respiratory distress is sitting in the tripod position. You should:", options: ["Lay them flat for assessment", "Allow them to remain upright — this position maximizes breathing", "Apply a cervical collar", "Begin CPR"], answer: 1, explanation: "Tripod position (sitting, leaning forward on hands) is self-assumed by patients in severe distress because it maximizes diaphragm movement. Forcing them supine makes breathing worse." },
+    { q: "Normal SpO₂ range is:", options: ["85-90%", "90-93%", "94-100%", "100% only"], answer: 2, explanation: "Normal SpO₂ is 94-100%. Below 94% warrants supplemental oxygen. Below 90% is critical and requires immediate intervention." },
+    { q: "You count respirations for 30 seconds and get 6 breaths. The respiratory rate is:", options: ["6 per minute", "12 per minute", "18 per minute", "3 per minute"], answer: 1, explanation: "Count for 30 seconds and multiply by 2. 6 × 2 = 12 per minute — the low end of normal for an adult." },
+    { q: "Skin pulling in between a child's ribs during breathing is called:", options: ["Cyanosis", "Retractions", "Accessory muscle use", "Paradoxical breathing"], answer: 1, explanation: "Retractions are the visible pulling in of skin between ribs — a sign the patient is working very hard to breathe. Significant in children." },
+    { q: "An unconscious patient is breathing adequately. The best position is:", options: ["Supine with head elevated 30 degrees", "Recovery position — on their side", "Prone face down", "Sitting upright"], answer: 1, explanation: "Recovery position (lateral) allows secretions, vomit, and blood to drain away from the airway rather than being aspirated. Use when breathing is adequate and no spinal injury." },
+    { q: "Which finding indicates ADEQUATE breathing?", options: ["Cyanosis of the lips", "Speaking in full sentences with SpO₂ of 97%", "Respiratory rate of 32 in an adult", "Accessory muscle use at rest"], answer: 1, explanation: "Speaking in full sentences requires adequate air movement and gas exchange. SpO₂ of 97% confirms good oxygenation. The other options are all signs of inadequate breathing." },
+    { q: "You notice asymmetric chest rise after intubating a patient. Most likely cause:", options: ["The tube is in the esophagus", "The patient has asthma", "Right mainstem intubation — tube too far", "Normal variation"], answer: 2, explanation: "Asymmetric rise after intubation almost always means the tube went too far into the right mainstem bronchus, ventilating only the right lung. Pull back and reassess." },
+    { q: "Nail polish can affect pulse oximetry by:", options: ["Causing falsely low readings", "Causing falsely high readings", "Blocking the sensor and giving inaccurate results", "Only affecting fingers — use an ear probe instead"], answer: 2, explanation: "Dark nail polish blocks the light sensor, causing unreliable or absent readings. Remove polish or use an alternative site like the earlobe." },
+    { q: "A patient is breathing 26 times per minute with deep, equal chest rise and SpO₂ of 96%. You should:", options: ["Begin assisted ventilations immediately", "Apply supplemental oxygen and monitor", "No intervention needed — this is adequate breathing", "Place in recovery position"], answer: 1, explanation: "Rate of 26 is slightly elevated but breathing is deep, symmetric, and SpO₂ is good. Supplemental oxygen is appropriate while you investigate the cause of the elevated rate." },
+    { q: "The jaw thrust maneuver is performed by:", options: ["Tilting the head back and lifting the chin", "Gripping the angles of the jaw and thrusting it forward without moving the head", "Inserting an OPA to hold the tongue forward", "Applying a cervical collar"], answer: 1, explanation: "Jaw thrust grips the posterior angles of the mandible and thrusts forward, displacing the tongue without requiring cervical spine movement." },
+    { q: "What does SpO₂ actually measure?", options: ["The amount of oxygen dissolved in plasma", "The percentage of hemoglobin carrying oxygen", "The respiratory rate indirectly", "Carbon dioxide levels in the blood"], answer: 1, explanation: "SpO₂ measures oxygen saturation — what percentage of hemoglobin molecules are carrying oxygen. It does NOT measure dissolved O₂ or CO₂." },
+    { q: "An infant is breathing 55 times per minute. This is:", options: ["Normal — infant rate is 25-50", "Slightly elevated but acceptable", "Abnormal — tachypnea requiring assessment", "Normal — infants breathe faster than children"], answer: 2, explanation: "Normal infant rate is 25-50/min. A rate of 55 is tachypnea — abnormal and requires assessment. In infants, tachypnea often indicates respiratory distress or systemic illness." },
+  ]
+};
+
+// ─── MODULE 1 — AIRWAY, LESSON 3 ─────────────────────────────────────────────
+const M1L3 = {
+  moduleId: 1, id: 3,
+  title: "Airway Adjuncts",
+  subtitle: "OPA, NPA, suction — your basic airway toolkit and when to use each",
+  duration: "10 min",
+  dispatch: {
+    call: `"Unit 8, respond to 29 Oak Street — 55-year-old female, seizure, now postictal, snoring respirations, vomit noted around mouth."`,
+    time: "2:47 PM", eta: "4 minutes",
+    hook: "Postictal, snoring, vomit visible. Three immediate airway threats in one patient. What do you reach for first, and in what order?",
+    bridge: "Airway adjuncts are simple tools that make a huge difference. Knowing which one to grab, how to size it, and when NOT to use it separates a good airway manager from a dangerous one."
+  },
+  content: [
+    {
+      heading: "Suction: Always First",
+      body: "If there's fluid in the airway — blood, vomit, secretions — suction before anything else. You cannot effectively manage an airway full of vomit.\n\n**Rigid (Yankauer) suction** — Hard plastic tip, best for oropharynx. Most common for vomit and thick secretions. Limit suction to 15 seconds in adults, 10 seconds in children.\n\n**Flexible catheter** — Soft, for deeper or narrower spaces. Used through an NPA or ET tube.\n\n**Key rules:**\n• Suction on the way OUT, not on the way in\n• Never lose sight of the tip\n• Watch SpO₂ — stop if it drops significantly\n• Pre-oxygenate when possible before suctioning\n• If vomiting is ongoing — turn the patient to their side"
+    },
+    {
+      heading: "Oropharyngeal Airway (OPA)",
+      body: "The OPA is a curved plastic device that sits in the oropharynx and holds the tongue away from the posterior pharynx.\n\n**Use when:** Patient is unconscious with no gag reflex\n**Never use when:** Patient has a gag reflex — you will induce vomiting\n\n**Sizing:** Measure from the corner of the mouth to the earlobe. Or from the center of the mouth to the angle of the jaw.\n\n**Insertion (adult):** Insert upside down (curve pointing up toward palate), rotate 180° as you pass the tongue, seat in position.\n\n**Insertion (pediatric):** Insert right-side up using a tongue depressor — do NOT rotate in children, you can damage soft tissue.\n\nAn OPA does NOT protect the airway from aspiration — it just keeps it open."
+    },
+    {
+      heading: "Nasopharyngeal Airway (NPA)",
+      body: "The NPA is a soft rubber tube inserted through the nostril into the nasopharynx.\n\n**Use when:** Patient needs airway support but has a gag reflex, clenched teeth, or you can't use an OPA\n**Avoid when:** Suspected skull base fracture (fluid from ears/nose, raccoon eyes, Battle's sign) — you risk inserting into the cranial vault\n\n**Sizing:** Diameter — as wide as the patient's pinky finger. Length — from the nostril to the earlobe.\n\n**Insertion:** Lubricate generously. Insert with the bevel toward the septum (midline). Advance gently — if resistance, try the other nostril. Never force it.\n\nNPAs are better tolerated in semi-conscious patients and won't trigger vomiting the way an OPA can."
+    },
+    {
+      heading: "Bag-Valve Mask (BVM)",
+      body: "The BVM is your most important piece of airway equipment. It delivers positive pressure ventilation — pushing air into the lungs when the patient can't do it themselves.\n\n**Components:** Self-inflating bag + one-way valve + mask + oxygen reservoir\n\n**One-person BVM:** EC clamp technique — middle, ring, pinky fingers grip the jaw (E), thumb and index form a C over the mask. Tilt head, seal mask, squeeze bag with your other hand.\n\n**Two-person BVM:** One provider holds the mask with both hands (both thumbs on top, fingers gripping jaw), second provider squeezes the bag. Better seal, better ventilation. Use two-person whenever possible.\n\n**Ventilation rate:**\n• Adults: 1 breath every 5-6 seconds (10-12/min)\n• Children: 1 breath every 3-5 seconds (12-20/min)\n\nCommon mistake: squeezing too hard and too fast. Give just enough volume to see chest rise. Over-ventilation causes gastric distension and reduces venous return."
+    },
+    {
+      heading: "Putting It Together: The Airway Priority Order",
+      body: "When you walk up to an airway problem, this is your sequence:\n\n1. **Position** — Open the airway manually (head-tilt chin-lift or jaw thrust)\n2. **Suction** — Clear anything in the way\n3. **Adjunct** — OPA or NPA to maintain the opening\n4. **Oxygen** — Nonrebreather mask if breathing adequately\n5. **BVM** — If breathing is inadequate or absent\n6. **Advanced airway** — Intubation, supraglottic device (paramedic level)\n\nYou don't always need all six steps. A patient who just needs their airway repositioned and an OPA placed doesn't need a BVM. Match your intervention to the problem."
+    }
+  ],
+  flashcards: [
+    { front: "What does OPA stand for and what does it do?", back: "Oropharyngeal Airway — holds the tongue away from the posterior pharynx in unconscious patients" },
+    { front: "When should you NEVER use an OPA?", back: "When the patient has a gag reflex — you will induce vomiting and aspiration" },
+    { front: "How do you size an OPA?", back: "Corner of the mouth to the earlobe, or center of mouth to angle of jaw" },
+    { front: "What does NPA stand for and when is it preferred over OPA?", back: "Nasopharyngeal Airway — preferred when patient has a gag reflex, clenched teeth, or is semi-conscious" },
+    { front: "When should you avoid an NPA?", back: "Suspected skull base fracture — signs: blood/fluid from ears or nose, raccoon eyes, Battle's sign" },
+    { front: "How do you size an NPA?", back: "Diameter = patient's pinky finger width. Length = nostril to earlobe." },
+    { front: "What is the Yankauer?", back: "A rigid suction catheter used to suction the oropharynx — best for vomit and thick secretions" },
+    { front: "What is the EC clamp technique?", back: "One-person BVM mask hold: E = middle/ring/pinky grip jaw, C = thumb/index seal mask" },
+    { front: "Adult BVM ventilation rate?", back: "One breath every 5-6 seconds (10-12 per minute)" },
+    { front: "What is Battle's sign?", back: "Bruising behind the ear — sign of basilar skull fracture. Contraindication to NPA." },
+    { front: "How long should you suction at one time (adult)?", back: "Maximum 15 seconds — watch SpO₂ and stop if it drops" },
+    { front: "What are raccoon eyes a sign of?", back: "Periorbital bruising suggesting basilar skull fracture — contraindication to NPA" },
+    { front: "What is the adult OPA insertion technique?", back: "Insert upside down (curve up), rotate 180° as you pass the tongue, seat in oropharynx" },
+    { front: "Why can over-ventilation with BVM be harmful?", back: "Causes gastric distension and reduces venous return — give just enough to see chest rise" },
+    { front: "What is the airway priority sequence?", back: "Position → Suction → Adjunct (OPA/NPA) → Oxygen → BVM → Advanced airway" },
+    { front: "What is the pediatric OPA insertion technique?", back: "Insert right-side up using a tongue depressor — do NOT rotate (can damage soft tissue)" },
+  ],
+  quiz: [
+    { q: "A 45-year-old is unconscious after a seizure with no gag reflex and vomit in the mouth. Your FIRST action is:", options: ["Insert an OPA", "Begin BVM ventilations", "Suction the oropharynx", "Apply a nonrebreather mask"], answer: 2, explanation: "Suction first — always. You cannot manage an airway full of vomit. Clear it, then proceed to adjunct and oxygenation." },
+    { q: "You attempt to insert an OPA and the patient gags violently. You should:", options: ["Push it through quickly — gagging will stop", "Remove the OPA and consider an NPA instead", "Use a smaller OPA size", "Place the patient in Trendelenburg position"], answer: 1, explanation: "A gag reflex is an absolute contraindication to OPA. Remove immediately to prevent vomiting. Consider an NPA which is better tolerated in conscious/semi-conscious patients." },
+    { q: "You suspect a basilar skull fracture. The patient needs airway support but has a gag reflex. You should:", options: ["Insert an NPA — it's always safe", "Insert an OPA — gag reflex doesn't matter in emergencies", "Use BVM with mask seal only — NPA is contraindicated", "Delay airway management until CT scan"], answer: 2, explanation: "Basilar skull fracture is a contraindication to NPA — risk of inserting into the cranial vault. Manage the airway with positioning and BVM without an adjunct if possible." },
+    { q: "How do you size an OPA?", options: ["From the nose to the earlobe", "From the corner of the mouth to the earlobe", "Same size as the patient's thumb", "Use the largest one that fits"], answer: 1, explanation: "OPA sizing: corner of the mouth to the earlobe. Too small won't lift the tongue; too large can push the epiglottis down." },
+    { q: "Two-person BVM ventilation is preferred over one-person because:", options: ["It delivers oxygen faster", "One provider can focus on mask seal while the other squeezes the bag — better seal and ventilation", "It uses less oxygen", "It's required by protocol"], answer: 1, explanation: "Maintaining a perfect mask seal with one hand while squeezing the bag with the other is genuinely difficult. Two-person technique provides a much better seal and more reliable ventilation." },
+    { q: "The correct adult BVM ventilation rate is:", options: ["1 breath every 2-3 seconds", "1 breath every 5-6 seconds", "1 breath every 10 seconds", "As fast as possible"], answer: 1, explanation: "Adult ventilation rate: 1 breath every 5-6 seconds (10-12/min). Over-ventilation is a common mistake that causes gastric distension and reduces cardiac output." },
+    { q: "Battle's sign is:", options: ["Bruising around both eyes", "Bruising behind the ear", "Blood from the nose", "A midline skull deformity"], answer: 1, explanation: "Battle's sign is ecchymosis (bruising) behind the ear over the mastoid process — a delayed sign of basilar skull fracture. Contraindicates NPA insertion." },
+    { q: "When inserting an NPA you meet resistance in one nostril. You should:", options: ["Push harder — resistance is normal", "Remove and try the other nostril", "Use a larger NPA", "Abandon the NPA and use an OPA"], answer: 1, explanation: "Never force an NPA. If you meet resistance, gently remove and try the other nostril. Forcing can cause significant bleeding." },
+    { q: "What is the maximum suction time for an adult patient?", options: ["5 seconds", "15 seconds", "30 seconds", "60 seconds"], answer: 1, explanation: "Suction for a maximum of 15 seconds in adults (10 seconds in children). Each second of suctioning also removes oxygen — monitor SpO₂ and pre-oxygenate when possible." },
+    { q: "You're squeezing the BVM and the patient's abdomen is rising more than the chest. This means:", options: ["Ventilation is working correctly", "Air is going into the stomach — adjust mask seal and head position", "The patient needs a larger mask", "Chest compressions should be started"], answer: 1, explanation: "Abdominal rise means air is entering the stomach (gastric insufflation), not the lungs. Recheck mask seal, head position, and ventilation pressure. Over-vigorous BVM use causes this." },
+    { q: "For a pediatric patient, OPA insertion differs from adults because:", options: ["You use a smaller bag-valve mask", "You insert it right-side up using a tongue depressor — never rotate", "The sizing method is different", "You always use NPA instead"], answer: 1, explanation: "In children, the OPA is inserted right-side up (curve pointing down) using a tongue depressor to displace the tongue. Rotating in children can damage the soft palate." },
+    { q: "A patient has a gag reflex and clenched teeth. Which airway adjunct is most appropriate?", options: ["OPA — it will fit despite clenched teeth", "NPA — can be placed despite clenched teeth and tolerates gag reflex", "Neither — wait for them to relax", "Intubation is the only option"], answer: 1, explanation: "NPA is the adjunct of choice when the patient has a gag reflex or clenched jaw — it's inserted nasally and doesn't require opening the mouth." },
+    { q: "The OPA is inserted upside down in adults and then rotated 180°. The purpose of this technique is:", options: ["To avoid the teeth", "To navigate around the tongue without pushing it back into the airway", "Because the curve faces the wrong direction naturally", "To test for a gag reflex"], answer: 1, explanation: "Inserting the OPA upside down and rotating allows you to navigate past the tongue without using it as a ramp, which would push it into the airway. Once past the tongue, the curve guides it into position." },
+    { q: "Which statement about the OPA is TRUE?", options: ["It protects against aspiration", "It replaces the need for suction", "It maintains airway patency but does NOT prevent aspiration", "It can be used in any patient regardless of consciousness"], answer: 2, explanation: "The OPA holds the tongue forward and keeps the airway open — it does NOT protect against aspiration. You still need to monitor for vomiting and have suction ready." },
+    { q: "The oxygen reservoir bag on a BVM serves what purpose?", options: ["Stores medication for nebulization", "Collects exhaled CO₂", "Accumulates oxygen between breaths to deliver higher FiO₂", "Provides a backup air supply if oxygen runs out"], answer: 2, explanation: "The reservoir bag accumulates oxygen from the flow source between breaths. This allows delivery of near 100% oxygen (vs ~21% room air) when connected to high-flow O₂." },
+  ]
+};
+
+// ─── MODULE 1 — AIRWAY, LESSON 4 ─────────────────────────────────────────────
+const M1L4 = {
+  moduleId: 1, id: 4,
+  title: "Oxygen Delivery",
+  subtitle: "Oxygen devices, flow rates, and when to use what — matching the tool to the patient",
+  duration: "9 min",
+  dispatch: {
+    call: `"Unit 6, respond to 4411 Ridgeline Drive — 72-year-old female, history of COPD, shortness of breath for 2 hours, speaking in 2-3 word sentences."`,
+    time: "11:05 AM", eta: "6 minutes",
+    hook: "COPD patient, 2-3 word sentences. You know she needs oxygen. But how much? The wrong answer could actually make her worse. This is one of EMS's most misunderstood topics.",
+    bridge: "Oxygen is a drug. Like every drug, it has indications, contraindications, dosing, and side effects. This lesson teaches you to match the device to the patient — not just grab whatever's closest."
+  },
+  content: [
+    {
+      heading: "Oxygen as a Drug",
+      body: "Oxygen has a therapeutic window — too little is dangerous, but so is too much in certain patients.\n\n**FiO₂** (Fraction of Inspired Oxygen) — the percentage of oxygen delivered. Room air is 21%. A nonrebreather mask can deliver up to 90-100%.\n\nYour goal in most patients: maintain SpO₂ ≥ 94%. In STEMI and stroke patients: maintain SpO₂ ≥ 94% but avoid hyperoxia (too much oxygen can cause vasoconstriction).\n\n**The COPD caveat:** Some COPD patients have chronically high CO₂ and may rely on hypoxic drive to breathe. Flooding them with high-flow oxygen can potentially suppress their drive to breathe. Don't withhold oxygen from a hypoxic COPD patient — but target SpO₂ of 88-92% rather than 100%, and monitor closely."
+    },
+    {
+      heading: "Nasal Cannula",
+      body: "**What it is:** Two small prongs that sit in the nostrils. Delivers low-flow oxygen.\n\n**Flow rate:** 1-6 L/min\n**FiO₂ delivered:** ~24-44% (roughly, add 4% per liter above room air)\n\n**Use when:**\n• Patient needs mild supplemental oxygen\n• SpO₂ is 90-93% and patient is stable\n• Patient is speaking and breathing adequately\n• Patient cannot tolerate a mask\n\n**Limitations:**\n• Ineffective if patient is mouth breathing\n• Maximum useful flow is 6 L/min — beyond that, use a mask\n• Does not protect against aspiration"
+    },
+    {
+      heading: "Nonrebreather Mask (NRB)",
+      body: "**What it is:** A mask with a one-way valve and oxygen reservoir bag. Prevents exhaled air from re-entering the bag.\n\n**Flow rate:** 10-15 L/min\n**FiO₂ delivered:** 60-90% (reservoir bag must be inflated before placing on patient)\n\n**Use when:**\n• Patient needs high-flow oxygen\n• SpO₂ < 94% despite nasal cannula\n• Suspected CO poisoning — always high flow regardless of SpO₂\n• Chest pain, stroke, severe respiratory distress\n• Any seriously ill patient\n\n**Key step:** Inflate the reservoir bag BEFORE applying the mask — press your finger over the one-way valve until the bag fills. An empty reservoir bag delivers room air, not oxygen."
+    },
+    {
+      heading: "Simple Face Mask and Partial Rebreather",
+      body: "**Simple face mask:**\n• Flow rate: 6-10 L/min\n• FiO₂: ~35-60%\n• Must run at minimum 6 L/min — below this, exhaled CO₂ accumulates in the mask\n• Less commonly used in EMS — NRB is usually the better choice for sick patients\n\n**Partial rebreather mask:**\n• Similar to NRB but without the one-way valve\n• Allows some exhaled air to mix with reservoir oxygen\n• FiO₂: ~35-60%\n• Rarely used in EMS prehospital — you'll mainly see it in hospital\n\n**Venturi mask:**\n• Delivers precise FiO₂ (24%, 28%, 31%, 35%, 40%)\n• Used for COPD patients who need controlled oxygen delivery\n• Color-coded adapters set the exact FiO₂\n• More of a hospital/interfacility tool"
+    },
+    {
+      heading: "Matching Device to Patient",
+      body: "**Quick decision guide:**\n\n| Patient situation | Device | Flow |\n|---|---|---|\n| Mild hypoxia, stable, talking | Nasal cannula | 2-4 L/min |\n| Moderate distress, SpO₂ 90-93% | Nasal cannula | 4-6 L/min |\n| Serious illness, SpO₂ <94% | Nonrebreather | 10-15 L/min |\n| CO poisoning (any SpO₂) | Nonrebreather | 15 L/min |\n| Not breathing / inadequate | BVM | 15 L/min |\n| COPD, target 88-92% | Nasal cannula or Venturi | 2-4 L/min |\n\n**Bottom line:** When in doubt, go higher. You can always back off oxygen. You can't undo hypoxic brain damage."
+    }
+  ],
+  flashcards: [
+    { front: "What is FiO₂?", back: "Fraction of Inspired Oxygen — the percentage of oxygen being delivered. Room air = 21%." },
+    { front: "What flow rate does a nasal cannula use?", back: "1-6 L/min, delivering approximately 24-44% FiO₂" },
+    { front: "What flow rate does a nonrebreather mask use?", back: "10-15 L/min, delivering 60-90% FiO₂" },
+    { front: "What is the target SpO₂ for most patients?", back: "94% or above" },
+    { front: "What is the target SpO₂ for COPD patients?", back: "88-92% — avoid hyperoxia which may suppress hypoxic drive" },
+    { front: "What is the critical step before applying an NRB mask?", back: "Inflate the reservoir bag first by covering the one-way valve — an empty bag delivers room air" },
+    { front: "Why is CO poisoning always treated with high-flow oxygen?", back: "High-flow O₂ displaces CO from hemoglobin faster — SpO₂ will read falsely normal, so treat the mechanism not the number" },
+    { front: "What is the minimum flow rate for a simple face mask?", back: "6 L/min minimum — below this, exhaled CO₂ accumulates in the mask" },
+    { front: "When should you use a nasal cannula instead of NRB?", back: "Mild hypoxia, stable breathing, SpO₂ 90-93%, or patient cannot tolerate a mask" },
+    { front: "What is hypoxic drive?", back: "Some COPD patients breathe in response to low O₂ rather than high CO₂ — high-flow oxygen may suppress this drive" },
+    { front: "What device delivers the most precise FiO₂?", back: "Venturi mask — color-coded adapters deliver exact percentages (24%, 28%, 31%, 35%, 40%)" },
+    { front: "Room air contains what percentage of oxygen?", back: "21% FiO₂" },
+    { front: "A patient with suspected CO poisoning needs:", back: "High-flow oxygen via NRB at 15 L/min regardless of SpO₂ reading" },
+    { front: "What does a nonrebreather mask's one-way valve do?", back: "Prevents exhaled air from entering the reservoir bag, keeping it filled with pure oxygen" },
+    { front: "Nasal cannula is ineffective when:", back: "The patient is breathing exclusively through their mouth — nasal prongs won't deliver oxygen effectively" },
+    { front: "When should you use BVM instead of an oxygen mask?", back: "When breathing is absent or inadequate — oxygen masks only work when the patient is breathing on their own" },
+  ],
+  quiz: [
+    { q: "A 72-year-old COPD patient has SpO₂ of 86% and is in moderate distress. You should:", options: ["Withhold oxygen — COPD patients shouldn't get O₂", "Apply NRB at 15 L/min to maximize oxygen delivery", "Apply nasal cannula at 2-4 L/min targeting SpO₂ 88-92%", "Only give oxygen if SpO₂ drops below 80%"], answer: 2, explanation: "COPD patients who are hypoxic (SpO₂ <88%) need oxygen — never withhold it. But target 88-92%, not 100%. Start with a nasal cannula at low flow and titrate." },
+    { q: "You apply an NRB mask but the reservoir bag stays deflated. What will the patient receive?", options: ["High-flow oxygen — the mask still works", "Mostly room air — the reservoir isn't filled with oxygen", "No oxygen — the mask is broken", "CO₂ — the bag collects exhaled air"], answer: 1, explanation: "The reservoir bag must be inflated before application. An empty bag means the patient inhales through the one-way valve directly — mostly room air (21% O₂). Always inflate first." },
+    { q: "Room air contains approximately what percentage of oxygen?", options: ["10%", "21%", "40%", "78%"], answer: 1, explanation: "Room air is approximately 21% oxygen (78% nitrogen, 1% other gases). This is your baseline — any supplemental oxygen device increases FiO₂ above this." },
+    { q: "A patient with suspected carbon monoxide poisoning has SpO₂ of 99%. You should:", options: ["Observe only — SpO₂ is normal", "Apply nasal cannula at 2 L/min", "Apply NRB at 15 L/min immediately", "Only treat if patient becomes symptomatic"], answer: 2, explanation: "CO binds hemoglobin and reads as normal SpO₂. Always apply high-flow oxygen to suspected CO poisoning regardless of the reading — it's one of the most dangerous false negatives in EMS." },
+    { q: "The maximum useful flow rate for a nasal cannula is:", options: ["2 L/min", "4 L/min", "6 L/min", "10 L/min"], answer: 2, explanation: "Above 6 L/min, a nasal cannula delivers minimal additional benefit and dries out mucous membranes. Switch to a mask for higher flow needs." },
+    { q: "Which device delivers the most precise and controlled FiO₂?", options: ["Nonrebreather mask", "Nasal cannula", "Venturi mask", "Simple face mask"], answer: 2, explanation: "Venturi masks use color-coded adapters to deliver exact FiO₂ percentages — commonly used for COPD patients needing controlled oxygen. Nasal cannula and NRBs deliver approximate FiO₂." },
+    { q: "A patient is not breathing. Which oxygen delivery device do you use?", options: ["Nonrebreather mask", "Nasal cannula", "BVM connected to oxygen", "Venturi mask"], answer: 2, explanation: "Passive oxygen devices (NRB, cannula, masks) only work when the patient is breathing on their own. An apneic patient needs positive pressure ventilation — BVM connected to high-flow O₂." },
+    { q: "The minimum flow rate for a simple face mask is 6 L/min because:", options: ["Lower flows can't penetrate the mask seal", "Below 6 L/min, exhaled CO₂ accumulates in the mask", "The mask reservoir won't inflate at lower flows", "Lower flows damage the mask valve"], answer: 1, explanation: "Simple face masks have vents but not enough airflow below 6 L/min to flush exhaled CO₂. The patient would rebreathe their own CO₂, defeating the purpose." },
+    { q: "An NRB mask at 15 L/min delivers approximately:", options: ["21% FiO₂", "40% FiO₂", "60-90% FiO₂", "100% FiO₂ always"], answer: 2, explanation: "NRB masks deliver 60-90% FiO₂ when properly applied with the reservoir inflated. True 100% delivery requires a sealed system — masks always allow some room air entrainment." },
+    { q: "A patient is speaking in full sentences with SpO₂ of 91%. The most appropriate intervention is:", options: ["No oxygen needed — they're speaking fine", "BVM ventilation", "Nasal cannula at 2-4 L/min", "NRB at 15 L/min immediately"], answer: 2, explanation: "SpO₂ of 91% warrants supplemental oxygen. The patient is breathing adequately (full sentences) so a nasal cannula is appropriate. Start at 2-4 L/min and titrate to ≥94%." },
+    { q: "Why might high-flow oxygen be harmful to some COPD patients?", options: ["Oxygen is toxic to COPD lung tissue", "Some COPD patients breathe in response to low O₂ — flooding them with O₂ may suppress this drive", "High-flow O₂ worsens bronchospasm", "COPD patients absorb oxygen faster, causing hyperoxia"], answer: 1, explanation: "Some severe COPD patients have adapted to high CO₂ and rely on hypoxic drive. High O₂ can theoretically suppress breathing. In practice: never withhold O₂ from hypoxic COPD patients — just target 88-92%." },
+    { q: "You apply a nasal cannula but the patient is breathing only through their mouth. You should:", options: ["Increase the flow rate to compensate", "Switch to a face mask", "Add a second nasal cannula", "No change needed — nasal cannula still works"], answer: 1, explanation: "Nasal cannula delivers oxygen through the nostrils. If the patient is exclusively mouth-breathing, the prongs deliver little to no benefit. Switch to a face mask." },
+    { q: "FiO₂ stands for:", options: ["Flow index of oxygen", "Fraction of inspired oxygen", "Fixed inspired oxygenation", "Flow in oxygen"], answer: 1, explanation: "FiO₂ = Fraction of Inspired Oxygen — the decimal or percentage of oxygen in the air the patient breathes. Room air FiO₂ = 0.21 (21%)." },
+    { q: "A STEMI patient is breathing adequately with SpO₂ of 98%. Oxygen should be:", options: ["Applied at 15 L/min NRB immediately", "Not applied — target SpO₂ ≥94% and avoid hyperoxia in STEMI", "Applied at 2 L/min nasal cannula", "Applied only if SpO₂ drops below 90%"], answer: 1, explanation: "Current evidence suggests hyperoxia may worsen outcomes in STEMI by causing coronary vasoconstriction. If SpO₂ is already ≥94%, supplemental oxygen is not indicated." },
+    { q: "Which oxygen device is MOST appropriate for a seriously ill patient with SpO₂ of 88%?", options: ["Room air — avoid oxygen in sick patients", "Nasal cannula at 1 L/min", "Nonrebreather mask at 10-15 L/min", "BVM ventilation"], answer: 2, explanation: "SpO₂ of 88% in a seriously ill patient warrants high-flow oxygen via NRB. The patient is breathing so BVM isn't indicated yet. Start with NRB and reassess." },
+  ]
+};
+
+// ─── MODULE 1 — AIRWAY, LESSON 5 ─────────────────────────────────────────────
+const M1L5 = {
+  moduleId: 1, id: 5,
+  title: "Respiratory Emergencies",
+  subtitle: "Asthma, COPD, pulmonary edema, pneumothorax — recognizing and managing breathing crises",
+  duration: "12 min",
+  dispatch: {
+    call: `"Unit 3, respond to 1290 Maple Street — 28-year-old female, known asthmatic, severe shortness of breath, not improved with her inhaler, unable to speak in full sentences."`,
+    time: "3:15 PM", eta: "4 minutes",
+    hook: "Known asthmatic, inhaler not working, speaking in fragments. This is not a routine asthma call. Something has changed. Do you know the difference between a mild asthma attack and a life threat?",
+    bridge: "Respiratory emergencies are among the most common — and most mismanaged — calls in EMS. The conditions look similar but have different mechanisms and different treatments. Getting them right starts with recognition."
+  },
+  content: [
+    {
+      heading: "Asthma",
+      body: "Asthma is reversible bronchospasm — the airways constrict in response to a trigger (allergen, exercise, cold air, infection). The airways swell and produce excess mucus, making exhalation difficult.\n\n**Signs:** Wheezing (expiratory), prolonged exhalation, accessory muscle use, tachycardia, anxiety\n\n**Severe asthma signs — act fast:**\n• Cannot speak in full sentences\n• Tripod positioning\n• Silent chest (no wheeze = no air moving = critical)\n• Altered mental status\n• SpO₂ < 90% despite oxygen\n• Diaphoresis (sweating)\n\n**Treatment:** Sitting upright, high-flow O₂, assisted ventilation if needed, assist with prescribed bronchodilator (albuterol inhaler or nebulizer if your scope allows), rapid transport\n\n**Status asthmaticus** — A severe asthma attack that does not respond to bronchodilators. Life threatening. Rapid transport, consider ALS intercept."
+    },
+    {
+      heading: "COPD",
+      body: "COPD (Chronic Obstructive Pulmonary Disease) is a progressive, irreversible disease — usually emphysema, chronic bronchitis, or both. Unlike asthma, the damage is permanent.\n\n**Emphysema** — Alveolar walls break down, reducing surface area for gas exchange. Classic appearance: barrel chest, pursed-lip breathing, pink complexion ('pink puffer').\n\n**Chronic bronchitis** — Chronic airway inflammation and excess mucus. 'Blue bloater' — cyanotic, overweight appearance, productive cough.\n\n**Signs:** Prolonged exhalation, wheezing, barrel chest, accessory muscle use, hypoxia\n\n**Key difference from asthma:** COPD patients have a baseline of chronic respiratory compromise. They may look like they're struggling but be at their normal. Know their baseline if possible.\n\n**Treatment:** Low-flow O₂ (target SpO₂ 88-92%), sitting upright, assist with prescribed medications, transport. Avoid hyperoxia."
+    },
+    {
+      heading: "Pulmonary Edema",
+      body: "Pulmonary edema is fluid in the alveoli — usually from left heart failure (the left ventricle can't pump effectively, causing fluid backup into the lungs).\n\n**Signs:**\n• Severe respiratory distress, orthopnea (can't breathe lying flat)\n• Frothy, pink-tinged sputum (classic)\n• Crackles/rales on lung auscultation (wet, crackling sounds)\n• Diaphoresis, cyanosis\n• JVD (jugular venous distension) — neck veins bulging\n• Ankle/leg edema (bilateral)\n• Sitting bolt upright, refusing to lie down\n\n**Think of it as:** The patient is literally drowning in their own fluid.\n\n**Treatment:** Sitting upright (never lie them down), high-flow O₂, CPAP if available and in scope, rapid transport. These patients deteriorate fast."
+    },
+    {
+      heading: "Pneumothorax",
+      body: "A pneumothorax is air in the pleural space (between the lung and chest wall), causing the lung to collapse.\n\n**Simple pneumothorax** — Air enters the pleural space, lung partially collapses. Usually from trauma or spontaneous (tall, thin young adults).\n\n**Tension pneumothorax** — Air accumulates and can't escape. Builds pressure, collapses the lung completely, then pushes the mediastinum to the opposite side, compressing the other lung and the heart. Rapidly fatal.\n\n**Signs of tension pneumothorax:**\n• Absent breath sounds on affected side\n• Tracheal deviation (away from affected side — late sign)\n• JVD\n• Hypotension\n• Severe respiratory distress\n• Shock that doesn't respond to fluids\n\n**Treatment:** High-flow O₂, rapid transport, ALS intercept for needle decompression. EMTs do not decompress tension pneumo — but you need to recognize it and call for ALS."
+    },
+    {
+      heading: "Differentiating Respiratory Emergencies",
+      body: "These four conditions can look similar. Here's how to tell them apart:\n\n| Condition | Key Sound | Key Sign | Clue |\n|---|---|---|---|\n| Asthma | Wheezing (exp.) | Young, known history | Inhaler present |\n| COPD | Wheezing + crackles | Older, smoker | Barrel chest |\n| Pulmonary edema | Crackles/rales | Can't lie flat | Pink frothy sputum |\n| Pneumothorax | Absent on one side | After trauma | Asymmetric chest |\n\n**Universal treatment principles for all respiratory emergencies:**\n1. Position of comfort (usually sitting upright)\n2. High-flow oxygen (except COPD — low flow)\n3. Reassess frequently — these patients can deteriorate fast\n4. Rapid transport — don't delay on scene\n5. ALS intercept if available and patient is critical"
+    }
+  ],
+  flashcards: [
+    { front: "What is asthma?", back: "Reversible bronchospasm — airways constrict from a trigger, causing wheezing and expiratory difficulty" },
+    { front: "What is status asthmaticus?", back: "A severe asthma attack that does not respond to bronchodilators — life threatening, requires rapid transport" },
+    { front: "What is a silent chest in an asthma patient?", back: "No wheezing heard — indicates almost no air is moving. Critical emergency — worse than wheezing" },
+    { front: "What does COPD stand for?", back: "Chronic Obstructive Pulmonary Disease — progressive, irreversible airway disease (emphysema and/or chronic bronchitis)" },
+    { front: "What is the target SpO₂ for COPD patients?", back: "88-92% — avoid hyperoxia which may suppress hypoxic drive" },
+    { front: "What is pulmonary edema?", back: "Fluid in the alveoli — usually from left heart failure causing fluid backup into the lungs" },
+    { front: "What is the classic sign of pulmonary edema?", back: "Frothy, pink-tinged sputum, crackles/rales, orthopnea, JVD, bilateral ankle edema" },
+    { front: "What is orthopnea?", back: "Inability to breathe lying flat — patient insists on sitting upright. Classic sign of pulmonary edema/heart failure" },
+    { front: "What is a tension pneumothorax?", back: "Air accumulates in pleural space without escape, collapsing the lung and shifting mediastinum — rapidly fatal" },
+    { front: "What are the signs of tension pneumothorax?", back: "Absent breath sounds one side, tracheal deviation (away from injury), JVD, hypotension, severe distress" },
+    { front: "What sound do you hear in pulmonary edema?", back: "Crackles/rales — wet, crackling sounds from fluid in the alveoli" },
+    { front: "What is tracheal deviation a sign of?", back: "Tension pneumothorax — mediastinum shifts away from the affected (collapsed) lung. Late and serious sign." },
+    { front: "What causes emphysema?", back: "Alveolar wall breakdown from COPD — reduces gas exchange surface area. Causes barrel chest and pursed-lip breathing." },
+    { front: "What is JVD?", back: "Jugular venous distension — bulging neck veins. Sign of increased venous pressure, seen in tension pneumo and pulmonary edema" },
+    { front: "What is the key difference between asthma and COPD?", back: "Asthma is reversible bronchospasm; COPD is irreversible progressive lung damage. COPD patients have chronic baseline compromise." },
+    { front: "What position should a pulmonary edema patient be in?", back: "Sitting upright — never lie them down. Lying flat worsens breathing by increasing venous return to the already failing heart." },
+  ],
+  quiz: [
+    { q: "An asthmatic patient has no wheezing on auscultation despite obvious respiratory distress. This means:", options: ["They are improving — wheeze is gone", "Silent chest — critical, almost no air moving", "You need a better stethoscope", "Asthma has resolved — look for another cause"], answer: 1, explanation: "Silence in an asthmatic in distress is a critical sign. Wheezing requires air movement. No wheeze = no air = life threat. This patient needs immediate intervention." },
+    { q: "A 68-year-old is sitting bolt upright, sweating, cannot lie flat, has crackles in both lungs and pink frothy sputum. Most likely diagnosis:", options: ["Asthma exacerbation", "Pneumothorax", "Pulmonary edema", "COPD exacerbation"], answer: 2, explanation: "Orthopnea (can't lie flat), diaphoresis, bilateral crackles, and pink frothy sputum are classic pulmonary edema signs — fluid in the alveoli from left heart failure." },
+    { q: "After a stab wound to the left chest, a patient develops absent breath sounds on the left, JVD, and hypotension. You suspect:", options: ["Simple pneumothorax", "Tension pneumothorax", "Pulmonary edema", "Hemothorax"], answer: 1, explanation: "Absent breath sounds + JVD + hypotension after penetrating chest trauma = tension pneumothorax. Tracheal deviation is a late sign. This patient needs immediate ALS and transport." },
+    { q: "The appropriate oxygen target for a COPD patient in mild distress with SpO₂ of 87% is:", options: ["100% via NRB — maximize oxygenation", "Target SpO₂ 88-92% via nasal cannula", "No oxygen — COPD patients shouldn't receive supplemental O₂", "Target SpO₂ 94-100% like any other patient"], answer: 1, explanation: "COPD patients who are hypoxic need oxygen — never withhold it. But target 88-92% to avoid suppressing hypoxic drive. Use nasal cannula at 2-4 L/min and titrate." },
+    { q: "Which respiratory emergency is characterized by reversible bronchospasm?", options: ["COPD", "Pulmonary edema", "Asthma", "Pneumothorax"], answer: 2, explanation: "Asthma is reversible bronchospasm triggered by allergens, exercise, cold air, or infection. COPD is irreversible. Pulmonary edema is fluid. Pneumothorax is air outside the lung." },
+    { q: "Tracheal deviation in a trauma patient indicates:", options: ["Normal finding — trachea can shift", "Tension pneumothorax — mediastinal shift away from collapsed lung", "Simple pneumothorax", "Rib fractures"], answer: 1, explanation: "Tracheal deviation (trachea shifting toward the unaffected side) is a late sign of tension pneumothorax. Don't wait for it to act — treat based on earlier signs." },
+    { q: "An asthmatic patient's inhaler has not worked. You should:", options: ["Have them use the inhaler again 3 more times", "Recognize this as potentially status asthmaticus — high-flow O₂ and rapid transport", "Apply nasal cannula and monitor", "Wait 10 minutes before reassessing"], answer: 1, explanation: "Inhaler failure suggests status asthmaticus — a life-threatening emergency. High-flow O₂, position of comfort, assisted ventilation if inadequate, and rapid transport are priorities." },
+    { q: "The 'pink puffer' presentation is associated with:", options: ["Chronic bronchitis", "Pulmonary edema", "Emphysema", "Pneumothorax"], answer: 2, explanation: "The 'pink puffer' is classic emphysema — pink (maintains oxygenation longer), pursed-lip breathing, barrel chest, thin. The 'blue bloater' is chronic bronchitis — cyanotic and productive cough." },
+    { q: "You hear crackles in a patient's lower lung fields bilaterally. The most likely cause is:", options: ["Asthma", "Pneumothorax", "Pulmonary edema or fluid in lungs", "Upper airway obstruction"], answer: 2, explanation: "Bilateral crackles (rales) in the lower fields are classic for pulmonary edema — fluid in the alveoli that crackles as air tries to pass through. Unilateral absence suggests pneumothorax." },
+    { q: "EMT management of a suspected tension pneumothorax includes:", options: ["Needle decompression at the 2nd intercostal space", "High-flow O₂, rapid transport, ALS intercept — EMTs do not decompress", "Applying an occlusive dressing to all sides", "Positioning patient on the affected side"], answer: 1, explanation: "EMTs do not perform needle decompression — that's a paramedic/ALS skill. Your job: recognize it, provide high-flow O₂, call for ALS intercept, and transport immediately." },
+    { q: "Which position is best for a patient in respiratory distress who is conscious?", options: ["Supine with legs elevated", "Position of comfort — usually sitting upright", "Recovery position on their side", "Prone (face down)"], answer: 1, explanation: "Sitting upright maximizes diaphragm movement and lung expansion. Conscious patients in distress will naturally find their best position — don't force them supine." },
+    { q: "A patient with pulmonary edema is refusing to lie down. You should:", options: ["Insist they lie down for proper assessment", "Restrain them and lay them flat for transport", "Allow them to remain upright — lying flat worsens their condition", "Sedate them before moving"], answer: 2, explanation: "Lying flat increases venous return to the failing heart and worsens pulmonary edema. These patients are refusing for a physiological reason — honor it. Transport sitting upright." },
+    { q: "What does CPAP stand for and when is it used?", options: ["Continuous Positive Airway Pressure — for pulmonary edema and COPD exacerbations", "Chest Pressure Airway Protocol — for cardiac arrest", "Controlled Pressure Airway Position — for spinal injuries", "Continuous Pressure Alveolar Protocol — for pneumonia"], answer: 0, explanation: "CPAP (Continuous Positive Airway Pressure) delivers positive pressure to splint open alveoli. Used for pulmonary edema and COPD exacerbations. Not all EMT scopes include CPAP — know your protocols." },
+    { q: "A 24-year-old tall thin male develops sudden left-sided chest pain and shortness of breath after lifting weights. Most likely cause:", options: ["Asthma attack", "Spontaneous pneumothorax", "Pulmonary embolism", "COPD exacerbation"], answer: 1, explanation: "Spontaneous pneumothorax classically affects tall thin young males. No trauma required — the apical blebs (air pockets) rupture spontaneously, especially with exertion. Absent left breath sounds confirms it." },
+    { q: "Jugular venous distension (JVD) in a respiratory emergency indicates:", options: ["Normal venous anatomy", "Increased venous pressure — seen in tension pneumo and pulmonary edema", "Dehydration", "Hypertension"], answer: 1, explanation: "JVD occurs when venous pressure backs up enough to distend the jugular veins — seen in tension pneumothorax (mediastinal compression) and pulmonary edema/right heart failure." },
+  ]
+};
+
+// ─── MODULE 1 — AIRWAY, LESSON 6 ─────────────────────────────────────────────
+const M1L6 = {
+  moduleId: 1, id: 6,
+  title: "Airway Management in Special Situations",
+  subtitle: "Pediatric airways, trauma airways, the vomiting patient, and when things go wrong",
+  duration: "11 min",
+  dispatch: {
+    call: `"Unit 11, respond to I-95 northbound, mile marker 47 — multi-vehicle MVC, multiple patients, one reported unresponsive, trapped."`,
+    time: "7:43 PM", eta: "6 minutes",
+    hook: "Multi-vehicle MVC, one unresponsive, trapped. Airway management at a trauma scene is completely different from a medical call. How do you manage an airway when you can't move the patient, can't see inside the mouth, and the clock is running?",
+    bridge: "The basics get you through 80% of calls. The other 20% are the ones that test you. This lesson covers the hard scenarios — because the hard scenarios are the ones that matter most."
+  },
+  content: [
+    {
+      heading: "Trauma Airway Management",
+      body: "Trauma changes everything about airway management:\n\n**Spinal precautions** — Always assume cervical spine injury in significant mechanism. Use jaw thrust, not head-tilt chin-lift. Manual cervical stabilization while managing the airway.\n\n**Blood and secretions** — Trauma patients bleed. Suction is not optional — it's constant. Have it ready and running before you need it.\n\n**Facial trauma** — Broken facial bones, torn soft tissue, blood, and edema can make ventilation with a mask nearly impossible. Getting a mask seal may require two people.\n\n**Helmet removal** — Helmets must come off to assess and manage the airway. Two-person technique: one stabilizes the head while the other removes the helmet, then the first takes over stabilization.\n\n**Log roll** — A vomiting trauma patient needs to be rolled to their side as a unit (log roll) to maintain spinal alignment while clearing the airway."
+    },
+    {
+      heading: "The Pediatric Airway in Emergencies",
+      body: "Pediatric airway emergencies follow the same principles but with critical differences:\n\n**Croup** — Viral infection causing subglottic edema. Bark-like seal cough, stridor, worse at night. Most cases are mild. Cool/humidified air can help. Position of comfort, O₂ if tolerated.\n\n**Epiglottitis** — Bacterial infection causing severe epiglottic swelling. Fever, drooling, tripod position, muffled 'hot potato' voice, refusal to swallow. DO NOT examine the throat — can cause complete obstruction. Calm, rapid transport, O₂ gently.\n\n**Foreign body obstruction** — Children put things in their mouths. Complete obstruction: silent, unable to cry, cyanotic → back blows and chest thrusts (infant) or abdominal thrusts (child >1 year). Partial obstruction with effective cough: encourage coughing, don't interfere.\n\n**Key rule:** A crying child has a patent airway. A silent child with distress does not."
+    },
+    {
+      heading: "The Actively Vomiting Patient",
+      body: "Aspiration of vomit is a leading cause of preventable airway deaths. Here's how to manage it:\n\n**Immediate actions:**\n1. Roll to lateral (recovery) position — if spinal injury suspected, log roll as a unit\n2. Suction — Yankauer, continuously if needed\n3. Do NOT attempt to insert an OPA until vomiting stops and airway is clear\n\n**Sellick's maneuver (cricoid pressure)** — Pressure on the cricoid cartilage during BVM ventilation compresses the esophagus against the spine, reducing gastric insufflation and regurgitation risk. Still used in some systems — know your protocols.\n\n**If they aspirate:** Suction, high-flow O₂, BVM if breathing is compromised, rapid transport. Document exactly what happened and when."
+    },
+    {
+      heading: "When BVM Ventilation Fails",
+      body: "BVM failure is more common than you think. Signs: poor chest rise despite correct technique, rising gastric distension, SpO₂ not improving.\n\n**Troubleshoot with DOPE:**\n• **D**islodgement — Is your mask seal broken? Has an OPA shifted?\n• **O**bstruction — Is there something in the airway? Suction?\n• **P**neumothorax — Is air escaping into the pleural space?\n• **E**quipment — Is your oxygen flowing? Is the BVM intact?\n\n**If seal is the problem:** Switch to two-person BVM technique\n**If obstruction:** Suction, reposition, reassess\n**If you truly can't ventilate:** Consider alternative positioning, consider calling for ALS, maximize efforts and transport immediately\n\nDocumentation of airway difficulties is critical — the hospital needs to know."
+    },
+    {
+      heading: "Documenting Airway Management",
+      body: "Your airway documentation protects the patient and protects you.\n\n**Always document:**\n• Initial airway assessment findings\n• What interventions were performed and in what order\n• Patient response to each intervention\n• SpO₂ before and after interventions\n• Any difficulties encountered\n• Time of each intervention\n\n**Handoff report (SBAR or your system's format):**\n• Situation — Why you were called\n• Background — Relevant history\n• Assessment — What you found\n• Recommendation — What you did and what you recommend next\n\nIf airway management was difficult or unsuccessful, say so clearly in your handoff. The receiving team needs to prepare. Never minimize or omit airway problems in documentation."
+    }
+  ],
+  flashcards: [
+    { front: "Why do you use jaw thrust instead of head-tilt chin-lift in trauma?", back: "Suspected cervical spine injury — jaw thrust opens airway without moving the neck" },
+    { front: "What is croup?", back: "Viral infection causing subglottic edema — bark-like seal cough, stridor, worse at night" },
+    { front: "What is epiglottitis and why is it dangerous?", back: "Bacterial infection causing severe epiglottic swelling — can cause complete airway obstruction. Do NOT examine the throat." },
+    { front: "How do you recognize complete airway obstruction in an infant?", back: "Silent, cannot cry, cyanotic — perform back blows and chest thrusts immediately" },
+    { front: "What is the DOPE mnemonic for BVM failure?", back: "Dislodgement, Obstruction, Pneumothorax, Equipment — troubleshoot BVM failure in this order" },
+    { front: "What is Sellick's maneuver?", back: "Cricoid pressure during BVM ventilation — compresses esophagus to reduce gastric insufflation and regurgitation risk" },
+    { front: "How do you manage a vomiting trauma patient's airway?", back: "Log roll as a unit (maintain spinal alignment), suction continuously, do not insert OPA until airway is clear" },
+    { front: "What is the 'hot potato voice' a sign of?", back: "Epiglottitis — muffled voice from epiglottic swelling. Do not examine the throat." },
+    { front: "How is helmet removal performed?", back: "Two-person technique: one stabilizes the head, one removes the helmet, first rescuer takes over stabilization" },
+    { front: "What does a crying child tell you about their airway?", back: "A crying child has a patent airway — cry requires air movement. Silence in a distressed child is more dangerous." },
+    { front: "What is the two-person BVM technique?", back: "One provider holds mask with both hands (both thumbs on top), second provider squeezes the bag — better seal" },
+    { front: "What should you NEVER do with a child suspected of having epiglottitis?", back: "Never examine the throat — stimulation can cause complete laryngospasm and obstruction. Calm transport, O₂ gently." },
+    { front: "What is a partial vs complete airway obstruction?", back: "Partial: effective cough, some air movement — encourage coughing. Complete: no sound, no cough, cyanosis — intervene immediately." },
+    { front: "What does SBAR stand for in handoff reporting?", back: "Situation, Background, Assessment, Recommendation — structured handoff format" },
+    { front: "Name 3 things that make trauma airway management harder than medical", back: "Spinal precautions (no head tilt), blood/secretions requiring constant suction, facial trauma making mask seal difficult" },
+    { front: "Where does epiglottitis classically present in children?", back: "High fever, drooling, tripod positioning, stridor, refusal to swallow, muffled voice — rapid progression to obstruction" },
+  ],
+  quiz: [
+    { q: "A trauma patient is vomiting. With suspected spinal injury, you should:", options: ["Suction while keeping patient supine", "Log roll as a unit to the lateral position and suction", "Insert an OPA immediately to protect the airway", "Apply cricoid pressure and continue suctioning"], answer: 1, explanation: "Suspected spinal injury means you maintain spinal alignment during all movements. Log roll the patient as a unit — everyone moves together — to the lateral position so vomit drains out." },
+    { q: "A 2-year-old has a barking seal cough and stridor that is worse at night. Most likely diagnosis:", options: ["Epiglottitis", "Foreign body obstruction", "Croup", "Asthma"], answer: 2, explanation: "Classic croup presentation: viral, barking seal cough, stridor, worse at night, usually 6 months-3 years. Cool humidified air can help. Position of comfort, O₂ if tolerated." },
+    { q: "A 4-year-old has high fever, is drooling, sitting in tripod position, and has a muffled voice. You suspect epiglottitis. You should:", options: ["Examine the throat with a tongue depressor to confirm", "Have the parent hold the child, apply O₂ gently, calm rapid transport — do not examine throat", "Insert an OPA immediately", "Lay them flat for assessment"], answer: 1, explanation: "NEVER examine the throat in suspected epiglottitis — direct laryngoscopy or even a tongue depressor can trigger complete laryngospasm. Keep the child calm, O₂ gently if tolerated, rapid transport." },
+    { q: "You're ventilating with a BVM but the abdomen is rising more than the chest. Using DOPE, your first step is:", options: ["Check for pneumothorax", "Recheck mask seal and airway positioning (Dislodgement)", "Check your oxygen equipment", "Look for airway obstruction"], answer: 1, explanation: "DOPE starts with Dislodgement — is your mask seal broken? Is the head position optimal? Is the OPA in place? Mask seal issues are the most common BVM failure cause." },
+    { q: "In trauma, the preferred airway maneuver to avoid cervical spine movement is:", options: ["Head-tilt chin-lift", "Jaw thrust", "Neck extension", "Sniffing position"], answer: 1, explanation: "Jaw thrust opens the airway by moving the mandible forward without extending the neck — essential when cervical spine injury is suspected." },
+    { q: "A 10-month-old has a sudden onset of choking and is now silent, cyanotic, and cannot cry. You should:", options: ["Attempt finger sweep to remove the object", "Back blows and chest thrusts", "Abdominal thrusts (Heimlich)", "Immediate BVM ventilation"], answer: 1, explanation: "For infants under 1 year with complete obstruction: 5 back blows and 5 chest thrusts. Abdominal thrusts (Heimlich) are for children over 1 year. Finger sweeps only if you can SEE the object." },
+    { q: "Why does facial trauma make BVM ventilation difficult?", options: ["Broken bones can puncture the BVM", "Facial anatomy changes make mask seal nearly impossible", "Trauma patients should not receive positive pressure", "You need a different size mask for trauma"], answer: 1, explanation: "Fractured facial bones, torn tissue, swelling, and blood make achieving an airtight mask seal extremely difficult. Two-person technique and sometimes alternative airways become necessary." },
+    { q: "The DOPE mnemonic stands for:", options: ["Dislodgement, Obstruction, Pneumothorax, Equipment", "Delivery, Oxygen, Pressure, Esophagus", "Depth, Output, Position, Entry", "Drainage, Obstruction, Perfusion, Edema"], answer: 0, explanation: "DOPE = Dislodgement, Obstruction, Pneumothorax, Equipment. Use this systematic check when BVM ventilation is not producing adequate chest rise." },
+    { q: "Documenting that airway management was difficult is important because:", options: ["It protects you legally but has no clinical value", "The receiving team needs to prepare for a potentially difficult airway", "You only document successful interventions", "Difficulty documentation is optional"], answer: 1, explanation: "If the airway was difficult or interventions failed, the hospital must know. They may need to prepare advanced airway equipment, call anesthesia, or activate a difficult airway protocol." },
+    { q: "A child with partial airway obstruction is coughing forcefully. You should:", options: ["Immediately perform abdominal thrusts", "Encourage coughing — an effective cough is the best way to clear a partial obstruction", "Insert fingers to sweep the throat", "Begin back blows"], answer: 1, explanation: "A forceful cough generates more airway pressure than any manual technique. If the child is moving air and coughing effectively, let them work — intervene only if the cough becomes ineffective or the child deteriorates." },
+    { q: "What is the purpose of Sellick's maneuver (cricoid pressure)?", options: ["Opens the glottis for easier intubation", "Compresses the esophagus to reduce gastric insufflation and regurgitation risk during BVM", "Stabilizes the cervical spine during airway management", "Prevents laryngospasm during suctioning"], answer: 1, explanation: "Sellick's maneuver applies downward pressure on the cricoid cartilage, compressing the esophagus against the vertebral bodies. This reduces the risk of regurgitation and gastric inflation during BVM ventilation." },
+    { q: "Helmet removal at a trauma scene requires:", options: ["One person removing the helmet quickly", "Two-person technique maintaining cervical stabilization throughout", "Cutting the helmet off with trauma shears", "Leaving the helmet on until the hospital removes it"], answer: 1, explanation: "Helmet removal requires two people: one maintains inline cervical stabilization above while the other removes the helmet, then the first rescuer repositions to continue stabilization. The head never loses support." },
+    { q: "An unconscious trauma patient with significant facial injuries needs BVM ventilation. Your BEST option is:", options: ["One-person BVM with standard EC clamp", "Two-person BVM — one holds seal with both hands, one squeezes", "Nasal cannula at 6 L/min", "Delay ventilation until ALS arrives"], answer: 1, explanation: "Facial trauma makes mask seal extremely difficult. Two-person BVM dramatically improves seal quality — critical when normal anatomy is disrupted." },
+    { q: "A crying child arrives by private car with respiratory distress. The crying tells you:", options: ["The child is in extreme distress — immediate intervention needed", "The airway is patent — air is moving well enough to cry", "The child is faking — reduce urgency", "The child needs sedation before assessment"], answer: 1, explanation: "Crying requires air movement through the airway and vocal cords. A crying child has a functioning, open airway. Silence in a distressed child — especially sudden silence — is the alarming finding." },
+    { q: "After managing a difficult airway, your handoff should include:", options: ["Only the final outcome — what worked", "What interventions were tried, what worked, what didn't, and the timeline", "No airway details — the hospital will assess on arrival", "Only the patient's chief complaint and vitals"], answer: 1, explanation: "A complete airway handoff includes what you found, what you tried, what worked, what didn't, and when. This allows the receiving team to prepare appropriately and continues the chain of care." },
+  ]
+};
+
+// ─── MODULE 1 — AIRWAY, LESSON 7 — MODULE QUIZ ───────────────────────────────
+const M1L7 = {
+  moduleId: 1, id: 7,
+  title: "Airway Module Quiz",
+  subtitle: "Cumulative assessment — everything from Module 1: Airway",
+  duration: "15 min",
+  dispatch: {
+    call: `"All units, Module 1 Assessment. You will be tested on respiratory anatomy, patient assessment, airway adjuncts, oxygen delivery, respiratory emergencies, and special situation airway management."`,
+    time: "NOW", eta: "Your call",
+    hook: "Seven lessons. Everything in Airway. Time to find out what stuck — and what needs another pass.",
+    bridge: "This quiz pulls from all seven Airway lessons. Ten questions, randomly selected. Use the AI Tutor after to work through anything that trips you up."
+  },
+  content: [
+    {
+      heading: "What This Quiz Covers",
+      body: "This module quiz covers all of Module 1 — Airway:\n\n• **Lesson 1** — Respiratory anatomy (upper/lower airway, gas exchange, pediatric differences, airway sounds)\n• **Lesson 2** — Patient assessment (look/listen/feel, respiratory rate, SpO₂, adequate vs inadequate breathing)\n• **Lesson 3** — Airway adjuncts (OPA, NPA, suction, BVM technique)\n• **Lesson 4** — Oxygen delivery (FiO₂, devices, flow rates, COPD caveat)\n• **Lesson 5** — Respiratory emergencies (asthma, COPD, pulmonary edema, pneumothorax)\n• **Lesson 6** — Special situations (trauma, pediatric, vomiting patient, DOPE)\n\nYou'll get 10 questions drawn randomly from across all lessons."
+    }
+  ],
+  flashcards: [
+    { front: "Where does gas exchange occur?", back: "Alveoli — 300 million tiny air sacs where O₂ crosses into capillaries and CO₂ crosses out" },
+    { front: "Normal adult respiratory rate?", back: "12-20 breaths per minute" },
+    { front: "When is jaw thrust used instead of head-tilt chin-lift?", back: "Suspected cervical spine injury — jaw thrust opens airway without moving the neck" },
+    { front: "What is the OPA contraindication?", back: "Gag reflex — will trigger vomiting" },
+    { front: "NRB mask flow rate and FiO₂?", back: "10-15 L/min delivering 60-90% FiO₂ with reservoir inflated" },
+    { front: "Silent chest in asthma means:", back: "Critical — almost no air is moving. Worse than wheezing." },
+    { front: "Classic signs of pulmonary edema?", back: "Orthopnea, crackles/rales, pink frothy sputum, JVD, bilateral edema, diaphoresis" },
+    { front: "DOPE mnemonic?", back: "Dislodgement, Obstruction, Pneumothorax, Equipment — BVM failure troubleshooting" },
+    { front: "SpO₂ target for COPD?", back: "88-92% — avoid hyperoxia" },
+    { front: "Signs of tension pneumothorax?", back: "Absent breath sounds one side, JVD, hypotension, tracheal deviation (late), severe distress" },
+    { front: "Adult BVM ventilation rate?", back: "1 breath every 5-6 seconds (10-12/min)" },
+    { front: "Croup vs epiglottitis key difference?", back: "Croup: viral, barking cough, treat with comfort. Epiglottitis: bacterial, drooling, DO NOT examine throat." },
+    { front: "What does stridor indicate?", back: "Partial upper airway obstruction near the larynx — high-pitched sound on inhalation" },
+    { front: "CO poisoning and SpO₂?", back: "SpO₂ reads falsely normal — always treat CO with high-flow O₂ regardless of reading" },
+    { front: "Infant complete obstruction treatment?", back: "5 back blows + 5 chest thrusts (not abdominal thrusts — for infants under 1 year)" },
+  ],
+  quiz: [
+    { q: "Gas exchange — oxygen entering the bloodstream and CO₂ leaving — occurs at the:", options: ["Trachea", "Bronchi", "Alveoli", "Larynx"], answer: 2, explanation: "Gas exchange happens at the alveoli — 300 million tiny air sacs in the lungs with walls thin enough for gases to diffuse across." },
+    { q: "A patient has stridor on inhalation after eating. This indicates:", options: ["Lower airway bronchospasm", "Partial upper airway obstruction — possible foreign body", "Normal breathing sounds", "Pulmonary edema"], answer: 1, explanation: "Stridor is a high-pitched inspiratory sound from partial upper airway obstruction — near the larynx. After eating suggests possible foreign body. Also consider allergic swelling." },
+    { q: "SpO₂ reads 99% in a patient you suspect has carbon monoxide poisoning. You should:", options: ["Reassure them — SpO₂ is normal", "Apply nasal cannula at 2 L/min", "Apply NRB at 15 L/min — CO poisoning treatment regardless of SpO₂", "Monitor and reassess in 5 minutes"], answer: 2, explanation: "CO binds hemoglobin identically to oxygen — pulse ox cannot distinguish. SpO₂ in CO poisoning is meaningless. Always apply high-flow O₂ based on the mechanism." },
+    { q: "You attempt to insert an OPA and the patient gags. You should:", options: ["Use a smaller size and try again", "Remove the OPA — gag reflex is a contraindication", "Push through quickly", "Try inserting without rotating"], answer: 1, explanation: "A gag reflex is an absolute contraindication to OPA. Remove it immediately. Consider NPA, which is better tolerated in conscious patients." },
+    { q: "A 68-year-old COPD patient is in moderate respiratory distress with SpO₂ 86%. Your oxygen target is:", options: ["100% via NRB", "94-100% like any other patient", "88-92% via low-flow nasal cannula", "No oxygen — COPD patients shouldn't get supplemental O₂"], answer: 2, explanation: "COPD patients who are hypoxic (SpO₂ <88%) need oxygen — never withhold it. Target 88-92% to avoid suppressing hypoxic drive." },
+    { q: "After trauma, a patient has absent breath sounds on the right, JVD, and is hypotensive. You suspect:", options: ["Pulmonary edema", "Tension pneumothorax", "Hemothorax", "Simple pneumothorax"], answer: 1, explanation: "Absent unilateral breath sounds + JVD + hypotension after trauma = tension pneumothorax. Call ALS, high-flow O₂, immediate transport — this is rapidly fatal." },
+    { q: "A child has a barking cough, stridor, and low-grade fever that is worse at night. Most likely:", options: ["Epiglottitis", "Asthma", "Croup", "Foreign body obstruction"], answer: 2, explanation: "Croup: viral, barking seal cough, stridor, low/no fever, worse at night, 6 months-3 years. Epiglottitis has high fever, drooling, and no barking cough." },
+    { q: "BVM ventilation isn't producing chest rise. Using DOPE, you first check:", options: ["For pneumothorax", "Oxygen equipment", "Mask seal and airway positioning (Dislodgement)", "Airway obstruction"], answer: 2, explanation: "DOPE starts with Dislodgement — check mask seal and head/airway positioning first. Most BVM failures are seal problems." },
+    { q: "Classic pulmonary edema presentation includes all EXCEPT:", options: ["Orthopnea (can't lie flat)", "Pink frothy sputum", "Bilateral crackles", "Expiratory wheezing"], answer: 3, explanation: "Pulmonary edema presents with orthopnea, pink frothy sputum, crackles/rales (not wheeze). Wheezing suggests bronchospasm (asthma/COPD). Crackles are from fluid in alveoli." },
+    { q: "The correct ventilation rate for an adult with a BVM is:", options: ["1 breath every 2-3 seconds", "1 breath every 5-6 seconds", "1 breath every 10 seconds", "As fast as you can"], answer: 1, explanation: "1 breath every 5-6 seconds = 10-12/min for adults. Over-ventilation is dangerous — causes gastric distension and reduces cardiac output." },
+    { q: "A patient in respiratory distress spontaneously assumes a tripod position. You should:", options: ["Force them supine for assessment", "Allow them to remain upright — tripod maximizes breathing", "Apply a cervical collar", "Begin CPR"], answer: 1, explanation: "Tripod position is physiologically beneficial — patients assume it because it maximizes diaphragm movement. Honor it. Transport upright." },
+    { q: "An infant under 1 year has complete airway obstruction. The correct intervention is:", options: ["Abdominal thrusts (Heimlich)", "Back blows and chest thrusts", "Finger sweep regardless", "Immediate BVM ventilation"], answer: 1, explanation: "Infants under 1 year: 5 back blows + 5 chest thrusts. Abdominal thrusts (Heimlich) are for children over 1 year and adults. Finger sweeps only if you can SEE the object." },
+    { q: "The NPA is preferred over the OPA when:", options: ["The patient is completely unconscious", "The patient has a gag reflex or clenched teeth", "The patient has a suspected skull fracture", "The patient is a child under 5"], answer: 1, explanation: "NPA is preferred when the patient has a gag reflex, clenched jaw, or altered consciousness — it's inserted nasally, doesn't require opening the mouth, and is better tolerated." },
+    { q: "Wheezing on exhalation is most associated with:", options: ["Upper airway obstruction", "Pulmonary edema", "Bronchospasm (asthma/COPD)", "Pneumothorax"], answer: 2, explanation: "Expiratory wheeze = bronchospasm in the lower airways (asthma, COPD, anaphylaxis). Upper airway obstruction causes stridor (inspiratory). Pulmonary edema causes crackles." },
+    { q: "The reservoir bag on an NRB mask must be inflated before application because:", options: ["An empty bag deflects exhaled air", "An uninflated bag delivers mostly room air, not high-concentration oxygen", "The one-way valve won't open without pressure", "It provides a larger breathing space"], answer: 1, explanation: "The reservoir accumulates oxygen between breaths. An empty bag means the patient inhales through the valve into room air (21% O₂). Always inflate the reservoir first by occluding the one-way valve." },
+    { q: "Documenting a difficult airway encounter is important because:", options: ["Only successful interventions need documentation", "The receiving team needs to prepare and the record protects everyone", "It's optional in emergencies", "Airway findings are assessed fresh at the hospital"], answer: 1, explanation: "Complete documentation of airway difficulties allows the receiving team to prepare (advanced airway equipment, anesthesia backup). It also protects you legally and ensures continuity of care." },
+    { q: "Why is SpO₂ unreliable with dark nail polish?", back: "Dark polish blocks the light sensor, giving inaccurate or absent readings — use an alternate site", options: ["The polish reflects light and gives high readings", "Dark polish blocks the sensor, causing inaccurate results — use an alternate site", "Nail polish has no effect on SpO₂", "Only red polish affects the reading"], answer: 1, explanation: "Pulse oximetry uses light transmission through tissue. Dark nail polish absorbs or blocks the light, making the reading unreliable. Remove polish or clip to earlobe." },
+    { q: "A trauma patient with facial injuries needs BVM ventilation. The BEST technique is:", options: ["Standard one-person EC clamp", "Two-person BVM for better mask seal", "Nasal cannula — avoid positive pressure in trauma", "Wait for ALS intubation"], answer: 1, explanation: "Facial trauma disrupts normal anatomy, making one-person mask seal very difficult. Two-person BVM (one holds seal with both hands, one squeezes) dramatically improves ventilation effectiveness." },
+    { q: "Frothy pink-tinged sputum in a patient with respiratory distress indicates:", options: ["Active bleeding from the airway", "Pulmonary edema — fluid mixing with air in the alveoli", "Normal secretions during distress", "Asthma with mucus production"], answer: 1, explanation: "Pink frothy sputum is classic pulmonary edema — fluid from the capillaries leaks into alveoli and mixes with air to create pink foam. It's one of the most specific signs of flash pulmonary edema." },
+    { q: "The primary difference between a simple and tension pneumothorax is:", options: ["Size of the air collection", "Tension pneumo accumulates air with no escape, causing mediastinal shift and cardiovascular compromise", "Simple pneumo requires surgery, tension does not", "They are treated identically in the field"], answer: 1, explanation: "Simple pneumo: air in pleural space, lung partially collapses. Tension: air accumulates, can't escape — builds pressure, collapses lung completely, shifts mediastinum, compresses heart. Tension is rapidly fatal." },
+  ]
+};
+
+// ─── MODULE 2 — CARDIOLOGY ───────────────────────────────────────────────────
+
+// M2L1 + M2L2 patch
+const M2L1 = {
+  moduleId: 2, id: 1,
+  title: "Heart Anatomy & the Cardiac Cycle",
+  subtitle: "How the heart is built, how it works, and what happens when it fails",
+  duration: "11 min",
+  dispatch: {
+    call: `"Unit 7, respond to 883 Birchwood Court — 61-year-old male, sudden onset chest pain radiating to the left arm, diaphoretic, nauseous."`,
+    time: "10:44 AM", eta: "5 minutes",
+    hook: "Chest pain, left arm radiation, sweating, nausea. Every one of those words points to the same organ. But do you know exactly what's happening inside it right now?",
+    bridge: "You can't understand cardiac emergencies without understanding the heart. This lesson builds the foundation — anatomy, blood flow, electrical system, and what goes wrong."
+  },
+  content: [
+    { heading: "Heart Anatomy: The Four Chambers", body: "The heart has four chambers divided by the septum:\n\n• **Right atrium** — Receives deoxygenated blood from the body via the vena cavae\n• **Right ventricle** — Pumps deoxygenated blood to the lungs via the pulmonary artery\n• **Left atrium** — Receives oxygenated blood from the lungs via pulmonary veins\n• **Left ventricle** — Most muscular chamber. Pumps oxygenated blood to the entire body via the aorta\n\nThe left ventricle does the most work — it pumps against systemic resistance. When it fails, you get pulmonary edema. When it's blocked, you get a heart attack." },
+    { heading: "The Heart Valves", body: "Four valves keep blood flowing one direction:\n\n• **Tricuspid** — Right atrium → Right ventricle\n• **Pulmonic** — Right ventricle → Pulmonary artery\n• **Mitral** — Left atrium → Left ventricle\n• **Aortic** — Left ventricle → Aorta\n\n**Systole** = contraction. **Diastole** = relaxation.\n\nThe 'lub-dub' sound is valves closing. Murmurs are turbulent flow through damaged valves." },
+    { heading: "The Coronary Arteries", body: "The coronary arteries branch off the aorta and feed the heart muscle itself:\n\n• **Left Anterior Descending (LAD)** — Supplies front of left ventricle. The 'widow maker' — blockage here is often fatal.\n• **Left Circumflex (LCx)** — Supplies lateral and posterior left ventricle\n• **Right Coronary Artery (RCA)** — Supplies right ventricle, inferior left ventricle, and the SA node\n\nWhen a coronary artery is blocked, the muscle it supplies begins to die — myocardial infarction (MI)." },
+    { heading: "The Electrical Conduction System", body: "The heart's own electrical system triggers each beat:\n\n1. **SA node** — The pacemaker, right atrium, fires 60-100/min\n2. **AV node** — Receives signal, delays briefly to allow ventricular filling\n3. **Bundle of His** — Carries signal into ventricles\n4. **Bundle branches** — Left and right\n5. **Purkinje fibers** — Final distribution, trigger ventricular contraction\n\nDisruption causes arrhythmias." },
+    { heading: "Cardiac Output", body: "**Cardiac output (CO)** = Heart Rate × Stroke Volume\n\nNormal CO at rest: ~5 liters/minute. Stroke volume ~70 mL/beat.\n\nWhen cardiac output drops, the body compensates:\n• Increases heart rate (tachycardia)\n• Constricts peripheral vessels (pale, cool skin)\n• Shunts blood to vital organs\n\nTachycardia + pale/cool skin in a chest pain patient = body struggling to maintain perfusion." }
+  ],
+  flashcards: [
+    { front: "Which ventricle is most muscular and why?", back: "Left ventricle — pumps oxygenated blood to the entire body against systemic vascular resistance" },
+    { front: "What is the 'widow maker'?", back: "Left anterior descending (LAD) artery — blockage causes massive anterior MI, often fatal" },
+    { front: "What is the SA node?", back: "The heart's natural pacemaker in the right atrium — fires 60-100/min in normal sinus rhythm" },
+    { front: "Systole vs diastole?", back: "Systole = contraction (heart pumps). Diastole = relaxation (heart fills). BP 120/80 = systolic/diastolic." },
+    { front: "What is cardiac output?", back: "Heart Rate × Stroke Volume. Normal ~5 L/min at rest." },
+    { front: "The four heart valves?", back: "Tricuspid (RA→RV), Pulmonic (RV→PA), Mitral (LA→LV), Aortic (LV→Aorta)" },
+    { front: "Where does the right ventricle send blood?", back: "To the lungs via the pulmonary artery — to pick up oxygen" },
+    { front: "What happens when the LAD is blocked?", back: "Anterior myocardial infarction — front wall of left ventricle begins to die" },
+    { front: "What is the AV node?", back: "Receives signal from SA node, delays briefly to allow ventricular filling, then conducts to ventricles" },
+    { front: "What causes the 'lub-dub' heart sounds?", back: "Closing of heart valves — lub = mitral/tricuspid, dub = aortic/pulmonic" },
+    { front: "What does the RCA supply?", back: "Right ventricle, inferior left ventricle, and the SA node" },
+    { front: "Why does the body become tachycardic in cardiac failure?", back: "Compensatory — heart rate increases to maintain cardiac output when stroke volume drops" },
+    { front: "What are Purkinje fibers?", back: "Final electrical distribution in ventricles — cause ventricular contraction" },
+    { front: "What is a myocardial infarction?", back: "Heart attack — death of heart muscle from blocked coronary artery" },
+    { front: "Pale cool skin in a cardiac patient means?", back: "Peripheral vasoconstriction — body shunting blood to vital organs due to low cardiac output" },
+    { front: "What is stroke volume?", back: "Amount of blood ejected per beat — approximately 70 mL at rest" },
+  ],
+  quiz: [
+    { q: "The LAD artery is called the 'widow maker' because:", options: ["It is the smallest coronary artery", "Blockage causes massive anterior MI — often rapidly fatal", "It supplies the SA node", "It is impossible to stent"], answer: 1, explanation: "The LAD supplies the anterior wall of the left ventricle — the most critical pumping chamber. Blockage here causes a massive MI with very high mortality." },
+    { q: "The SA node's primary function is:", options: ["Connecting atria to ventricles", "Acting as the heart's natural pacemaker at 60-100/min", "Supplying blood to the right ventricle", "Closing the mitral valve"], answer: 1, explanation: "The SA node in the right atrium initiates each heartbeat and sets the rate — this is normal sinus rhythm." },
+    { q: "Cardiac output equals:", options: ["BP × heart rate", "Heart rate × stroke volume", "Stroke volume ÷ heart rate", "Heart rate + stroke volume"], answer: 1, explanation: "CO = Heart Rate × Stroke Volume. Normal ~5 L/min. When CO drops the body compensates with tachycardia and vasoconstriction." },
+    { q: "Pale cool skin + tachycardia in a chest pain patient indicates:", options: ["Normal response to pain", "Body compensating for decreased cardiac output", "Hypertension", "Respiratory compromise"], answer: 1, explanation: "Tachycardia + peripheral vasoconstriction (pale/cool skin) = body compensating for low cardiac output. The heart is struggling to perfuse vital organs." },
+    { q: "Which chamber pumps blood to the lungs?", options: ["Left atrium", "Left ventricle", "Right ventricle", "Right atrium"], answer: 2, explanation: "The right ventricle pumps deoxygenated blood to the lungs via the pulmonary artery for gas exchange." },
+    { q: "RCA blockage can cause dangerous bradycardia because:", options: ["It supplies the left ventricle", "It supplies the SA node — ischemia slows the heart's pacemaker", "It controls ventricular contraction speed", "It drains into the right atrium"], answer: 1, explanation: "The RCA supplies the SA node. Blockage can cause SA node ischemia — dangerously slow heart rates." },
+    { q: "Diastole refers to:", options: ["Heart contraction", "Heart relaxation — chambers fill with blood", "Aortic valve closing", "SA node firing"], answer: 1, explanation: "Diastole = relaxation phase — chambers relax and fill. The diastolic BP (bottom number) reflects arterial pressure during filling." },
+    { q: "The mitral valve is between:", options: ["Right atrium and right ventricle", "Left ventricle and aorta", "Left atrium and left ventricle", "Right ventricle and pulmonary artery"], answer: 2, explanation: "The mitral (bicuspid) valve sits between the left atrium and left ventricle." },
+    { q: "Left ventricular failure most likely causes:", options: ["Pulmonary edema — fluid backs up into the lungs", "Liver failure", "Peripheral artery disease", "Kidney stones"], answer: 0, explanation: "Left ventricular failure causes backup into the pulmonary circulation — fluid leaks into alveoli. Classic: orthopnea, crackles, pink frothy sputum." },
+    { q: "The AV node delay allows:", options: ["Filtering of abnormal rhythms", "Ventricles to fill before contracting", "Increased blood pressure", "SA node backup activation"], answer: 1, explanation: "AV node delay ensures atria finish contracting and ventricles are full before ventricular contraction — maximizing stroke volume." },
+    { q: "Normal resting cardiac output is approximately:", options: ["1-2 L/min", "5 L/min", "10 L/min", "15 L/min"], answer: 1, explanation: "Normal resting CO ~5 L/min. Exercise: up to 25 L/min. Shock: can fall to 1-2 L/min." },
+    { q: "Coronary arteries branch off:", options: ["The aortic arch", "Just above the aortic valve", "The diaphragm level", "The pulmonary artery"], answer: 1, explanation: "Coronary arteries originate just above the aortic valve. During diastole blood flows back into the coronary ostia, perfusing the heart muscle." },
+    { q: "A heart murmur is caused by:", options: ["Abnormally fast heart rate", "Turbulent blood flow through damaged or narrowed valves", "Electrical conduction abnormalities", "Coronary artery disease"], answer: 1, explanation: "Murmurs are sounds of turbulent flow — usually from stenotic (narrowed) or regurgitant (leaky) valves." },
+    { q: "Bundle of His and bundle branches are part of:", options: ["Coronary circulation", "Heart valves", "Electrical conduction system", "Autonomic nervous system"], answer: 2, explanation: "Bundle of His and left/right bundle branches carry electrical impulse from AV node into ventricular myocardium." },
+    { q: "Which structure receives deoxygenated blood from the entire body?", options: ["Left atrium", "Left ventricle", "Right atrium", "Pulmonary veins"], answer: 2, explanation: "Right atrium receives all venous blood from the body via the superior and inferior vena cava." },
+  ]
+};
+
+const M2L2 = {
+  moduleId: 2, id: 2,
+  title: "Chest Pain Assessment",
+  subtitle: "OPQRST, risk stratification, and telling cardiac chest pain from everything else",
+  duration: "10 min",
+  dispatch: {
+    call: `"Unit 2, respond to 1150 Commerce Drive — 54-year-old female, chest tightness during a walk, pressure quality, 8/10, mild shortness of breath."`,
+    time: "2:33 PM", eta: "4 minutes",
+    hook: "Pressure chest pain in a 54-year-old woman during exertion. Textbook presentation — but women often present differently. What are you looking for?",
+    bridge: "Chest pain is one of the most common EMS calls and most dangerous to miss. Your assessment sets everything in motion — hospital preparation, cath lab activation, patient outcome."
+  },
+  content: [
+    { heading: "OPQRST: Your Assessment Tool", body: "Every chest pain assessment follows OPQRST:\n\n• **O — Onset:** What were you doing when it started? Exertional onset is more concerning.\n• **P — Provocation/Palliation:** What makes it better or worse? Does rest or nitroglycerin help?\n• **Q — Quality:** Classic cardiac: pressure, squeezing, heaviness, tightness. Sharp stabbing pain that changes with breathing is less likely cardiac.\n• **R — Radiation:** Classic cardiac radiates to left arm, jaw, neck, or back.\n• **S — Severity:** 0-10 scale. Don't anchor on the number — a 4/10 can be a massive MI.\n• **T — Time:** How long? Prior episodes?" },
+    { heading: "Classic vs Atypical Presentations", body: "**Classic ACS (more common in men):**\n• Crushing, pressure chest pain\n• Left arm or jaw radiation\n• Diaphoresis, nausea, shortness of breath\n\n**Atypical (more common in women, diabetics, elderly):**\n• Epigastric pain or indigestion\n• Jaw or neck pain without chest pain\n• Nausea and vomiting only\n• Fatigue, weakness, lightheadedness\n• Silent MI — no pain at all\n\nWomen are twice as likely to have atypical presentations. Never dismiss chest-equivalent symptoms in high-risk patients." },
+    { heading: "Cardiac Risk Factors", body: "**Modifiable:**\n• Hypertension, Smoking, High cholesterol\n• Diabetes, Obesity, Physical inactivity\n\n**Non-modifiable:**\n• Age (men >45, women >55)\n• Male sex\n• Family history (first-degree relative with early cardiac disease)\n\n**Important history:**\n• Prior MI, angina, stent (PCI), or bypass (CABG)\n\nThe more risk factors, the higher your index of suspicion." },
+    { heading: "Differentiating Cardiac from Non-Cardiac", body: "Not all chest pain is cardiac:\n\n| Cause | Key Clues |\n|---|---|\n| ACS/MI | Pressure, radiation, diaphoresis, risk factors |\n| Angina | Same as ACS but resolves with rest/nitro <15 min |\n| Pulmonary embolism | Sudden, pleuritic, after travel/immobility |\n| Aortic dissection | Tearing/ripping pain to back, unequal arm BPs |\n| Pneumothorax | Sudden, one-sided, young thin person or trauma |\n| Musculoskeletal | Reproducible with palpation, positional |\n| GI (GERD) | Related to meals, burning, relieved by antacids |\n\n**Key rule:** When in doubt, treat as cardiac." },
+    { heading: "Assessment Priorities on Scene", body: "1. **General impression** — Pale, diaphoretic, anxious = sick\n2. **OPQRST history**\n3. **Vital signs** — BP, HR, RR, SpO₂\n4. **Focused physical exam** — Lung sounds, JVD, edema, skin\n5. **12-lead ECG** — Starts the clock. Transmit if capable.\n6. **Oxygen** — Only if SpO₂ <94%\n7. **Aspirin** — 324 mg chewed per protocol\n8. **Transport** — Don't delay for procedures\n9. **Notify hospital** — Activates the cath lab" }
+  ],
+  flashcards: [
+    { front: "What does OPQRST stand for?", back: "Onset, Provocation/Palliation, Quality, Radiation, Severity, Time" },
+    { front: "Classic cardiac chest pain quality?", back: "Pressure, squeezing, heaviness, tightness — not usually sharp or stabbing" },
+    { front: "Where does cardiac pain classically radiate?", back: "Left arm, jaw, neck, or back" },
+    { front: "Why do women have atypical MI presentations?", back: "More commonly present with nausea, fatigue, jaw/back pain — less classic pressure symptoms" },
+    { front: "What is a silent MI?", back: "MI with minimal or no chest pain — more common in diabetics and elderly due to neuropathy" },
+    { front: "Tearing/ripping pain radiating to the back suggests?", back: "Aortic dissection — BP may differ between arms. Surgical emergency." },
+    { front: "What is pleuritic chest pain?", back: "Pain that worsens with breathing or movement — PE, pneumothorax, or musculoskeletal" },
+    { front: "Why is early hospital notification important in ACS?", back: "Activates the cath lab — door-to-balloon time starts at first medical contact" },
+    { front: "Aspirin dose for chest pain?", back: "324 mg chewed — not swallowed. Per protocol, no allergy, no active GI bleeding." },
+    { front: "Non-modifiable cardiac risk factors?", back: "Age, male sex, family history of early cardiac disease" },
+    { front: "Angina vs MI — the key difference?", back: "Angina: reversible ischemia, resolves with rest/nitro <15 min. MI: complete blockage, muscle dying." },
+    { front: "What skin signs suggest serious cardiac compromise?", back: "Diaphoresis, pallor, cyanosis — poor perfusion or sympathetic activation" },
+    { front: "Chest pain reproducible with palpation suggests?", back: "Musculoskeletal — true cardiac pain is not reproduced by pressing on the chest" },
+    { front: "What is CABG?", back: "Coronary Artery Bypass Graft — open heart surgery to route blood around blocked arteries" },
+    { front: "Chest pain after a long flight worsening with breathing suggests?", back: "Pulmonary embolism — immobility causes DVT that travels to the lungs" },
+    { front: "Oxygen for chest pain with SpO₂ 98%?", back: "No — hyperoxia may worsen ACS outcomes. Give O₂ only if SpO₂ <94%." },
+  ],
+  quiz: [
+    { q: "A 58-year-old diabetic reports 'indigestion' for 2 hours, diaphoretic, no chest pain. You should:", options: ["Treat for GI upset", "Dismiss — no chest pain present", "Treat as possible atypical ACS", "Obtain dietary history first"], answer: 2, explanation: "Diabetic neuropathy blunts pain. Epigastric discomfort + diaphoresis in a diabetic = ACS until proven otherwise." },
+    { q: "Most concerning chest pain quality for cardiac origin:", options: ["Sharp, stabbing, worse with deep breath", "Pressure, squeezing, heaviness", "Burning worse after meals", "Aching reproducible with arm movement"], answer: 1, explanation: "Pressure, squeezing, heaviness = classic cardiac. Sharp pleuritic = PE/pneumothorax. Burning = GI. Reproducible = musculoskeletal." },
+    { q: "Tearing chest pain to the back + unequal arm BPs suggests:", options: ["Anterior STEMI", "Pulmonary embolism", "Aortic dissection", "Musculoskeletal strain"], answer: 2, explanation: "Tearing/ripping pain radiating to the back + unequal arm pressures = aortic dissection — surgical emergency." },
+    { q: "Early hospital notification for suspected STEMI:", options: ["Reserves parking for the ambulance", "Activates the cath lab — door-to-balloon time starts at first medical contact", "Gets billing ready", "Gets permission to transport"], answer: 1, explanation: "Early notification activates the cath lab. Every minute of delay = more dead heart muscle." },
+    { q: "Aspirin works in ACS because:", options: ["Reduces fever", "Inhibits platelet aggregation — prevents clot from growing", "Relieves cardiac pain", "Opens blocked arteries"], answer: 1, explanation: "Aspirin inhibits platelet aggregation — platelets are the building blocks of the coronary clot." },
+    { q: "52-year-old woman: jaw pain, nausea, fatigue, no chest pain, hypertension + smoking. You should:", options: ["Reassure — no chest pain", "Treat as possible atypical ACS", "Treat for dental emergency", "Give anti-nausea medications"], answer: 1, explanation: "Women commonly present with jaw pain, nausea, and fatigue as MI equivalents. Risk factors + symptoms = cardiac until proven otherwise." },
+    { q: "Chest pain worse with breathing or palpation is:", options: ["Classic ACS", "More likely musculoskeletal or pleuritic", "Normal cardiac variation", "Cardiac tamponade sign"], answer: 1, explanation: "True cardiac ischemic pain doesn't change with breathing or palpation. Pleuritic = PE/pneumothorax. Reproducible with palpation = musculoskeletal." },
+    { q: "Oxygen in chest pain — give when:", options: ["Always — all cardiac patients need high-flow O₂", "Only if SpO₂ below 94%", "Never — O₂ is harmful in ACS", "Only if patient requests it"], answer: 1, explanation: "Give O₂ only if SpO₂ <94%. Hyperoxia causes coronary vasoconstriction and may worsen ACS outcomes." },
+    { q: "Cardiac pain most classically radiates to:", options: ["Right arm and shoulder", "Left arm, jaw, or neck", "Lower back and hips", "Abdomen and groin"], answer: 1, explanation: "Cardiac pain follows dermatomes shared with the heart — left arm (ulnar surface), jaw, neck, left shoulder." },
+    { q: "A non-modifiable cardiac risk factor:", options: ["Smoking", "Hypertension", "Family history of early cardiac disease", "Obesity"], answer: 2, explanation: "Family history, age, and sex cannot be changed. Smoking, hypertension, and obesity are all modifiable." },
+    { q: "Angina vs MI:", options: ["Angina causes permanent damage", "Angina is reversible ischemia resolving with rest/nitro <15 min", "Angina only occurs at rest", "Angina requires emergency surgery"], answer: 1, explanation: "Angina = temporary ischemia, no permanent damage, resolves. MI = complete blockage, ongoing muscle death, doesn't resolve spontaneously." },
+    { q: "Most concerning exam finding in cardiac patient:", options: ["Clear lung sounds", "Diaphoresis and JVD with peripheral edema", "BP 130/80", "Regular rate of 72"], answer: 1, explanation: "Diaphoresis = sympathetic activation. JVD + edema = right heart failure or fluid backup. Together = highly concerning." },
+    { q: "Known angina patient — pain now severe, not relieved by 3 nitroglycerin:", options: ["Normal variation", "Unstable angina or STEMI — urgent transport", "Give a 4th nitroglycerin", "Likely musculoskeletal"], answer: 1, explanation: "Changing angina (severe, unresponsive to nitro) = unstable angina or STEMI. Acute coronary syndrome — urgent." },
+    { q: "Most impactful action for STEMI outcomes:", options: ["Maximum aspirin dose", "Minimizing time from first contact to reperfusion", "Nitroglycerin before transport", "Complete 12-lead before moving patient"], answer: 1, explanation: "Time is muscle. Door-to-balloon time from first medical contact is the key metric. Early notification and rapid transport." },
+    { q: "Patient rates chest pain 3/10. You should:", options: ["Consider low priority", "Not anchor on pain score — MI severity doesn't correlate with pain intensity", "Give less aspirin", "Reassess in 10 minutes"], answer: 1, explanation: "Pain scores are subjective and correlate poorly with MI severity. Assess all symptoms and findings together." },
+  ]
+};
+
+
+const M2L3 = {
+  moduleId: 2, id: 3,
+  title: "ACS: Angina, STEMI & NSTEMI",
+  subtitle: "The acute coronary syndrome spectrum — recognition and treatment",
+  duration: "11 min",
+  dispatch: {
+    call: `"Unit 5, respond to 334 Industrial Parkway — 49-year-old male, 9/10 crushing chest pressure for 45 minutes, not relieved by rest."`,
+    time: "8:18 AM", eta: "3 minutes",
+    hook: "45 minutes of crushing pressure not relieved by rest. Heart muscle has been dying for 45 minutes. What are the next 10 minutes going to look like?",
+    bridge: "ACS is the umbrella for everything from angina to massive heart attack. Understanding the spectrum determines your treatment."
+  },
+  content: [
+    { heading: "The ACS Spectrum", body: "• **Stable angina** — Predictable with exertion, relieved by rest/nitro <15 min. Warning sign, not emergency.\n• **Unstable angina** — At rest, new onset, or worsening. Plaque becoming unstable. Emergency.\n• **NSTEMI** — Partial blockage, elevated troponin, no ST elevation. Serious.\n• **STEMI** — Complete sudden blockage. ST elevation on ECG. Maximum damage occurring now. Every minute counts." },
+    { heading: "Plaque Rupture", body: "1. Atherosclerosis — fatty plaque builds in coronary arteries over years\n2. Plaque rupture — fibrous cap tears\n3. Platelet aggregation — clot forms\n4. Partial blockage → unstable angina/NSTEMI\n5. Complete blockage → STEMI\n\nThis is why aspirin works — inhibits platelet aggregation.\n\nHeart muscle begins dying within 20-40 min of complete occlusion. After 6 hours most damage is done." },
+    { heading: "Recognizing STEMI", body: "**Classic symptoms:**\n• Crushing pressure, severe\n• Left arm, jaw, neck radiation\n• Diaphoresis, nausea, vomiting\n• Sense of impending doom\n• Does NOT resolve with rest or nitroglycerin\n\n**ECG findings:**\n• ST elevation in 2+ contiguous leads\n• Reciprocal ST depression\n• New left bundle branch block (LBBB)\n\n**Complications:**\n• Cardiogenic shock\n• Ventricular fibrillation\n• Pulmonary edema" },
+    { heading: "EMT Treatment of ACS", body: "**Position:** Sitting up or position of comfort\n\n**Oxygen:** Only if SpO₂ <94%\n\n**Aspirin:** 324 mg chewed — per protocol, no allergy, no GI bleeding\n\n**Nitroglycerin:** Per protocol IF:\n• Patient has prescription OR your system carries it\n• SBP >90 mmHg\n• No PDE5 inhibitors in past 24-48 hours (Viagra/Cialis/Levitra)\n• 1 tablet SL every 5 min, up to 3 doses\n\n**12-lead ECG:** ASAP — transmit to hospital\n\n**Transport:** Rapid — notify hospital en route\n\n**Most important:** Early notification activates the cath lab." },
+    { heading: "Cardiogenic Shock", body: "Heart muscle damage so extensive the heart can't pump enough to perfuse the body.\n\n**Signs:**\n• Hypotension (SBP <90)\n• Tachycardia\n• Pale, cool, clammy\n• Altered mental status\n• Pulmonary edema (crackles)\n\n40-80% mortality even with treatment. Leading cause of death from MI.\n\n**EMT management:**\n• High-flow oxygen\n• Rapid transport, ALS intercept\n• Do NOT give nitroglycerin — SBP already low\n• Do NOT give fluids — pump failure, not volume problem" }
+  ],
+  flashcards: [
+    { front: "What is ACS?", back: "Acute Coronary Syndrome — umbrella covering unstable angina, NSTEMI, and STEMI" },
+    { front: "STEMI vs NSTEMI?", back: "STEMI = complete blockage, ST elevation. NSTEMI = partial blockage, elevated enzymes, no ST elevation." },
+    { front: "What causes ACS?", back: "Rupture of atherosclerotic plaque → platelet aggregation → clot → partial or complete coronary occlusion" },
+    { front: "Why does aspirin help in ACS?", back: "Inhibits platelet aggregation at the plaque rupture site, preventing clot growth" },
+    { front: "Nitroglycerin contraindications?", back: "SBP <90, PDE5 inhibitors in past 24-48 hours (Viagra/Cialis/Levitra)" },
+    { front: "What is cardiogenic shock?", back: "Pump failure from MI — heart can't maintain cardiac output. Hypotension, tachycardia, pale/cool/clammy." },
+    { front: "Why is early STEMI notification critical?", back: "Activates the cath lab — door-to-balloon must be <90 minutes from first medical contact" },
+    { front: "What is unstable angina?", back: "Angina at rest, new onset, or worsening — plaque unstable but no enzyme elevation yet. Emergency." },
+    { front: "Aspirin dose for ACS?", back: "324 mg chewed — faster absorption than swallowing" },
+    { front: "Cardiogenic shock vs hypovolemic shock — treatment difference?", back: "Cardiogenic = pump failure, NO fluids. Hypovolemic = volume loss, GIVE fluids." },
+    { front: "What is a 'sense of impending doom'?", back: "Classic STEMI symptom — patient feels they are about to die. Take it seriously." },
+    { front: "STEMI ECG findings?", back: "ST elevation in 2+ contiguous leads, reciprocal depression, or new LBBB" },
+    { front: "When does heart muscle begin dying after complete occlusion?", back: "Within 20-40 minutes — by 6 hours most salvageable muscle is gone without reperfusion" },
+    { front: "What is atherosclerosis?", back: "Buildup of fatty plaque inside coronary artery walls — underlying cause of ACS" },
+    { front: "Door-to-balloon time target for STEMI?", back: "90 minutes from first medical contact to balloon inflation in cath lab" },
+    { front: "Nitroglycerin in cardiogenic shock?", back: "NEVER — causes vasodilation that will worsen already dangerous hypotension" },
+  ],
+  quiz: [
+    { q: "Key difference between stable and unstable angina:", options: ["Unstable is more painful", "Unstable occurs at rest or worsens — plaque becoming unstable", "Stable requires transport", "Unstable shows ST elevation"], answer: 1, explanation: "Stable = predictable, same exertion, relieved by rest/nitro. Unstable = new, at rest, or worsening. Active plaque rupture. Emergency." },
+    { q: "SBP of 82 — give nitroglycerin?", options: ["Yes", "No — SBP <90 is absolute contraindication", "Yes but half dose", "Only if prescribed"], answer: 1, explanation: "Nitro causes vasodilation, dropping BP. SBP of 82 is already hypotensive — nitro could cause fatal collapse." },
+    { q: "Patient took Viagra 6 hours ago, now has chest pain. Nitro is:", options: ["Safe if SBP >90", "Contraindicated — PDE5 + nitro = severe refractory hypotension", "Safe after 4 hours", "Recommended in double dose"], answer: 1, explanation: "PDE5 inhibitors + nitroglycerin = profound, refractory hypotension. Contraindicated for 24h after sildenafil, 48h after tadalafil." },
+    { q: "In cardiogenic shock:", options: ["Give 500 mL fluid bolus", "Avoid fluids — pump failure not volume depletion", "Give nitroglycerin", "Apply MAST trousers"], answer: 1, explanation: "Cardiogenic shock is pump failure, not volume deficit. Fluids worsen pulmonary edema. The heart needs the cath lab." },
+    { q: "Most time-critical STEMI treatment:", options: ["Aspirin", "IV fluid bolus", "Coronary reperfusion in cath lab within 90 min", "12-lead ECG"], answer: 2, explanation: "Every minute = more dead myocardium. Goal: balloon inflation within 90 min of EMS contact." },
+    { q: "Aspirin chewed rather than swallowed because:", options: ["Tastes better", "Faster absorption — buccal absorption begins immediately", "Swallowing contraindicated in chest pain", "Reduces GI side effects"], answer: 1, explanation: "Chewing achieves faster therapeutic platelet inhibition than waiting for GI absorption." },
+    { q: "STEMI patient develops hypotension, tachycardia, crackles, clammy skin. This is:", options: ["Vagal response to pain", "Cardiogenic shock", "Anaphylaxis from aspirin", "Normal nitro response"], answer: 1, explanation: "Hypotension + tachycardia + poor perfusion + pulmonary edema in MI = cardiogenic shock. 40-80% mortality." },
+    { q: "STEMI stands for:", options: ["Severe Thoracic Emergency MI", "ST Elevation Myocardial Infarction", "Subacute Total Epicardial MI", "Systemic Thrombotic Embolic MI"], answer: 1, explanation: "STEMI = ST Elevation Myocardial Infarction — complete coronary occlusion with ongoing muscle death." },
+    { q: "Underlying cause of most ACS:", options: ["Coronary spasm from stress", "Atherosclerotic plaque rupture → platelet clot", "Viral myocarditis", "Hypertensive coronary dissection"], answer: 1, explanation: "Plaque ruptures → platelets aggregate → clot → blockage. Why aspirin and cath lab are the treatments." },
+    { q: "Nitroglycerin not working for known angina patient suggests:", options: ["Expired nitro", "Possible STEMI — complete occlusion doesn't respond to nitro", "Give 2 more tablets", "Musculoskeletal pain"], answer: 1, explanation: "Nitro relieves angina by vasodilating partial blockages. No response = possibly complete blockage (STEMI)." },
+    { q: "NSTEMI vs STEMI:", options: ["NSTEMI has no symptoms", "NSTEMI = partial blockage, elevated enzymes, no ST elevation", "NSTEMI is always less serious", "NSTEMI has different prehospital treatment"], answer: 1, explanation: "NSTEMI = partial blockage, elevated troponin, no ST elevation. Same prehospital care — distinction made at hospital." },
+    { q: "Fluids in cardiogenic shock:", options: ["Raise BP appropriately", "Worsen pulmonary edema — the heart can't handle more volume", "Interact with aspirin", "Take too much time"], answer: 1, explanation: "Cardiogenic shock is pump failure not volume depletion. More fluid = more pulmonary edema." },
+    { q: "'Sense of impending doom' during chest pain:", options: ["Unrelated psychiatric symptom", "Classic massive STEMI symptom — take very seriously", "Only in panic attacks", "From hyperventilation"], answer: 1, explanation: "Patients experiencing massive MI often describe profound certainty they are about to die. Well-recognized symptom of severe ischemia." },
+    { q: "Primary goal of prehospital STEMI care:", options: ["Complete pain relief before arrival", "Minimize time to reperfusion via early notification and rapid transport", "Stabilize BP with fluids", "Complete past medical history"], answer: 1, explanation: "Time to reperfusion is the only thing limiting infarct size. Recognize it, activate the system, transport fast." },
+    { q: "Nitroglycerin protocol: 3 tablets given:", options: ["All at once for severe pain", "One every 5 minutes up to 3 doses, monitoring BP each time", "Only if first tablet shows no response", "Only in hospital"], answer: 1, explanation: "1 tablet SL every 5 minutes up to 3 doses. Check BP before each — stop if SBP drops below 90." },
+  ]
+};
+
+
+const M2L4 = {
+  moduleId: 2, id: 4,
+  title: "Cardiac Arrest & CPR",
+  subtitle: "The chain of survival, high-quality CPR, and why the basics save lives",
+  duration: "12 min",
+  dispatch: {
+    call: `"Unit 1, respond to 77 Parkview Avenue — CPR in progress, 68-year-old male, witnessed cardiac arrest, bystander CPR started."`,
+    time: "6:55 PM", eta: "4 minutes",
+    hook: "Witnessed arrest. Bystander CPR already going. That bystander just doubled his survival odds. When you walk in, what are the next 2 minutes going to look like?",
+    bridge: "Cardiac arrest is the ultimate emergency. Scene management, team dynamics, high-quality CPR, rhythm analysis, defibrillation — get this right and people survive."
+  },
+  content: [
+    { heading: "The Chain of Survival", body: "Survival depends on every link:\n\n1. **Early recognition and activation** — Call 911. Every minute without CPR = 7-10% decrease in survival.\n2. **Early CPR** — Bystander CPR doubles or triples survival. Maintains perfusion until defibrillator arrives.\n3. **Early defibrillation** — Only thing that fixes VF/pVT. AED within 3-5 min = 50-70% survival.\n4. **Advanced life support** — Medications, advanced airways (paramedic)\n5. **Post-cardiac arrest care** — ICU, targeted temperature management, cath lab\n\nYour job covers links 1-3 decisively." },
+    { heading: "High-Quality CPR", body: "CPR quality determines outcomes. Substandard CPR kills people who would have survived.\n\n**Rate:** 100-120 compressions per minute\n**Depth:** At least 2 inches (5 cm), no more than 2.4 inches\n**Ratio:** 30 compressions : 2 breaths (basic airway)\n**After advanced airway:** Continuous compressions, 1 breath every 6 seconds\n**Minimize interruptions:** No pause >10 seconds\n**Full chest recoil:** Don't lean — prevents venous return\n**Rotate compressors:** Every 2 minutes — fatigue degrades quality within 2 min" },
+    { heading: "Shockable vs Non-Shockable Rhythms", body: "**Shockable — defibrillate immediately:**\n• **Ventricular Fibrillation (VF)** — Chaotic, disorganized. Heart quivers. Most common initial rhythm in witnessed adult arrest.\n• **Pulseless VT (pVT)** — Fast, organized but ineffective. No pulse.\n\n**Not shockable:**\n• **Asystole** — Flat line. No electrical activity. CPR only.\n• **PEA** — Organized rhythm, no mechanical function. Look for reversible causes.\n\nAfter every shock: immediately resume CPR. Do NOT pause to check pulse." },
+    { heading: "AED Operation", body: "1. Power on\n2. Attach pads — upper right chest (below clavicle), lower left lateral\n3. Clear — ensure no contact during analysis\n4. Analyze rhythm\n5. If shock advised — 'Clear!' visually confirm, shock\n6. Immediately resume CPR — no pulse check\n7. Reanalyze every 2 minutes\n\n**Pad considerations:**\n• Pacemaker/ICD — at least 1 inch away\n• Medication patch — remove and wipe before pads\n• Wet patient — dry chest first\n• Child <8 or <25 kg — pediatric pads if available" },
+    { heading: "Team CPR", body: "**Compressor:** 100-120/min, 2-inch depth, full recoil, minimize pauses\n**Airway manager:** BVM, OPA/NPA, oxygen, monitors compressions\n**Rotate:** Every 2 minutes during rhythm check\n\n**Scene management:**\n• Load and go — minimize scene time\n• Limit interruptions — every pause costs perfusion pressure\n• Document: time of collapse, CPR start, first shock\n\n**When NOT to resuscitate:** Rigor mortis, dependent lividity, injuries incompatible with life, valid DNR" }
+  ],
+  flashcards: [
+    { front: "5 links in Chain of Survival?", back: "Early recognition/activation → Early CPR → Early defibrillation → ALS → Post-arrest care" },
+    { front: "Adult CPR compression rate?", back: "100-120 per minute" },
+    { front: "Adult CPR compression depth?", back: "At least 2 inches (5 cm), no more than 2.4 inches" },
+    { front: "CPR ratio with basic airway?", back: "30 compressions : 2 breaths" },
+    { front: "Two shockable rhythms?", back: "Ventricular fibrillation (VF) and pulseless ventricular tachycardia (pVT)" },
+    { front: "Two non-shockable rhythms?", back: "Asystole and PEA (Pulseless Electrical Activity)" },
+    { front: "What to do immediately after defibrillation?", back: "Resume CPR immediately — no pulse check" },
+    { front: "Why rotate compressors every 2 min?", back: "CPR quality degrades significantly with fatigue — even before the rescuer feels tired" },
+    { front: "What is PEA?", back: "Pulseless Electrical Activity — organized rhythm on monitor, no mechanical pumping. Not shockable." },
+    { front: "Effect of bystander CPR on survival?", back: "Doubles or triples survival by maintaining perfusion until AED/EMS arrives" },
+    { front: "Maximum acceptable CPR pause?", back: "10 seconds — even for pulse checks and rhythm checks" },
+    { front: "VF vs asystole?", back: "VF = chaotic electrical activity (shockable). Asystole = no electrical activity (not shockable)." },
+    { front: "Why allow full chest recoil?", back: "Leaning prevents venous return, reducing coronary perfusion pressure" },
+    { front: "AED pad distance from implanted device?", back: "At least 1 inch from pacemakers and ICDs" },
+    { front: "Survival decrease per minute without defibrillation in VF?", back: "7-10% per minute without defibrillation" },
+    { front: "Ventilation rate after advanced airway?", back: "Continuous compressions with 1 breath every 6 seconds (10/min)" },
+  ],
+  quiz: [
+    { q: "High-quality CPR compression rate:", options: ["60-80/min", "80-100/min", "100-120/min", "As fast as possible"], answer: 2, explanation: "100-120/min — evidence-based. Under 100 = inadequate perfusion. Over 120 = incomplete recoil." },
+    { q: "After defibrillation shock, immediately:", options: ["Check pulse", "Pause 30 seconds", "Resume CPR — no pulse check", "Deliver second shock"], answer: 2, explanation: "After every shock, resume CPR immediately. Heart needs time to recover — even if rhythm converts, won't perfuse for another 1-2 minutes." },
+    { q: "Which rhythm should be defibrillated?", options: ["Asystole", "PEA", "Ventricular fibrillation", "Sinus bradycardia"], answer: 2, explanation: "Only VF and pulseless VT are shockable. Asystole and PEA won't benefit from shock." },
+    { q: "Bystander CPR before EMS:", options: ["Dangerous without training", "Doubles or triples survival", "Only beneficial if perfect", "Should stop when EMS arrives"], answer: 1, explanation: "Bystander CPR keeps blood circulating to the brain. Even imperfect CPR dramatically improves outcomes." },
+    { q: "Rotate compressors every 2 minutes because:", options: ["Protocol requirement", "Quality degrades with fatigue within 2 min even when rescuer feels fine", "Rescuer needs 5 min rest", "Improves patient comfort"], answer: 1, explanation: "Compression depth and rate decline significantly within 1-2 minutes. Rotate to maintain quality." },
+    { q: "Full chest recoil is important because:", options: ["Prevents rib fractures", "Allows venous return, maintaining coronary perfusion pressure", "Gives compressor time to reposition", "Less important than depth"], answer: 1, explanation: "Leaning on the chest increases intrathoracic pressure, impedes venous return, reduces coronary perfusion." },
+    { q: "AED pad placement:", options: ["Both on left chest", "Upper right chest and lower left lateral", "Both on back", "Upper left and lower right"], answer: 1, explanation: "One below right clavicle, one on lower left lateral chest. Maximizes current through ventricular myocardium." },
+    { q: "PEA vs VF:", options: ["Same — both treated with shock", "PEA = organized rhythm, no function, not shockable. VF = chaotic, shockable.", "PEA caused by too much O₂", "PEA only in children"], answer: 1, explanation: "PEA has organized electrical signal that isn't translating to mechanical contraction. Shocks won't help." },
+    { q: "Maximum CPR interruption:", options: ["30 sec", "20 sec", "10 sec", "5 sec"], answer: 2, explanation: "No CPR pause >10 seconds. Every pause allows coronary perfusion pressure to drop toward zero." },
+    { q: "Most common initial rhythm in witnessed adult arrest:", options: ["Asystole", "PEA", "Ventricular fibrillation", "Sinus tachycardia"], answer: 2, explanation: "VF is most common initial rhythm in witnessed adult arrest — why rapid defibrillation is critical." },
+    { q: "30:2 CPR ratio means:", options: ["30 seconds CPR, 2 min breaks", "30 compressions then 2 ventilations", "30 ventilations then 2 compressions", "30% compression, 2% ventilation"], answer: 1, explanation: "30:2 = 30 compressions then 2 breaths. With advanced airway — compressions continuous." },
+    { q: "Pediatric AED use:", options: ["Never use AED on children", "Use pediatric pads/attenuator for <8 years or <25 kg when available", "Adult pads full energy for all children", "Only >12 years"], answer: 1, explanation: "Pediatric pads reduce energy to appropriate level. If unavailable, adult AED is better than no defibrillation." },
+    { q: "When NOT to initiate resuscitation:", options: ["Down more than 5 minutes", "Rigor mortis, lividity, injuries incompatible with life, valid DNR", "No bystander CPR before EMS", "Patient over 80"], answer: 1, explanation: "Obvious death signs and valid DNR are legitimate reasons. Duration alone is NOT sufficient." },
+    { q: "Advanced airway placed — ventilation changes to:", options: ["30:2 continues", "1 breath every 6 seconds with continuous compressions", "Stop ventilations", "1 breath every 3 seconds"], answer: 1, explanation: "Advanced airway = compressions no longer need to pause for ventilations. 1 breath every 6 seconds continuously." },
+    { q: "Chain of Survival concept:", options: ["Each provider performs every skill", "Survival depends on a time-sensitive sequence — each link matters", "Only hospital care matters", "Ambulance crew alone determines survival"], answer: 1, explanation: "Each link (recognition, CPR, defibrillation, ALS, post-arrest care) matters. A weak link breaks the chain." },
+  ]
+};
+
+
+const M2L5 = {
+  moduleId: 2, id: 5,
+  title: "Cardiac Arrhythmias",
+  subtitle: "Rhythms that kill, rhythms that warn, and what EMTs do about them",
+  duration: "10 min",
+  dispatch: {
+    call: `"Unit 9, respond to 2201 Elm Street — 72-year-old female, palpitations and near-syncope, lightheaded 20 minutes, history of atrial fibrillation."`,
+    time: "3:48 PM", eta: "5 minutes",
+    hook: "Palpitations, near-syncope, known AFib. Her heart is misfiring. Too fast, too slow, or chaotically — and does it matter for what you do right now?",
+    bridge: "You don't need to read an ECG to manage most arrhythmias. Stable or unstable? What's the rate? Is it perfusing? That's it."
+  },
+  content: [
+    { heading: "Stable vs Unstable Framework", body: "**Stable arrhythmia** — Abnormal rhythm but adequate perfusion:\n• Alert and oriented\n• Blood pressure maintained\n• Mild or no chest pain\n• No pulmonary edema\n→ Transport, O₂ if needed, IV access, monitor\n\n**Unstable arrhythmia** — Rhythm causing hemodynamic compromise:\n• Altered mental status\n• Hypotension (SBP <90)\n• Chest pain\n• Shock signs or pulmonary edema\n→ Rapid transport, ALS intercept — needs cardioversion or pacing" },
+    { heading: "Tachyarrhythmias", body: "**Sinus tachycardia** — Fast but normal rhythm. Response to something (pain, fever, hypovolemia). Treat the cause.\n\n**Atrial fibrillation (AFib)** — Chaotic atrial activity. Irregularly irregular. Palpitations, lightheadedness. Stroke risk from clot formation. Most common significant arrhythmia.\n\n**SVT (Supraventricular Tachycardia)** — Fast, narrow, regular (150-250/min). Abrupt onset. Vagal maneuvers may terminate it.\n\n**Ventricular Tachycardia (VT)** — Fast, wide-complex. Can have pulse (unstable) or no pulse (cardiac arrest — shock). Wide complex + unstable = treat as VT." },
+    { heading: "Bradyarrhythmias", body: "**Sinus bradycardia** — Rate <60. Normal in athletes. Concerning if symptomatic or post-MI.\n\n**Heart blocks:**\n• **1st degree** — Prolonged PR, every beat conducts. Usually benign.\n• **2nd degree Mobitz I** — Progressive PR lengthening until a beat drops. Usually not emergency.\n• **2nd degree Mobitz II** — Random dropped beats. Can progress to complete block. More serious.\n• **3rd degree (Complete block)** — Atria and ventricles beat independently. Ventricular rate 20-40/min. Life-threatening.\n\n**Symptomatic bradycardia:** Signs: hypotension, AMS, syncope. Needs atropine (ALS) or pacing." },
+    { heading: "Atrial Fibrillation", body: "**What happens:** Atria fire chaotically (350-600/min). AV node filters most but rate becomes irregularly irregular.\n\n**Why it matters:**\n• **Stroke risk** — Blood pools in left atrial appendage, forms clots, embolizes to brain\n• **Rapid rate** — Can cause hemodynamic instability\n• **New vs chronic** — New-onset more urgent. Many chronic AFib patients are asymptomatic.\n\n**In the field:** Most AFib is stable. IV access, O₂ if needed, transport. New onset or unstable = urgent.\n\nDon't convert AFib in the field — clot risk." },
+    { heading: "What EMTs Do for Arrhythmias", body: "EMT management is about the patient, not fixing the rhythm:\n\n**All arrhythmia patients:**\n• Stable or unstable?\n• O₂ if SpO₂ <94%\n• IV access per protocol\n• Transport with monitoring\n• ALS if unstable\n\n**Tachyarrhythmia:** Stable = transport/monitor. Unstable = ALS/rapid transport.\n\n**Bradyarrhythmia:** Stable = transport/monitor. Unstable = ALS immediately.\n\n**Your best tool is rapid transport to ALS care — not heroics in the field.**" }
+  ],
+  flashcards: [
+    { front: "What is atrial fibrillation?", back: "Chaotic atrial electrical activity causing irregularly irregular ventricular rate — most common significant arrhythmia" },
+    { front: "What makes an arrhythmia 'unstable'?", back: "AMS, hypotension (SBP <90), chest pain, shock, or pulmonary edema CAUSED BY the rhythm" },
+    { front: "Defining ECG characteristic of AFib?", back: "Irregularly irregular rhythm — no two R-R intervals are the same" },
+    { front: "What is SVT?", back: "Supraventricular Tachycardia — fast (150-250/min), narrow, regular rhythm from above the ventricles" },
+    { front: "Complete (3rd degree) heart block?", back: "Atria and ventricles beat independently — ventricular escape 20-40/min. Life-threatening." },
+    { front: "Why does AFib cause stroke?", back: "Blood pools in left atrial appendage forming clots that can embolize to the brain" },
+    { front: "Sinus tach vs pathological tachycardia?", back: "Sinus tach is a normal response to an underlying cause (fever/pain/hypovolemia) — treat the cause" },
+    { front: "Unstable tachyarrhythmia signs?", back: "Hypotension, AMS, chest pain, pulmonary edema from the fast rate" },
+    { front: "What is symptomatic bradycardia?", back: "Heart rate too slow for adequate perfusion — hypotension, AMS, syncope. Needs atropine or pacing." },
+    { front: "Ventricular tachycardia (VT)?", back: "Fast, wide-complex rhythm from ventricles. With pulse (unstable) or pulseless (cardiac arrest — shock)." },
+    { front: "What is a Valsalva maneuver?", back: "Bearing down to stimulate vagus nerve — can terminate SVT by slowing AV conduction" },
+    { front: "How does AFib feel to the patient?", back: "Palpitations, racing irregular heartbeat, lightheadedness — or sometimes no symptoms" },
+    { front: "Mobitz II 2nd degree heart block?", back: "Random dropped beats without PR prolongation — can progress unpredictably to complete block" },
+    { front: "EMT treatment of unstable arrhythmia?", back: "O₂, IV access, rapid transport, ALS intercept — cardioversion/pacing are ALS interventions" },
+    { front: "New vs chronic AFib — urgency?", back: "New-onset more urgent — may be hemodynamically unstable. Chronic patients often asymptomatic." },
+    { front: "Irregularly irregular means?", back: "No consistent pattern — beat spacing varies randomly. Hallmark of AFib." },
+  ],
+  quiz: [
+    { q: "AFib patient, alert, BP 130/80, mild palpitations. This is:", options: ["Unstable — defibrillate", "Stable — transport with monitoring", "Emergency requiring cardioversion", "Normal — no treatment"], answer: 1, explanation: "Stable: alert, BP maintained, no hemodynamic compromise. Transport with monitoring. No field cardioversion for stable AFib." },
+    { q: "Heart rate 180, confused, BP 72/40, pulmonary edema. This is:", options: ["Stable — transport without urgency", "Unstable — ALS intercept immediately", "Normal — tachycardia expected with low BP", "Stable — give fluids"], answer: 1, explanation: "Unstable tachyarrhythmia: AMS + hypotension + pulmonary edema from the fast rate. Needs cardioversion — ALS immediately." },
+    { q: "AFib increases stroke risk because:", options: ["Fast rate damages brain vessels", "Blood pools in left atrial appendage forming clots that embolize to the brain", "AFib causes hypertension", "Irregular rhythm reduces cerebral flow"], answer: 1, explanation: "Atrial fibrillation causes blood to stagnate in the left atrial appendage. Clots form and travel to the brain." },
+    { q: "Wide complex tachycardia in unstable patient:", options: ["SVT — try vagal maneuvers", "Sinus tach — treat cause", "VT — ALS for cardioversion", "AFib — rate control"], answer: 2, explanation: "Wide complex + unstable = VT until proven otherwise. Needs synchronized cardioversion (ALS)." },
+    { q: "HR 48, asymptomatic, well-trained runner:", options: ["Symptomatic bradycardia — give atropine", "Complete heart block", "Normal athlete sinus bradycardia", "PEA — start CPR"], answer: 2, explanation: "Athletes develop sinus bradycardia from vagal tone. Asymptomatic rate of 48 in a fit person is normal." },
+    { q: "Complete (3rd degree) heart block is serious because:", options: ["Causes AFib", "Atria and ventricles beat independently — ventricular escape only 20-40/min", "Only affects pacemaker cells", "Causes immediate arrest"], answer: 1, explanation: "No atrial impulses reach ventricles. Ventricular escape at 20-40/min — far too slow for adequate perfusion." },
+    { q: "SVT can sometimes be terminated by:", options: ["Defibrillation", "Aspirin", "Vagal maneuvers (Valsalva)", "Ice on the chest"], answer: 2, explanation: "Vagal maneuvers stimulate the vagus nerve to slow AV node conduction, potentially terminating re-entrant SVT." },
+    { q: "Most common significant arrhythmia in EMS:", options: ["Ventricular fibrillation", "Atrial fibrillation", "Complete heart block", "SVT"], answer: 1, explanation: "AFib affects millions of Americans and is extremely common in EMS, especially in elderly patients." },
+    { q: "Sinus tachycardia (rate 115) in trauma:", options: ["Primary arrhythmia requiring treatment", "Compensatory response to hemorrhage or pain — treat the cause", "AFib with rapid response", "VT — prepare for defibrillation"], answer: 1, explanation: "Sinus tachycardia in trauma = compensatory hemorrhagic response. Treat the cause, not the rate." },
+    { q: "Unstable bradycardia (HR 28, BP 60/40, confused):", options: ["Observation only", "ALS intercept — atropine and possible pacing", "Two fluid boluses", "Defibrillation"], answer: 1, explanation: "Symptomatic bradycardia + hemodynamic compromise needs atropine or pacing — ALS interventions." },
+    { q: "AFib 'irregularly irregular' means:", options: ["Every other beat dropped", "No consistent pattern — R-R varies randomly from chaotic atrial firing", "Rate changes with breathing", "Alternate P waves differ"], answer: 1, explanation: "Atria fire 350-600/min chaotically. AV node conducts random impulses — completely unpredictable beat spacing." },
+    { q: "EMT management of stable tachyarrhythmia:", options: ["Attempt cardioversion", "Antiarrhythmic medications", "O₂ if needed, IV access, transport with monitoring", "Vagal maneuvers then adenosine"], answer: 2, explanation: "EMTs manage arrhythmias supportively — oxygen, IV, monitoring, transport. Cardioversion and antiarrhythmics are ALS." },
+    { q: "Stable AFib patient wants to refuse transport. You should:", options: ["Honor the refusal", "Explain stroke risk — strongly recommend transport, document clearly if refused", "Agree and schedule follow-up", "Defer to medical direction entirely"], answer: 1, explanation: "Even stable AFib warrants evaluation — especially new onset. Stroke risk is significant. Explain, document." },
+    { q: "Mobitz II is more concerning than Mobitz I because:", options: ["Faster ventricular rate", "Can progress unpredictably to complete heart block", "Causes AFib", "Only in pediatrics"], answer: 1, explanation: "Mobitz II drops beats randomly without warning and can abruptly progress to complete block." },
+    { q: "Why not convert AFib in the field?", options: ["No equipment", "AFib clots can embolize during cardioversion — causing stroke", "Field cardioversion always fails", "AFib resolves spontaneously"], answer: 1, explanation: "Blood pools in atria forming clots. Cardioversion restores atrial contraction — which can eject clots into circulation, causing stroke. Anticoagulation needed first." },
+  ]
+};
+
+
+const M2L6 = {
+  moduleId: 2, id: 6,
+  title: "Heart Failure & Hypertensive Emergencies",
+  subtitle: "When the pump fails and when pressure becomes a weapon",
+  duration: "10 min",
+  dispatch: {
+    call: `"Unit 14, respond to 5501 Westgate Blvd — 77-year-old male, worsening shortness of breath 3 days, woke gasping last night, sleeping in a recliner. History of CHF."`,
+    time: "7:15 AM", eta: "6 minutes",
+    hook: "Can't breathe lying flat. Sleeping in a recliner. Three days worsening. CHF decompensating — quietly drowning for 72 hours.",
+    bridge: "Heart failure and hypertensive emergencies are among the most common serious cardiac presentations in EMS. Understanding the mechanism helps you manage the patient."
+  },
+  content: [
+    { heading: "Heart Failure: Left vs Right", body: "**Left heart failure (most common):**\n• LV can't pump effectively → blood backs up into pulmonary circulation → fluid into alveoli → **pulmonary edema**\n• Signs: dyspnea, orthopnea, PND, crackles, frothy sputum\n\n**Right heart failure:**\n• RV can't pump → blood backs up into systemic veins\n• Signs: JVD, bilateral ankle edema, ascites, hepatomegaly\n• Often caused by left heart failure or COPD (cor pulmonale)\n\n**CHF** = both sides failing\n\n**Ejection fraction (EF)** — % pumped out per beat. Normal >55%. Heart failure with reduced EF <40%." },
+    { heading: "Acute Decompensated CHF", body: "**Classic presentation:**\n• Severe dyspnea, worse lying flat (orthopnea)\n• Woke up gasping at night (PND)\n• Sleeping upright in recliner to breathe\n• Bilateral crackles at bases\n• Pink frothy sputum (severe)\n• Marked anxiety — feels like drowning\n• JVD, bilateral ankle edema, weight gain\n• Tachycardia, may be hypertensive\n\n**Common decompensation triggers:**\n• Not taking medications (most common)\n• Too much sodium/fluid intake\n• New arrhythmia (especially AFib)\n• New MI\n• Infection" },
+    { heading: "EMT Management of Acute CHF", body: "Goal: reduce cardiac workload and pulmonary fluid.\n\n1. **Position upright** — Legs dangling if possible (reduces preload)\n2. **High-flow oxygen** — NRB 10-15 L/min, target SpO₂ ≥94%\n3. **CPAP** — If in scope. Highly effective — splints alveoli, reduces work of breathing\n4. **IV access** — Per protocol\n5. **Nitroglycerin** — If SBP >100 (CHF protocol) — reduces preload and afterload\n6. **Rapid transport** — Needs diuretics (furosemide) — ALS/hospital\n7. **Do NOT lay flat** — Worsens immediately\n8. **Do NOT give fluids** — They are drowning in fluid" },
+    { heading: "Hypertensive Emergencies", body: "High BP becomes emergency when causing end-organ damage.\n\n**Hypertensive urgency:** BP >180/120 without organ damage. Not immediately life-threatening.\n\n**Hypertensive emergency:** High BP WITH organ damage:\n• **Brain** — Encephalopathy, hemorrhagic stroke\n• **Heart** — MI, acute CHF, aortic dissection\n• **Kidneys** — Acute renal failure\n• **Eyes** — Papilledema\n\n**Classic presentations:**\n• Severe headache + very high BP\n• Confusion with extreme hypertension\n• Chest pain with BP >200 systolic\n• Visual changes\n\n**EMT management:** Calm environment, position of comfort, O₂ if needed, IV access, rapid transport. Do NOT rapidly lower BP in field." },
+    { heading: "CHF vs COPD: Key Differences", body: "| Feature | CHF/Pulmonary Edema | COPD exacerbation |\n|---|---|---|\n| Lung sounds | Crackles (wet) | Wheezing (dry) |\n| History | Cardiac/HTN | Smoking, COPD dx |\n| Position | Orthopnea | Any position |\n| Sputum | Pink, frothy | Colored, thick |\n| Edema | Bilateral ankle | Uncommon |\n| JVD | Often present | Less common |\n\n**Overlap problem:** Many elderly patients have BOTH. Look for the dominant picture. When uncertain: NRB + upright positioning help both." }
+  ],
+  flashcards: [
+    { front: "What is orthopnea?", back: "Inability to breathe lying flat — classic left heart failure. Patient sleeps in chair or recliner." },
+    { front: "What is PND?", back: "Paroxysmal Nocturnal Dyspnea — waking gasping from sleep from fluid redistribution when lying flat" },
+    { front: "What causes pulmonary edema in left heart failure?", back: "LV fails → blood backs up into pulmonary circulation → fluid leaks into alveoli" },
+    { front: "Signs of right heart failure?", back: "JVD, bilateral ankle/leg edema, ascites, hepatomegaly — systemic venous backup" },
+    { front: "Most common CHF decompensation trigger?", back: "Non-compliance with medications — patient stops diuretics, ACE inhibitors, or beta blockers" },
+    { front: "Why sit a CHF patient bolt upright with legs dangling?", back: "Reduces venous return (preload) to the already overloaded failing heart" },
+    { front: "CPAP in CHF?", back: "Splints alveoli open with positive pressure — improves oxygenation and reduces respiratory work" },
+    { front: "What is a hypertensive emergency?", back: "Very high BP (>180/120) WITH end-organ damage — brain, heart, kidneys, eyes" },
+    { front: "Why NOT rapidly lower BP in hypertensive emergency?", back: "Rapid reduction causes ischemia to organs adapted to high pressure — controlled lowering in hospital is safer" },
+    { front: "CHF crackles vs COPD wheezing?", back: "Crackles = wet fluid sound (CHF/pulmonary edema). Wheezing = dry musical bronchospasm (COPD/asthma)." },
+    { front: "What is ejection fraction?", back: "Percentage of blood pumped out per beat. Normal >55%. Heart failure <40%." },
+    { front: "Why no fluids for CHF pulmonary edema?", back: "Already excess fluid — adding more worsens alveolar flooding" },
+    { front: "What is cor pulmonale?", back: "Right heart failure caused by pulmonary hypertension from lung disease (usually COPD)" },
+    { front: "Nitroglycerin in CHF works by?", back: "Reducing preload (venous dilation) and afterload (arterial dilation) — decreasing cardiac workload" },
+    { front: "Severe headache + BP 220/130 suggests?", back: "Hypertensive emergency — possible encephalopathy or intracranial hemorrhage. Urgent transport." },
+    { front: "Common CHF decompensation triggers?", back: "Med non-compliance, excess sodium/fluid, new AFib, new MI, infection" },
+  ],
+  quiz: [
+    { q: "CHF patient with severe dyspnea and crackles. Best position:", options: ["Supine, head elevated 15°", "Sitting upright, legs dangling", "Recovery position left side", "Trendelenburg"], answer: 1, explanation: "Upright with legs dangling reduces venous return (preload). Lying flat dramatically worsens pulmonary edema." },
+    { q: "CHF patient with bilateral crackles, SpO₂ 86%, CPAP available:", options: ["Nasal cannula 2 L/min only", "Apply CPAP — highly effective for CHF", "NRB but avoid CPAP in heart failure", "Wait for ALS"], answer: 1, explanation: "CPAP is one of the most effective prehospital interventions for acute CHF — splints alveoli open, dramatically improves gas exchange." },
+    { q: "Right heart failure causes all EXCEPT:", options: ["JVD", "Bilateral ankle edema", "Pulmonary edema", "Ascites"], answer: 2, explanation: "Pulmonary edema = LEFT heart failure (backup into lungs). Right failure = systemic venous backup: JVD, edema, ascites." },
+    { q: "77-year-old CHF patient woke at 3 AM gasping. This is called:", options: ["Orthopnea", "PND (Paroxysmal Nocturnal Dyspnea)", "Central sleep apnea", "ARDS"], answer: 1, explanation: "PND — when lying flat, fluid redistributes, increasing pulmonary venous pressure. Patient wakes gasping." },
+    { q: "Most common reason CHF patients decompensate:", options: ["New MI", "Exercise", "Non-compliance with medications", "Excessive O₂"], answer: 2, explanation: "Most CHF decompensations = patients stopping medications (diuretics, ACE inhibitors, beta blockers)." },
+    { q: "Hypertensive emergency vs urgency:", options: ["Urgency has higher numbers", "Emergency = high BP + end-organ damage (brain/heart/kidneys)", "Clinically identical", "Emergency only in elderly"], answer: 1, explanation: "Emergency = high BP + organ damage (stroke, encephalopathy, MI, renal failure). Urgency = high BP without damage." },
+    { q: "Fluids for CHF patient in pulmonary edema:", options: ["Yes — improves cardiac output", "No — excess fluid, worsens alveolar flooding", "Yes — normal saline only", "Only if BP <90"], answer: 1, explanation: "CHF is excess fluid in wrong place. Adding more worsens pulmonary congestion. Treatment is REMOVING fluid." },
+    { q: "Nitroglycerin benefits CHF by:", options: ["Increasing heart rate", "Reducing preload and afterload — decreasing cardiac workload", "Removing fluid from alveoli", "Increasing renal perfusion"], answer: 1, explanation: "Nitro = vasodilator. Dilates veins (preload) and arteries (afterload) — both reduce cardiac work." },
+    { q: "BP 230/130 with severe headache and confusion:", options: ["Normal variation", "Hypertensive emergency — possible encephalopathy or ICH", "Hypertensive urgency — outpatient", "Anxiety-related"], answer: 1, explanation: "Neurological symptoms + extreme BP = hypertensive emergency. Urgent transport — do not rapidly lower in field." },
+    { q: "Rapid BP reduction in hypertensive emergency is dangerous because:", options: ["High BP is always beneficial", "Organs adapted to high pressure become ischemic if BP drops too quickly", "Field equipment can't safely do it", "BP always normalizes"], answer: 1, explanation: "Chronic hypertension shifts vascular autoregulation — organs need higher pressure to perfuse. Rapid reduction causes relative ischemia." },
+    { q: "CHF patient lung sounds are best described as:", options: ["Wheezing throughout", "Stridor", "Crackles — wet crackling from fluid in alveoli", "Silent"], answer: 2, explanation: "Pulmonary edema = crackles (rales) — wet crackling as air moves through fluid-filled alveoli. Not wheezing." },
+    { q: "Best differentiator between CHF and COPD exacerbation:", options: ["Identical — impossible to differentiate", "CHF: orthopnea, JVD, bilateral edema, crackles. COPD: wheezing, smoking history, barrel chest.", "COPD always has faster HR", "CHF always occurs at night"], answer: 1, explanation: "Look at the complete picture. CHF: can't lie flat, JVD, ankle swelling, crackles, cardiac history. COPD: wheezing, smoker, barrel chest." },
+    { q: "CPAP works in CHF by:", options: ["Delivering bronchodilators", "Positive pressure splinting alveoli open, improving gas exchange", "Suctioning fluid", "Delivering medications transdermally"], answer: 1, explanation: "CPAP positive pressure keeps fluid-flooded alveoli from collapsing, improving surface area for gas exchange." },
+    { q: "Most urgent transport needed for:", options: ["Stable CHF, mild exertional dyspnea", "Decompensated CHF, SpO₂ 82%, frothy sputum, BP 80/50", "Hypertensive urgency, no symptoms", "Stable AFib, palpitations"], answer: 1, explanation: "SpO₂ 82% + frothy sputum + hypotension = critical decompensated CHF with cardiogenic shock. Immediate transport, ALS, CPAP." },
+    { q: "Cor pulmonale:", options: ["LV failure from CAD", "RV failure from pulmonary hypertension due to lung disease", "Heart failure from viral myocarditis", "Cardiac tamponade"], answer: 1, explanation: "Cor pulmonale = right heart failure secondary to pulmonary hypertension — most commonly from COPD." },
+  ]
+};
+
+
+const M2L7 = {
+  moduleId: 2, id: 7,
+  title: "Cardiology Module Quiz",
+  subtitle: "Cumulative assessment — everything from Module 2: Cardiology",
+  duration: "15 min",
+  dispatch: {
+    call: `"All units, Module 2 Assessment. Cardiology — heart anatomy, chest pain, ACS, CPR, arrhythmias, heart failure, and hypertensive emergencies."`,
+    time: "NOW", eta: "Your call",
+    hook: "Six lessons of cardiology. The most tested content on the NREMT. Let's see where you stand.",
+    bridge: "This quiz pulls from all six Cardiology lessons — 20-question bank, 10 random per session. Know this cold."
+  },
+  content: [
+    { heading: "What This Quiz Covers", body: "Module 2 — Cardiology:\n\n• **Lesson 1** — Heart anatomy (chambers, valves, coronary arteries, conduction, cardiac output)\n• **Lesson 2** — Chest pain assessment (OPQRST, risk factors, differentials)\n• **Lesson 3** — ACS: Angina, STEMI & NSTEMI\n• **Lesson 4** — Cardiac arrest & CPR (Chain of Survival, high-quality CPR, AED, rhythms)\n• **Lesson 5** — Cardiac arrhythmias (stable vs unstable, AFib, tachyarrhythmias, bradyarrhythmias)\n• **Lesson 6** — Heart failure & hypertensive emergencies\n\n10 questions drawn randomly." }
+  ],
+  flashcards: [
+    { front: "Left ventricle's job?", back: "Pump oxygenated blood to entire body via aorta — most muscular chamber" },
+    { front: "OPQRST?", back: "Onset, Provocation, Quality, Radiation, Severity, Time" },
+    { front: "Two shockable rhythms?", back: "VF (ventricular fibrillation) and pVT (pulseless ventricular tachycardia)" },
+    { front: "Adult CPR rate and depth?", back: "100-120/min, at least 2 inches, full recoil, <10 sec pauses" },
+    { front: "Nitroglycerin contraindications?", back: "SBP <90, PDE5 inhibitors (Viagra/Cialis/Levitra) in past 24-48 hours" },
+    { front: "Signs of cardiogenic shock?", back: "Hypotension, tachycardia, pale/cool/clammy, AMS, pulmonary edema" },
+    { front: "AFib characteristic?", back: "Irregularly irregular rhythm" },
+    { front: "Orthopnea means?", back: "Cannot breathe lying flat — classic left heart failure" },
+    { front: "STEMI treatment priority?", back: "Early hospital notification — door-to-balloon <90 minutes" },
+    { front: "Unstable arrhythmia signs?", back: "AMS, hypotension, chest pain, pulmonary edema CAUSED BY the rhythm" },
+    { front: "Aspirin dose and method?", back: "324 mg chewed — inhibits platelet aggregation" },
+    { front: "CHF — why no fluids?", back: "Already excess fluid — adding more worsens pulmonary edema" },
+    { front: "The widow maker?", back: "Left anterior descending (LAD) — blockage = massive anterior MI" },
+    { front: "CPR rotation interval?", back: "Every 2 minutes — quality degrades with fatigue" },
+    { front: "PEA — shockable?", back: "NOT shockable — organized rhythm, no mechanical function. Find reversible causes." },
+  ],
+  quiz: [
+    { q: "Most muscular heart chamber:", options: ["Right ventricle", "Left ventricle — pumps to entire body against systemic resistance", "Left atrium", "Right atrium"], answer: 1, explanation: "Left ventricle has thickest walls — must pump against systemic vascular resistance." },
+    { q: "58-year-old, 3/10 chest pressure, left arm radiation, diaphoresis:", options: ["Lower concern — pain only 3/10", "Treat as ACS — pain score doesn't correlate with MI severity", "Monitor 10 more minutes", "Musculoskeletal — mild pain inconsistent"], answer: 1, explanation: "Diaphoresis + radiation + pressure quality = ACS. Pain scores correlate poorly with MI severity." },
+    { q: "High-quality CPR:", options: ["100-120/min, 2+ inches, full recoil, <10 sec pauses", "80-100/min, 1.5 inches, every 5 compressions pause", "120-140/min, max depth, 15 sec checks", "60-80/min, 2 inches, 30 sec breaks"], answer: 0, explanation: "AHA: 100-120/min, at least 2 inches, full recoil, minimize interruptions, rotate every 2 min." },
+    { q: "Nitroglycerin CONTRAINDICATED when:", options: ["Patient took aspirin", "SpO₂ above 94%", "SBP <90 OR PDE5 inhibitor in past 24-48 hours", "History of AFib"], answer: 2, explanation: "SBP <90 = cardiovascular collapse risk. PDE5 inhibitors + nitro = severe refractory hypotension." },
+    { q: "After defibrillation shock:", options: ["Check pulse to assess success", "Deliver second shock", "Resume CPR immediately for 2 minutes", "Stop and assess rhythm"], answer: 2, explanation: "Resume CPR immediately after every shock. Don't check pulse." },
+    { q: "CHF patient — best position:", options: ["Supine for venous return", "Trendelenburg", "Sitting upright with legs dangling", "Left lateral recumbent"], answer: 2, explanation: "Upright with legs dependent reduces preload (venous return) to the failing heart." },
+    { q: "AFib increases stroke risk because:", options: ["Fast rate damages brain vessels", "Blood pools in left atrial appendage forming clots that embolize to brain", "Causes hypertension", "Reduces cerebral flow directly"], answer: 1, explanation: "Stagnant blood in left atrial appendage → clot → brain embolism → stroke." },
+    { q: "Door-to-balloon time goal for STEMI:", options: ["30 minutes", "90 minutes from first medical contact", "2 hours from symptom onset", "4 hours from hospital arrival"], answer: 1, explanation: "AHA: first medical contact to balloon inflation within 90 minutes. Your notification starts the clock." },
+    { q: "Cardiogenic vs hypovolemic shock:", options: ["Both treated with aggressive fluids", "Cardiogenic = pump failure, no fluids. Hypovolemic = volume loss, give fluids.", "Cardiogenic has faster HR", "Clinically identical"], answer: 1, explanation: "Cardiogenic shock = pump failure. Fluids worsen pulmonary edema. Needs cath lab, not saline." },
+    { q: "Unstable arrhythmia defined by:", options: ["Any rate >100 or <60", "AMS, hypotension, chest pain, or pulmonary edema CAUSED BY the rhythm", "Irregular rhythm regardless of symptoms", "Any rhythm needing medication"], answer: 1, explanation: "Stable vs unstable = hemodynamics. Is the rhythm causing compromise? That's what matters." },
+    { q: "CPAP effective in acute CHF because:", options: ["Delivers bronchodilators", "Positive pressure splints alveoli open, improving gas exchange", "Removes fluid mechanically", "Increases cardiac output directly"], answer: 1, explanation: "CPAP keeps fluid-flooded alveoli from collapsing, dramatically improving surface area for gas exchange." },
+    { q: "BP 235/130 + severe headache + visual changes:", options: ["Observation, recheck 30 min", "Urgent transport — hypertensive emergency with neurological involvement", "Rapid IV BP reduction in field", "Aspirin and nitroglycerin"], answer: 1, explanation: "Neurological symptoms + extreme BP = hypertensive emergency. Transport urgently — controlled reduction in hospital." },
+    { q: "Chain of Survival starts with:", options: ["AED application", "IV access", "Early recognition and calling 911", "Advanced airway"], answer: 2, explanation: "Recognition comes first. Every minute without CPR decreases survival 7-10%. Bystander activation is the foundation." },
+    { q: "Plaque rupture in coronary artery leads to:", options: ["Immediate VF", "Platelet aggregation → clot → partial or complete blockage → ACS", "Coronary spasm and vasodilation", "Immediate heart block"], answer: 1, explanation: "Plaque rupture → platelet aggregation → clot. Partial = NSTEMI/unstable angina. Complete = STEMI." },
+    { q: "Non-shockable rhythm:", options: ["VF", "Pulseless VT", "PEA", "Ventricular flutter"], answer: 2, explanation: "PEA has organized electrical activity — defibrillation won't help. Find and treat reversible causes." },
+    { q: "Diabetic, nausea + epigastric discomfort + diaphoresis, no chest pain:", options: ["GI emergency only", "Clear as non-cardiac", "Possible atypical ACS — diabetics frequently have silent MI", "Hypoglycemia only"], answer: 2, explanation: "Diabetic neuropathy blunts cardiac pain. Epigastric + diaphoresis in diabetic = ACS until proven otherwise." },
+    { q: "Right heart failure signs — all EXCEPT:", options: ["JVD", "Bilateral ankle edema", "Crackles throughout both lungs", "Ascites"], answer: 2, explanation: "Bilateral crackles = LEFT failure (pulmonary edema). Right failure = systemic venous backup: JVD, edema, ascites." },
+    { q: "Aspirin dose for ACS:", options: ["81 mg swallowed", "324 mg chewed", "650 mg swallowed", "162 mg sublingual"], answer: 1, explanation: "324 mg chewed — faster buccal absorption than swallowing. Inhibits platelet aggregation at rupture site." },
+    { q: "After advanced airway during CPR — ventilation changes to:", options: ["30:2 continues", "Continuous compressions, 1 breath every 6 seconds", "Stop ventilations", "2 breaths every 15 compressions"], answer: 1, explanation: "Advanced airway = compressions can be continuous. 1 breath every 6 seconds asynchronously." },
+    { q: "Primary EMT role in STEMI:", options: ["Administer thrombolytics", "Perform cardioversion", "Recognize, give aspirin, notify hospital, rapid transport", "Defibrillate for ST changes"], answer: 2, explanation: "EMT STEMI care: recognize, aspirin, hospital notification to activate cath lab, rapid transport. Definitive treatment at hospital." },
+  ]
+};
+
+
+const LESSON_DATA = {
+  "0-1": L1, "0-2": L2, "0-3": L3, "0-4": L4, "0-5": L5, "0-6": L6,
+  "1-1": M1L1, "1-2": M1L2, "1-3": M1L3, "1-4": M1L4, "1-5": M1L5, "1-6": M1L6, "1-7": M1L7,
+  "2-1": M2L1, "2-2": M2L2, "2-3": M2L3, "2-4": M2L4, "2-5": M2L5, "2-6": M2L6, "2-7": M2L7
+};
 
 export { MODULES, LESSON_DATA };

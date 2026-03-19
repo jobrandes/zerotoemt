@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "./lib/supabase";
-import { shuffle, pickQuiz, calcProgress } from "./lib/helpers";
+import { shuffle, pickQuiz } from "./lib/helpers";
 import { MODULES, LESSON_DATA, TOTAL_LESSONS } from "./lessons/data";
 import "./App.css";
 import Auth from "./components/Auth";
@@ -72,7 +72,8 @@ export default function App() {
     if (lessonTab === "tutor") setTutorLastStep(lessonStep);
   }, [lessonStep, lessonTab]);
 
-  const progress = calcProgress(completedLessons);
+  const builtLessons = Object.keys(LESSON_DATA).length;
+  const progress = Math.round((completedLessons.length / builtLessons) * 100);
   const isLessonCompleted = (mId, lId) => completedLessons.includes(`${mId}-${lId}`);
   const isLessonUnlocked = (mId, lId) => {
     if (mId !== 0) return MODULES[0].lessons.every(l => isLessonCompleted(0, l.id));
