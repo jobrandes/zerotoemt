@@ -21,8 +21,6 @@
 .zte-hero-btns{display:flex;gap:12px;flex-wrap:wrap;}
 .zte-btn-hero-primary{background:var(--red);color:white;border:none;padding:16px 28px;border-radius:8px;font-family:'Anton',sans-serif;font-size:16px;letter-spacing:.5px;cursor:pointer;transition:all .2s;}
 .zte-btn-hero-primary:hover{background:#c4122f;transform:translateY(-1px);}
-.zte-btn-reset{background:transparent;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.2);padding:10px 16px;border-radius:8px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.5px;cursor:pointer;transition:all .2s;}
-.zte-btn-reset:hover{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.4);}
 .zte-btn-hero-secondary{background:transparent;color:white;border:1.5px solid rgba(255,255,255,.3);padding:16px 28px;border-radius:8px;font-family:'Figtree',sans-serif;font-weight:600;font-size:15px;cursor:pointer;transition:all .2s;}
 .zte-btn-hero-secondary:hover{border-color:white;}
 .zte-hero-right{flex:1;min-width:280px;max-width:440px;}
@@ -82,8 +80,7 @@
 .zte-lesson-main-header{background:var(--white);border-bottom:1px solid var(--border);padding:20px 40px 0;}
 .zte-lesson-header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px;}
 .zte-lesson-breadcrumb{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
-.zte-lesson-main-title{font-family:'Anton',sans-serif;font-size:34px;color:var(--navy);letter-spacing:.3px;}
-/* Horizontal lesson strip */
+.zte-lesson-main-title{font-family:'Anton',sans-serif;font-size:34px;color:var(--navy);letter-spacing:.3px;line-height:1.1;}
 .zte-lesson-strip{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding-bottom:0;scrollbar-width:none;}
 .zte-lesson-strip::-webkit-scrollbar{display:none;}
 .zte-strip-item{display:flex;flex-direction:column;align-items:center;position:relative;flex:1;min-width:0;}
@@ -96,16 +93,16 @@
 .zte-strip-label.active{color:var(--red);font-weight:700;}
 .zte-strip-connector{position:absolute;top:14px;left:calc(50% + 14px);right:calc(-50% + 14px);height:2px;background:var(--border);}
 .zte-strip-connector.done{background:var(--green);}
+.zte-lesson-tabs{display:flex;background:var(--white);border-bottom:2px solid var(--border);padding:0 40px;}
+.zte-lesson-tab{background:none;border:none;padding:14px 18px;font-family:'Figtree',sans-serif;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;}
+.zte-lesson-tab.active{color:var(--navy);border-bottom-color:var(--red);}
+.zte-lesson-tab.locked-tab{cursor:not-allowed;opacity:.55;color:#9ca3af;background:var(--light);}
+.zte-lesson-tab:hover:not(.locked-tab){color:var(--navy);}
+.zte-lesson-content{padding:36px 40px 80px;max-width:860px;margin:0 auto;}
 .zte-lesson-switcher{display:flex;gap:6px;}
 .zte-switcher-btn{width:36px;height:36px;background:var(--light);color:var(--muted);border:1.5px solid var(--border);border-radius:6px;font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;transition:all .15s;}
 .zte-switcher-btn.active{background:var(--red);color:white;border-color:var(--red);}
 .zte-switcher-btn:disabled{opacity:.4;cursor:not-allowed;}
-.zte-lesson-tabs{display:flex;background:var(--white);border-bottom:2px solid var(--border);padding:0 40px;}
-.zte-lesson-tab{background:none;border:none;padding:14px 18px;font-family:'Figtree',sans-serif;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;}
-.zte-lesson-tab.active{color:var(--navy);border-bottom-color:var(--red);}
-.zte-lesson-tab.locked-tab{cursor:not-allowed;opacity:.5;}
-.zte-lesson-tab:hover:not(.locked-tab){color:var(--navy);}
-.zte-lesson-content{padding:36px 40px;max-width:860px;margin:0 auto;}
 .zte-dispatch-card{background:var(--navy);border-radius:14px;padding:28px 32px;margin-bottom:28px;font-family:'Space Mono',monospace;}
 .zte-dispatch-badge{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:white;font-size:10px;letter-spacing:1px;padding:5px 12px;border-radius:4px;margin-bottom:20px;}
 .zte-dispatch-body{margin-bottom:20px;}
@@ -155,29 +152,21 @@
 .zte-results-score{font-family:'Anton',sans-serif;font-size:72px;color:var(--red);line-height:1;display:block;margin:12px 0;}
 .zte-results-msg{font-size:15px;color:var(--muted);margin-bottom:32px;}
 .zte-results-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-.zte-footer{background:var(--navy);border-top:1px solid rgba(255,255,255,.08);margin-top:0;}
-.zte-footer-inner{max-width:1200px;margin:0 auto;padding:40px 48px;display:flex;flex-direction:column;gap:16px;}
-.zte-footer-logo{font-family:'Anton',sans-serif;font-size:18px;color:rgba(255,255,255,.5);letter-spacing:1px;}
-.zte-footer-logo span{color:var(--red);}
-.zte-footer-disclaimer{font-size:12px;line-height:1.7;color:rgba(255,255,255,.4);max-width:800px;border-left:2px solid rgba(255,255,255,.1);padding-left:16px;}
-.zte-footer-disclaimer strong{color:rgba(255,255,255,.6);font-weight:600;}
-.zte-footer-copy{font-family:'Space Mono',monospace;font-size:10px;color:rgba(255,255,255,.25);letter-spacing:.5px;}
 .zte-btn-tutor{background:transparent;color:var(--navy);border:1.5px solid var(--navy);padding:12px 24px;border-radius:8px;font-family:'Figtree',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;}
 .zte-btn-tutor:hover{background:var(--navy);color:white;}
 .zte-tutor-panel{display:flex;flex-direction:column;gap:20px;max-width:720px;}
 .zte-tutor-header{}
-.zte-tutor-context-changed{background:#f0fdf4;border:1px solid var(--green);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--green);line-height:1.4;}
-.zte-tutor-context-changed strong{font-weight:700;}
+.zte-tutor-title{font-family:'Anton',sans-serif;font-size:28px;color:var(--navy);margin-bottom:4px;}
 .zte-tutor-context-row{margin-bottom:12px;}
 .zte-tutor-context{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.5px;}
-.zte-tutor-title{font-family:'Anton',sans-serif;font-size:28px;color:var(--navy);margin-bottom:4px;}
-.zte-tutor-context{font-family:'Space Mono',monospace;font-size:10px;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;}
 .zte-tutor-intro{font-size:14px;color:var(--muted);line-height:1.6;}
 .zte-tutor-messages{display:flex;flex-direction:column;gap:16px;min-height:120px;}
 .zte-tutor-suggestions{display:flex;flex-direction:column;gap:8px;}
 .zte-tutor-suggest-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
 .zte-tutor-chip{background:white;border:1.5px solid var(--border);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--navy);cursor:pointer;text-align:left;transition:all .15s;font-family:'Figtree',sans-serif;}
 .zte-tutor-chip:hover{border-color:var(--navy);background:var(--light);}
+.zte-tutor-context-changed{background:#f0fdf4;border:1px solid var(--green);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--green);line-height:1.4;}
+.zte-tutor-context-changed strong{font-weight:700;}
 .zte-tutor-msg{display:flex;flex-direction:column;gap:4px;}
 .zte-tutor-msg.user{align-items:flex-end;}
 .zte-tutor-msg.assistant{align-items:flex-start;}
@@ -201,19 +190,13 @@
 .zte-tutor-send:hover:not(:disabled){background:var(--red);}
 .zte-tutor-send:disabled{opacity:.4;cursor:not-allowed;}
 .zte-tutor-disclaimer{font-size:11px;color:var(--muted);font-style:italic;}
-@media(max-width:768px){
-  .zte-hero{padding:40px 24px;}
-  .zte-home-curriculum{padding:40px 24px;}
-  .zte-curr-grid{padding:24px;}
-  .zte-lesson-content{padding:24px 20px;}
-  .zte-lesson-main-header{padding:16px 20px 0;}
-  .zte-lesson-tabs{padding:0 20px;}
-  .zte-stats-bar{padding:20px 24px;}
-  .zte-nav{padding:0 16px;}
-  .zte-nav-links{display:none;}
-  .zte-strip-label{display:none;}
-}
-/* AUTH */
+.zte-footer{background:var(--navy);border-top:1px solid rgba(255,255,255,.08);margin-top:0;}
+.zte-footer-inner{max-width:1200px;margin:0 auto;padding:40px 48px;display:flex;flex-direction:column;gap:16px;}
+.zte-footer-logo{font-family:'Anton',sans-serif;font-size:18px;color:rgba(255,255,255,.5);letter-spacing:1px;}
+.zte-footer-logo span{color:var(--red);}
+.zte-footer-disclaimer{font-size:12px;line-height:1.7;color:rgba(255,255,255,.4);max-width:800px;border-left:2px solid rgba(255,255,255,.1);padding-left:16px;}
+.zte-footer-disclaimer strong{color:rgba(255,255,255,.6);font-weight:600;}
+.zte-footer-copy{font-family:'Space Mono',monospace;font-size:10px;color:rgba(255,255,255,.25);letter-spacing:.5px;}
 .zte-auth-wrap{min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px;}
 .zte-auth-card{background:white;border-radius:16px;padding:40px;max-width:420px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,.08);}
 .zte-auth-title{font-family:'Anton',sans-serif;font-size:28px;color:var(--navy);margin-bottom:6px;}
@@ -226,3 +209,32 @@
 .zte-auth-disclaimer{text-align:center;font-size:11px;color:var(--muted);margin-top:12px;}
 .zte-btn-signout{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:6px;font-family:'Figtree',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
 .zte-btn-signout:hover{border-color:var(--red);color:var(--red);}
+
+/* ─── MOBILE ─────────────────────────────────────────────────────────────── */
+@media(max-width:768px){
+  .zte-hero{padding:40px 24px;}
+  .zte-home-curriculum{padding:40px 24px;}
+  .zte-curr-grid{padding:24px;}
+  .zte-lesson-content{padding:24px 20px 80px;}
+  .zte-lesson-main-header{padding:16px 20px 0;}
+  .zte-lesson-tabs{padding:0 16px;}
+  .zte-stats-bar{padding:20px 24px;}
+  .zte-nav{padding:0 16px;}
+  .zte-nav-links{display:none;}
+  .zte-strip-label{display:none;}
+  .zte-lesson-main-title{font-size:20px;line-height:1.15;}
+  .zte-content-body{font-size:18px;line-height:1.9;}
+  .zte-content-heading{font-size:22px;}
+  .zte-quiz-q{font-size:18px;line-height:1.45;}
+  .zte-quiz-opt{font-size:16px;padding:16px 14px;}
+  .zte-fc-text{font-size:18px;}
+  .zte-dispatch-hook{font-size:16px;}
+  .zte-scenario-bridge{font-size:16px;}
+  .zte-tutor-msg-text{font-size:16px;}
+  .zte-tutor-input{font-size:16px;}
+  .zte-lesson-tab{padding:12px 10px;font-size:12px;}
+  .zte-strip-node{width:24px;height:24px;font-size:8px;}
+  .zte-strip-connector{top:12px;}
+  .zte-footer-inner{padding:32px 24px;}
+  .zte-curr-hero{padding:40px 24px 32px;}
+}
