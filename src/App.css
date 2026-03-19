@@ -1,6 +1,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{--bg:#e8e9ed;--navy:#0f1f3d;--red:#e8193c;--green:#16a34a;--white:#ffffff;--light:#f4f5f8;--border:#d0d2da;--text:#1a1a2e;--muted:#6b7280;--card:#ffffff;}
-button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;}
 #zte-root{font-family:'Figtree',sans-serif;background:var(--bg);min-height:100vh;color:var(--text);}
 .zte-nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 32px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:24px;}
 .zte-logo{font-family:'Anton',sans-serif;font-size:20px;color:var(--navy);letter-spacing:1px;background:none;border:none;cursor:pointer;white-space:nowrap;flex-shrink:0;}
@@ -238,4 +238,6 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
   .zte-strip-connector{top:12px;}
   .zte-footer-inner{padding:32px 24px;}
   .zte-curr-hero{padding:40px 24px 32px;}
+  .zte-lesson-nav{position:sticky;bottom:0;background:var(--white);border-top:1px solid var(--border);padding:12px 20px 20px;margin:16px -20px -24px;z-index:10;}
+  .zte-btn-primary{width:100%;justify-content:center;}
 }

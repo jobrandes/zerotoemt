@@ -465,11 +465,11 @@ export default function App() {
                   </div>
                   {quizAnswered && (
                     <>
-                      <div className="zte-explanation">{quizDeck[quizIndex].explanation}</div>
                       <button className="zte-btn-primary" onClick={() => {
                         if (quizIndex < quizDeck.length - 1) { setQuizIndex(i => i+1); setQuizSelected(null); setQuizAnswered(false); }
                         else setQuizDone(true);
                       }}>{quizIndex < quizDeck.length - 1 ? "Next Question →" : "See Results →"}</button>
+                      <div className="zte-explanation">{quizDeck[quizIndex].explanation}</div>
                     </>
                   )}
                 </div>
