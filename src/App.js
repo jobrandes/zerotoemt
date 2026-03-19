@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "./lib/supabase";
 import { shuffle, pickQuiz } from "./lib/helpers";
 import { MODULES, LESSON_DATA, TOTAL_LESSONS } from "./lessons/data";
@@ -29,6 +29,8 @@ export default function App() {
   const [completedLessons, setCompletedLessons] = useState([]);
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [progressLoaded, setProgressLoaded] = useState(false);
+  const autoNavigated = useRef(false);
   const [tabUnlocked, setTabUnlocked] = useState({ scenario: true, lesson: false, flashcards: false, quiz: false, tutor: true });
   const [tutorMessages, setTutorMessages] = useState([]);
   const [tutorInput, setTutorInput] = useState("");
@@ -55,6 +57,7 @@ export default function App() {
   async function loadProgress(userId) {
     const { data } = await supabase.from("progress").select("completed_lessons").eq("user_id", userId).maybeSingle();
     if (data?.completed_lessons) setCompletedLessons(data.completed_lessons);
+    setProgressLoaded(true);
   }
 
   async function saveProgress(lessons) {
@@ -68,6 +71,14 @@ export default function App() {
   useEffect(() => {
     if (user) saveProgress(completedLessons);
   }, [completedLessons]);
+
+  // Auto-resume on page load once progress is loaded
+  useEffect(() => {
+    if (!progressLoaded || autoNavigated.current) return;
+    autoNavigated.current = true;
+    const r = getResumeLesson();
+    if (r) openLesson(r.mId, r.lId);
+  }, [progressLoaded]);
 
   // Refresh tutor follow-ups when student moves to a different lesson section
   useEffect(() => {
