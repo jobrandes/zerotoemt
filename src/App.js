@@ -53,13 +53,16 @@ export default function App() {
   }, []);
 
   async function loadProgress(userId) {
-    const { data } = await supabase.from("progress").select("completed_lessons").eq("user_id", userId).single();
+    const { data } = await supabase.from("progress").select("completed_lessons").eq("user_id", userId).maybeSingle();
     if (data?.completed_lessons) setCompletedLessons(data.completed_lessons);
   }
 
   async function saveProgress(lessons) {
     if (!user) return;
-    await supabase.from("progress").upsert({ user_id: user.id, completed_lessons: lessons, updated_at: new Date().toISOString() });
+    await supabase.from("progress").upsert(
+      { user_id: user.id, completed_lessons: lessons, updated_at: new Date().toISOString() },
+      { onConflict: "user_id" }
+    );
   }
 
   useEffect(() => {
@@ -106,6 +109,17 @@ export default function App() {
   const activeLesson = activeModuleId !== null && activeLessonId !== null ? LESSON_DATA[`${activeModuleId}-${activeLessonId}`] : null;
   const activeModule = activeModuleId !== null ? MODULES[activeModuleId] : null;
 
+  const getResumeLesson = () => {
+    for (const mod of MODULES) {
+      for (const l of mod.lessons) {
+        if (!isLessonCompleted(mod.id, l.id) && LESSON_DATA[`${mod.id}-${l.id}`]) {
+          return { mId: mod.id, lId: l.id };
+        }
+      }
+    }
+    return null;
+  };
+
   const getNextLesson = () => {
     if (!activeModule || !activeLesson) return null;
     const lessons = activeModule.lessons;
@@ -137,7 +151,7 @@ export default function App() {
         <button className={`zte-nav-link ${screen === "curriculum" ? "active" : ""}`} onClick={() => setScreen("curriculum")}>Curriculum</button>
       </div>
       {showProgress ? (
-        <button className="zte-btn-cta progress-btn">
+        <button className="zte-btn-cta progress-btn" onClick={() => { const r = getResumeLesson(); if (r) openLesson(r.mId, r.lId); }}>
           <div className="zte-progress-mini"><div className="zte-progress-mini-fill" style={{width: `${progress}%`}}/></div>
           Continue ({progress}%)
         </button>
@@ -163,7 +177,7 @@ export default function App() {
           <h1 className="zte-hero-title">ZERO<br/>TO<br/><span>EMT.</span></h1>
           <p className="zte-hero-desc">The only free, AI-powered platform built for people with zero medical background. Learn everything before your first EMT class even starts.</p>
           <div className="zte-hero-btns">
-            <button className="zte-btn-hero-primary" onClick={() => openLesson(0, 1)}>START LEARNING FREE</button>
+            <button className="zte-btn-hero-primary" onClick={() => { const r = getResumeLesson(); openLesson(r ? r.mId : 0, r ? r.lId : 1); }}>{completedLessons.length > 0 ? "CONTINUE LEARNING" : "START LEARNING FREE"}</button>
             <button className="zte-btn-hero-secondary" onClick={() => setScreen("curriculum")}>See Curriculum</button>
             {completedLessons.length > 0 && (
               <button className="zte-btn-reset" onClick={() => { setCompletedLessons([]); try { localStorage.removeItem("zte-progress"); } catch {} }}>↺ Reset Progress</button>
