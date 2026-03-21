@@ -29,7 +29,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-hero-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden;}
 .zte-hero-feature{display:flex;align-items:center;gap:16px;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.07);}
 .zte-hero-feature:last-child{border-bottom:none;}
-.zte-hero-feature-icon{font-size:24px;width:40px;text-align:center;}
+.zte-hero-feature-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0;opacity:0.85;}
 .zte-hero-feature-num{font-family:'Anton',sans-serif;font-size:22px;color:white;line-height:1;}
 .zte-hero-feature-num span{color:var(--red);}
 .zte-hero-feature-sub{font-size:12px;color:rgba(255,255,255,.5);margin-top:2px;}
@@ -223,7 +223,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-btn-signout{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:6px;font-family:'Figtree',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
 .zte-btn-signout:hover{border-color:var(--red);color:var(--red);}
 
-/* --- MOBILE --------------------------------------------------------------------------- */
+/* âââ MOBILE âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 @media(max-width:768px){
   .zte-hero{padding:40px 24px;}
   .zte-home-curriculum{padding:40px 24px;}
