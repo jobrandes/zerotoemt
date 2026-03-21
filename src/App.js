@@ -38,18 +38,22 @@ export default function App() {
   const [tutorFollowUps, setTutorFollowUps] = useState([]);
   const [tutorLastStep, setTutorLastStep] = useState(null);
 
+  // CSS loaded via App.css
+
   // Auth + progress sync
   useEffect(() => {
     // Step 1: Always load localStorage immediately — works for ALL users on ALL devices
+    // This ensures auto-resume fires even before Supabase auth resolves
     try {
       const local = JSON.parse(localStorage.getItem("zte-progress") || "null");
       if (Array.isArray(local) && local.length > 0) {
-        setCompletedLessons([...new Set(local)]);
+        const valid = local.filter(k => LESSON_DATA[k]); // only keep real lesson keys
+        setCompletedLessons([...new Set(valid)]);
       }
     } catch {}
     setProgressLoaded(true);
 
-    // Step 2: Then check Supabase — if logged in, sync from server
+    // Step 2: Then check Supabase — if logged in, sync from server (server wins)
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) loadProgressFromServer(session.user.id);
@@ -64,20 +68,19 @@ export default function App() {
 
   async function loadProgressFromServer(userId) {
     const { data } = await supabase.from("progress").select("completed_lessons").eq("user_id", userId).maybeSingle();
-    // Merge server + local — whichever device has MORE completed lessons wins
-    const serverLessons = data?.completed_lessons || [];
+    // Merge server + local — keep union, but VALIDATE every key against real lesson data
+    // This prevents corrupted/stale keys from showing false green checkmarks
+    const serverLessons = (data?.completed_lessons || []).filter(k => LESSON_DATA[k]);
     let localLessons = [];
-    try { localLessons = JSON.parse(localStorage.getItem("zte-progress") || "[]"); } catch {}
+    try { localLessons = (JSON.parse(localStorage.getItem("zte-progress") || "[]")).filter(k => LESSON_DATA[k]); } catch {}
     const merged = [...new Set([...serverLessons, ...localLessons])];
-    if (merged.length > 0) {
-      setCompletedLessons(merged);
-      try { localStorage.setItem("zte-progress", JSON.stringify(merged)); } catch {}
-      // Write merged set back to Supabase so all devices stay in sync
-      await supabase.from("progress").upsert(
-        { user_id: userId, completed_lessons: merged, updated_at: new Date().toISOString() },
-        { onConflict: "user_id" }
-      );
-    }
+    setCompletedLessons(merged);
+    try { localStorage.setItem("zte-progress", JSON.stringify(merged)); } catch {}
+    // Write validated merged set back to Supabase to clean up any corruption there too
+    await supabase.from("progress").upsert(
+      { user_id: userId, completed_lessons: merged, updated_at: new Date().toISOString() },
+      { onConflict: "user_id" }
+    );
   }
 
   async function saveProgress(lessons) {
@@ -90,8 +93,10 @@ export default function App() {
   }
 
   useEffect(() => {
+    // Only save after progress has been loaded - prevents empty [] from overwriting real data on mount
+    if (!progressLoaded) return;
     if (user) saveProgress(completedLessons);
-  }, [completedLessons]);
+  }, [completedLessons, progressLoaded]);
 
   // Auto-resume on page load once progress is loaded
   useEffect(() => {
@@ -109,10 +114,11 @@ export default function App() {
 
   const builtLessons = Object.keys(LESSON_DATA).length;
   const progress = Math.round((completedLessons.length / builtLessons) * 100);
-  // Derive display name: metadata first name → full name first word → null
+  // Derive display name: metadata first name → full name first word → null (don't show email slugs)
   const rawName = user?.user_metadata?.first_name
     || user?.user_metadata?.full_name?.split(" ")[0]
     || null;
+  // Capitalize first letter
   const displayName = rawName
     ? rawName.charAt(0).toUpperCase() + rawName.slice(1).toLowerCase()
     : null;
@@ -187,7 +193,11 @@ export default function App() {
     </footer>
   );
 
-  const Nav = ({ showProgress = false }) => (
+  const Nav = ({ showProgress = false }) => {
+    // Always derive something to show - first name, or email prefix as last resort
+    const navName = displayName || user?.email?.split("@")[0] || "";
+    const hasProgress = completedLessons.length > 0;
+    return (
     <nav className="zte-nav">
       <button className="zte-logo" onClick={() => setScreen("home")}>ZERO <span>TO</span> EMT</button>
       <div className="zte-nav-links">
@@ -195,7 +205,7 @@ export default function App() {
         <button className={`zte-nav-link ${screen === "curriculum" ? "active" : ""}`} onClick={() => setScreen("curriculum")}>Curriculum</button>
       </div>
       <div style={{display:"flex",gap:8,alignItems:"center",flexShrink:0}}>
-        {displayName && <span className="zte-nav-welcome">Hey, {displayName} 👋</span>}
+        {navName && <span className="zte-nav-welcome">Hey, {navName}</span>}
         {showProgress ? (
           <button className="zte-btn-cta progress-btn" onClick={() => { const r = getResumeLesson(); if (r) openLesson(r.mId, r.lId); }}>
             <div className="zte-progress-mini"><div className="zte-progress-mini-fill" style={{width: `${progress}%`}}/></div>
@@ -203,14 +213,18 @@ export default function App() {
           </button>
         ) : (
           <>
-            <button className="zte-btn-cta" onClick={() => openLesson(0, 1)}>Start Free &rarr;</button>
+            <button className="zte-btn-cta" onClick={() => { const r = getResumeLesson(); openLesson(r ? r.mId : 0, r ? r.lId : 1); }}>
+              {hasProgress ? `Continue (${progress}%)` : "Start Free →"}
+            </button>
             <button className="zte-btn-signout" onClick={() => supabase.auth.signOut()}>Sign Out</button>
           </>
         )}
       </div>
     </nav>
-  );
+    );
+  };
 
+  // ── HOME ──
   if (authLoading) return <div id="zte-root" style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh"}}><div style={{fontFamily:"Anton, sans-serif",fontSize:32,color:"#0f1f3d"}}>ZERO <span style={{color:"#e8193c"}}>TO</span> EMT</div></div>;
   if (!user) return <Auth />;
 
@@ -219,7 +233,7 @@ export default function App() {
       <Nav />
       <section className="zte-hero">
         <div className="zte-hero-left">
-          <div className="zte-hero-eyebrow">{completedLessons.length > 0 && displayName ? `WELCOME BACK, ${displayName.toUpperCase()}` : "EMT CERTIFICATION PREP"}</div>
+          <div className="zte-hero-eyebrow">{completedLessons.length > 0 ? `WELCOME BACK${displayName ? ", " + displayName.toUpperCase() : ""}` : "EMT CERTIFICATION PREP"}</div>
           <h1 className="zte-hero-title">ZERO<br/>TO<br/><span>EMT.</span></h1>
           <p className="zte-hero-desc">The only free, AI-powered platform built for people with zero medical background. Learn everything before your first EMT class even starts.</p>
           <div className="zte-hero-btns">
@@ -283,6 +297,7 @@ export default function App() {
     </div>
   );
 
+  // ── CURRICULUM ──
   if (screen === "curriculum") return (
     <div id="zte-root">
       <Nav />
@@ -328,6 +343,7 @@ export default function App() {
     </div>
   );
 
+  // ── LESSON ──
   if (screen === "lesson" && activeLesson && activeModule) {
     const lesson = activeLesson;
     const mod = activeModule;
@@ -363,6 +379,7 @@ export default function App() {
                   ))}
                 </div>
               </div>
+              {/* Horizontal lesson progress strip */}
               <div className="zte-lesson-strip">
                 {mod.lessons.map((l, idx) => {
                   const done = isLessonCompleted(mod.id, l.id);
@@ -513,8 +530,8 @@ export default function App() {
                   </div>
                 </div>
               )}
-
               {lessonTab === "tutor" && (() => {
+                // Determine tutor context based on where student is
                 const prevTab = tabUnlocked.quiz && quizDone ? "quiz-done"
                   : tabUnlocked.quiz ? "post-quiz-open"
                   : tabUnlocked.flashcards ? "post-lesson"
@@ -715,6 +732,7 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
         const data = await response.json();
         const fullReply = data.content?.[0]?.text || "Sorry, I couldn't get a response. Try again.";
 
+        // Split reply from follow-ups — handle any whitespace variation
         const followupSplit = fullReply.split(/\n+FOLLOWUPS:\n/);
         const replyText = followupSplit[0].trim();
         const followUps = [];
@@ -725,6 +743,7 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
             if (match) followUps.push(match[1].trim());
           });
         }
+        // Fallback: if split didn't work, try finding FOLLOWUPS anywhere in text
         if (followUps.length === 0 && fullReply.includes("FOLLOWUPS:")) {
           const idx = fullReply.indexOf("FOLLOWUPS:");
           const afterBlock = fullReply.slice(idx + 10).trim();
@@ -732,6 +751,7 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
             const match = line.match(/^\d+\.\s+(.+)$/);
             if (match) followUps.push(match[1].trim());
           });
+          // Remove the FOLLOWUPS block from the display text
           const cleanReply = fullReply.slice(0, idx).trim();
           setTutorMessages(prev => [...prev, { role: "assistant", content: cleanReply }]);
           setTutorFollowUps(followUps.slice(0, 3));
