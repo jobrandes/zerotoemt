@@ -60,7 +60,7 @@ export default function App() {
 
   // Auth + progress sync
   useEffect(() => {
-    // Step 1: Always load localStorage immediately â works for ALL users on ALL devices
+    // Step 1: Always load localStorage immediately  -  works for ALL users on ALL devices
     // This ensures auto-resume fires even before Supabase auth resolves
     try {
       const local = JSON.parse(localStorage.getItem("zte-progress") || "null");
@@ -71,7 +71,7 @@ export default function App() {
     } catch {}
     setProgressLoaded(true);
 
-    // Step 2: Then check Supabase â if logged in, sync from server (server wins)
+    // Step 2: Then check Supabase  -  if logged in, sync from server (server wins)
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) loadProgressFromServer(session.user.id);
@@ -86,7 +86,7 @@ export default function App() {
 
   async function loadProgressFromServer(userId) {
     const { data } = await supabase.from("progress").select("completed_lessons").eq("user_id", userId).maybeSingle();
-    // Merge server + local â keep union, but VALIDATE every key against real lesson data
+    // Merge server + local  -  keep union, but VALIDATE every key against real lesson data
     // This prevents corrupted/stale keys from showing false green checkmarks
     const serverLessons = (data?.completed_lessons || []).filter(k => LESSON_DATA[k]);
     let localLessons = [];
@@ -132,7 +132,7 @@ export default function App() {
 
   const builtLessons = Object.keys(LESSON_DATA).length;
   const progress = Math.round((completedLessons.length / builtLessons) * 100);
-  // Derive display name: metadata first name â full name first word â null (don't show email slugs)
+  // Derive display name: metadata first name -> full name first word -> null (don't show email slugs)
   const rawName = user?.user_metadata?.first_name
     || user?.user_metadata?.full_name?.split(" ")[0]
     || null;
@@ -242,7 +242,7 @@ export default function App() {
     );
   };
 
-  // ââ HOME ââ
+  // -- HOME --
   if (authLoading) return <div id="zte-root" style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh"}}><div style={{fontFamily:"Anton, sans-serif",fontSize:32,color:"#0f1f3d"}}>ZERO <span style={{color:"#e8193c"}}>TO</span> EMT</div></div>;
   if (!user) return <Auth />;
 
@@ -315,7 +315,7 @@ export default function App() {
     </div>
   );
 
-  // ââ CURRICULUM ââ
+  // -- CURRICULUM --
   if (screen === "curriculum") return (
     <div id="zte-root">
       <Nav />
@@ -361,7 +361,7 @@ export default function App() {
     </div>
   );
 
-  // ââ LESSON ââ
+  // -- LESSON --
   if (screen === "lesson" && activeLesson && activeModule) {
     const lesson = activeLesson;
     const mod = activeModule;
@@ -407,7 +407,7 @@ export default function App() {
                   return (
                     <div key={l.id} className="zte-strip-item">
                       <div className={`zte-strip-node ${done ? "done" : active ? "active" : !unlocked ? "locked" : "upcoming"}`}>
-                        {done ? "â" : String(l.id).padStart(2,"0")}
+                        {done ? <span>&#10003;</span> : String(l.id).padStart(2,"0")}
                       </div>
                       <div className={`zte-strip-label ${active ? "active" : ""}`}>{l.title}</div>
                       {!isLast && <div className={`zte-strip-connector ${done ? "done" : ""}`}/>}
@@ -548,7 +548,7 @@ export default function App() {
                     <button className="zte-btn-secondary" onClick={() => { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, lesson.id === 6 ? 10 : 5)); }}>Retake Quiz</button>
                     <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>Ask AI Tutor</button>
                     {nextLesson
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} â` : "Next Lesson &rarr;"}</button>
+                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : "Next Lesson &rarr;"}</button>
                       : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>
                     }
                   </div>
@@ -583,13 +583,13 @@ export default function App() {
                   ],
                   "post-lesson": [
                     `Summarize the key points before I take the quiz.`,
-                    `Quiz me on this lesson â one question at a time.`,
+                    `Quiz me on this lesson  -  one question at a time.`,
                     `What from this lesson is most likely to appear on the NREMT exam?`,
                   ],
                   "post-quiz-open": [
                     `Help me understand any concepts I'm unsure about.`,
                     `What should I focus on before finishing the quiz?`,
-                    `Quiz me on ${lesson.title} â one question at a time.`,
+                    `Quiz me on ${lesson.title}  -  one question at a time.`,
                   ],
                   "quiz-done": quizScore === quizDeck.length ? [
                     `What should I know beyond what this lesson covered?`,
@@ -598,7 +598,7 @@ export default function App() {
                   ] : [
                     `Can you explain what I might have got wrong?`,
                     `Walk me through the trickiest concepts in this lesson.`,
-                    `Quiz me again â one question at a time.`,
+                    `Quiz me again  -  one question at a time.`,
                   ],
                 }[prevTab];
 
@@ -607,7 +607,7 @@ export default function App() {
                   "mid-lesson": `The student is on section ${lessonStep + 1} of ${lesson.content.length}: "${lesson.content[lessonStep].heading}". Content: ${lesson.content[lessonStep].body.slice(0, 200)}...`,
                   "post-lesson": `The student has finished reading all lesson content and is about to take the quiz.`,
                   "post-quiz-open": `The student has started the quiz but hasn't finished it yet.`,
-                  "quiz-done": `The student just completed the quiz and scored ${quizScore} out of ${quizDeck.length}. ${quizScore < 3 ? "They struggled â focus on reinforcing the core concepts." : quizScore === quizDeck.length ? "They got a perfect score â they can go deeper." : "They did okay but have some gaps to fill."}`,
+                  "quiz-done": `The student just completed the quiz and scored ${quizScore} out of ${quizDeck.length}. ${quizScore < 3 ? "They struggled  -  focus on reinforcing the core concepts." : quizScore === quizDeck.length ? "They got a perfect score  -  they can go deeper." : "They did okay but have some gaps to fill."}`,
                 }[prevTab];
 
                 return (
@@ -622,14 +622,14 @@ export default function App() {
                   <div className="zte-tutor-messages">
                     {tutorMessages.length > 0 && tutorLastStep !== null && tutorLastStep !== lessonStep && (
                       <div className="zte-tutor-context-changed">
-                        You moved to section {lessonStep + 1}: <strong>"{lesson.content[lessonStep].heading}"</strong> â I'm up to date.
+                        You moved to section {lessonStep + 1}: <strong>"{lesson.content[lessonStep].heading}"</strong>  -  I'm up to date.
                       </div>
                     )}
                     {tutorMessages.length === 0 && (
                       <div className="zte-tutor-suggestions">
                         <div className="zte-tutor-suggest-label">
                           {prevTab === "quiz-done" && quizScore < quizDeck.length ? "Let's work on what you missed:" :
-                           prevTab === "quiz-done" ? "Perfect score â go deeper:" :
+                           prevTab === "quiz-done" ? "Perfect score  -  go deeper:" :
                            prevTab === "post-lesson" ? "Ready to review before the quiz?" :
                            prevTab === "mid-lesson" ? "Stuck on something? Ask me:" :
                            "Where do you want to start?"}
@@ -677,7 +677,7 @@ export default function App() {
                   <div className="zte-tutor-disclaimer">AI Tutor is for learning only. Always follow your training program and medical director's protocols.</div>
                   <div className="zte-tutor-nav">
                     {nextLesson
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} â` : "Next Lesson &rarr;"}</button>
+                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : "Next Lesson &rarr;"}</button>
                       : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>
                     }
                   </div>
@@ -708,14 +708,14 @@ LESSON CONTENT:
 ${lesson.content.map(b => `## ${b.heading}\n${b.body}`).join("\n\n")}
 
 KEY TERMS (from flashcards):
-${lesson.flashcards.map(f => `Q: ${f.front} â A: ${f.back}`).join("\n")}
+${lesson.flashcards.map(f => `Q: ${f.front} -> A: ${f.back}`).join("\n")}
       `.trim();
 
       const systemPrompt = `You are an AI Tutor for Zero to EMT, a free platform helping adults with no medical background prepare for their EMT course and the NREMT certification exam.
 
 You have deep knowledge of emergency medical services, EMT scope of practice, and the NREMT exam.
 
-Your job is to help the student understand the current lesson content. Be encouraging, clear, and concise. Use plain language â this student is a working adult with no medical background preparing for their first EMT class.
+Your job is to help the student understand the current lesson content. Be encouraging, clear, and concise. Use plain language  -  this student is a working adult with no medical background preparing for their first EMT class.
 
 CURRENT LESSON CONTEXT:
 ${lessonContext}
@@ -723,7 +723,7 @@ ${lessonContext}
 STUDENT'S CURRENT SITUATION:
 ${situationContext}
 
-Use this to inform your response â be proactive about what they likely need right now.
+Use this to inform your response  -  be proactive about what they likely need right now.
 
 RULES:
 - Stay focused on EMT education and this lesson's content
@@ -742,7 +742,7 @@ FOLLOWUPS:
 2. [follow-up, max 10 words]
 3. [follow-up, max 10 words]
 
-The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start with a number and period. This block will be parsed and removed from the display â the student will only see it as clickable buttons, not text. Make the follow-ups specific to what was just discussed, progressively deeper, and written as things the student would naturally want to ask next.`;
+The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start with a number and period. This block will be parsed and removed from the display  -  the student will only see it as clickable buttons, not text. Make the follow-ups specific to what was just discussed, progressively deeper, and written as things the student would naturally want to ask next.`;
 
       try {
         const response = await fetch("/.netlify/functions/tutor", {
@@ -756,7 +756,7 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
         const data = await response.json();
         const fullReply = data.content?.[0]?.text || "Sorry, I couldn't get a response. Try again.";
 
-        // Split reply from follow-ups â handle any whitespace variation
+        // Split reply from follow-ups  -  handle any whitespace variation
         const followupSplit = fullReply.split(/\n+FOLLOWUPS:\n/);
         const replyText = followupSplit[0].trim();
         const followUps = [];

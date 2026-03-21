@@ -2,7 +2,7 @@ import { useState } from "react";
 import { supabase } from "../lib/supabase";
 
 export default function Auth() {
-  const [mode, setMode] = useState("login");
+  const [mode, setMode] = useState("login"); // login | signup
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +14,7 @@ export default function Auth() {
     setLoading(true);
     setError("");
     setMessage("");
+
     try {
       if (mode === "signup") {
         const { error } = await supabase.auth.signUp({
@@ -43,8 +44,10 @@ export default function Auth() {
       <div className="zte-auth-card">
         <div className="zte-logo" style={{fontSize: 24, marginBottom: 8}}>ZERO <span>TO</span> EMT</div>
         <div className="zte-tagline-mono" style={{marginBottom: 24}}>Free EMT Pre-Class Training</div>
+
         <h2 className="zte-auth-title">{mode === "login" ? "Welcome back" : "Create your account"}</h2>
         <p className="zte-auth-sub">Your progress saves automatically across all your devices.</p>
+
         <div className="zte-auth-fields">
           {mode === "signup" && (
             <input
@@ -74,12 +77,15 @@ export default function Auth() {
             onKeyDown={e => e.key === "Enter" && handleSubmit()}
           />
         </div>
+
         {error && <div className="zte-auth-error">{error}</div>}
         {message && <div className="zte-auth-message">{message}</div>}
+
         <button className="zte-btn-primary" style={{width: "100%", justifyContent: "center", marginTop: 8}}
           onClick={handleSubmit} disabled={loading || !canSubmit}>
           {loading ? "..." : mode === "login" ? "Log In" : "Create Account"}
         </button>
+
         <div className="zte-auth-switch">
           {mode === "login" ? (
             <>Don't have an account? <button onClick={() => { setMode("signup"); setError(""); setMessage(""); setFirstName(""); }}>Sign up free</button></>
@@ -87,6 +93,7 @@ export default function Auth() {
             <>Already have an account? <button onClick={() => { setMode("login"); setError(""); setMessage(""); }}>Log in</button></>
           )}
         </div>
+
         <div className="zte-auth-disclaimer">Free forever. No credit card. No spam.</div>
       </div>
     </div>
