@@ -8,6 +8,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-nav-links{display:flex;gap:8px;flex:1;}
 .zte-nav-link{background:none;border:none;font-family:'Figtree',sans-serif;font-size:14px;font-weight:500;color:var(--muted);cursor:pointer;padding:6px 12px;border-radius:6px;transition:all .15s;}
 .zte-nav-link:hover,.zte-nav-link.active{color:var(--navy);background:var(--light);}
+.zte-nav-welcome{font-family:'Figtree',sans-serif;font-size:13px;font-weight:600;color:var(--navy);white-space:nowrap;opacity:0.7;}
 .zte-btn-cta{background:var(--navy);color:white;border:none;padding:10px 20px;border-radius:8px;font-family:'Figtree',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:8px;}
 .zte-btn-cta:hover{background:#1a3360;}
 .zte-btn-cta.progress-btn{flex-direction:column;gap:4px;padding:8px 16px;font-size:12px;}
@@ -54,7 +55,6 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-mpc-btn:hover{background:var(--red);}
 .zte-curr-hero{background:var(--navy);padding:56px 48px 48px;}
 .zte-tagline-mono{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--red);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.zte-tagline-mono::before{content:'—';color:var(--red);}
 .zte-curr-title{font-family:'Anton',sans-serif;font-size:clamp(36px,6vw,60px);color:white;line-height:.95;margin-bottom:20px;}
 .zte-curr-sub{font-size:16px;color:rgba(255,255,255,.65);max-width:560px;line-height:1.6;}
 .zte-curr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;padding:48px;max-width:1200px;margin:0 auto;}
@@ -210,8 +210,8 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-auth-disclaimer{text-align:center;font-size:11px;color:var(--muted);margin-top:12px;}
 .zte-btn-signout{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:6px;font-family:'Figtree',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
 .zte-btn-signout:hover{border-color:var(--red);color:var(--red);}
-
-/* ─── MOBILE ─────────────────────────────────────────────────────────────── */
+.zte-btn-reset{background:transparent;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.2);padding:10px 16px;border-radius:8px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.5px;cursor:pointer;transition:all .2s;}
+.zte-btn-reset:hover{color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.4);}
 @media(max-width:768px){
   .zte-hero{padding:40px 24px;}
   .zte-home-curriculum{padding:40px 24px;}
@@ -222,6 +222,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
   .zte-stats-bar{padding:20px 24px;}
   .zte-nav{padding:0 16px;}
   .zte-nav-links{display:none;}
+  .zte-nav-welcome{display:none;}
   .zte-strip-label{display:none;}
   .zte-lesson-main-title{font-size:20px;line-height:1.15;}
   .zte-content-body{font-size:18px;line-height:1.9;}

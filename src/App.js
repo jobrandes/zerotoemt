@@ -38,7 +38,12 @@ export default function App() {
   const [tutorFollowUps, setTutorFollowUps] = useState([]);
   const [tutorLastStep, setTutorLastStep] = useState(null);
 
+  // CSS loaded via App.css
+
+  // Auth + progress sync
   useEffect(() => {
+    // Step 1: Always load localStorage immediately â works for ALL users on ALL devices
+    // This ensures auto-resume fires even before Supabase auth resolves
     try {
       const local = JSON.parse(localStorage.getItem("zte-progress") || "null");
       if (Array.isArray(local) && local.length > 0) {
@@ -47,6 +52,7 @@ export default function App() {
     } catch {}
     setProgressLoaded(true);
 
+    // Step 2: Then check Supabase â if logged in, sync from server (server wins)
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) loadProgressFromServer(session.user.id);
@@ -61,10 +67,20 @@ export default function App() {
 
   async function loadProgressFromServer(userId) {
     const { data } = await supabase.from("progress").select("completed_lessons").eq("user_id", userId).maybeSingle();
-    if (data?.completed_lessons) {
-      const deduped = [...new Set(data.completed_lessons)];
-      setCompletedLessons(deduped);
-      try { localStorage.setItem("zte-progress", JSON.stringify(deduped)); } catch {}
+    // Merge server + local â whichever device has MORE completed lessons wins
+    // This prevents a stale Supabase row from clobbering fresher localStorage progress
+    const serverLessons = data?.completed_lessons || [];
+    let localLessons = [];
+    try { localLessons = JSON.parse(localStorage.getItem("zte-progress") || "[]"); } catch {}
+    const merged = [...new Set([...serverLessons, ...localLessons])];
+    if (merged.length > 0) {
+      setCompletedLessons(merged);
+      try { localStorage.setItem("zte-progress", JSON.stringify(merged)); } catch {}
+      // Write merged set back to Supabase so all devices stay in sync
+      await supabase.from("progress").upsert(
+        { user_id: userId, completed_lessons: merged, updated_at: new Date().toISOString() },
+        { onConflict: "user_id" }
+      );
     }
   }
 
@@ -81,6 +97,7 @@ export default function App() {
     if (user) saveProgress(completedLessons);
   }, [completedLessons]);
 
+  // Auto-resume on page load once progress is loaded
   useEffect(() => {
     if (!progressLoaded || autoNavigated.current) return;
     autoNavigated.current = true;
@@ -88,6 +105,7 @@ export default function App() {
     if (r) openLesson(r.mId, r.lId);
   }, [progressLoaded]);
 
+  // Refresh tutor follow-ups when student moves to a different lesson section
   useEffect(() => {
     setTutorFollowUps([]);
     if (lessonTab === "tutor") setTutorLastStep(lessonStep);
@@ -95,6 +113,11 @@ export default function App() {
 
   const builtLessons = Object.keys(LESSON_DATA).length;
   const progress = Math.round((completedLessons.length / builtLessons) * 100);
+  // Derive a friendly first name: check metadata first, fall back to email prefix
+  const displayName = user?.user_metadata?.first_name
+    || user?.user_metadata?.full_name?.split(" ")[0]
+    || user?.email?.split("@")[0]
+    || "";
   const isLessonCompleted = (mId, lId) => completedLessons.includes(`${mId}-${lId}`);
   const isLessonUnlocked = (mId, lId) => {
     if (mId !== 0) return MODULES[0].lessons.every(l => isLessonCompleted(0, l.id));
@@ -145,6 +168,7 @@ export default function App() {
     if (idx < lessons.length - 1) {
       return { mId: activeModuleId, lId: lessons[idx + 1].id };
     }
+    // Cross into next module if it has built content
     const nextMod = MODULES[activeModuleId + 1];
     if (nextMod) {
       const firstBuilt = nextMod.lessons.find(l => LESSON_DATA[`${nextMod.id}-${l.id}`]);
@@ -160,7 +184,7 @@ export default function App() {
         <div className="zte-footer-disclaimer">
           <strong>Educational Use Only.</strong> Zero to EMT is a free study preparation platform designed to help students prepare for EMT coursework and the NREMT certification exam. The content on this site is for educational and informational purposes only. It does not constitute medical advice, clinical guidance, or professional medical training. It is not a substitute for formal EMT certification, accredited coursework, or the judgment of a licensed medical professional. Zero to EMT is not affiliated with, endorsed by, or approved by the National Registry of Emergency Medical Technicians (NREMT) or any state EMS regulatory body. Always follow the protocols established by your training program and medical director.
         </div>
-        <div className="zte-footer-copy">© {new Date().getFullYear()} Zero to EMT · Built for future EMTs · Always free</div>
+        <div className="zte-footer-copy">Â© {new Date().getFullYear()} Zero to EMT Â· Built for future EMTs Â· Always free</div>
       </div>
     </footer>
   );
@@ -172,20 +196,24 @@ export default function App() {
         <button className={`zte-nav-link ${screen === "home" ? "active" : ""}`} onClick={() => setScreen("home")}>Home</button>
         <button className={`zte-nav-link ${screen === "curriculum" ? "active" : ""}`} onClick={() => setScreen("curriculum")}>Curriculum</button>
       </div>
-      {showProgress ? (
-        <button className="zte-btn-cta progress-btn" onClick={() => { const r = getResumeLesson(); if (r) openLesson(r.mId, r.lId); }}>
-          <div className="zte-progress-mini"><div className="zte-progress-mini-fill" style={{width: `${progress}%`}}/></div>
-          Continue ({progress}%)
-        </button>
-      ) : (
-        <div style={{display:"flex",gap:8,alignItems:"center",flexShrink:0}}>
-          <button className="zte-btn-cta" onClick={() => openLesson(0, 1)}>Start Free →</button>
-          <button className="zte-btn-signout" onClick={() => supabase.auth.signOut()}>Sign Out</button>
-        </div>
-      )}
+      <div style={{display:"flex",gap:8,alignItems:"center",flexShrink:0}}>
+        {displayName && <span className="zte-nav-welcome">Hey, {displayName} ð</span>}
+        {showProgress ? (
+          <button className="zte-btn-cta progress-btn" onClick={() => { const r = getResumeLesson(); if (r) openLesson(r.mId, r.lId); }}>
+            <div className="zte-progress-mini"><div className="zte-progress-mini-fill" style={{width: `${progress}%`}}/></div>
+            Continue ({progress}%)
+          </button>
+        ) : (
+          <>
+            <button className="zte-btn-cta" onClick={() => openLesson(0, 1)}>Start Free â</button>
+            <button className="zte-btn-signout" onClick={() => supabase.auth.signOut()}>Sign Out</button>
+          </>
+        )}
+      </div>
     </nav>
   );
 
+  // ââ HOME ââ
   if (authLoading) return <div id="zte-root" style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh"}}><div style={{fontFamily:"Anton, sans-serif",fontSize:32,color:"#0f1f3d"}}>ZERO <span style={{color:"#e8193c"}}>TO</span> EMT</div></div>;
   if (!user) return <Auth />;
 
@@ -194,24 +222,24 @@ export default function App() {
       <Nav />
       <section className="zte-hero">
         <div className="zte-hero-left">
-          <div className="zte-hero-eyebrow">EMT CERTIFICATION PREP</div>
+          <div className="zte-hero-eyebrow">{completedLessons.length > 0 && displayName ? `WELCOME BACK, ${displayName.toUpperCase()}` : "EMT CERTIFICATION PREP"}</div>
           <h1 className="zte-hero-title">ZERO<br/>TO<br/><span>EMT.</span></h1>
           <p className="zte-hero-desc">The only free, AI-powered platform built for people with zero medical background. Learn everything before your first EMT class even starts.</p>
           <div className="zte-hero-btns">
             <button className="zte-btn-hero-primary" onClick={() => { const r = getResumeLesson(); openLesson(r ? r.mId : 0, r ? r.lId : 1); }}>{completedLessons.length > 0 ? "CONTINUE LEARNING" : "START LEARNING FREE"}</button>
             <button className="zte-btn-hero-secondary" onClick={() => setScreen("curriculum")}>See Curriculum</button>
             {completedLessons.length > 0 && (
-              <button className="zte-btn-reset" onClick={() => { setCompletedLessons([]); try { localStorage.removeItem("zte-progress"); } catch {} }}>↺ Reset Progress</button>
+              <button className="zte-btn-reset" onClick={() => { setCompletedLessons([]); try { localStorage.removeItem("zte-progress"); } catch {} }}>âº Reset Progress</button>
             )}
           </div>
         </div>
         <div className="zte-hero-right">
           <div className="zte-hero-card">
             {[
-              { icon: "🎓", num: "6", label: "Modules", sub: "Foundation through Operations" },
-              { icon: "📖", num: "40+", label: "Lessons", sub: "Each built around a real 911 call" },
-              { icon: "🤖", num: "AI", label: "Tutor", sub: "Built into every single lesson" },
-              { icon: "✅", num: "100%", label: "Free", sub: "No account. No credit card. Ever." },
+              { icon: "ð", num: "6", label: "Modules", sub: "Foundation through Operations" },
+              { icon: "ð", num: "40+", label: "Lessons", sub: "Each built around a real 911 call" },
+              { icon: "ð¤", num: "AI", label: "Tutor", sub: "Built into every single lesson" },
+              { icon: "â", num: "100%", label: "Free", sub: "No account. No credit card. Ever." },
             ].map((item, i) => (
               <div key={i} className="zte-hero-feature">
                 <div className="zte-hero-feature-icon">{item.icon}</div>
@@ -235,7 +263,7 @@ export default function App() {
       <section className="zte-home-curriculum">
         <div className="zte-home-curriculum-header">
           <h2 className="zte-section-title">THE CURRICULUM</h2>
-          <div className="zte-section-meta">NREMT-ALIGNED · {TOTAL_LESSONS} LESSONS</div>
+          <div className="zte-section-meta">NREMT-ALIGNED Â· {TOTAL_LESSONS} LESSONS</div>
         </div>
         <div className="zte-module-grid">
           {MODULES.map(mod => (
@@ -258,6 +286,7 @@ export default function App() {
     </div>
   );
 
+  // ââ CURRICULUM ââ
   if (screen === "curriculum") return (
     <div id="zte-root">
       <Nav />
@@ -293,7 +322,7 @@ export default function App() {
               </div>
               <button className={`zte-curr-cta ${!unlocked ? "locked-btn" : ""}`}
                 onClick={() => unlocked && openLesson(mod.id, mod.lessons[0].id)} disabled={!unlocked}>
-                {!unlocked ? `🔒 Complete Module ${mod.id - 1} first` : completed ? "Review Module →" : "Start Module →"}
+                {!unlocked ? `ð Complete Module ${mod.id - 1} first` : completed ? "Review Module â" : "Start Module â"}
               </button>
             </div>
           );
@@ -303,6 +332,7 @@ export default function App() {
     </div>
   );
 
+  // ââ LESSON ââ
   if (screen === "lesson" && activeLesson && activeModule) {
     const lesson = activeLesson;
     const mod = activeModule;
@@ -324,7 +354,7 @@ export default function App() {
             <div className="zte-lesson-main-header">
               <div className="zte-lesson-header-top">
                 <div>
-                  <div className="zte-lesson-breadcrumb">MODULE 0{mod.id} · {mod.title}</div>
+                  <div className="zte-lesson-breadcrumb">MODULE 0{mod.id} Â· {mod.title}</div>
                   <h1 className="zte-lesson-main-title">{lesson.title.toUpperCase()}</h1>
                 </div>
                 <div className="zte-lesson-switcher">
@@ -338,6 +368,7 @@ export default function App() {
                   ))}
                 </div>
               </div>
+              {/* Horizontal lesson progress strip */}
               <div className="zte-lesson-strip">
                 {mod.lessons.map((l, idx) => {
                   const done = isLessonCompleted(mod.id, l.id);
@@ -347,7 +378,7 @@ export default function App() {
                   return (
                     <div key={l.id} className="zte-strip-item">
                       <div className={`zte-strip-node ${done ? "done" : active ? "active" : !unlocked ? "locked" : "upcoming"}`}>
-                        {done ? "✓" : String(l.id).padStart(2,"0")}
+                        {done ? "â" : String(l.id).padStart(2,"0")}
                       </div>
                       <div className={`zte-strip-label ${active ? "active" : ""}`}>{l.title}</div>
                       {!isLast && <div className={`zte-strip-connector ${done ? "done" : ""}`}/>}
@@ -358,11 +389,11 @@ export default function App() {
             </div>
             <div className="zte-lesson-tabs">
               {[
-                { key: "scenario", label: "🚨 Scenario" },
-                { key: "lesson", label: "📖 Lesson" },
-                { key: "flashcards", label: "🃏 Flashcards" },
-                { key: "quiz", label: "✅ Quiz" },
-                { key: "tutor", label: "🤖 AI Tutor" },
+                { key: "scenario", label: "ð¨ Scenario" },
+                { key: "lesson", label: "ð Lesson" },
+                { key: "flashcards", label: "ð Flashcards" },
+                { key: "quiz", label: "â Quiz" },
+                { key: "tutor", label: "ð¤ AI Tutor" },
               ].map(tab => (
                 <button key={tab.key}
                   className={`zte-lesson-tab ${lessonTab === tab.key ? "active" : ""} ${!tabUnlocked[tab.key] ? "locked-tab" : ""}`}
@@ -372,7 +403,7 @@ export default function App() {
                     if (tab.key === "flashcards") { setFcIndex(0); setFcFlipped(false); setFcDeck(shuffle(lesson.flashcards)); }
                     setLessonTab(tab.key);
                   }}>
-                  {tab.label}{!tabUnlocked[tab.key] ? " 🔒" : ""}
+                  {tab.label}{!tabUnlocked[tab.key] ? " ð" : ""}
                 </button>
               ))}
             </div>
@@ -381,16 +412,16 @@ export default function App() {
               {lessonTab === "scenario" && (
                 <div>
                   <div className="zte-dispatch-card">
-                    <div className="zte-dispatch-badge">🔴 LIVE DISPATCH</div>
+                    <div className="zte-dispatch-badge">ð´ LIVE DISPATCH</div>
                     <div className="zte-dispatch-body">
                       <div className="zte-dispatch-line"><span className="zte-dispatch-key">DISPATCH:</span> <span className="zte-dispatch-val">{lesson.dispatch.call}</span></div>
                       <div className="zte-dispatch-line"><span className="zte-dispatch-key">TIME:</span> <span className="zte-dispatch-time">{lesson.dispatch.time}</span>&nbsp;&nbsp;<span className="zte-dispatch-key">ETA:</span> <span className="zte-dispatch-eta">{lesson.dispatch.eta}</span></div>
                     </div>
                     <div className="zte-dispatch-hook">{lesson.dispatch.hook}</div>
                   </div>
-                  <h2 className="zte-scenario-bridge-head">BEFORE WE ANSWER THAT—</h2>
+                  <h2 className="zte-scenario-bridge-head">BEFORE WE ANSWER THATâ</h2>
                   <p className="zte-scenario-bridge">{lesson.dispatch.bridge}</p>
-                  <button className="zte-btn-primary" onClick={() => { unlockTab("lesson"); setLessonTab("lesson"); }}>Start the Lesson →</button>
+                  <button className="zte-btn-primary" onClick={() => { unlockTab("lesson"); setLessonTab("lesson"); }}>Start the Lesson â</button>
                 </div>
               )}
 
@@ -402,10 +433,10 @@ export default function App() {
                   <h2 className="zte-content-heading">{lesson.content[lessonStep].heading}</h2>
                   <p className="zte-content-body">{renderBold(lesson.content[lessonStep].body)}</p>
                   <div className="zte-lesson-nav">
-                    {lessonStep > 0 && <button className="zte-btn-secondary" onClick={() => setLessonStep(s => s-1)}>← Prev</button>}
+                    {lessonStep > 0 && <button className="zte-btn-secondary" onClick={() => setLessonStep(s => s-1)}>â Prev</button>}
                     {lessonStep < lesson.content.length - 1
-                      ? <button className="zte-btn-primary" onClick={() => setLessonStep(s => s+1)}>Next →</button>
-                      : <button className="zte-btn-primary" onClick={() => { unlockTab("flashcards"); setLessonTab("flashcards"); setFcIndex(0); setFcFlipped(false); setFcDeck(shuffle(lesson.flashcards)); }}>Flashcards →</button>
+                      ? <button className="zte-btn-primary" onClick={() => setLessonStep(s => s+1)}>Next â</button>
+                      : <button className="zte-btn-primary" onClick={() => { unlockTab("flashcards"); setLessonTab("flashcards"); setFcIndex(0); setFcFlipped(false); setFcDeck(shuffle(lesson.flashcards)); }}>Flashcards â</button>
                     }
                     <span className="zte-step-counter">{lessonStep + 1} / {lesson.content.length}</span>
                   </div>
@@ -428,11 +459,11 @@ export default function App() {
                     </div>
                   </div>
                   <div className="zte-fc-controls">
-                    <button className="zte-btn-secondary" disabled={fcIndex === 0} onClick={() => { setFcIndex(i => i-1); setFcFlipped(false); }}>← Prev</button>
+                    <button className="zte-btn-secondary" disabled={fcIndex === 0} onClick={() => { setFcIndex(i => i-1); setFcFlipped(false); }}>â Prev</button>
                     <span className="zte-fc-counter">{fcIndex + 1} / {fcDeck.length}</span>
                     {fcIndex < fcDeck.length - 1
-                      ? <button className="zte-btn-primary" onClick={() => { setFcIndex(i => i+1); setFcFlipped(false); }}>Next →</button>
-                      : <button className="zte-btn-primary" onClick={() => { unlockTab("quiz"); setLessonTab("quiz"); setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, lesson.id === 6 ? 10 : 5)); }}>Take Quiz →</button>
+                      ? <button className="zte-btn-primary" onClick={() => { setFcIndex(i => i+1); setFcFlipped(false); }}>Next â</button>
+                      : <button className="zte-btn-primary" onClick={() => { unlockTab("quiz"); setLessonTab("quiz"); setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, lesson.id === 6 ? 10 : 5)); }}>Take Quiz â</button>
                     }
                   </div>
                 </div>
@@ -465,7 +496,7 @@ export default function App() {
                       <button className="zte-btn-primary" onClick={() => {
                         if (quizIndex < quizDeck.length - 1) { setQuizIndex(i => i+1); setQuizSelected(null); setQuizAnswered(false); }
                         else setQuizDone(true);
-                      }}>{quizIndex < quizDeck.length - 1 ? "Next Question →" : "See Results →"}</button>
+                      }}>{quizIndex < quizDeck.length - 1 ? "Next Question â" : "See Results â"}</button>
                       <div className="zte-explanation">{quizDeck[quizIndex].explanation}</div>
                     </>
                   )}
@@ -474,22 +505,22 @@ export default function App() {
 
               {lessonTab === "quiz" && quizDone && (
                 <div className="zte-results">
-                  <div className="zte-results-icon">{quizScore === quizDeck.length ? "🏆" : quizScore >= 3 ? "✅" : "📚"}</div>
+                  <div className="zte-results-icon">{quizScore === quizDeck.length ? "ð" : quizScore >= 3 ? "â" : "ð"}</div>
                   <div className="zte-results-title">LESSON COMPLETE</div>
                   <div className="zte-results-score">{quizScore}/{quizDeck.length}</div>
                   <div className="zte-results-msg">{quizScore === quizDeck.length ? "Perfect score!" : quizScore >= 3 ? "Good work. Review any misses." : "Review the lesson again."}</div>
                   <div className="zte-results-btns">
                     <button className="zte-btn-secondary" onClick={() => { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, lesson.id === 6 ? 10 : 5)); }}>Retake Quiz</button>
-                    <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>🤖 Ask AI Tutor</button>
+                    <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>ð¤ Ask AI Tutor</button>
                     {nextLesson
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} →` : "Next Lesson →"}</button>
-                      : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum →</button>
+                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} â` : "Next Lesson â"}</button>
+                      : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum â</button>
                     }
                   </div>
                 </div>
               )}
-
               {lessonTab === "tutor" && (() => {
+                // Determine tutor context based on where student is
                 const prevTab = tabUnlocked.quiz && quizDone ? "quiz-done"
                   : tabUnlocked.quiz ? "post-quiz-open"
                   : tabUnlocked.flashcards ? "post-lesson"
@@ -517,13 +548,13 @@ export default function App() {
                   ],
                   "post-lesson": [
                     `Summarize the key points before I take the quiz.`,
-                    `Quiz me on this lesson — one question at a time.`,
+                    `Quiz me on this lesson â one question at a time.`,
                     `What from this lesson is most likely to appear on the NREMT exam?`,
                   ],
                   "post-quiz-open": [
                     `Help me understand any concepts I'm unsure about.`,
                     `What should I focus on before finishing the quiz?`,
-                    `Quiz me on ${lesson.title} — one question at a time.`,
+                    `Quiz me on ${lesson.title} â one question at a time.`,
                   ],
                   "quiz-done": quizScore === quizDeck.length ? [
                     `What should I know beyond what this lesson covered?`,
@@ -532,7 +563,7 @@ export default function App() {
                   ] : [
                     `Can you explain what I might have got wrong?`,
                     `Walk me through the trickiest concepts in this lesson.`,
-                    `Quiz me again — one question at a time.`,
+                    `Quiz me again â one question at a time.`,
                   ],
                 }[prevTab];
 
@@ -541,28 +572,29 @@ export default function App() {
                   "mid-lesson": `The student is on section ${lessonStep + 1} of ${lesson.content.length}: "${lesson.content[lessonStep].heading}". Content: ${lesson.content[lessonStep].body.slice(0, 200)}...`,
                   "post-lesson": `The student has finished reading all lesson content and is about to take the quiz.`,
                   "post-quiz-open": `The student has started the quiz but hasn't finished it yet.`,
-                  "quiz-done": `The student just completed the quiz and scored ${quizScore} out of ${quizDeck.length}. ${quizScore < 3 ? "They struggled — focus on reinforcing the core concepts." : quizScore === quizDeck.length ? "They got a perfect score — they can go deeper." : "They did okay but have some gaps to fill."}`,
+                  "quiz-done": `The student just completed the quiz and scored ${quizScore} out of ${quizDeck.length}. ${quizScore < 3 ? "They struggled â focus on reinforcing the core concepts." : quizScore === quizDeck.length ? "They got a perfect score â they can go deeper." : "They did okay but have some gaps to fill."}`,
                 }[prevTab];
 
                 return (
                 <div className="zte-tutor-panel">
                   <div className="zte-tutor-header">
-                    <div className="zte-tutor-title">🤖 AI Tutor</div>
+                    <div className="zte-tutor-title">ð¤ AI Tutor</div>
                     <div className="zte-tutor-context-row">
-                      <span className="zte-tutor-context">📍 {contextLabel}</span>
+                      <span className="zte-tutor-context">ð {contextLabel}</span>
                     </div>
                   </div>
+
                   <div className="zte-tutor-messages">
                     {tutorMessages.length > 0 && tutorLastStep !== null && tutorLastStep !== lessonStep && (
                       <div className="zte-tutor-context-changed">
-                        📍 You moved to section {lessonStep + 1}: <strong>"{lesson.content[lessonStep].heading}"</strong> — I'm up to date.
+                        ð You moved to section {lessonStep + 1}: <strong>"{lesson.content[lessonStep].heading}"</strong> â I'm up to date.
                       </div>
                     )}
                     {tutorMessages.length === 0 && (
                       <div className="zte-tutor-suggestions">
                         <div className="zte-tutor-suggest-label">
                           {prevTab === "quiz-done" && quizScore < quizDeck.length ? "Let's work on what you missed:" :
-                           prevTab === "quiz-done" ? "Perfect score — go deeper:" :
+                           prevTab === "quiz-done" ? "Perfect score â go deeper:" :
                            prevTab === "post-lesson" ? "Ready to review before the quiz?" :
                            prevTab === "mid-lesson" ? "Stuck on something? Ask me:" :
                            "Where do you want to start?"}
@@ -593,6 +625,7 @@ export default function App() {
                       </div>
                     )}
                   </div>
+
                   <div className="zte-tutor-input-row">
                     <input
                       className="zte-tutor-input"
@@ -603,14 +636,14 @@ export default function App() {
                       onKeyDown={e => { if (e.key === "Enter" && tutorInput.trim() && !tutorLoading) sendTutorMessage(situationContext); }}
                     />
                     <button className="zte-tutor-send" disabled={!tutorInput.trim() || tutorLoading} onClick={() => sendTutorMessage(situationContext)}>
-                      {tutorLoading ? "..." : "Send →"}
+                      {tutorLoading ? "..." : "Send â"}
                     </button>
                   </div>
                   <div className="zte-tutor-disclaimer">AI Tutor is for learning only. Always follow your training program and medical director's protocols.</div>
                   <div className="zte-tutor-nav">
                     {nextLesson
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} →` : "Next Lesson →"}</button>
-                      : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum →</button>
+                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} â` : "Next Lesson â"}</button>
+                      : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum â</button>
                     }
                   </div>
                 </div>
@@ -640,14 +673,14 @@ LESSON CONTENT:
 ${lesson.content.map(b => `## ${b.heading}\n${b.body}`).join("\n\n")}
 
 KEY TERMS (from flashcards):
-${lesson.flashcards.map(f => `Q: ${f.front} → A: ${f.back}`).join("\n")}
+${lesson.flashcards.map(f => `Q: ${f.front} â A: ${f.back}`).join("\n")}
       `.trim();
 
       const systemPrompt = `You are an AI Tutor for Zero to EMT, a free platform helping adults with no medical background prepare for their EMT course and the NREMT certification exam.
 
 You have deep knowledge of emergency medical services, EMT scope of practice, and the NREMT exam.
 
-Your job is to help the student understand the current lesson content. Be encouraging, clear, and concise. Use plain language — this student is a working adult with no medical background preparing for their first EMT class.
+Your job is to help the student understand the current lesson content. Be encouraging, clear, and concise. Use plain language â this student is a working adult with no medical background preparing for their first EMT class.
 
 CURRENT LESSON CONTEXT:
 ${lessonContext}
@@ -655,7 +688,7 @@ ${lessonContext}
 STUDENT'S CURRENT SITUATION:
 ${situationContext}
 
-Use this to inform your response — be proactive about what they likely need right now.
+Use this to inform your response â be proactive about what they likely need right now.
 
 RULES:
 - Stay focused on EMT education and this lesson's content
@@ -674,7 +707,7 @@ FOLLOWUPS:
 2. [follow-up, max 10 words]
 3. [follow-up, max 10 words]
 
-The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start with a number and period. This block will be parsed and removed from the display — the student will only see it as clickable buttons, not text. Make the follow-ups specific to what was just discussed, progressively deeper, and written as things the student would naturally want to ask next.`;
+The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start with a number and period. This block will be parsed and removed from the display â the student will only see it as clickable buttons, not text. Make the follow-ups specific to what was just discussed, progressively deeper, and written as things the student would naturally want to ask next.`;
 
       try {
         const response = await fetch("/.netlify/functions/tutor", {
@@ -688,6 +721,7 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
         const data = await response.json();
         const fullReply = data.content?.[0]?.text || "Sorry, I couldn't get a response. Try again.";
 
+        // Split reply from follow-ups â handle any whitespace variation
         const followupSplit = fullReply.split(/\n+FOLLOWUPS:\n/);
         const replyText = followupSplit[0].trim();
         const followUps = [];
@@ -698,6 +732,7 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
             if (match) followUps.push(match[1].trim());
           });
         }
+        // Fallback: if split didn't work, try finding FOLLOWUPS anywhere in text
         if (followUps.length === 0 && fullReply.includes("FOLLOWUPS:")) {
           const idx = fullReply.indexOf("FOLLOWUPS:");
           const afterBlock = fullReply.slice(idx + 10).trim();
@@ -705,6 +740,7 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
             const match = line.match(/^\d+\.\s+(.+)$/);
             if (match) followUps.push(match[1].trim());
           });
+          // Remove the FOLLOWUPS block from the display text
           const cleanReply = fullReply.slice(0, idx).trim();
           setTutorMessages(prev => [...prev, { role: "assistant", content: cleanReply }]);
           setTutorFollowUps(followUps.slice(0, 3));
