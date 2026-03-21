@@ -141,12 +141,16 @@ export default function App() {
     ? rawName.charAt(0).toUpperCase() + rawName.slice(1).toLowerCase()
     : null;
   const isLessonCompleted = (mId, lId) => completedLessons.includes(`${mId}-${lId}`);
+  const [devMode, setDevMode] = useState(false);
+
   const isLessonUnlocked = (mId, lId) => {
+    if (devMode) return true;
     if (mId !== 0) return MODULES[0].lessons.every(l => isLessonCompleted(0, l.id));
     if (lId === 1) return true;
     return isLessonCompleted(mId, lId - 1);
   };
   const isModuleUnlocked = (mId) => {
+    if (devMode) return true;
     if (mId === 0) return true;
     return MODULES[mId - 1].lessons.every(l => isLessonCompleted(mId - 1, l.id));
   };
@@ -235,6 +239,7 @@ export default function App() {
               {hasProgress ? `Continue (${progress}%)` : "Start Free ->"}
             </button>
             <button className="zte-btn-signout" onClick={() => supabase.auth.signOut()}>Sign Out</button>
+            <button className={`zte-btn-devmode ${devMode ? "on" : ""}`} onClick={() => setDevMode(d => !d)} title="Toggle dev mode">{devMode ? "DEV ON" : "DEV"}</button>
           </>
         )}
       </div>

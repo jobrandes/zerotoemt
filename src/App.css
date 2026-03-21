@@ -222,6 +222,9 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-auth-disclaimer{text-align:center;font-size:11px;color:var(--muted);margin-top:12px;}
 .zte-btn-signout{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:6px;font-family:'Figtree',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
 .zte-btn-signout:hover{border-color:var(--red);color:var(--red);}
+.zte-btn-devmode{background:none;border:1px solid var(--border);color:var(--muted);padding:5px 10px;border-radius:6px;font-family:'Space Mono',monospace;font-size:10px;cursor:pointer;transition:all .2s;opacity:0.5;}
+.zte-btn-devmode:hover{opacity:1;}
+.zte-btn-devmode.on{background:var(--red);border-color:var(--red);color:white;opacity:1;}
 
 /* âââ MOBILE âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 @media(max-width:768px){
