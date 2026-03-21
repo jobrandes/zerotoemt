@@ -55,7 +55,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-mpc-btn:hover{background:var(--red);}
 .zte-curr-hero{background:var(--navy);padding:56px 48px 48px;}
 .zte-tagline-mono{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--red);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.zte-tagline-mono::before{content:'▶';color:var(--red);}
+.zte-tagline-mono::before{content:'â';color:var(--red);}
 .zte-curr-title{font-family:'Anton',sans-serif;font-size:clamp(36px,6vw,60px);color:white;line-height:.95;margin-bottom:20px;}
 .zte-curr-sub{font-size:16px;color:rgba(255,255,255,.65);max-width:560px;line-height:1.6;}
 .zte-curr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;padding:48px;max-width:1200px;margin:0 auto;}
@@ -124,6 +124,12 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-content-body{font-size:16px;line-height:1.8;color:#2d2d3d;white-space:pre-line;}
 .zte-content-body strong{font-weight:700;color:var(--navy);}
 .zte-lesson-nav{display:flex;align-items:center;gap:12px;margin-top:36px;flex-wrap:wrap;}
+.zte-video-block{border-radius:12px;overflow:hidden;border:1px solid var(--border);margin:0 0 32px;background:#000;}
+.zte-video-block iframe{display:block;width:100%;aspect-ratio:16/9;border:none;}
+.zte-video-caption{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--light);border-top:1px solid var(--border);}
+.zte-video-source{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;background:var(--navy);color:#fff;letter-spacing:.5px;flex-shrink:0;}
+.zte-video-caption-text{font-family:'Figtree',sans-serif;font-size:12px;color:var(--muted);}
+.zte-video-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin:0 0 12px;}
 .zte-step-counter{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-left:auto;}
 .zte-btn-primary{background:var(--navy);color:white;border:none;padding:13px 28px;border-radius:8px;font-family:'Figtree',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
 .zte-btn-primary:hover{background:var(--red);transform:translateY(-1px);}
@@ -214,10 +220,8 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-auth-disclaimer{text-align:center;font-size:11px;color:var(--muted);margin-top:12px;}
 .zte-btn-signout{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:6px;font-family:'Figtree',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
 .zte-btn-signout:hover{border-color:var(--red);color:var(--red);}
-.zte-btn-reset{background:none;border:none;color:rgba(255,255,255,.4);font-family:'Figtree',sans-serif;font-size:13px;cursor:pointer;padding:4px 0;text-decoration:underline;}
-.zte-btn-reset:hover{color:rgba(255,255,255,.7);}
 
-/* ─── MOBILE ────────────────────────────────────────────────────────────── */
+/* âââ MOBILE âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
 @media(max-width:768px){
   .zte-hero{padding:40px 24px;}
   .zte-home-curriculum{padding:40px 24px;}
