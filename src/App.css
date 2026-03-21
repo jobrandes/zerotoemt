@@ -99,7 +99,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-lesson-tab{background:none;border:none;padding:14px 18px;font-family:'Figtree',sans-serif;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;}
 .zte-lesson-tab.active{color:var(--navy);border-bottom-color:var(--red);}
 .zte-lesson-tab.locked-tab{cursor:not-allowed;opacity:.55;color:#9ca3af;background:var(--light);}
-.zte-lesson-tab.locked-tab::after{content:" \2022";font-size:10px;vertical-align:middle;opacity:0.5;}
+.zte-lesson-tab.locked-tab::after{content:" *";font-size:10px;vertical-align:middle;opacity:0.5;}
 .zte-lesson-tab:hover:not(.locked-tab){color:var(--navy);}
 .zte-lesson-content{padding:36px 40px 80px;max-width:860px;margin:0 auto;}
 .zte-lesson-switcher{display:flex;gap:6px;}
