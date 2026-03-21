@@ -232,7 +232,7 @@ export default function App() {
         ) : (
           <>
             <button className="zte-btn-cta" onClick={() => { const r = getResumeLesson(); openLesson(r ? r.mId : 0, r ? r.lId : 1); }}>
-              {hasProgress ? `Continue (${progress}%)` : "Start Free &rarr;"}
+              {hasProgress ? `Continue (${progress}%)` : "Start Free ->"}
             </button>
             <button className="zte-btn-signout" onClick={() => supabase.auth.signOut()}>Sign Out</button>
           </>
@@ -351,7 +351,7 @@ export default function App() {
               </div>
               <button className={`zte-curr-cta ${!unlocked ? "locked-btn" : ""}`}
                 onClick={() => unlocked && openLesson(mod.id, mod.lessons[0].id)} disabled={!unlocked}>
-                {!unlocked ? `Complete Module ${mod.id - 1} first` : completed ? "Review Module &rarr;" : "Start Module &rarr;"}
+                {!unlocked ? `Complete Module ${mod.id - 1} first` : completed ? "Review Module ->" : "Start Module ->"}
               </button>
             </div>
           );
@@ -418,11 +418,11 @@ export default function App() {
             </div>
             <div className="zte-lesson-tabs">
               {[
-                { key: "scenario", label: "Scenario" },
-                { key: "lesson", label: "Lesson" },
-                { key: "flashcards", label: "Flashcards" },
-                { key: "quiz", label: "Quiz" },
-                { key: "tutor", label: "AI Tutor" },
+                { key: "scenario", label: "Scenario", icon: <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="1" width="11" height="11" rx="2"/><path d="M4 5h5M4 7.5h3"/><circle cx="9.5" cy="8.5" r="1.8"/><path d="M11 10l1 1"/></svg> },
+                { key: "lesson", label: "Lesson", icon: <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M2 1.5h9a.5.5 0 01.5.5v9a.5.5 0 01-.5.5H2a.5.5 0 01-.5-.5V2a.5.5 0 01.5-.5z"/><path d="M4 4.5h5M4 6.5h5M4 8.5h3"/></svg> },
+                { key: "flashcards", label: "Flashcards", icon: <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="9" height="7" rx="1.5"/><path d="M4 1.5h5"/><path d="M6.5 5.5v2M5.5 6.5h2"/></svg> },
+                { key: "quiz", label: "Quiz", icon: <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="6.5" cy="6.5" r="5"/><path d="M6.5 3.5v3.5l2 1.5"/></svg> },
+                { key: "tutor", label: "AI Tutor", icon: <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="6.5" cy="4.5" r="2.5"/><path d="M1.5 11.5c0-2.76 2.24-5 5-5s5 2.24 5 5"/><path d="M9 2l1 1-1 1"/></svg> },
               ].map(tab => (
                 <button key={tab.key}
                   className={`zte-lesson-tab ${lessonTab === tab.key ? "active" : ""} ${!tabUnlocked[tab.key] ? "locked-tab" : ""}`}
@@ -432,7 +432,7 @@ export default function App() {
                     if (tab.key === "flashcards") { setFcIndex(0); setFcFlipped(false); setFcDeck(shuffle(lesson.flashcards)); }
                     setLessonTab(tab.key);
                   }}>
-                  {tab.label}
+                  {tab.icon}{tab.label}
                 </button>
               ))}
             </div>
@@ -531,7 +531,7 @@ export default function App() {
                       <button className="zte-btn-primary" onClick={() => {
                         if (quizIndex < quizDeck.length - 1) { setQuizIndex(i => i+1); setQuizSelected(null); setQuizAnswered(false); }
                         else setQuizDone(true);
-                      }}>{quizIndex < quizDeck.length - 1 ? "Next Question &rarr;" : "See Results &rarr;"}</button>
+                      }}>{quizIndex < quizDeck.length - 1 ? "Next Question ->" : "See Results ->"}</button>
                       <div className="zte-explanation">{quizDeck[quizIndex].explanation}</div>
                     </>
                   )}
@@ -548,7 +548,7 @@ export default function App() {
                     <button className="zte-btn-secondary" onClick={() => { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, lesson.id === 6 ? 10 : 5)); }}>Retake Quiz</button>
                     <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>Ask AI Tutor</button>
                     {nextLesson
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : "Next Lesson &rarr;"}</button>
+                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : "Next Lesson ->"}</button>
                       : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>
                     }
                   </div>
@@ -671,13 +671,13 @@ export default function App() {
                       onKeyDown={e => { if (e.key === "Enter" && tutorInput.trim() && !tutorLoading) sendTutorMessage(situationContext); }}
                     />
                     <button className="zte-tutor-send" disabled={!tutorInput.trim() || tutorLoading} onClick={() => sendTutorMessage(situationContext)}>
-                      {tutorLoading ? "..." : "Send &rarr;"}
+                      {tutorLoading ? "..." : "Send ->"}
                     </button>
                   </div>
                   <div className="zte-tutor-disclaimer">AI Tutor is for learning only. Always follow your training program and medical director's protocols.</div>
                   <div className="zte-tutor-nav">
                     {nextLesson
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : "Next Lesson &rarr;"}</button>
+                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : "Next Lesson ->"}</button>
                       : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>
                     }
                   </div>
