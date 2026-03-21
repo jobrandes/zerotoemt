@@ -55,7 +55,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-mpc-btn:hover{background:var(--red);}
 .zte-curr-hero{background:var(--navy);padding:56px 48px 48px;}
 .zte-tagline-mono{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--red);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.zte-tagline-mono::before{content:'â';color:var(--red);}
+.zte-tagline-mono::before{content:'//';color:var(--red);opacity:0.5;}
 .zte-curr-title{font-family:'Anton',sans-serif;font-size:clamp(36px,6vw,60px);color:white;line-height:.95;margin-bottom:20px;}
 .zte-curr-sub{font-size:16px;color:rgba(255,255,255,.65);max-width:560px;line-height:1.6;}
 .zte-curr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;padding:48px;max-width:1200px;margin:0 auto;}
@@ -221,7 +221,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-btn-signout{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:6px;font-family:'Figtree',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;}
 .zte-btn-signout:hover{border-color:var(--red);color:var(--red);}
 
-/* âââ MOBILE âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+/* MOBILE */
 @media(max-width:768px){
   .zte-hero{padding:40px 24px;}
   .zte-home-curriculum{padding:40px 24px;}
