@@ -38,35 +38,34 @@ export default function App() {
   const [tutorFollowUps, setTutorFollowUps] = useState([]);
   const [tutorLastStep, setTutorLastStep] = useState(null);
 
-  // CSS loaded via App.css
-
-  // Auth + progress sync
   useEffect(() => {
+    try {
+      const local = JSON.parse(localStorage.getItem("zte-progress") || "null");
+      if (Array.isArray(local) && local.length > 0) {
+        setCompletedLessons([...new Set(local)]);
+      }
+    } catch {}
+    setProgressLoaded(true);
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
-      if (session?.user) loadProgress(session.user.id);
+      if (session?.user) loadProgressFromServer(session.user.id);
       setAuthLoading(false);
     });
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
-      if (session?.user) loadProgress(session.user.id);
+      if (session?.user) loadProgressFromServer(session.user.id);
     });
     return () => subscription.unsubscribe();
   }, []);
 
-  async function loadProgress(userId) {
+  async function loadProgressFromServer(userId) {
     const { data } = await supabase.from("progress").select("completed_lessons").eq("user_id", userId).maybeSingle();
     if (data?.completed_lessons) {
       const deduped = [...new Set(data.completed_lessons)];
       setCompletedLessons(deduped);
       try { localStorage.setItem("zte-progress", JSON.stringify(deduped)); } catch {}
-    } else {
-      try {
-        const local = JSON.parse(localStorage.getItem("zte-progress") || "null");
-        if (Array.isArray(local) && local.length > 0) setCompletedLessons([...new Set(local)]);
-      } catch {}
     }
-    setProgressLoaded(true);
   }
 
   async function saveProgress(lessons) {
@@ -82,7 +81,6 @@ export default function App() {
     if (user) saveProgress(completedLessons);
   }, [completedLessons]);
 
-  // Auto-resume on page load once progress is loaded
   useEffect(() => {
     if (!progressLoaded || autoNavigated.current) return;
     autoNavigated.current = true;
@@ -90,7 +88,6 @@ export default function App() {
     if (r) openLesson(r.mId, r.lId);
   }, [progressLoaded]);
 
-  // Refresh tutor follow-ups when student moves to a different lesson section
   useEffect(() => {
     setTutorFollowUps([]);
     if (lessonTab === "tutor") setTutorLastStep(lessonStep);
@@ -148,7 +145,6 @@ export default function App() {
     if (idx < lessons.length - 1) {
       return { mId: activeModuleId, lId: lessons[idx + 1].id };
     }
-    // Cross into next module if it has built content
     const nextMod = MODULES[activeModuleId + 1];
     if (nextMod) {
       const firstBuilt = nextMod.lessons.find(l => LESSON_DATA[`${nextMod.id}-${l.id}`]);
@@ -190,7 +186,6 @@ export default function App() {
     </nav>
   );
 
-  // ── HOME ──
   if (authLoading) return <div id="zte-root" style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh"}}><div style={{fontFamily:"Anton, sans-serif",fontSize:32,color:"#0f1f3d"}}>ZERO <span style={{color:"#e8193c"}}>TO</span> EMT</div></div>;
   if (!user) return <Auth />;
 
@@ -263,7 +258,6 @@ export default function App() {
     </div>
   );
 
-  // ── CURRICULUM ──
   if (screen === "curriculum") return (
     <div id="zte-root">
       <Nav />
@@ -309,7 +303,6 @@ export default function App() {
     </div>
   );
 
-  // ── LESSON ──
   if (screen === "lesson" && activeLesson && activeModule) {
     const lesson = activeLesson;
     const mod = activeModule;
@@ -345,7 +338,6 @@ export default function App() {
                   ))}
                 </div>
               </div>
-              {/* Horizontal lesson progress strip */}
               <div className="zte-lesson-strip">
                 {mod.lessons.map((l, idx) => {
                   const done = isLessonCompleted(mod.id, l.id);
@@ -496,8 +488,8 @@ export default function App() {
                   </div>
                 </div>
               )}
+
               {lessonTab === "tutor" && (() => {
-                // Determine tutor context based on where student is
                 const prevTab = tabUnlocked.quiz && quizDone ? "quiz-done"
                   : tabUnlocked.quiz ? "post-quiz-open"
                   : tabUnlocked.flashcards ? "post-lesson"
@@ -560,7 +552,6 @@ export default function App() {
                       <span className="zte-tutor-context">📍 {contextLabel}</span>
                     </div>
                   </div>
-
                   <div className="zte-tutor-messages">
                     {tutorMessages.length > 0 && tutorLastStep !== null && tutorLastStep !== lessonStep && (
                       <div className="zte-tutor-context-changed">
@@ -602,7 +593,6 @@ export default function App() {
                       </div>
                     )}
                   </div>
-
                   <div className="zte-tutor-input-row">
                     <input
                       className="zte-tutor-input"
@@ -698,7 +688,6 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
         const data = await response.json();
         const fullReply = data.content?.[0]?.text || "Sorry, I couldn't get a response. Try again.";
 
-        // Split reply from follow-ups — handle any whitespace variation
         const followupSplit = fullReply.split(/\n+FOLLOWUPS:\n/);
         const replyText = followupSplit[0].trim();
         const followUps = [];
@@ -709,7 +698,6 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
             if (match) followUps.push(match[1].trim());
           });
         }
-        // Fallback: if split didn't work, try finding FOLLOWUPS anywhere in text
         if (followUps.length === 0 && fullReply.includes("FOLLOWUPS:")) {
           const idx = fullReply.indexOf("FOLLOWUPS:");
           const afterBlock = fullReply.slice(idx + 10).trim();
@@ -717,7 +705,6 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
             const match = line.match(/^\d+\.\s+(.+)$/);
             if (match) followUps.push(match[1].trim());
           });
-          // Remove the FOLLOWUPS block from the display text
           const cleanReply = fullReply.slice(0, idx).trim();
           setTutorMessages(prev => [...prev, { role: "assistant", content: cleanReply }]);
           setTutorFollowUps(followUps.slice(0, 3));
