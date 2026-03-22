@@ -77,12 +77,13 @@ export default function App() {
   const [tutorLoading, setTutorLoading] = useState(false);
   const [tutorFollowUps, setTutorFollowUps] = useState([]);
   const [tutorLastStep, setTutorLastStep] = useState(null);
-
-  // CSS loaded via App.css
   const [devMode, setDevMode] = useState(false);
   const [lessonScores, setLessonScores] = useState({});
   const [showModuleComplete, setShowModuleComplete] = useState(false);
   const completedModuleRef = useRef(null);
+  const quizStartScoreRef = useRef(null);
+
+  // CSS loaded via App.css
 
   // Auth + progress sync
   useEffect(() => {
@@ -411,6 +412,11 @@ export default function App() {
     const alreadyDone = isLessonCompleted(activeModuleId, activeLessonId);
     const nextLesson = getNextLesson();
 
+    const isModQuiz = lesson.id === MODULES[activeModuleId].lessons.length;
+    const PASS_THRESHOLD = isModQuiz ? 8 : 4;
+    const priorScore = lessonScores[lessonKey] ?? null;
+    const wasFlagged = priorScore !== null && priorScore < PASS_THRESHOLD;
+
     const completeLesson = () => {
       if (!alreadyDone) {
         const updated = [...new Set([...completedLessons, lessonKey])];
@@ -444,12 +450,12 @@ export default function App() {
           const { mod: cMod, nextMod: cNext, overallProgress: cPct } = completedModuleRef.current;
           const lessonAnalysis = cMod.lessons.map(l => {
             const k = `${cMod.id}-${l.id}`;
-            const isModQuiz = l.id === cMod.lessons.length;
-            const maxQ = isModQuiz ? 10 : 5;
-            const threshold = isModQuiz ? 8 : 4;
+            const mq = l.id === cMod.lessons.length;
+            const maxQ = mq ? 10 : 5;
+            const thresh = mq ? 8 : 4;
             const score = lessonScores[k] ?? null;
             const pct = score !== null ? Math.round((score / maxQ) * 100) : null;
-            return { ...l, k, score, maxQ, pct, needsReview: score !== null && score < threshold };
+            return { ...l, k, score, maxQ, pct, needsReview: score !== null && score < thresh };
           });
           const reviewList = lessonAnalysis.filter(l => l.needsReview);
           const strongCount = lessonAnalysis.filter(l => l.score !== null && !l.needsReview).length;
@@ -457,9 +463,9 @@ export default function App() {
           const headline = reviewList.length === 0
             ? scoredCount === 0
               ? `Complete. Head into ${cNext ? cNext.title : 'your next chapter'} when you're ready.`
-              : `Strong work  --  solid scores across all ${strongCount} lessons.`
+              : `Strong work -- solid scores across all ${strongCount} lessons.`
             : reviewList.length === 1
-              ? `${strongCount} of ${scoredCount} lessons are solid. One is worth a second look.`
+              ? `${strongCount} of ${scoredCount} lessons are solid. One is worth a closer look.`
               : `${strongCount} of ${scoredCount} lessons are solid. ${reviewList.length} are worth reviewing.`;
           return (
             <div className="zte-module-complete-overlay" onClick={() => setShowModuleComplete(false)}>
@@ -476,25 +482,19 @@ export default function App() {
                     {reviewList.map(l => (
                       <div key={l.k} className="zte-mc-review-item">
                         <div className="zte-mc-review-left">
-                          <span className="zte-mc-review-icon">{l.score !== null && l.score <= 2 ? "!" : "~"}</span>
+                          <span className="zte-mc-review-icon">{l.score !== null && l.score <= 2 ? '!' : '~'}</span>
                           <div>
                             <div className="zte-mc-review-title">{l.title}</div>
-                            <div className="zte-mc-review-score">{l.score}/{l.maxQ}  --  {l.pct}%</div>
+                            <div className="zte-mc-review-score">{l.score}/{l.maxQ} -- {l.pct}%</div>
                           </div>
                         </div>
-                        <button className="zte-mc-review-btn" onClick={() => {
-                          setShowModuleComplete(false);
-                          openLesson(cMod.id, l.id);
-                          setTimeout(() => {
-                            setLessonTab("quiz");
-                            setTabUnlocked(prev => ({...prev, quiz: true}));
-                            setQuizIndex(0); setQuizSelected(null);
-                            setQuizAnswered(false); setQuizScore(0); setQuizDone(false);
-                          }, 120);
-                        }}>Review Quiz &rarr;</button>
+                        <button className="zte-mc-review-btn"
+                          onClick={() => { setShowModuleComplete(false); openLesson(cMod.id, l.id); }}>
+                          Review Lesson &rarr;
+                        </button>
                       </div>
                     ))}
-                    <div className="zte-mc-advice">These scored below 80%  --  the NREMT knowledge threshold. You can continue now and review later, or revisit first. Your call.</div>
+                    <div className="zte-mc-advice">These scored below 80% -- the NREMT knowledge threshold. Go back through the lesson and retake the quiz. You can continue now and come back anytime.</div>
                   </div>
                 )}
                 <div className="zte-mc-progress-line">{cPct}% of full course complete</div>
@@ -604,7 +604,7 @@ export default function App() {
                               className={`zte-media-btn zte-media-btn-video ${mediaOpen === "video" ? "open" : ""}`}
                               onClick={() => setMediaOpen(mediaOpen === "video" ? null : "video")}>
                               <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-                              {mediaOpen === "video" ? "Close Video" : `Watch \u2014 ${lesson.video.source || "Video"}`}
+                              {mediaOpen === "video" ? "Close Video" : `Watch -- ${lesson.video.source || "Video"}`}
                             </button>
                           )}
                           {lesson.model3d && (
@@ -697,22 +697,50 @@ export default function App() {
                 </div>
               )}
 
-              {lessonTab === "quiz" && quizDone && (
+              {lessonTab === "quiz" && quizDone && (() => {
+                const passing = quizScore >= PASS_THRESHOLD;
+                const perfect = quizScore === quizDeck.length;
+                const justCleared = wasFlagged && passing;
+                const remainingFlags = justCleared
+                  ? MODULES[activeModuleId].lessons.filter(l => {
+                      const k = `${activeModuleId}-${l.id}`;
+                      if (l.id === activeLessonId) return false;
+                      const mq = l.id === MODULES[activeModuleId].lessons.length;
+                      const thresh = mq ? 8 : 4;
+                      const s = lessonScores[k] ?? null;
+                      return s !== null && s < thresh;
+                    })
+                  : [];
+                const nextFlag = remainingFlags[0] || null;
+                const statusIcon = perfect ? 'PERFECT' : passing ? 'PASS' : 'KEEP GOING';
+                const statusMsg = justCleared
+                  ? perfect ? 'Perfect score -- and you cleared a flagged lesson.' : 'Cleared -- 80% threshold met.'
+                  : perfect ? 'Perfect score!' : passing ? 'Good work. Review any misses.' : 'Not quite -- this lesson is worth another read.';
+                return (
                 <div className="zte-results">
-                  <div className="zte-results-icon">{quizScore === quizDeck.length ? "PERFECT" : quizScore >= 3 ? "PASS" : "KEEP GOING"}</div>
-                  <div className="zte-results-title">LESSON COMPLETE</div>
+                  <div className={`zte-results-icon${justCleared ? ' cleared' : ''}`}>{statusIcon}</div>
+                  <div className="zte-results-title">{justCleared ? 'LESSON CLEARED' : 'LESSON COMPLETE'}</div>
                   <div className="zte-results-score">{quizScore}/{quizDeck.length}</div>
-                  <div className="zte-results-msg">{quizScore === quizDeck.length ? "Perfect score!" : quizScore >= 3 ? "Good work. Review any misses." : "Review the lesson again."}</div>
+                  <div className="zte-results-msg">{statusMsg}</div>
+                  {justCleared && nextFlag && (
+                    <div className="zte-results-next-flag">Still flagged in this module: <strong>{nextFlag.title}</strong></div>
+                  )}
+                  {justCleared && !nextFlag && (
+                    <div className="zte-results-all-clear">All flagged lessons in this module are now cleared.</div>
+                  )}
                   <div className="zte-results-btns">
-                    <button className="zte-btn-secondary" onClick={() => { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, lesson.id === 6 ? 10 : 5)); }}>Retake Quiz</button>
+                    <button className="zte-btn-secondary" onClick={() => { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, isModQuiz ? 10 : 5)); }}>Retake Quiz</button>
                     <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>Ask AI Tutor</button>
-                    {nextLesson
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : "Next Lesson ->"}</button>
-                      : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>
+                    {justCleared && nextFlag
+                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(activeModuleId, nextFlag.id); }}>Review {nextFlag.title} &rarr;</button>
+                      : nextLesson
+                        ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : 'Next Lesson ->'}</button>
+                        : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>
                     }
                   </div>
                 </div>
-              )}
+                );
+              })()}
               {lessonTab === "tutor" && (() => {
                 // Determine tutor context based on where student is
                 const prevTab = tabUnlocked.quiz && quizDone ? "quiz-done"
