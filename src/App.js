@@ -11,6 +11,27 @@ function renderBold(text) {
   );
 }
 
+function Model3DEmbed({ model }) {
+  if (!model?.sketchfabId) return null;
+  return (
+    <div className="zte-model3d-block">
+      <div className="zte-video-label">3D MODEL &mdash; rotate &amp; explore</div>
+      <div className="zte-model3d-frame">
+        <iframe
+          title={model.caption || "3D Anatomy Model"}
+          src={`https://sketchfab.com/models/${model.sketchfabId}/embed?autospin=0&autostart=0&ui_theme=dark&ui_infos=0&ui_watermark=0&ui_watermark_link=0`}
+          allow="autoplay; fullscreen; xr-spatial-tracking"
+          allowFullScreen
+        />
+      </div>
+      <div className="zte-video-caption">
+        <span className="zte-video-source">3D</span>
+        <span className="zte-video-caption-text">{model.caption} &mdash; drag to rotate, scroll to zoom</span>
+      </div>
+    </div>
+  );
+}
+
 function VideoEmbed({ video }) {
   if (!video?.youtubeId) return null;
   return (
@@ -469,6 +490,9 @@ export default function App() {
                       <div className="zte-video-label">Watch first &mdash; {lesson.video.duration || "short video"}</div>
                       <VideoEmbed video={lesson.video} />
                     </div>
+                  )}
+                  {lessonStep === 0 && lesson.model3d && (
+                    <Model3DEmbed model={lesson.model3d} />
                   )}
                   <h2 className="zte-content-heading">{lesson.content[lessonStep].heading}</h2>
                   <p className="zte-content-body">{renderBold(lesson.content[lessonStep].body)}</p>
