@@ -132,6 +132,9 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-video-source{font-family:'Space Mono',monospace;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;background:var(--navy);color:#fff;letter-spacing:.5px;flex-shrink:0;}
 .zte-video-caption-text{font-family:'Figtree',sans-serif;font-size:12px;color:var(--muted);}
 .zte-video-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin:0 0 12px;}
+.zte-model3d-block{border-radius:12px;overflow:hidden;border:1px solid var(--border);margin:0 0 32px;background:#111;}
+.zte-model3d-frame{width:100%;aspect-ratio:16/9;position:relative;}
+.zte-model3d-frame iframe{display:block;width:100%;height:100%;border:none;}
 .zte-step-counter{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);margin-left:auto;}
 .zte-btn-primary{background:var(--navy);color:white;border:none;padding:13px 28px;border-radius:8px;font-family:'Figtree',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:8px;}
 .zte-btn-primary:hover{background:var(--red);transform:translateY(-1px);}
@@ -226,7 +229,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-btn-devmode:hover{opacity:1;}
 .zte-btn-devmode.on{background:var(--red);border-color:var(--red);color:white;opacity:1;}
 
-/* âââ MOBILE âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */
+/* ─── MOBILE ─────────────────────────────────────────────────────────────── */
 @media(max-width:768px){
   .zte-hero{padding:40px 24px;}
   .zte-home-curriculum{padding:40px 24px;}
