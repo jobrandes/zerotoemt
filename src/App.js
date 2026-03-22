@@ -164,6 +164,7 @@ export default function App() {
     : null;
   const isLessonCompleted = (mId, lId) => completedLessons.includes(`${mId}-${lId}`);
   const [devMode, setDevMode] = useState(false);
+  const [showModuleComplete, setShowModuleComplete] = useState(false);
 
   const isLessonUnlocked = (mId, lId) => {
     if (devMode) return true;
@@ -399,13 +400,75 @@ export default function App() {
 
     const completeLesson = () => {
       if (!alreadyDone) {
-        setCompletedLessons(prev => [...new Set([...prev, lessonKey])]);
+        const updated = [...new Set([...completedLessons, lessonKey])];
+        setCompletedLessons(updated);
+        // Check if this completes the module
+        const allLessonKeys = MODULES[activeModuleId].lessons.map(l => `${activeModuleId}-${l.id}`);
+        const moduleNowComplete = allLessonKeys.every(k => updated.includes(k));
+        if (moduleNowComplete) setShowModuleComplete(true);
       }
     };
 
     return (
       <div id="zte-root">
         <Nav showProgress />
+
+        {showModuleComplete && (() => {
+          const completedMod = MODULES[activeModuleId];
+          const nextMod = MODULES[activeModuleId + 1];
+          const lessonsCount = completedMod.lessons.length;
+          return (
+            <div className="zte-module-complete-overlay" onClick={() => setShowModuleComplete(false)}>
+              <div className="zte-module-complete-modal" onClick={e => e.stopPropagation()}>
+                <div className="zte-mc-confetti">
+                  {[...Array(18)].map((_, i) => <span key={i} className="zte-mc-particle" style={{'--i': i}} />)}
+                </div>
+                <div className="zte-mc-badge" style={{background: completedMod.accentColor}}>
+                  MODULE {completedMod.id}
+                </div>
+                <div className="zte-mc-title">{completedMod.title}</div>
+                <div className="zte-mc-subtitle">COMPLETE</div>
+                <div className="zte-mc-stats">
+                  <div className="zte-mc-stat">
+                    <span className="zte-mc-stat-num">{lessonsCount}</span>
+                    <span className="zte-mc-stat-label">Lessons Done</span>
+                  </div>
+                  <div className="zte-mc-stat-divider" />
+                  <div className="zte-mc-stat">
+                    <span className="zte-mc-stat-num">{completedLessons.length}</span>
+                    <span className="zte-mc-stat-label">Total Complete</span>
+                  </div>
+                  <div className="zte-mc-stat-divider" />
+                  <div className="zte-mc-stat">
+                    <span className="zte-mc-stat-num">{Math.round((completedLessons.length / Object.keys(LESSON_DATA).length) * 100)}%</span>
+                    <span className="zte-mc-stat-label">Course Progress</span>
+                  </div>
+                </div>
+                <div className="zte-mc-message">
+                  {activeModuleId === 0
+                    ? "You've built your foundation. Real EMS knowledge starts now."
+                    : activeModuleId === 5
+                    ? "You've completed the entire Zero to EMT curriculum. You are ready."
+                    : `${completedMod.title} is locked in. Keep going.`}
+                </div>
+                <div className="zte-mc-btns">
+                  <button className="zte-btn-secondary" onClick={() => { setShowModuleComplete(false); }}>
+                    Stay Here
+                  </button>
+                  {nextMod
+                    ? <button className="zte-mc-cta" style={{'--accent': nextMod.accentColor}} onClick={() => { setShowModuleComplete(false); openLesson(nextMod.id, nextMod.lessons[0].id); }}>
+                        Start {nextMod.title} &rarr;
+                      </button>
+                    : <button className="zte-mc-cta" style={{'--accent': '#e8193c'}} onClick={() => { setShowModuleComplete(false); setScreen("curriculum"); }}>
+                        View Full Curriculum &rarr;
+                      </button>
+                  }
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
         <div className="zte-lesson-layout">
           <main className="zte-lesson-main">
             <div className="zte-lesson-main-header">
