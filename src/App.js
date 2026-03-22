@@ -497,18 +497,19 @@ export default function App() {
                           <button
                             className={`zte-media-tab ${mediaOpen === "video" ? "active" : ""}`}
                             onClick={() => setMediaOpen(mediaOpen === "video" ? null : "video")}>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5,3 19,12 5,21"/></svg>
-                            {lesson.video.source || "Video"} &mdash; {lesson.video.duration}
-                            <span className="zte-media-chevron">{mediaOpen === "video" ? "^" : "v"}</span>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5,3 19,12 5,21"/></svg>
+                            {lesson.video.source || "Video"}&nbsp;&mdash;&nbsp;{lesson.video.duration}
+                            <span className="zte-media-chevron">&#9660;</span>
                           </button>
                         )}
+                        {lesson.video && lesson.model3d && <div className="zte-media-tab-divider" />}
                         {lesson.model3d && (
                           <button
                             className={`zte-media-tab ${mediaOpen === "model3d" ? "active" : ""}`}
                             onClick={() => setMediaOpen(mediaOpen === "model3d" ? null : "model3d")}>
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                            3D Model &mdash; rotate &amp; explore
-                            <span className="zte-media-chevron">{mediaOpen === "model3d" ? "^" : "v"}</span>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                            3D Model&nbsp;&mdash;&nbsp;Rotate &amp; Explore
+                            <span className="zte-media-chevron">&#9660;</span>
                           </button>
                         )}
                       </div>

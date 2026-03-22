@@ -19,13 +19,29 @@ const MODULES = [
     id: 1, code: "NREMT: AIRWAY", codeColor: "#6366f1", accentColor: "#6366f1",
     title: "AIRWAY",
     desc: "Breathing anatomy, airway assessment, BVM, suctioning, and oxygen delivery.",
-    lessons: Array.from({length: 7}, (_, i) => ({ id: i+1, title: `Lesson ${i+1}`, duration: "~1.5 hrs total" }))
+    lessons: [
+      { id: 1, title: "Respiratory Anatomy", duration: "~1.5 hrs total" },
+      { id: 2, title: "Patient Assessment: Airway", duration: "~1.5 hrs total" },
+      { id: 3, title: "Airway Adjuncts", duration: "~1.5 hrs total" },
+      { id: 4, title: "Oxygen Delivery", duration: "~1.5 hrs total" },
+      { id: 5, title: "Respiratory Emergencies", duration: "~1.5 hrs total" },
+      { id: 6, title: "Airway Management in Special Situations", duration: "~1.5 hrs total" },
+      { id: 7, title: "Airway Module Quiz", duration: "~30 min" },
+    ]
   },
   {
     id: 2, code: "NREMT: CARDIOLOGY", codeColor: "#f59e0b", accentColor: "#f59e0b",
     title: "CARDIOLOGY",
     desc: "Heart anatomy, CPR, AED, chest pain recognition, cardiac emergencies.",
-    lessons: Array.from({length: 7}, (_, i) => ({ id: i+1, title: `Lesson ${i+1}`, duration: "~1.5 hrs total" }))
+    lessons: [
+      { id: 1, title: "Heart Anatomy & the Cardiac Cycle", duration: "~1.5 hrs total" },
+      { id: 2, title: "Chest Pain Assessment", duration: "~1.5 hrs total" },
+      { id: 3, title: "ACS: Angina, STEMI & NSTEMI", duration: "~1.5 hrs total" },
+      { id: 4, title: "Cardiac Arrest & CPR", duration: "~1.5 hrs total" },
+      { id: 5, title: "Cardiac Arrhythmias", duration: "~1.5 hrs total" },
+      { id: 6, title: "Heart Failure & Hypertensive Emergencies", duration: "~1.5 hrs total" },
+      { id: 7, title: "Cardiology Module Quiz", duration: "~30 min" },
+    ]
   },
   {
     id: 3, code: "NREMT: TRAUMA", codeColor: "#ef4444", accentColor: "#ef4444",
