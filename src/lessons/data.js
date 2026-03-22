@@ -443,6 +443,8 @@ const L6 = {
 const M1L1 = {
   moduleId: 1, id: 1,
   title: "Respiratory Anatomy",
+  video: { youtubeId: "qGiPZf7njqY", caption: "Meet the lungs - respiratory anatomy overview", source: "Khan Academy", duration: "9 min video" },
+  model3d: { sketchfabId: "5c62cd4d4ba04243be1062d2263d3ef0", caption: "Healthy heart and lungs - interactive 3D (University Medical Center)" },
   subtitle: "The airway from nose to alveoli  -  and why every millimeter matters",
   duration: "12 min",
   dispatch: {
@@ -938,6 +940,7 @@ const M2L1 = {
     source: "Khan Academy",
     duration: "9 min video"
   },
+  model3d: { sketchfabId: "a3f0ea2030214a6bbaa97e7357eebd58", caption: "Cardiac anatomy - external view with coronary arteries (University of Dundee)" },
   dispatch: {
     call: `"Unit 7, respond to 883 Birchwood Court  -  61-year-old male, sudden onset chest pain radiating to the left arm, diaphoretic, nauseous."`,
     time: "10:44 AM", eta: "5 minutes",
@@ -1444,6 +1447,7 @@ const M3L2 = {
 const M3L3 = {
   moduleId: 3, id: 3,
   title: "Shock",
+  video: { youtubeId: "AvtS_IrlbYk", caption: "What is shock? Pathophysiology overview", source: "Khan Academy", duration: "8 min video" },
   subtitle: "What shock actually is, why it kills, and how to recognize it before it becomes irreversible",
   duration: "11 min",
   dispatch: {
@@ -1498,6 +1502,7 @@ const M3L3 = {
 const M3L4 = {
   moduleId: 3, id: 4,
   title: "Head & Spine Trauma",
+  model3d: { sketchfabId: "f3fc9a98d9d942cab8e9ab6ff67ec4e3", caption: "Human spine and vertebral column - cervical anatomy" },
   subtitle: "TBI, spinal injuries, assessment, immobilization, and the decisions that protect the cord",
   duration: "12 min",
   dispatch: {
@@ -1768,6 +1773,7 @@ const M3L8 = {
 const M4L1 = {
   moduleId: 4, id: 1,
   title: "Altered Mental Status & Neurological Emergencies",
+  video: { youtubeId: "qCvV11R2lgg", caption: "Ischemic stroke - what happens in the brain", source: "Khan Academy", duration: "6 min video" },
   subtitle: "Stroke, seizures, syncope, and the brain going wrong  -  recognition and response",
   duration: "12 min",
   dispatch: {
@@ -1930,6 +1936,7 @@ const M4L3 = {
 const M4L4 = {
   moduleId: 4, id: 4,
   title: "Cardiac Emergencies in the Field",
+  video: { youtubeId: "T_b9U5gn_Zk", caption: "Heart attack - what happens and why it matters", source: "Khan Academy", duration: "7 min video" },
   subtitle: "Chest pain assessment, ACS recognition, and what the EMT actually does on a cardiac call",
   duration: "11 min",
   dispatch: {
@@ -1984,6 +1991,7 @@ const M4L4 = {
 const M4L5 = {
   moduleId: 4, id: 5,
   title: "Allergic Reactions & Anaphylaxis",
+  video: { youtubeId: "sX97LcDpgzo", caption: "Anaphylactic shock - pathophysiology", source: "Khan Academy", duration: "5 min video" },
   subtitle: "Mild reactions vs anaphylaxis, epinephrine indications, and the call that can kill in minutes",
   duration: "9 min",
   dispatch: {
