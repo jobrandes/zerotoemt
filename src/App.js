@@ -79,6 +79,10 @@ export default function App() {
   const [tutorLastStep, setTutorLastStep] = useState(null);
 
   // CSS loaded via App.css
+  const [devMode, setDevMode] = useState(false);
+  const [lessonScores, setLessonScores] = useState({});
+  const [showModuleComplete, setShowModuleComplete] = useState(false);
+  const completedModuleRef = useRef(null);
 
   // Auth + progress sync
   useEffect(() => {
@@ -174,10 +178,6 @@ export default function App() {
     ? rawName.charAt(0).toUpperCase() + rawName.slice(1).toLowerCase()
     : null;
   const isLessonCompleted = (mId, lId) => completedLessons.includes(`${mId}-${lId}`);
-  const [devMode, setDevMode] = useState(false);
-  const [lessonScores, setLessonScores] = useState({});
-  const [showModuleComplete, setShowModuleComplete] = useState(false);
-  const completedModuleRef = useRef(null);
 
   const isLessonUnlocked = (mId, lId) => {
     if (devMode) return true;
