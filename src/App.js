@@ -71,6 +71,7 @@ export default function App() {
   const [progressLoaded, setProgressLoaded] = useState(false);
   const autoNavigated = useRef(false);
   const [tabUnlocked, setTabUnlocked] = useState({ scenario: true, lesson: false, flashcards: false, quiz: false, tutor: true });
+  const [mediaOpen, setMediaOpen] = useState(null); // null | "video" | "model3d"
   const [tutorMessages, setTutorMessages] = useState([]);
   const [tutorInput, setTutorInput] = useState("");
   const [tutorLoading, setTutorLoading] = useState(false);
@@ -181,6 +182,7 @@ export default function App() {
     const ld = LESSON_DATA[`${mId}-${lId}`];
     setActiveModuleId(mId); setActiveLessonId(lId);
     setLessonTab("scenario"); setLessonStep(0);
+    setMediaOpen(null);
     setFcIndex(0); setFcFlipped(false);
     setFcDeck(ld ? shuffle(ld.flashcards) : []);
     setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false);
@@ -485,17 +487,36 @@ export default function App() {
                   <div className="zte-progress-bar">
                     <div className="zte-progress-fill" style={{width: `${((lessonStep + 1) / lesson.content.length) * 100}%`}}/>
                   </div>
-                  {lessonStep === 0 && lesson.video && (
-                    <div>
-                      <div className="zte-video-label">Watch first &mdash; {lesson.video.duration || "short video"}</div>
-                      <VideoEmbed video={lesson.video} />
-                    </div>
-                  )}
-                  {lessonStep === 0 && lesson.model3d && (
-                    <Model3DEmbed model={lesson.model3d} />
-                  )}
                   <h2 className="zte-content-heading">{lesson.content[lessonStep].heading}</h2>
                   <p className="zte-content-body">{renderBold(lesson.content[lessonStep].body)}</p>
+
+                  {lessonStep === 0 && (lesson.video || lesson.model3d) && (
+                    <div className="zte-media-bar">
+                      <div className="zte-media-bar-tabs">
+                        {lesson.video && (
+                          <button
+                            className={`zte-media-tab ${mediaOpen === "video" ? "active" : ""}`}
+                            onClick={() => setMediaOpen(mediaOpen === "video" ? null : "video")}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5,3 19,12 5,21"/></svg>
+                            {lesson.video.source || "Video"} &mdash; {lesson.video.duration}
+                            <span className="zte-media-chevron">{mediaOpen === "video" ? "^" : "v"}</span>
+                          </button>
+                        )}
+                        {lesson.model3d && (
+                          <button
+                            className={`zte-media-tab ${mediaOpen === "model3d" ? "active" : ""}`}
+                            onClick={() => setMediaOpen(mediaOpen === "model3d" ? null : "model3d")}>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                            3D Model &mdash; rotate &amp; explore
+                            <span className="zte-media-chevron">{mediaOpen === "model3d" ? "^" : "v"}</span>
+                          </button>
+                        )}
+                      </div>
+                      {mediaOpen === "video" && <VideoEmbed video={lesson.video} />}
+                      {mediaOpen === "model3d" && <Model3DEmbed model={lesson.model3d} />}
+                    </div>
+                  )}
+
                   <div className="zte-lesson-nav">
                     {lessonStep > 0 && <button className="zte-btn-secondary" onClick={() => setLessonStep(s => s-1)}>&larr; Prev</button>}
                     {lessonStep < lesson.content.length - 1
