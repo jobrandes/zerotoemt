@@ -491,30 +491,34 @@ export default function App() {
                   <p className="zte-content-body">{renderBold(lesson.content[lessonStep].body)}</p>
 
                   {lessonStep === 0 && (lesson.video || lesson.model3d) && (
-                    <div className="zte-media-bar">
-                      <div className="zte-media-bar-tabs">
-                        {lesson.video && (
-                          <button
-                            className={`zte-media-tab ${mediaOpen === "video" ? "active" : ""}`}
-                            onClick={() => setMediaOpen(mediaOpen === "video" ? null : "video")}>
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5,3 19,12 5,21"/></svg>
-                            {lesson.video.source || "Video"}&nbsp;&mdash;&nbsp;{lesson.video.duration}
-                            <span className="zte-media-chevron">&#9660;</span>
-                          </button>
-                        )}
-                        {lesson.video && lesson.model3d && <div className="zte-media-tab-divider" />}
-                        {lesson.model3d && (
-                          <button
-                            className={`zte-media-tab ${mediaOpen === "model3d" ? "active" : ""}`}
-                            onClick={() => setMediaOpen(mediaOpen === "model3d" ? null : "model3d")}>
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                            3D Model&nbsp;&mdash;&nbsp;Rotate &amp; Explore
-                            <span className="zte-media-chevron">&#9660;</span>
-                          </button>
-                        )}
+                    <div className="zte-media-card">
+                      <div className="zte-media-card-header">
+                        <span className="zte-media-card-label">Lesson Resources</span>
+                        <div className="zte-media-card-btns">
+                          {lesson.video && (
+                            <button
+                              className={`zte-media-btn zte-media-btn-video ${mediaOpen === "video" ? "open" : ""}`}
+                              onClick={() => setMediaOpen(mediaOpen === "video" ? null : "video")}>
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                              {mediaOpen === "video" ? "Close Video" : `Watch \u2014 ${lesson.video.source || "Video"}`}
+                            </button>
+                          )}
+                          {lesson.model3d && (
+                            <button
+                              className={`zte-media-btn zte-media-btn-3d ${mediaOpen === "model3d" ? "open" : ""}`}
+                              onClick={() => setMediaOpen(mediaOpen === "model3d" ? null : "model3d")}>
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                              {mediaOpen === "model3d" ? "Close 3D" : "Explore 3D Model"}
+                            </button>
+                          )}
+                        </div>
                       </div>
-                      {mediaOpen === "video" && <VideoEmbed video={lesson.video} />}
-                      {mediaOpen === "model3d" && <Model3DEmbed model={lesson.model3d} />}
+                      {mediaOpen && (
+                        <div className="zte-media-content">
+                          {mediaOpen === "video" && <VideoEmbed video={lesson.video} />}
+                          {mediaOpen === "model3d" && <Model3DEmbed model={lesson.model3d} />}
+                        </div>
+                      )}
                     </div>
                   )}
 
