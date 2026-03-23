@@ -482,7 +482,7 @@ export default function App() {
                     {reviewList.map(l => (
                       <div key={l.k} className="zte-mc-review-item">
                         <div className="zte-mc-review-left">
-                          <span className="zte-mc-review-icon">{l.score !== null && l.score <= 2 ? 'LOW' : 'REV'}</span>
+                          <span className="zte-mc-review-dot" />
                           <div>
                             <div className="zte-mc-review-title">{l.title}</div>
                             <div className="zte-mc-review-score">{l.score}/{l.maxQ} -- {l.pct}%</div>
@@ -583,6 +583,15 @@ export default function App() {
                   <h2 className="zte-scenario-bridge-head">BEFORE WE ANSWER THAT &mdash;</h2>
                   <p className="zte-scenario-bridge">{lesson.dispatch.bridge}</p>
                   <button className="zte-btn-primary" onClick={() => { unlockTab("lesson"); setLessonTab("lesson"); }}>Start the Lesson &rarr;</button>
+                  {devMode && (
+                    <button className="zte-btn-dev-skip" onClick={() => {
+                      unlockTab("lesson"); unlockTab("flashcards"); unlockTab("quiz");
+                      setLessonTab("quiz");
+                      setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false);
+                      setQuizScore(0); setQuizDone(false);
+                      setQuizDeck(pickQuiz(lesson.quiz, isModQuiz ? 10 : 5));
+                    }}>DEV: Skip to Quiz &rarr;</button>
+                  )}
                 </div>
               )}
 
@@ -689,7 +698,7 @@ export default function App() {
                     <>
                       <button className="zte-btn-primary" onClick={() => {
                         if (quizIndex < quizDeck.length - 1) { setQuizIndex(i => i+1); setQuizSelected(null); setQuizAnswered(false); }
-                        else { saveQuizScore(quizScore); setQuizDone(true); }
+                        else { const finalScore = quizScore + (quizSelected === quizDeck[quizIndex].answer ? 1 : 0); saveQuizScore(finalScore); setQuizScore(finalScore); setQuizDone(true); }
                       }}>{quizIndex < quizDeck.length - 1 ? "Next Question ->" : "See Results ->"}</button>
                       <div className="zte-explanation">{quizDeck[quizIndex].explanation}</div>
                     </>
