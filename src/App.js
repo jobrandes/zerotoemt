@@ -202,7 +202,8 @@ export default function App() {
     setFcDeck(ld ? shuffle(ld.flashcards) : []);
     setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false);
     quizStartScoreRef.current = null;
-    setQuizDeck(ld ? pickQuiz(ld.quiz, ld.id === 6 ? 10 : 5) : []);
+    const openedIsModQuiz = ld ? ld.id === (MODULES[mId]?.lessons.length ?? 99) : false;
+    setQuizDeck(ld ? pickQuiz(ld.quiz, openedIsModQuiz ? 10 : 5) : []);
     setTabUnlocked({ scenario: true, lesson: false, flashcards: false, quiz: false, tutor: true });
     setTutorMessages([]);
     setTutorInput("");
@@ -496,7 +497,7 @@ export default function App() {
                           </div>
                         </div>
                         <button className="zte-mc-review-btn"
-                          onClick={() => { setShowModuleComplete(false); openLesson(cMod.id, l.id); }}>
+                          onClick={() => { setShowModuleComplete(false); const s = lessonScores[l.k] ?? null; openLesson(cMod.id, l.id); setTimeout(() => { quizStartScoreRef.current = s; }, 0); }}>
                           Review Lesson &rarr;
                         </button>
                       </div>
@@ -567,7 +568,7 @@ export default function App() {
                   className={`zte-lesson-tab ${lessonTab === tab.key ? "active" : ""} ${!tabUnlocked[tab.key] ? "locked-tab" : ""}`}
                   onClick={() => {
                     if (!tabUnlocked[tab.key]) return;
-                    if (tab.key === "quiz") { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, lesson.id === 6 ? 10 : 5)); }
+                    if (tab.key === "quiz") { quizStartScoreRef.current = lessonScores[lessonKey] ?? null; setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, isModQuiz ? 10 : 5)); }
                     if (tab.key === "flashcards") { setFcIndex(0); setFcFlipped(false); setFcDeck(shuffle(lesson.flashcards)); }
                     setLessonTab(tab.key);
                   }}>
@@ -674,7 +675,7 @@ export default function App() {
                     <span className="zte-fc-counter">{fcIndex + 1} / {fcDeck.length}</span>
                     {fcIndex < fcDeck.length - 1
                       ? <button className="zte-btn-primary" onClick={() => { setFcIndex(i => i+1); setFcFlipped(false); }}>Next &rarr;</button>
-                      : <button className="zte-btn-primary" onClick={() => { quizStartScoreRef.current = lessonScores[lessonKey] ?? null; unlockTab("quiz"); setLessonTab("quiz"); setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, lesson.id === 6 ? 10 : 5)); }}>Take Quiz &rarr;</button>
+                      : <button className="zte-btn-primary" onClick={() => { quizStartScoreRef.current = lessonScores[lessonKey] ?? null; unlockTab("quiz"); setLessonTab("quiz"); setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, isModQuiz ? 10 : 5)); }}>Take Quiz &rarr;</button>
                     }
                   </div>
                 </div>
@@ -719,13 +720,16 @@ export default function App() {
                 const passing = quizScore >= PASS_THRESHOLD;
                 const perfect = quizScore === quizDeck.length;
                 const justCleared = startScore !== null && startScore < PASS_THRESHOLD && passing;
+                // Build an updated scores map that includes the score we just saved
+                // (lessonScores state may not have updated yet due to React async)
+                const currentScores = { ...lessonScores, [lessonKey]: quizScore };
                 const remainingFlags = justCleared
                   ? MODULES[activeModuleId].lessons.filter(l => {
                       const k = `${activeModuleId}-${l.id}`;
                       if (l.id === activeLessonId) return false;
                       const mq = l.id === MODULES[activeModuleId].lessons.length;
                       const thresh = mq ? 8 : 4;
-                      const s = lessonScores[k] ?? null;
+                      const s = currentScores[k] ?? null;
                       return s !== null && s < thresh;
                     })
                   : [];
@@ -750,7 +754,7 @@ export default function App() {
                     <button className="zte-btn-secondary" onClick={() => { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); quizStartScoreRef.current = lessonScores[lessonKey] ?? null; setQuizDeck(pickQuiz(lesson.quiz, isModQuiz ? 10 : 5)); }}>Retake Quiz</button>
                     <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>Ask AI Tutor</button>
                     {justCleared && nextFlag
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(activeModuleId, nextFlag.id); }}>Review {nextFlag.title} &rarr;</button>
+                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); const nextScore = currentScores[`${activeModuleId}-${nextFlag.id}`] ?? null; openLesson(activeModuleId, nextFlag.id); setTimeout(() => { quizStartScoreRef.current = nextScore; }, 0); }}>Review {nextFlag.title} &rarr;</button>
                       : justCleared && alreadyDone
                         ? (() => {
                             const nextMod = MODULES[activeModuleId + 1];
