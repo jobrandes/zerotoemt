@@ -482,7 +482,7 @@ export default function App() {
                     {reviewList.map(l => (
                       <div key={l.k} className="zte-mc-review-item">
                         <div className="zte-mc-review-left">
-                          <span className="zte-mc-review-icon">{l.score !== null && l.score <= 2 ? '!' : '~'}</span>
+                          <span className="zte-mc-review-icon">{l.score !== null && l.score <= 2 ? 'LOW' : 'REV'}</span>
                           <div>
                             <div className="zte-mc-review-title">{l.title}</div>
                             <div className="zte-mc-review-score">{l.score}/{l.maxQ} -- {l.pct}%</div>
@@ -733,6 +733,13 @@ export default function App() {
                     <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>Ask AI Tutor</button>
                     {justCleared && nextFlag
                       ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(activeModuleId, nextFlag.id); }}>Review {nextFlag.title} &rarr;</button>
+                      : justCleared && alreadyDone
+                        ? (() => {
+                            const nextMod = MODULES[activeModuleId + 1];
+                            return nextMod
+                              ? <button className="zte-btn-primary" onClick={() => openLesson(nextMod.id, nextMod.lessons[0].id)}>Start {nextMod.title} &rarr;</button>
+                              : <button className="zte-btn-primary" onClick={() => setScreen("curriculum")}>View Full Curriculum &rarr;</button>;
+                          })()
                       : nextLesson
                         ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : 'Next Lesson ->'}</button>
                         : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>
