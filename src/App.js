@@ -753,19 +753,30 @@ export default function App() {
                   <div className="zte-results-btns">
                     <button className="zte-btn-secondary" onClick={() => { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); quizStartScoreRef.current = lessonScores[lessonKey] ?? null; setQuizDeck(pickQuiz(lesson.quiz, isModQuiz ? 10 : 5)); }}>Retake Quiz</button>
                     <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>Ask AI Tutor</button>
-                    {justCleared && nextFlag
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); const nextScore = currentScores[`${activeModuleId}-${nextFlag.id}`] ?? null; openLesson(activeModuleId, nextFlag.id); setTimeout(() => { quizStartScoreRef.current = nextScore; }, 0); }}>Review {nextFlag.title} &rarr;</button>
-                      : justCleared && alreadyDone
-                        ? (() => {
-                            const nextMod = MODULES[activeModuleId + 1];
-                            return nextMod
-                              ? <button className="zte-btn-primary" onClick={() => openLesson(nextMod.id, nextMod.lessons[0].id)}>Start {nextMod.title} &rarr;</button>
-                              : <button className="zte-btn-primary" onClick={() => setScreen("curriculum")}>View Full Curriculum &rarr;</button>;
-                          })()
-                      : nextLesson
-                        ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : 'Next Lesson ->'}</button>
-                        : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>
-                    }
+                    {(() => {
+                      // Explicit CTA logic -- no ternary chain that can fall through wrong
+                      if (justCleared && nextFlag) {
+                        // Still more flagged lessons to review
+                        return <button className="zte-btn-primary" onClick={() => {
+                          completeLesson();
+                          const nextScore = currentScores[`${activeModuleId}-${nextFlag.id}`] ?? null;
+                          openLesson(activeModuleId, nextFlag.id);
+                          setTimeout(() => { quizStartScoreRef.current = nextScore; }, 0);
+                        }}>Review {nextFlag.title} &rarr;</button>;
+                      }
+                      if (justCleared && !nextFlag) {
+                        // All flags cleared -- go to next module regardless of alreadyDone
+                        const nextMod = MODULES[activeModuleId + 1];
+                        return nextMod
+                          ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextMod.id, nextMod.lessons[0].id); }}>Start {nextMod.title} &rarr;</button>
+                          : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>View Full Curriculum &rarr;</button>;
+                      }
+                      // Normal (non-review) flow
+                      if (nextLesson) {
+                        return <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : 'Next Lesson ->'}</button>;
+                      }
+                      return <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>;
+                    })()}
                   </div>
                 </div>
                 );
