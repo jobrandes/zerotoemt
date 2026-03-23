@@ -201,6 +201,7 @@ export default function App() {
     setFcIndex(0); setFcFlipped(false);
     setFcDeck(ld ? shuffle(ld.flashcards) : []);
     setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false);
+    quizStartScoreRef.current = null;
     setQuizDeck(ld ? pickQuiz(ld.quiz, ld.id === 6 ? 10 : 5) : []);
     setTabUnlocked({ scenario: true, lesson: false, flashcards: false, quiz: false, tutor: true });
     setTutorMessages([]);
@@ -301,7 +302,7 @@ export default function App() {
             <button className="zte-btn-hero-primary" onClick={() => { const r = getResumeLesson(); openLesson(r ? r.mId : 0, r ? r.lId : 1); }}>{completedLessons.length > 0 ? "CONTINUE LEARNING" : "START LEARNING FREE"}</button>
             <button className="zte-btn-hero-secondary" onClick={() => setScreen("curriculum")}>See Curriculum</button>
             {completedLessons.length > 0 && (
-              <button className="zte-btn-reset" onClick={() => { setCompletedLessons([]); try { localStorage.removeItem("zte-progress"); } catch {} }}>Reset Progress</button>
+              <button className="zte-btn-reset" onClick={() => { setCompletedLessons([]); try { localStorage.removeItem("zte-progress"); } catch {} try { localStorage.removeItem("zte-scores"); } catch {} setLessonScores({}); }}>Reset Progress</button>
             )}
           </div>
         </div>
@@ -342,7 +343,7 @@ export default function App() {
             <div key={mod.id} className="zte-module-preview-card" style={{"--accent": mod.accentColor}}>
               <div className="zte-mpc-top">
                 <span className="zte-mpc-code" style={{color: mod.accentColor, borderColor: mod.accentColor}}>{mod.code}</span>
-                <span className="zte-mpc-num">MODULE 0{mod.id}</span>
+                <span className="zte-mpc-num">MODULE {mod.id}</span>
               </div>
               <h3 className="zte-mpc-title">{mod.title}</h3>
               <p className="zte-mpc-desc">{mod.desc}</p>
@@ -375,7 +376,7 @@ export default function App() {
             <div key={mod.id} className={`zte-curr-card ${!unlocked ? "locked" : ""}`} style={{"--accent": mod.accentColor}}>
               <div className="zte-curr-card-top">
                 <span className="zte-curr-code" style={{color: mod.accentColor, borderColor: mod.accentColor}}>{mod.code}</span>
-                <span className="zte-curr-mod-num">MODULE 0{mod.id}</span>
+                <span className="zte-curr-mod-num">MODULE {mod.id}</span>
               </div>
               <h3 className="zte-curr-card-title">{mod.title}</h3>
               <p className="zte-curr-card-desc">{mod.desc}</p>
@@ -427,6 +428,7 @@ export default function App() {
             mod: MODULES[activeModuleId],
             nextMod: MODULES[activeModuleId + 1] || null,
             overallProgress: Math.round((updated.length / Object.keys(LESSON_DATA).length) * 100),
+            completedKeys: updated,
           };
           setShowModuleComplete(true);
         }
@@ -447,7 +449,7 @@ export default function App() {
         <Nav showProgress />
 
         {showModuleComplete && completedModuleRef.current && (() => {
-          const { mod: cMod, nextMod: cNext, overallProgress: cPct } = completedModuleRef.current;
+          const { mod: cMod, nextMod: cNext, overallProgress: cPct, completedKeys: cDone } = completedModuleRef.current;
           const lessonAnalysis = cMod.lessons.map(l => {
             const k = `${cMod.id}-${l.id}`;
             const mq = l.id === cMod.lessons.length;
@@ -455,18 +457,23 @@ export default function App() {
             const thresh = mq ? 8 : 4;
             const score = lessonScores[k] ?? null;
             const pct = score !== null ? Math.round((score / maxQ) * 100) : null;
-            return { ...l, k, score, maxQ, pct, needsReview: score !== null && score < thresh };
+            const isCompleted = cDone.includes(k);
+            return { ...l, k, score, maxQ, pct,
+              needsReview: isCompleted && (score === null || score < thresh),
+              unscored: isCompleted && score === null,
+            };
           });
           const reviewList = lessonAnalysis.filter(l => l.needsReview);
           const strongCount = lessonAnalysis.filter(l => l.score !== null && !l.needsReview).length;
+          const completedCount = lessonAnalysis.filter(l => cDone.includes(l.k)).length;
           const scoredCount = lessonAnalysis.filter(l => l.score !== null).length;
           const headline = reviewList.length === 0
-            ? scoredCount === 0
+            ? completedCount === 0
               ? `Complete. Head into ${cNext ? cNext.title : 'your next chapter'} when you're ready.`
               : `Strong work -- solid scores across all ${strongCount} lessons.`
             : reviewList.length === 1
-              ? `${strongCount} of ${scoredCount} lessons are solid. One is worth a closer look.`
-              : `${strongCount} of ${scoredCount} lessons are solid. ${reviewList.length} are worth reviewing.`;
+              ? `${strongCount} of ${completedCount} lessons are solid. One is worth a closer look.`
+              : `${strongCount} of ${completedCount} lessons are solid. ${reviewList.length} are worth reviewing.`;
           return (
             <div className="zte-module-complete-overlay" onClick={() => setShowModuleComplete(false)}>
               <div className="zte-module-complete-modal" onClick={e => e.stopPropagation()}>
@@ -485,7 +492,7 @@ export default function App() {
                           <span className="zte-mc-review-dot" />
                           <div>
                             <div className="zte-mc-review-title">{l.title}</div>
-                            <div className="zte-mc-review-score">{l.score}/{l.maxQ} -- {l.pct}%</div>
+                            <div className="zte-mc-review-score">{l.unscored ? "No score recorded -- review recommended" : `${l.score}/${l.maxQ} -- ${l.pct}%`}</div>
                           </div>
                         </div>
                         <button className="zte-mc-review-btn"
@@ -515,7 +522,7 @@ export default function App() {
             <div className="zte-lesson-main-header">
               <div className="zte-lesson-header-top">
                 <div>
-                  <div className="zte-lesson-breadcrumb">MODULE 0{mod.id} &middot; {mod.title}</div>
+                  <div className="zte-lesson-breadcrumb">MODULE {mod.id} &middot; {mod.title}</div>
                   <h1 className="zte-lesson-main-title">{lesson.title.toUpperCase()}</h1>
                 </div>
                 <div className="zte-lesson-switcher">
@@ -586,6 +593,7 @@ export default function App() {
                   {devMode && (
                     <button className="zte-btn-dev-skip" onClick={() => {
                       unlockTab("lesson"); unlockTab("flashcards"); unlockTab("quiz");
+                      quizStartScoreRef.current = lessonScores[lessonKey] ?? null;
                       setLessonTab("quiz");
                       setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false);
                       setQuizScore(0); setQuizDone(false);
@@ -666,7 +674,7 @@ export default function App() {
                     <span className="zte-fc-counter">{fcIndex + 1} / {fcDeck.length}</span>
                     {fcIndex < fcDeck.length - 1
                       ? <button className="zte-btn-primary" onClick={() => { setFcIndex(i => i+1); setFcFlipped(false); }}>Next &rarr;</button>
-                      : <button className="zte-btn-primary" onClick={() => { unlockTab("quiz"); setLessonTab("quiz"); setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, lesson.id === 6 ? 10 : 5)); }}>Take Quiz &rarr;</button>
+                      : <button className="zte-btn-primary" onClick={() => { quizStartScoreRef.current = lessonScores[lessonKey] ?? null; unlockTab("quiz"); setLessonTab("quiz"); setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, lesson.id === 6 ? 10 : 5)); }}>Take Quiz &rarr;</button>
                     }
                   </div>
                 </div>
@@ -707,9 +715,10 @@ export default function App() {
               )}
 
               {lessonTab === "quiz" && quizDone && (() => {
+                const startScore = quizStartScoreRef.current;
                 const passing = quizScore >= PASS_THRESHOLD;
                 const perfect = quizScore === quizDeck.length;
-                const justCleared = wasFlagged && passing;
+                const justCleared = startScore !== null && startScore < PASS_THRESHOLD && passing;
                 const remainingFlags = justCleared
                   ? MODULES[activeModuleId].lessons.filter(l => {
                       const k = `${activeModuleId}-${l.id}`;
@@ -738,7 +747,7 @@ export default function App() {
                     <div className="zte-results-all-clear">All flagged lessons in this module are now cleared.</div>
                   )}
                   <div className="zte-results-btns">
-                    <button className="zte-btn-secondary" onClick={() => { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); setQuizDeck(pickQuiz(lesson.quiz, isModQuiz ? 10 : 5)); }}>Retake Quiz</button>
+                    <button className="zte-btn-secondary" onClick={() => { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); quizStartScoreRef.current = lessonScores[lessonKey] ?? null; setQuizDeck(pickQuiz(lesson.quiz, isModQuiz ? 10 : 5)); }}>Retake Quiz</button>
                     <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>Ask AI Tutor</button>
                     {justCleared && nextFlag
                       ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(activeModuleId, nextFlag.id); }}>Review {nextFlag.title} &rarr;</button>
