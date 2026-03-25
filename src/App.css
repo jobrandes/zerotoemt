@@ -174,6 +174,8 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-quiz-opt:hover:not(:disabled){border-color:var(--navy);background:var(--light);}
 .zte-quiz-opt.correct{border-color:var(--green);background:#f0fdf4;color:var(--green);}
 .zte-quiz-opt.wrong{border-color:var(--red);background:#fff1f3;color:var(--red);}
+.zte-quiz-opt.selected{border-color:var(--navy);background:var(--navy);color:#fff;font-weight:700;}
+.zte-quiz-opt.selected:hover{background:var(--navy);border-color:var(--navy);}
 .zte-quiz-opt:disabled{cursor:default;}
 .zte-explanation{background:var(--light);border-left:3px solid var(--navy);border-radius:0 8px 8px 0;padding:14px 18px;font-size:14px;line-height:1.6;color:var(--text);margin-bottom:20px;}
 .zte-results{text-align:center;padding:40px 0;}
