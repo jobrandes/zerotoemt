@@ -707,7 +707,7 @@ export default function App() {
                     <>
                       <button className="zte-btn-primary" onClick={() => {
                         if (quizIndex < quizDeck.length - 1) { setQuizIndex(i => i+1); setQuizSelected(null); setQuizAnswered(false); }
-                        else { const finalScore = quizScore + (quizSelected === quizDeck[quizIndex].answer ? 1 : 0); saveQuizScore(finalScore); setQuizScore(finalScore); setQuizDone(true); }
+                        else { saveQuizScore(quizScore); setQuizDone(true); }
                       }}>{quizIndex < quizDeck.length - 1 ? "Next Question ->" : "See Results ->"}</button>
                       <div className="zte-explanation">{quizDeck[quizIndex].explanation}</div>
                     </>

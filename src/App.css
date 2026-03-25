@@ -170,7 +170,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-quiz-meta{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
 .zte-quiz-q{font-size:20px;font-weight:700;color:var(--navy);line-height:1.4;margin-bottom:24px;}
 .zte-quiz-options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
-.zte-quiz-opt{background:white;border:2px solid var(--border);border-radius:10px;padding:14px 18px;font-size:15px;font-weight:500;cursor:pointer;text-align:left;transition:all .15s;color:var(--text);font-family:'Figtree',sans-serif;}
+.zte-quiz-opt{background:white;border:2px solid var(--border);border-radius:10px;padding:14px 18px;font-size:15px;font-weight:500;cursor:pointer;text-align:left;transition:all .15s;color:var(--text);font-family:'Figtree',sans-serif;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;}
 .zte-quiz-opt:hover:not(:disabled){border-color:var(--navy);background:var(--light);}
 .zte-quiz-opt.correct{border-color:var(--green);background:#f0fdf4;color:var(--green);}
 .zte-quiz-opt.wrong{border-color:var(--red);background:#fff1f3;color:var(--red);}
@@ -249,32 +249,37 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
   .zte-hero{padding:40px 24px;}
   .zte-home-curriculum{padding:40px 24px;}
   .zte-curr-grid{padding:24px;}
-  .zte-lesson-content{padding:24px 20px 80px;}
-  .zte-lesson-main-header{padding:16px 20px 0;}
-  .zte-lesson-tabs{padding:0 16px;}
+  .zte-lesson-content{padding:16px 16px 100px;}
+  .zte-lesson-main-header{padding:12px 16px 0;}
+  .zte-lesson-tabs{padding:0 12px;}
   .zte-stats-bar{padding:20px 24px;}
   .zte-nav{padding:0 16px;}
   .zte-nav-links{display:none;}
   .zte-nav-welcome{display:none;}
   .zte-strip-label{display:none;}
-  .zte-lesson-main-title{font-size:20px;line-height:1.15;}
-  .zte-content-body{font-size:18px;line-height:1.9;}
-  .zte-content-heading{font-size:22px;}
-  .zte-quiz-q{font-size:18px;line-height:1.45;}
-  .zte-quiz-opt{font-size:16px;padding:16px 14px;}
+  .zte-lesson-main-title{font-size:19px;line-height:1.15;}
+  .zte-content-body{font-size:17px;line-height:1.8;}
+  .zte-content-heading{font-size:21px;}
+  .zte-quiz-q{font-size:17px;line-height:1.4;margin-bottom:16px;}
+  .zte-quiz-opt{font-size:15px;padding:13px 14px;}
+  .zte-quiz-options{gap:8px;margin-bottom:16px;}
+  .zte-quiz-meta{font-size:9px;margin-bottom:8px;}
   .zte-fc-text{font-size:18px;}
   .zte-dispatch-hook{font-size:16px;}
   .zte-scenario-bridge{font-size:16px;}
   .zte-tutor-msg-text{font-size:16px;}
   .zte-tutor-input{font-size:16px;}
-  .zte-lesson-tab{padding:12px 10px;font-size:12px;}
+  .zte-lesson-tab{padding:10px 8px;font-size:11px;}
   .zte-strip-node{width:24px;height:24px;font-size:8px;}
   .zte-strip-connector{top:12px;}
   .zte-footer-inner{padding:32px 24px;}
   .zte-curr-hero{padding:40px 24px 32px;}
-  .zte-lesson-nav{position:sticky;bottom:0;background:var(--white);border-top:1px solid var(--border);padding:12px 20px 20px;margin:16px -20px -24px;z-index:10;}
+  .zte-lesson-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);padding:10px 16px 24px;z-index:10;}
   .zte-btn-primary{width:100%;justify-content:center;}
-}
+  .zte-btn-secondary{width:100%;justify-content:center;}
+  .zte-results-btns{flex-direction:column;}
+  .zte-explanation{font-size:14px;margin-top:12px;}
+}i
 
 /* ============================================================
    MODULE COMPLETE OVERLAY
@@ -311,7 +316,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-mc-title{font-family:'Anton',sans-serif;font-size:clamp(52px,12vw,72px);color:var(--navy);line-height:.88;letter-spacing:1px;}
 .zte-mc-subtitle{font-family:'Anton',sans-serif;font-size:clamp(28px,6vw,36px);color:var(--red);letter-spacing:3px;margin-bottom:20px;}
 .zte-mc-headline{font-family:'Figtree',sans-serif;font-size:15px;line-height:1.55;color:var(--text);margin-bottom:20px;font-weight:600;}
-.zte-mc-review-list{background:var(--light);border-radius:12px;padding:16px;margin-bottom:16px;text-align:left;}
+.zte-mc-review-list{background:var(--light);border-radius:12px;padding:16px;margin-bottom:16px;text-align:left;max-height:280px;overflow-y:auto;}
 .zte-mc-review-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);}
 .zte-mc-review-item:last-of-type{border-bottom:none;padding-bottom:0;}
 .zte-mc-review-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0;}
