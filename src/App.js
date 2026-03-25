@@ -694,22 +694,30 @@ export default function App() {
                       if (quizAnswered) {
                         if (i === quizDeck[quizIndex].answer) cls = "correct";
                         else if (i === quizSelected) cls = "wrong";
+                      } else if (i === quizSelected) {
+                        cls = "selected";
                       }
                       return (
                         <button key={i} className={`zte-quiz-opt ${cls}`} disabled={quizAnswered}
-                          onClick={() => { setQuizSelected(i); setQuizAnswered(true); if (i === quizDeck[quizIndex].answer) setQuizScore(s => s+1); }}>
+                          onClick={() => { if (!quizAnswered) setQuizSelected(i); }}>
                           {opt}
                         </button>
                       );
                     })}
                   </div>
+                  {quizSelected !== null && !quizAnswered && (
+                    <button className="zte-btn-primary" onClick={() => {
+                      if (quizSelected === quizDeck[quizIndex].answer) setQuizScore(s => s+1);
+                      setQuizAnswered(true);
+                    }}>Confirm Answer</button>
+                  )}
                   {quizAnswered && (
                     <>
+                      <div className="zte-explanation">{quizDeck[quizIndex].explanation}</div>
                       <button className="zte-btn-primary" onClick={() => {
                         if (quizIndex < quizDeck.length - 1) { setQuizIndex(i => i+1); setQuizSelected(null); setQuizAnswered(false); }
                         else { saveQuizScore(quizScore); setQuizDone(true); }
                       }}>{quizIndex < quizDeck.length - 1 ? "Next Question ->" : "See Results ->"}</button>
-                      <div className="zte-explanation">{quizDeck[quizIndex].explanation}</div>
                     </>
                   )}
                 </div>
