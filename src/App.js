@@ -298,8 +298,8 @@ export default function App() {
           </div>
           <div className="zte-footer-links">
             <button className="zte-footer-link" onClick={() => setScreen("curriculum")}>Curriculum</button>
-            <a className="zte-footer-link" href="https://nremt.org" target="_blank" rel="noopener noreferrer">NREMT.org &#8599;</a>
-            <a className="zte-footer-link" href="https://github.com/jobrandes/zerotoemt" target="_blank" rel="noopener noreferrer">GitHub &#8599;</a>
+            <a className="zte-footer-link" href="https://nremt.org" target="_blank" rel="noopener noreferrer">NREMT.org ↗</a>
+            <a className="zte-footer-link" href="https://github.com/jobrandes/zerotoemt" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
           </div>
         </div>
         <div className="zte-footer-disclaimer">
@@ -321,7 +321,7 @@ export default function App() {
         <button className={`zte-nav-link ${screen === "home" ? "active" : ""}`} onClick={() => setScreen("home")}>Home</button>
         <button className={`zte-nav-link ${screen === "curriculum" ? "active" : ""}`} onClick={() => setScreen("curriculum")}>Curriculum</button>
         <button className={`zte-nav-link zte-nav-link-exam ${screen === "exam" ? "active" : ""}`} onClick={() => setScreen("exam")}>
-          {hasExamAccess ? "Exam Simulator" : "Exam Simulator &#128274;"}
+          {hasExamAccess ? "Exam Simulator" : "Exam Simulator 🔒"}
         </button>
       </div>
       <div style={{display:"flex",gap:8,alignItems:"center",flexShrink:0}}>
@@ -441,7 +441,7 @@ export default function App() {
               "Terrified they will be the only one who does not get it",
             ].map((t, i) => (
               <div key={i} className="zte-for-item">
-                <span className="zte-for-check">&#10003;</span>
+                <span className="zte-for-check">✓</span>
                 <span>{t}</span>
               </div>
             ))}
@@ -499,7 +499,7 @@ export default function App() {
             <div className="zte-exam-promo-features">
               {["120 NREMT-weighted questions","Timed -- 2 hours, just like the real exam","Domain breakdown: Airway, Cardiology, Trauma, Medical, Ops","AI debrief tied to your exact results","Unlimited retakes"].map((f,i) => (
                 <div key={i} className="zte-exam-promo-feature">
-                  <span className="zte-exam-promo-check">&#10003;</span>
+                  <span className="zte-exam-promo-check">✓</span>
                   <span>{f}</span>
                 </div>
               ))}
@@ -604,11 +604,11 @@ export default function App() {
       <div className="zte-exam-content">
         {hasExamAccess ? (
           <div className="zte-exam-access-panel">
-            <div className="zte-exam-access-badge">&#10003; Exam Access Active</div>
+            <div className="zte-exam-access-badge">✓ Exam Access Active</div>
             <h2 className="zte-exam-access-title">YOUR EXAM SIMULATOR</h2>
             <p className="zte-exam-access-desc">The full exam simulator is coming soon. You already have access -- it will appear here automatically when it launches. No action needed.</p>
             <div className="zte-exam-coming-soon-card">
-              <div className="zte-exam-cs-icon">&#128203;</div>
+              <div className="zte-exam-cs-icon">📋</div>
               <div className="zte-exam-cs-title">BUILDING NOW</div>
               <div className="zte-exam-cs-desc">120 questions, timer, domain breakdown, AI debrief. You paid -- you get it the moment it ships.</div>
             </div>
@@ -617,12 +617,12 @@ export default function App() {
           <div className="zte-exam-purchase-panel">
             <div className="zte-exam-features-grid">
               {[
-                { icon: "&#128203;", title: "120 Questions", desc: "Weighted to NREMT domain proportions -- the same distribution as the real exam." },
-                { icon: "&#9201;", title: "2-Hour Timer", desc: "Same time limit as the NREMT. Learn to pace yourself before it counts." },
-                { icon: "&#128202;", title: "Domain Breakdown", desc: "See exactly how you scored in Airway, Cardiology, Trauma, Medical, and Operations." },
-                { icon: "&#129302;", title: "AI Debrief", desc: "An AI coach analyzes your results and tells you exactly what to study next." },
-                { icon: "&#128260;", title: "Unlimited Retakes", desc: "Questions randomize every attempt. Retake until you're confident." },
-                { icon: "&#128681;", title: "Flag & Review", desc: "Flag questions mid-exam and review every answer with full explanations after." },
+                { icon: "📋", title: "120 Questions", desc: "Weighted to NREMT domain proportions -- the same distribution as the real exam." },
+                { icon: "⏱", title: "2-Hour Timer", desc: "Same time limit as the NREMT. Learn to pace yourself before it counts." },
+                { icon: "📊", title: "Domain Breakdown", desc: "See exactly how you scored in Airway, Cardiology, Trauma, Medical, and Operations." },
+                { icon: "🤖", title: "AI Debrief", desc: "An AI coach analyzes your results and tells you exactly what to study next." },
+                { icon: "🔄", title: "Unlimited Retakes", desc: "Questions randomize every attempt. Retake until you're confident." },
+                { icon: "🚩", title: "Flag & Review", desc: "Flag questions mid-exam and review every answer with full explanations after." },
               ].map((f, i) => (
                 <div key={i} className="zte-exam-feature-card">
                   <div className="zte-exam-feature-icon">{f.icon}</div>
@@ -908,7 +908,7 @@ export default function App() {
                   return (
                     <div key={l.id} className="zte-strip-item">
                       <div className={`zte-strip-node ${done ? "done" : active ? "active" : !unlocked ? "locked" : "upcoming"}`}>
-                        {done ? <span>&#10003;</span> : String(l.id).padStart(2,"0")}
+                        {done ? <span>✓</span> : String(l.id).padStart(2,"0")}
                       </div>
                       <div className={`zte-strip-label ${active ? "active" : ""}`}>{l.title}</div>
                       {!isLast && <div className={`zte-strip-connector ${done ? "done" : ""}`}/>}
