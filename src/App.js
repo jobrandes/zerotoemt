@@ -527,6 +527,7 @@ export default function App() {
                 <div className="zte-mc-subtitle">COMPLETE</div>
                 <div className="zte-mc-headline">{headline}</div>
                 {reviewList.length > 0 && (
+                <>
                   <div className="zte-mc-review-list">
                     {reviewList.map(l => (
                       <div key={l.k} className="zte-mc-review-item">
@@ -549,6 +550,7 @@ export default function App() {
                     Start Review Session &rarr;
                     <span className="zte-mc-review-session-count">{reviewList.length} {reviewList.length === 1 ? "lesson" : "lessons"} queued</span>
                   </button>
+                </>
                 )}
                 <div className="zte-mc-progress-line">{cPct}% of full course complete</div>
                 <div className="zte-mc-btns">
