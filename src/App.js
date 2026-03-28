@@ -82,6 +82,7 @@ export default function App() {
   const [showModuleComplete, setShowModuleComplete] = useState(false);
   const [reviewQueue, setReviewQueue] = useState(null);
   const [showReviewComplete, setShowReviewComplete] = useState(false);
+  const [hasExamAccess, setHasExamAccess] = useState(false);
   const reviewScoresRef = useRef({});
   const completedModuleRef = useRef(null);
   const quizStartScoreRef = useRef(null);
@@ -139,6 +140,9 @@ export default function App() {
       { user_id: userId, completed_lessons: merged, lesson_scores: mergedScores, updated_at: new Date().toISOString() },
       { onConflict: "user_id" }
     );
+    // Check exam access
+    const { data: examData } = await supabase.from("exam_access").select("id").eq("user_id", userId).maybeSingle();
+    setHasExamAccess(!!examData);
   }
 
   async function saveProgress(lessons, scores) {
@@ -287,11 +291,21 @@ export default function App() {
   const Footer = () => (
     <footer className="zte-footer">
       <div className="zte-footer-inner">
-        <div className="zte-footer-logo">ZERO <span>TO</span> EMT</div>
-        <div className="zte-footer-disclaimer">
-          <strong>Educational Use Only.</strong> Zero to EMT is a free study preparation platform designed to help students prepare for EMT coursework and the NREMT certification exam. The content on this site is for educational and informational purposes only. It does not constitute medical advice, clinical guidance, or professional medical training. It is not a substitute for formal EMT certification, accredited coursework, or the judgment of a licensed medical professional. Zero to EMT is not affiliated with, endorsed by, or approved by the National Registry of Emergency Medical Technicians (NREMT) or any state EMS regulatory body. Always follow the protocols established by your training program and medical director.
+        <div className="zte-footer-top">
+          <div className="zte-footer-brand">
+            <div className="zte-footer-logo">ZERO <span>TO</span> EMT</div>
+            <div className="zte-footer-tagline">Free pre-class prep for people starting from zero.</div>
+          </div>
+          <div className="zte-footer-links">
+            <button className="zte-footer-link" onClick={() => setScreen("curriculum")}>Curriculum</button>
+            <a className="zte-footer-link" href="https://nremt.org" target="_blank" rel="noopener noreferrer">NREMT.org &#8599;</a>
+            <a className="zte-footer-link" href="https://github.com/jobrandes/zerotoemt" target="_blank" rel="noopener noreferrer">GitHub &#8599;</a>
+          </div>
         </div>
-        <div className="zte-footer-copy">&copy; {new Date().getFullYear()} Zero to EMT &middot; Built for future EMTs &middot; Always free</div>
+        <div className="zte-footer-disclaimer">
+          <strong>Educational Use Only.</strong> Zero to EMT is a free study preparation platform for pre-class EMT students. Content is for educational purposes only  --  not medical advice, clinical guidance, or a substitute for formal certification or accredited coursework. Not affiliated with or endorsed by NREMT or any state EMS regulatory body. Always follow protocols from your training program and medical director.
+        </div>
+        <div className="zte-footer-copy">&copy; {new Date().getFullYear()} Zero to EMT &middot; Always free &middot; Built for future EMTs</div>
       </div>
     </footer>
   );
@@ -306,6 +320,9 @@ export default function App() {
       <div className="zte-nav-links">
         <button className={`zte-nav-link ${screen === "home" ? "active" : ""}`} onClick={() => setScreen("home")}>Home</button>
         <button className={`zte-nav-link ${screen === "curriculum" ? "active" : ""}`} onClick={() => setScreen("curriculum")}>Curriculum</button>
+        <button className={`zte-nav-link zte-nav-link-exam ${screen === "exam" ? "active" : ""}`} onClick={() => setScreen("exam")}>
+          {hasExamAccess ? "Exam Simulator" : "Exam Simulator &#128274;"}
+        </button>
       </div>
       <div style={{display:"flex",gap:8,alignItems:"center",flexShrink:0}}>
         {navName && <span className="zte-nav-welcome">Hey, {navName}</span>}
@@ -337,24 +354,31 @@ export default function App() {
       <Nav />
       <section className="zte-hero">
         <div className="zte-hero-left">
-          <div className="zte-hero-eyebrow">{completedLessons.length > 0 ? `WELCOME BACK${displayName ? ", " + displayName.toUpperCase() : ""}` : "EMT CERTIFICATION PREP"}</div>
+          <div className="zte-hero-eyebrow">{completedLessons.length > 0 ? `WELCOME BACK${displayName ? ", " + displayName.toUpperCase() : ""}` : "FREE EMT PREP"}</div>
           <h1 className="zte-hero-title">ZERO<br/>TO<br/><span>EMT.</span></h1>
-          <p className="zte-hero-desc">The only free, AI-powered platform built for people with zero medical background. Learn everything before your first EMT class even starts.</p>
+          <p className="zte-hero-desc">{completedLessons.length > 0 ? "Pick up where you left off. Every lesson, every flashcard, every quiz  --  right where you were." : "Your EMT class starts in weeks. You have zero medical background. This platform was built for exactly that moment."}</p>
           <div className="zte-hero-btns">
             <button className="zte-btn-hero-primary" onClick={() => { const r = getResumeLesson(); openLesson(r ? r.mId : 0, r ? r.lId : 1); }}>{completedLessons.length > 0 ? "CONTINUE LEARNING" : "START LEARNING FREE"}</button>
             <button className="zte-btn-hero-secondary" onClick={() => setScreen("curriculum")}>See Curriculum</button>
-            {completedLessons.length > 0 && (
-              <button className="zte-btn-reset" onClick={() => { setCompletedLessons([]); try { localStorage.removeItem("zte-progress"); } catch {} try { localStorage.removeItem("zte-scores"); } catch {} setLessonScores({}); }}>Reset Progress</button>
-            )}
+          </div>
+          {completedLessons.length > 0 && (
+            <button className="zte-btn-reset" onClick={() => { if(window.confirm("Reset all progress? This cannot be undone.")) { setCompletedLessons([]); try{localStorage.removeItem("zte-progress")}catch{} try{localStorage.removeItem("zte-scores")}catch{} setLessonScores({}); } }}>Reset Progress</button>
+          )}
+          <div className="zte-hero-trust">
+            <span className="zte-hero-trust-item">No account required</span>
+            <span className="zte-hero-trust-sep">&middot;</span>
+            <span className="zte-hero-trust-item">No credit card</span>
+            <span className="zte-hero-trust-sep">&middot;</span>
+            <span className="zte-hero-trust-item">Free forever</span>
           </div>
         </div>
         <div className="zte-hero-right">
           <div className="zte-hero-card">
             {[
-              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="9" height="9" rx="2"/><rect x="16" y="4" width="9" height="9" rx="2"/><rect x="3" y="17" width="9" height="9" rx="2"/><rect x="16" y="17" width="9" height="9" rx="2"/></svg>, num: "6", label: "Modules", sub: "Foundation through Operations" },
-              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 4h18a1 1 0 011 1v18a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M8 10h12M8 14h12M8 18h7"/></svg>, num: "40+", label: "Lessons", sub: "Each built around a real 911 call" },
-              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="14" cy="10" r="5"/><path d="M4 24c0-5.52 4.48-10 10-10s10 4.48 10 10"/><path d="M19 5l2 2-2 2"/></svg>, num: "AI", label: "Tutor", sub: "Built into every single lesson" },
-              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 3l2.5 8H24l-6.5 4.7 2.5 8L14 19.4 8 23.7l2.5-8L4 11h7.5z"/></svg>, num: "100%", label: "Free", sub: "No account. No credit card. Ever." },
+              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="9" height="9" rx="2"/><rect x="16" y="4" width="9" height="9" rx="2"/><rect x="3" y="17" width="9" height="9" rx="2"/><rect x="16" y="17" width="9" height="9" rx="2"/></svg>, num: "6", label: "Modules", sub: "Airway, Cardiology, Trauma, Medical, Ops" },
+              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 4h18a1 1 0 011 1v18a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M8 10h12M8 14h12M8 18h7"/></svg>, num: `${TOTAL_LESSONS}`, label: "Lessons", sub: "Each opens with a real 911 scenario" },
+              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="14" cy="10" r="5"/><path d="M4 24c0-5.52 4.48-10 10-10s10 4.48 10 10"/><path d="M19 5l2 2-2 2"/></svg>, num: "AI", label: "Tutor", sub: "Ask anything. No judgment. Always on." },
+              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 3l2.5 8H24l-6.5 4.7 2.5 8L14 19.4 8 23.7l2.5-8L4 11h7.5z"/></svg>, num: "0", label: "Prerequisites", sub: "Built for people with zero medical background" },
             ].map((item, i) => (
               <div key={i} className="zte-hero-feature">
                 <div className="zte-hero-feature-icon">{item.icon}</div>
@@ -367,21 +391,74 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      <div className="zte-how-it-works">
+        <div className="zte-how-inner">
+          <div className="zte-how-label">HOW IT WORKS</div>
+          <div className="zte-how-steps">
+            {[
+              { num: "01", title: "Scenario", desc: "Every lesson opens with a real 911 dispatch. You are on the truck before you open a textbook." },
+              { num: "02", title: "Lesson", desc: "Five focused sections. Clinical depth without the nursing school overhead." },
+              { num: "03", title: "Flashcards", desc: "Key terms and concepts, flip-card style. Spaced repetition without the app subscription." },
+              { num: "04", title: "Quiz", desc: "NREMT-style questions. 80% to pass. Your score saves automatically." },
+              { num: "05", title: "AI Tutor", desc: "Stuck on a concept? Ask anything. It knows exactly what lesson you are in." },
+            ].map((step, i) => (
+              <div key={i} className="zte-how-step">
+                <div className="zte-how-step-num">{step.num}</div>
+                <div className="zte-how-step-content">
+                  <div className="zte-how-step-title">{step.title}</div>
+                  <div className="zte-how-step-desc">{step.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className="zte-stats-bar">
-        {[["6","CORE MODULES"],["40+","LESSONS"],["5","NREMT DOMAINS"],["0","PRIOR KNOWLEDGE"],["Free","ALWAYS"]].map(([n,l],i) => (
+        {[
+          ["6", "MODULES"],
+          [String(TOTAL_LESSONS), "LESSONS"],
+          ["612+", "FLASHCARDS"],
+          ["5", "NREMT DOMAINS"],
+          ["Free", "ALWAYS"],
+        ].map(([n, l], i) => (
           <div key={i} className="zte-stat">
             <div className="zte-stat-num">{n}</div>
             <div className="zte-stat-label">{l}</div>
           </div>
         ))}
       </div>
+
+      <div className="zte-for-strip">
+        <div className="zte-for-inner">
+          <div className="zte-for-label">BUILT FOR PEOPLE WHO ARE &mdash;</div>
+          <div className="zte-for-items">
+            {[
+              "Starting EMT class in the next few weeks",
+              "Working full-time and studying in the margins",
+              "Completely new to medicine or healthcare",
+              "Terrified they will be the only one who does not get it",
+            ].map((t, i) => (
+              <div key={i} className="zte-for-item">
+                <span className="zte-for-check">&#10003;</span>
+                <span>{t}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <section className="zte-home-curriculum">
         <div className="zte-home-curriculum-header">
           <h2 className="zte-section-title">THE CURRICULUM</h2>
           <div className="zte-section-meta">NREMT-ALIGNED &middot; {TOTAL_LESSONS} LESSONS</div>
         </div>
         <div className="zte-module-grid">
-          {MODULES.map(mod => (
+          {MODULES.map(mod => {
+            const completedInMod = mod.lessons.filter(l => isLessonCompleted(mod.id, l.id)).length;
+            const pct = Math.round((completedInMod / mod.lessons.length) * 100);
+            return (
             <div key={mod.id} className="zte-module-preview-card" style={{"--accent": mod.accentColor}}>
               <div className="zte-mpc-top">
                 <span className="zte-mpc-code" style={{color: mod.accentColor, borderColor: mod.accentColor}}>{mod.code}</span>
@@ -389,14 +466,60 @@ export default function App() {
               </div>
               <h3 className="zte-mpc-title">{mod.title}</h3>
               <p className="zte-mpc-desc">{mod.desc}</p>
+              {completedInMod > 0 && (
+                <div className="zte-mpc-progress">
+                  <div className="zte-mpc-progress-bar">
+                    <div className="zte-mpc-progress-fill" style={{width: `${pct}%`, background: mod.accentColor}} />
+                  </div>
+                  <span className="zte-mpc-progress-label">{completedInMod}/{mod.lessons.length} lessons</span>
+                </div>
+              )}
               <div className="zte-mpc-footer">
-                <span className="zte-mpc-count">{mod.lessons.length} lessons</span>
-                {mod.id === 0 && <button className="zte-mpc-btn" onClick={() => openLesson(0,1)}>START HERE</button>}
+                {completedInMod === 0 && <span className="zte-mpc-count">{mod.lessons.length} lessons</span>}
+                {mod.id === 0
+                  ? <button className="zte-mpc-btn" onClick={() => openLesson(0,1)}>START HERE &rarr;</button>
+                  : <button className="zte-mpc-btn" onClick={() => openLesson(mod.id, mod.lessons[0].id)}>
+                      {completedInMod === mod.lessons.length ? "REVIEW &rarr;" : completedInMod > 0 ? "CONTINUE &rarr;" : "BEGIN &rarr;"}
+                    </button>
+                }
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </section>
+
+      {/* Exam Simulator promo card */}
+      <div className="zte-exam-promo">
+        <div className="zte-exam-promo-inner">
+          <div className="zte-exam-promo-left">
+            <div className="zte-exam-promo-eyebrow">COMING NEXT</div>
+            <h2 className="zte-exam-promo-title">NREMT EXAM<br/>SIMULATOR</h2>
+            <p className="zte-exam-promo-desc">120 questions. 2-hour timer. Full domain breakdown. AI debrief. Everything you need to know if you're ready before you sit for the real thing.</p>
+            <div className="zte-exam-promo-features">
+              {["120 NREMT-weighted questions","Timed -- 2 hours, just like the real exam","Domain breakdown: Airway, Cardiology, Trauma, Medical, Ops","AI debrief tied to your exact results","Unlimited retakes"].map((f,i) => (
+                <div key={i} className="zte-exam-promo-feature">
+                  <span className="zte-exam-promo-check">&#10003;</span>
+                  <span>{f}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="zte-exam-promo-right">
+            <div className="zte-exam-promo-price-card">
+              <div className="zte-exam-promo-price-label">ONE-TIME</div>
+              <div className="zte-exam-promo-price">$29</div>
+              <div className="zte-exam-promo-price-sub">Unlimited retakes included</div>
+              {hasExamAccess
+                ? <button className="zte-exam-promo-cta owned" onClick={() => setScreen("exam")}>Go to Exam Simulator &rarr;</button>
+                : <button className="zte-exam-promo-cta" onClick={() => setScreen("exam")}>Learn More &rarr;</button>
+              }
+              <div className="zte-exam-promo-disclaimer">Practice tool only -- not affiliated with NREMT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <Footer />
     </div>
   );
@@ -414,12 +537,26 @@ export default function App() {
         {MODULES.map(mod => {
           const unlocked = isModuleUnlocked(mod.id);
           const completed = isModuleCompleted(mod.id);
+          const completedInMod = mod.lessons.filter(l => isLessonCompleted(mod.id, l.id)).length;
+          const modPct = Math.round((completedInMod / mod.lessons.length) * 100);
           return (
-            <div key={mod.id} className={`zte-curr-card ${!unlocked ? "locked" : ""}`} style={{"--accent": mod.accentColor}}>
+            <div key={mod.id} className={`zte-curr-card ${!unlocked ? "locked" : ""} ${completed ? "completed" : ""}`} style={{"--accent": mod.accentColor}}>
               <div className="zte-curr-card-top">
                 <span className="zte-curr-code" style={{color: mod.accentColor, borderColor: mod.accentColor}}>{mod.code}</span>
-                <span className="zte-curr-mod-num">MODULE {mod.id}</span>
+                <div className="zte-curr-card-top-right">
+                  <span className="zte-curr-mod-num">MODULE {mod.id}</span>
+                  {completedInMod > 0 && (
+                    <span className="zte-curr-mod-pct" style={{color: completed ? "var(--green)" : mod.accentColor}}>
+                      {completed ? "DONE" : `${modPct}%`}
+                    </span>
+                  )}
+                </div>
               </div>
+              {completedInMod > 0 && (
+                <div className="zte-curr-mod-progress">
+                  <div className="zte-curr-mod-progress-fill" style={{width: `${modPct}%`, background: completed ? "var(--green)" : mod.accentColor}} />
+                </div>
+              )}
               <h3 className="zte-curr-card-title">{mod.title}</h3>
               <p className="zte-curr-card-desc">{mod.desc}</p>
               <div className="zte-curr-lessons">
@@ -427,7 +564,9 @@ export default function App() {
                   const lDone = isLessonCompleted(mod.id, l.id);
                   const lUnlocked = isLessonUnlocked(mod.id, l.id);
                   return (
-                    <div key={l.id} className={`zte-curr-lesson-row ${lDone ? "done" : ""}`}>
+                    <div key={l.id} className={`zte-curr-lesson-row ${lDone ? "done" : ""}`}
+                      style={{cursor: lUnlocked ? "pointer" : "default"}}
+                      onClick={() => lUnlocked && openLesson(mod.id, l.id)}>
                       <span className="zte-curr-lesson-dot" style={{background: lDone ? mod.accentColor : lUnlocked ? "#d1d5db" : "#e5e7eb"}}/>
                       <span className="zte-curr-lesson-name">{l.title}</span>
                       <span className="zte-curr-lesson-dur">{l.duration}</span>
@@ -435,13 +574,91 @@ export default function App() {
                   );
                 })}
               </div>
-              <button className={`zte-curr-cta ${!unlocked ? "locked-btn" : ""}`}
-                onClick={() => unlocked && openLesson(mod.id, mod.lessons[0].id)} disabled={!unlocked}>
-                {!unlocked ? `Complete Module ${mod.id - 1} first` : completed ? "Review Module ->" : "Start Module ->"}
-              </button>
+              <div className="zte-curr-footer">
+                <span className="zte-curr-lesson-count">{completedInMod}/{mod.lessons.length} lessons</span>
+                <button className={`zte-curr-cta ${!unlocked ? "locked-btn" : ""}`}
+                  onClick={() => unlocked && openLesson(mod.id, mod.lessons[0].id)} disabled={!unlocked}>
+                  {!unlocked ? `Complete Module ${mod.id - 1} first` : completed ? "Review Module \u2192" : completedInMod > 0 ? "Continue \u2192" : "Start Module \u2192"}
+                </button>
+              </div>
             </div>
           );
         })}
+      </div>
+      <Footer />
+    </div>
+  );
+
+  // -- EXAM SIMULATOR --
+  if (screen === "exam") return (
+    <div id="zte-root">
+      <Nav />
+      <div className="zte-exam-hero">
+        <div className="zte-exam-hero-inner">
+          <div className="zte-tagline-mono">NREMT EXAM SIMULATOR</div>
+          <h1 className="zte-exam-hero-title">ARE YOU READY<br/>FOR THE REAL THING?</h1>
+          <p className="zte-exam-hero-sub">120 questions. 2 hours. Full domain scoring. AI debrief. Built for Zero to EMT students who want to know where they stand before they sit for the NREMT.</p>
+        </div>
+      </div>
+
+      <div className="zte-exam-content">
+        {hasExamAccess ? (
+          <div className="zte-exam-access-panel">
+            <div className="zte-exam-access-badge">&#10003; Exam Access Active</div>
+            <h2 className="zte-exam-access-title">YOUR EXAM SIMULATOR</h2>
+            <p className="zte-exam-access-desc">The full exam simulator is coming soon. You already have access -- it will appear here automatically when it launches. No action needed.</p>
+            <div className="zte-exam-coming-soon-card">
+              <div className="zte-exam-cs-icon">&#128203;</div>
+              <div className="zte-exam-cs-title">BUILDING NOW</div>
+              <div className="zte-exam-cs-desc">120 questions, timer, domain breakdown, AI debrief. You paid -- you get it the moment it ships.</div>
+            </div>
+          </div>
+        ) : (
+          <div className="zte-exam-purchase-panel">
+            <div className="zte-exam-features-grid">
+              {[
+                { icon: "&#128203;", title: "120 Questions", desc: "Weighted to NREMT domain proportions -- the same distribution as the real exam." },
+                { icon: "&#9201;", title: "2-Hour Timer", desc: "Same time limit as the NREMT. Learn to pace yourself before it counts." },
+                { icon: "&#128202;", title: "Domain Breakdown", desc: "See exactly how you scored in Airway, Cardiology, Trauma, Medical, and Operations." },
+                { icon: "&#129302;", title: "AI Debrief", desc: "An AI coach analyzes your results and tells you exactly what to study next." },
+                { icon: "&#128260;", title: "Unlimited Retakes", desc: "Questions randomize every attempt. Retake until you're confident." },
+                { icon: "&#128681;", title: "Flag & Review", desc: "Flag questions mid-exam and review every answer with full explanations after." },
+              ].map((f, i) => (
+                <div key={i} className="zte-exam-feature-card">
+                  <div className="zte-exam-feature-icon">{f.icon}</div>
+                  <div className="zte-exam-feature-title">{f.title}</div>
+                  <div className="zte-exam-feature-desc">{f.desc}</div>
+                </div>
+              ))}
+            </div>
+
+            <div className="zte-exam-purchase-box">
+              <div className="zte-exam-purchase-left">
+                <div className="zte-exam-purchase-title">NREMT Exam Simulator</div>
+                <div className="zte-exam-purchase-sub">One-time payment. Unlimited retakes. Yours to keep.</div>
+                <ul className="zte-exam-purchase-list">
+                  <li>120-question timed practice exam</li>
+                  <li>Domain scoring aligned to NREMT weights</li>
+                  <li>Full question review with explanations</li>
+                  <li>AI debrief personalized to your results</li>
+                  <li>Flag button on every question</li>
+                  <li>Track improvement across attempts</li>
+                </ul>
+              </div>
+              <div className="zte-exam-purchase-right">
+                <div className="zte-exam-purchase-price-label">ONE-TIME PAYMENT</div>
+                <div className="zte-exam-purchase-price">$29</div>
+                <button className="zte-exam-purchase-btn" onClick={() => {
+                  // Stripe checkout will be wired here
+                  alert("Stripe checkout coming soon! Check back when the exam simulator launches.");
+                }}>
+                  Get Exam Access &rarr;
+                </button>
+                <div className="zte-exam-purchase-note">Practice tool only. Not affiliated with or endorsed by NREMT. Questions last reviewed March 2026.</div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <Footer />
     </div>

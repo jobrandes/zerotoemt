@@ -1,0 +1,29 @@
+{
+  "short_name": "Zero to EMT",
+  "name": "Zero to EMT -- Free Pre-Class EMT Training",
+  "description": "Free AI-powered EMT pre-class training for people with zero medical background.",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0f1f3d",
+  "background_color": "#e8e9ed",
+  "orientation": "portrait-primary",
+  "categories": ["education", "medical"],
+  "lang": "en-US"
+}
