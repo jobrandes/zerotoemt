@@ -415,3 +415,79 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
   .zte-rc-badge{align-self:flex-start;}
   .zte-rc-list{max-height:220px;}
 }
+
+/* ============================================================
+   REVIEW SESSION MODE
+   ============================================================ */
+
+/* Banner */
+.zte-review-banner{background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:10px 32px;gap:16px;border-bottom:2px solid var(--red);}
+.zte-review-banner-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.zte-review-banner-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--red);text-transform:uppercase;flex-shrink:0;}
+.zte-review-banner-pos{font-family:'Figtree',sans-serif;font-size:13px;font-weight:600;color:rgba(255,255,255,.8);white-space:nowrap;}
+.zte-review-banner-dots{display:flex;gap:6px;align-items:center;}
+.zte-review-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .2s;flex-shrink:0;}
+.zte-review-dot.done{background:var(--green);}
+.zte-review-dot.active{background:var(--red);width:20px;border-radius:4px;}
+.zte-review-banner-exit{background:transparent;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.5px;padding:5px 12px;border-radius:5px;cursor:pointer;transition:all .15s;flex-shrink:0;}
+.zte-review-banner-exit:hover{border-color:var(--red);color:var(--red);}
+
+/* Exit confirm inline (replaces exit button) */
+.zte-review-exit-confirm{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.zte-review-exit-prompt{font-family:'Space Mono',monospace;font-size:10px;color:rgba(255,255,255,.7);white-space:nowrap;}
+.zte-review-exit-cancel{background:transparent;border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.7);font-family:'Space Mono',monospace;font-size:10px;padding:4px 10px;border-radius:4px;cursor:pointer;transition:all .15s;}
+.zte-review-exit-cancel:hover{border-color:rgba(255,255,255,.6);color:#fff;}
+.zte-review-exit-yes{background:var(--red);border:1px solid var(--red);color:#fff;font-family:'Space Mono',monospace;font-size:10px;padding:4px 10px;border-radius:4px;cursor:pointer;transition:all .15s;}
+.zte-review-exit-yes:hover{background:#c4122f;}
+
+/* Module Complete - Review Session button (full-width, prominent) */
+.zte-mc-review-session-btn{display:flex;align-items:center;justify-content:space-between;width:100%;background:var(--navy);color:#fff;border:none;padding:14px 20px;border-radius:10px;font-family:'Anton',sans-serif;font-size:16px;letter-spacing:.5px;cursor:pointer;transition:all .2s;margin-top:12px;}
+.zte-mc-review-session-btn:hover{background:var(--red);}
+.zte-mc-review-session-count{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.5px;opacity:.75;font-weight:400;}
+
+/* Quiz results - still flagged */
+.zte-results-still-flagged{background:rgba(232,25,60,.07);border:1px solid rgba(232,25,60,.2);border-radius:8px;padding:12px 16px;margin:0 0 20px;font-family:'Figtree',sans-serif;font-size:13px;color:var(--red);line-height:1.5;}
+
+/* Review queue next/end buttons */
+.zte-review-next-btns{display:flex;flex-direction:column;gap:8px;width:100%;}
+.zte-btn-review-end{background:transparent;border:1.5px solid var(--border);color:var(--muted);padding:11px 20px;border-radius:8px;font-family:'Figtree',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:all .15s;text-align:center;}
+.zte-btn-review-end:hover{border-color:var(--red);color:var(--red);}
+
+/* Review Complete modal - distinct from Module Complete */
+.zte-rc-modal{background:var(--white);border-radius:20px;padding:40px 36px 36px;max-width:480px;width:100%;position:relative;animation:zte-mc-drop .4s cubic-bezier(.34,1.56,.64,1) both;max-height:90vh;overflow-y:auto;}
+.zte-rc-header{text-align:center;margin-bottom:24px;}
+.zte-rc-eyebrow{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;color:#fff;padding:5px 14px;border-radius:20px;margin-bottom:14px;}
+.zte-rc-title{font-family:'Anton',sans-serif;font-size:clamp(40px,10vw,58px);color:var(--navy);line-height:.9;letter-spacing:.5px;}
+.zte-rc-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-height:280px;overflow-y:auto;}
+.zte-rc-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);}
+.zte-rc-item.cleared{border-color:rgba(22,163,74,.3);background:rgba(22,163,74,.03);}
+.zte-rc-item.flagged{border-color:rgba(232,25,60,.2);background:rgba(232,25,60,.02);}
+.zte-rc-item-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0;}
+.zte-rc-icon{flex-shrink:0;}
+.zte-rc-item-info{flex:1;min-width:0;text-align:left;}
+.zte-rc-item-title{font-family:'Figtree',sans-serif;font-size:13px;font-weight:700;color:var(--navy);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.zte-rc-item-scores{display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap;}
+.zte-rc-score-before{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);}
+.zte-rc-arrow{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);}
+.zte-rc-score-after{font-family:'Space Mono',monospace;font-size:11px;font-weight:700;}
+.zte-rc-score-after.green{color:var(--green);}
+.zte-rc-score-after.red{color:var(--red);}
+.zte-rc-badge{flex-shrink:0;font-family:'Space Mono',monospace;font-size:8px;letter-spacing:.5px;padding:3px 8px;border-radius:4px;text-transform:uppercase;white-space:nowrap;}
+.zte-rc-badge.cleared{background:rgba(22,163,74,.1);color:var(--green);border:1px solid rgba(22,163,74,.3);}
+.zte-rc-badge.flagged{background:rgba(232,25,60,.08);color:var(--red);border:1px solid rgba(232,25,60,.2);}
+.zte-rc-verdict{font-family:'Figtree',sans-serif;font-size:14px;font-weight:600;color:var(--text);line-height:1.5;text-align:center;margin-bottom:24px;padding:12px 16px;background:var(--light);border-radius:8px;}
+.zte-rc-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+/* Mobile */
+@media(max-width:768px){
+  .zte-review-banner{padding:10px 16px;}
+  .zte-review-banner-label{display:none;}
+  .zte-mc-review-session-btn{font-size:14px;padding:12px 16px;}
+  .zte-rc-modal{padding:28px 20px 24px;max-height:88vh;}
+  .zte-rc-title{font-size:clamp(36px,12vw,52px);}
+  .zte-rc-item{flex-direction:column;align-items:flex-start;gap:8px;}
+  .zte-rc-badge{align-self:flex-start;}
+  .zte-rc-list{max-height:220px;}
+  .zte-rc-btns{flex-direction:column;}
+  .zte-mc-review-session-btn{flex-direction:column;align-items:flex-start;gap:4px;}
+}
