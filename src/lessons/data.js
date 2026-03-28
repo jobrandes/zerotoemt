@@ -102,6 +102,7 @@ const L1 = {
     hook: "You're in Ambulance 7. Your partner pulls out of the station. You've never been on a real call. What is your job in the next four minutes?",
     bridge: "You didn't just get in an ambulance. You stepped into one of the most carefully designed emergency response systems in the world. Every person, every piece of equipment, every radio transmission follows a structure. And you are now part of it."
   },
+  video: { youtubeId: 'PDeyev0bAsI', caption: 'EMT - what the job is really like', source: 'Khan Academy', duration: '5 min' },
   content: [
     { heading: "EMS Stands For Emergency Medical Services", body: "EMS is the system  -  not just the people. It includes the 911 dispatch center, the first responders, the EMTs and paramedics, the ambulances, the hospitals, and all the protocols connecting them. When you become an EMT, you're joining this system as a critical link." },
     { heading: "The EMS System Has Levels", body: "Not all EMS providers are the same. There are four national certification levels:\n\n* **Emergency Medical Responder (EMR)**  -  Basic life-saving skills. Think bystanders, firefighters.\n* **Emergency Medical Technician (EMT)**  -  That's you. Assessment, basic interventions, transport.\n* **Advanced EMT (AEMT)**  -  EMT skills plus IV access and some medications.\n* **Paramedic**  -  The most advanced prehospital provider. Advanced airway, medications, cardiac monitoring." },
@@ -149,6 +150,8 @@ const L2 = {
     hook: "Your partner asks: 'What's your assessment?' You freeze. You know something is wrong but don't have the words  -  or the framework  -  to describe what you're seeing.",
     bridge: "In EMS, communication is care. If you can't describe the body, you can't report on it, document it, or hand it off. This lesson gives you the map."
   },
+  video: { youtubeId: '-lrKDRAbP38', caption: 'Skeletal structure and function', source: 'Khan Academy', duration: '9 min' },
+  model3d: { sketchfabId: '911b9df7e7834175b69b4840ea15e054', caption: 'Full human skeleton - CT scan derived' },
   content: [
     { heading: "Anatomical Position: The Baseline", body: "All body descriptions in medicine assume the patient is in **anatomical position**: standing upright, facing forward, arms at sides, palms facing forward. Everything  -  left, right, front, back  -  is described from this reference. The patient's left is YOUR right when facing them. This trips people up constantly." },
     { heading: "Directional Terms You'll Use Every Day", body: "* **Superior / Inferior**  -  Above / Below (head is superior to the chest)\n* **Anterior / Posterior**  -  Front / Back (chest is anterior, spine is posterior)\n* **Medial / Lateral**  -  Toward midline / Away from midline\n* **Proximal / Distal**  -  Closer to / Farther from the point of attachment\n* **Bilateral**  -  Both sides\n\nExample: 'Pain is in the right upper quadrant, radiating lateral to the flank.'" },
@@ -268,6 +271,8 @@ const L4 = {
     hook: "Two injuries, two body regions, one patient. You need to locate them precisely, assess them fast, and communicate what you find. Do you know your landmarks?",
     bridge: "Anatomy isn't memorizing a textbook diagram. It's knowing where things live so you can find problems fast, protect the right structures, and tell the hospital exactly what's coming through their door."
   },
+  video: { youtubeId: '-lrKDRAbP38', caption: 'Skeletal structure and function', source: 'Khan Academy', duration: '9 min' },
+  model3d: { sketchfabId: 'baf6ac7b781a46218dca2b59dee58817', caption: 'Human skull anatomy - CT scan derived' },
   content: [
     {
       heading: "The Skeleton: Your Structural Roadmap",
@@ -618,6 +623,7 @@ const M1L3 = {
     hook: "Postictal, snoring, vomit visible. Three immediate airway threats in one patient. What do you reach for first, and in what order?",
     bridge: "Airway adjuncts are simple tools that make a huge difference. Knowing which one to grab, how to size it, and when NOT to use it separates a good airway manager from a dangerous one."
   },
+  video: { youtubeId: 'mykrnTh1tz8', caption: 'Inhaling and exhaling - how breathing works', source: 'Khan Academy', duration: '8 min' },
   content: [
     {
       heading: "Suction: Always First",
@@ -689,6 +695,7 @@ const M1L4 = {
     hook: "COPD patient, 2-3 word sentences. You know she needs oxygen. But how much? The wrong answer could actually make her worse. This is one of EMS's most misunderstood topics.",
     bridge: "Oxygen is a drug. Like every drug, it has indications, contraindications, dosing, and side effects. This lesson teaches you to match the device to the patient  -  not just grab whatever's closest."
   },
+  video: { youtubeId: 'mykrnTh1tz8', caption: 'Inhaling and exhaling - oxygen delivery', source: 'Khan Academy', duration: '8 min' },
   content: [
     {
       heading: "Oxygen as a Drug",
@@ -760,6 +767,7 @@ const M1L5 = {
     hook: "Known asthmatic, inhaler not working, speaking in fragments. This is not a routine asthma call. Something has changed. Do you know the difference between a mild asthma attack and a life threat?",
     bridge: "Respiratory emergencies are among the most common  -  and most mismanaged  -  calls in EMS. The conditions look similar but have different mechanisms and different treatments. Getting them right starts with recognition."
   },
+  video: { youtubeId: 'ZKvatbn4a_I', caption: 'Asthma pathophysiology', source: 'Khan Academy', duration: '11 min' },
   content: [
     {
       heading: "Asthma",
@@ -1025,6 +1033,7 @@ const M2L2 = {
     hook: "Pressure chest pain in a 54-year-old woman during exertion. Textbook presentation  -  but women often present differently. What are you looking for?",
     bridge: "Chest pain is one of the most common EMS calls and most dangerous to miss. Your assessment sets everything in motion  -  hospital preparation, cath lab activation, patient outcome."
   },
+  video: { youtubeId: 'kO8-RPIkuLE', caption: 'Heart attack diagnosis and ECG', source: 'Khan Academy', duration: '7 min' },
   content: [
     { heading: "OPQRST: Your Assessment Tool", body: "Every chest pain assessment follows OPQRST:\n\n* **O  -  Onset:** What were you doing when it started? Exertional onset is more concerning.\n* **P  -  Provocation/Palliation:** What makes it better or worse? Does rest or nitroglycerin help?\n* **Q  -  Quality:** Classic cardiac: pressure, squeezing, heaviness, tightness. Sharp stabbing pain that changes with breathing is less likely cardiac.\n* **R  -  Radiation:** Classic cardiac radiates to left arm, jaw, neck, or back.\n* **S  -  Severity:** 0-10 scale. Don't anchor on the number  -  a 4/10 can be a massive MI.\n* **T  -  Time:** How long? Prior episodes?" },
     { heading: "Classic vs Atypical Presentations", body: "**Classic ACS (more common in men):**\n* Crushing, pressure chest pain\n* Left arm or jaw radiation\n* Diaphoresis, nausea, shortness of breath\n\n**Atypical (more common in women, diabetics, elderly):**\n* Epigastric pain or indigestion\n* Jaw or neck pain without chest pain\n* Nausea and vomiting only\n* Fatigue, weakness, lightheadedness\n* Silent MI  -  no pain at all\n\nWomen are twice as likely to have atypical presentations. Never dismiss chest-equivalent symptoms in high-risk patients." },
@@ -1137,6 +1146,7 @@ const M2L4 = {
     hook: "Witnessed arrest. Bystander CPR already going. That bystander just doubled his survival odds. When you walk in, what are the next 2 minutes going to look like?",
     bridge: "Cardiac arrest is the ultimate emergency. Scene management, team dynamics, high-quality CPR, rhythm analysis, defibrillation  -  get this right and people survive."
   },
+  video: { youtubeId: '_HXl3mu1IoM', caption: 'PEA and asystole - non-shockable rhythms', source: 'Khan Academy', duration: '7 min' },
   content: [
     { heading: "The Chain of Survival", body: "Survival depends on every link:\n\n1. **Early recognition and activation**  -  Call 911. Every minute without CPR = 7-10% decrease in survival.\n2. **Early CPR**  -  Bystander CPR doubles or triples survival. Maintains perfusion until defibrillator arrives.\n3. **Early defibrillation**  -  Only thing that fixes VF/pVT. AED within 3-5 min = 50-70% survival.\n4. **Advanced life support**  -  Medications, advanced airways (paramedic)\n5. **Post-cardiac arrest care**  -  ICU, targeted temperature management, cath lab\n\nYour job covers links 1-3 decisively." },
     { heading: "High-Quality CPR", body: "CPR quality determines outcomes. Substandard CPR kills people who would have survived.\n\n**Rate:** 100-120 compressions per minute\n**Depth:** At least 2 inches (5 cm), no more than 2.4 inches\n**Ratio:** 30 compressions : 2 breaths (basic airway)\n**After advanced airway:** Continuous compressions, 1 breath every 6 seconds\n**Minimize interruptions:** No pause >10 seconds\n**Full chest recoil:** Don't lean  -  prevents venous return\n**Rotate compressors:** Every 2 minutes  -  fatigue degrades quality within 2 min" },
@@ -1424,6 +1434,7 @@ const M3L2 = {
     hook: "Partial amputation. Coworkers pressing on it. Arterial bleeding can kill in 3 minutes. What goes on that arm the moment you arrive?",
     bridge: "Hemorrhage is the number one preventable cause of traumatic death. Most of these deaths happen in the field, before the hospital. You have the tools to stop them. The question is whether you know when and how to use them."
   },
+  video: { youtubeId: 'SffnpNxGWb8', caption: 'How bleeding stops - hemostasis', source: 'Khan Academy', duration: '8 min' },
   content: [
     { heading: "Why Bleeding Kills: The Physiology", body: "The adult body has approximately 5-6 liters of blood. Hemorrhagic shock begins when blood loss exceeds about 750 mL (15% of volume).\n\n**Classes of hemorrhage:**\n* **Class I**  -  <750 mL (up to 15%): minimal symptoms, HR may rise slightly\n* **Class II**  -  750-1500 mL (15-30%): tachycardia, anxiety, skin changes begin\n* **Class III**  -  1500-2000 mL (30-40%): hypotension, marked tachycardia, confusion\n* **Class IV**  -  >2000 mL (>40%): life-threatening, obtunded, extreme tachycardia\n\nThe body compensates with tachycardia and vasoconstriction. By the time BP drops, significant blood has already been lost." },
     { heading: "Types of External Bleeding", body: "Identify what you're dealing with:\n\n* **Arterial**  -  Bright red, spurting with each heartbeat. High pressure. Most dangerous. Tourniquet territory.\n* **Venous**  -  Dark red, steady flow. Easier to control with direct pressure.\n* **Capillary**  -  Oozing, slow. Controlled with basic wound care.\n\n**The partial amputation in your call:** Arterial and venous both. The spurting is the arterial component  -  that needs tourniquet, not pressure alone. Direct pressure on a partial amputation with arterial involvement buys seconds, not minutes." },
@@ -1805,6 +1816,7 @@ const M4L1 = {
     hook: "Sudden confusion. Right-sided weakness. 20 minutes ago. Every minute of brain tissue dying right now has a name. Do you know it, and do you know what the clock means?",
     bridge: "The brain is the most oxygen-dependent organ in the body. When it loses perfusion or electrical stability, behavior changes fast  -  and the window for intervention is measured in minutes, not hours. Recognition and time-to-notification are the two things an EMT controls."
   },
+  model3d: { sketchfabId: '172506246af44eb29fab763fa76ec447', caption: 'Human brain - MRI derived model' },
   content: [
     { heading: "Altered Mental Status: The AEIOU-TIPS Framework", body: "Altered mental status (AMS) has many causes. Use AEIOU-TIPS to systematically consider them:\n\n* **A**  -  Alcohol\n* **E**  -  Epilepsy/seizures\n* **I**  -  Insulin (diabetic emergency)\n* **O**  -  Overdose/poisoning\n* **U**  -  Uremia (kidney failure)\n* **T**  -  Trauma\n* **I**  -  Infection (sepsis, meningitis)\n* **P**  -  Psychiatric\n* **S**  -  Stroke, shock, syncope\n\nAMS is a symptom, not a diagnosis. Your job is to identify the most likely life-threatening cause and treat what you can while transporting." },
     { heading: "Stroke: Time Is Brain", body: "A stroke is a sudden interruption of blood flow to part of the brain. Two types:\n\n* **Ischemic (87%):** Clot blocks a cerebral artery. Treatable with tPA if within 3-4.5 hours of symptom onset.\n* **Hemorrhagic (13%):** Vessel ruptures. Higher mortality. tPA is contraindicated.\n\n**The Cincinnati Stroke Scale  -  3 findings:**\n1. **Facial droop**  -  ask to smile. One side droops = abnormal.\n2. **Arm drift**  -  arms out, eyes closed, 10 seconds. One drifts down = abnormal.\n3. **Speech**  -  repeat 'the sky is blue.' Slurred, wrong words, or silent = abnormal.\n\nOne abnormal finding = high suspicion for stroke.\n\n**The MOST important thing you do:** Establish exact time of symptom onset (or last known well). This determines tPA eligibility. Ask family: 'When was the last time you saw her acting completely normally?'" },
@@ -1859,6 +1871,7 @@ const M4L2 = {
     hook: "Type 1 diabetic. Found confused and combative in the morning. Last seen normal last night. That gap matters. What is the first thing you check, and why will it change everything?",
     bridge: "Diabetic emergencies are among the most common medical calls in EMS. They can look like stroke, intoxication, psychiatric emergency, or simply someone being difficult. A glucose check takes 30 seconds and can completely redirect your assessment."
   },
+  video: { youtubeId: 'rPLjSY00JlE', caption: 'Glucose, insulin and diabetes', source: 'Khan Academy', duration: '18 min' },
   content: [
     { heading: "Glucose Physiology: What You Need to Know", body: "Glucose is the primary fuel for the brain. The brain cannot store glucose and cannot use fatty acids  -  it depends on a continuous blood supply of glucose.\n\nNormal blood glucose: **70-140 mg/dL** (fasting: 70-100 mg/dL)\n\n**Insulin** lowers blood glucose by enabling cells to take up glucose.\n**Glucagon** raises blood glucose by stimulating liver glycogen breakdown.\n\n**Type 1 diabetes:** No insulin production (autoimmune destruction of beta cells). Dependent on injected insulin. Can develop DKA.\n**Type 2 diabetes:** Insulin resistance + relative deficiency. Managed with diet, oral medications, or insulin. DKA rare.\n\nIn EMS, **hypoglycemia** is the most common and immediately dangerous diabetic emergency. It kills faster than hyperglycemia." },
     { heading: "Hypoglycemia: Recognition and Treatment", body: "Hypoglycemia = blood glucose < 70 mg/dL. Symptoms begin under 60-70 mg/dL, severe under 40 mg/dL.\n\n**Signs and symptoms (think AEIOU):**\n* Altered mental status, confusion, combativeness\n* Diaphoresis (sweating)  -  catecholamine response\n* Tachycardia, tremors\n* Headache, weakness, hunger\n* Seizure or coma (severe)\n\n**Treatment:**\n* **Conscious, able to swallow:** Oral glucose (glucose paste, juice, regular soda). Recheck in 15 minutes.\n* **Unconscious or cannot protect airway:** Do NOT give anything by mouth. IV dextrose (D50, D10) per protocol, or glucagon IM if no IV access.\n* Recheck glucose after treatment\n* If no improvement after oral glucose, transport\n\n**The combative patient:** Hypoglycemia causes combativeness and confusion that looks like intoxication or psychiatric emergency. Check glucose first, every time." },
@@ -2077,6 +2090,7 @@ const M4L6 = {
     hook: "Unresponsive. Track marks. Slow breathing. Empty bottles. You already know what to do before you walk in. The question is how fast you do it.",
     bridge: "Overdose and poisoning calls are among the most common EMS responses. Most are unintentional. Many are immediately reversible with the right intervention. Your ability to identify the toxidrome, match it to a cause, and apply the antidote defines this call."
   },
+  video: { youtubeId: 'cssRZEI9ujY', caption: 'How naloxone reverses opioid overdose', source: 'National Library of Medicine', duration: '4 min' },
   content: [
     { heading: "Toxidromes: Pattern Recognition for Poisoning", body: "A toxidrome is a constellation of signs and symptoms characteristic of a specific class of poison. Learning toxidromes lets you identify the cause without knowing exactly what was taken.\n\n**Opioid toxidrome:**\n* Miosis (pinpoint pupils)\n* Respiratory depression (slow, shallow breathing)\n* Decreased LOC/coma\n* Bradycardia, hypotension\n* Treatment: **Naloxone (Narcan)**\n\n**Cholinergic (organophosphate/nerve agent) toxidrome  -  SLUDGE:**\n* **S**alivation, **L**acrimation, **U**rination, **D**efecation, **G**I distress, **E**mesis\n* Bronchospasm, bronchorrhea, miosis, bradycardia\n* Treatment: Atropine (ALS), decontamination\n\n**Sympathomimetic (stimulant) toxidrome:**\n* Mydriasis (dilated pupils), tachycardia, hypertension, hyperthermia\n* Agitation, diaphoresis\n* Cocaine, methamphetamine, synthetic cathinones\n\n**Sedative-hypnotic:**\n* CNS depression, slurred speech, ataxia\n* Normal pupils (vs opioid)\n* Alcohol, benzodiazepines, barbiturates" },
     { heading: "Opioid Overdose and Naloxone", body: "Opioid overdose is immediately life-threatening from respiratory depression. The classic triad:\n1. **Pinpoint pupils** (miosis)\n2. **Respiratory depression** (<12 breaths/min, shallow)\n3. **Decreased LOC**\n\n**Naloxone (Narcan):**\n* Opioid receptor antagonist  -  competitively displaces opioids from receptors\n* Reverses respiratory depression, sedation, miosis\n* Routes: IV, IM, intranasal (IN), subcutaneous\n* Dose: 0.4-2 mg IV/IM, 2-4 mg IN per protocol\n* Onset: 2-5 min IV, 5-10 min IM/IN\n* Duration: 30-90 minutes  -  **shorter than most opioids**\n\n**Critical:** The opioid may outlast the naloxone. The patient can re-sedate after initial reversal. **Always transport even if fully responsive after naloxone.**\n\n**Fentanyl and analogues:** May require higher or repeat naloxone doses. Standard dose may be insufficient." },
