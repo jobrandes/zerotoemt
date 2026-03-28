@@ -80,6 +80,9 @@ export default function App() {
   const [devMode, setDevMode] = useState(false);
   const [lessonScores, setLessonScores] = useState({});
   const [showModuleComplete, setShowModuleComplete] = useState(false);
+  const [reviewQueue, setReviewQueue] = useState(null); // null | { lessons: [{id,title,moduleId,priorScore}], index: 0 }
+  const [showReviewComplete, setShowReviewComplete] = useState(false);
+  const reviewScoresRef = useRef({}); // before-scores snapshot at start of review session
   const completedModuleRef = useRef(null);
   const quizStartScoreRef = useRef(null);
 
@@ -241,6 +244,40 @@ export default function App() {
       if (firstBuilt) return { mId: nextMod.id, lId: firstBuilt.id };
     }
     return null;
+  };
+
+  const startReviewSession = (reviewList, modId, currentScores) => {
+    if (!reviewList || reviewList.length === 0) return;
+    const before = {};
+    reviewList.forEach(l => { before[`${modId}-${l.id}`] = currentScores[`${modId}-${l.id}`] ?? null; });
+    reviewScoresRef.current = before;
+    const queue = reviewList.map(l => ({ id: l.id, title: l.title, moduleId: modId, priorScore: currentScores[`${modId}-${l.id}`] ?? null }));
+    setReviewQueue({ lessons: queue, index: 0 });
+    setShowModuleComplete(false);
+    const first = queue[0];
+    const firstPrior = currentScores[`${modId}-${first.id}`] ?? null;
+    openLesson(modId, first.id);
+    setTimeout(() => { quizStartScoreRef.current = firstPrior; }, 0);
+  };
+
+  const advanceReviewQueue = (currentLessonScores) => {
+    if (!reviewQueue) return false;
+    const next = reviewQueue.index + 1;
+    if (next < reviewQueue.lessons.length) {
+      const nextItem = reviewQueue.lessons[next];
+      setReviewQueue(prev => ({ ...prev, index: next }));
+      const prior = (currentLessonScores || {})[`${nextItem.moduleId}-${nextItem.id}`] ?? null;
+      openLesson(nextItem.moduleId, nextItem.id);
+      setTimeout(() => { quizStartScoreRef.current = prior; }, 0);
+      return true;
+    }
+    setReviewQueue(null);
+    setShowReviewComplete(true);
+    return false;
+  };
+
+  const exitReviewSession = () => {
+    setReviewQueue(null);
   };
 
   const Footer = () => (
@@ -503,6 +540,13 @@ export default function App() {
                       </div>
                     ))}
                     <div className="zte-mc-advice">These scored below 80% -- the NREMT knowledge threshold. Go back through the lesson and retake the quiz. You can continue now and come back anytime.</div>
+                  <div className="zte-mc-review-session-bar">
+                    <button className="zte-mc-review-session-btn"
+                      onClick={() => startReviewSession(reviewList, cMod.id, lessonScores)}>
+                      Start Review Session &rarr;
+                    </button>
+                    <span className="zte-mc-review-session-desc">Queue all {reviewList.length} flagged {reviewList.length === 1 ? "lesson" : "lessons"} at once</span>
+                  </div>
                   </div>
                 )}
                 <div className="zte-mc-progress-line">{cPct}% of full course complete</div>
@@ -518,7 +562,88 @@ export default function App() {
           );
         })()}
 
-        <div className="zte-lesson-layout">
+        {showReviewComplete && completedModuleRef.current && (() => {
+          const cMod = completedModuleRef.current.mod;
+          const cNext = completedModuleRef.current.nextMod;
+          const beforeScores = reviewScoresRef.current;
+          const reviewedLessons = Object.keys(beforeScores).map(k => {
+            const [mId, lId] = k.split('-').map(Number);
+            const lesson = cMod.lessons.find(l => l.id === lId);
+            if (!lesson) return null;
+            const mq = lId === cMod.lessons.length;
+            const maxQ = mq ? 10 : 5;
+            const thresh = mq ? 8 : 4;
+            const before = beforeScores[k] ?? null;
+            const after = lessonScores[k] ?? null;
+            const cleared = after !== null && after >= thresh;
+            const beforePct = before !== null ? Math.round((before / maxQ) * 100) : null;
+            const afterPct = after !== null ? Math.round((after / maxQ) * 100) : null;
+            return { id: lId, title: lesson.title, k, before, after, maxQ, thresh, cleared, beforePct, afterPct };
+          }).filter(Boolean);
+          const clearedCount = reviewedLessons.filter(l => l.cleared).length;
+          const totalCount = reviewedLessons.length;
+          const allCleared = clearedCount === totalCount;
+          const noneCleared = clearedCount === 0;
+          const verdict = allCleared
+            ? 'All reviewed lessons cleared. Great work.'
+            : noneCleared
+              ? 'None cleared yet -- keep going. You can review again anytime.'
+              : `${clearedCount} of ${totalCount} cleared. The rest are still flagged.`;
+          return (
+            <div className="zte-module-complete-overlay" onClick={() => setShowReviewComplete(false)}>
+              <div className="zte-module-complete-modal" onClick={e => e.stopPropagation()}>
+                <div className="zte-rc-header">
+                  <div className="zte-mc-badge" style={{background: cMod.accentColor}}>REVIEW COMPLETE</div>
+                  <div className="zte-rc-title">SESSION<br/>RESULTS</div>
+                </div>
+                <div className="zte-rc-list">
+                  {reviewedLessons.map(l => (
+                    <div key={l.k} className={`zte-rc-item ${l.cleared ? 'cleared' : 'flagged'}`}>
+                      <div className="zte-rc-item-left">
+                        <span className="zte-rc-status-icon">{l.cleared ? 'OK' : '!'}</span>
+                        <div className="zte-rc-item-info">
+                          <div className="zte-rc-item-title">{l.title}</div>
+                          <div className="zte-rc-item-scores">
+                            <span className="zte-rc-score-before">{l.before !== null ? `${l.before}/${l.maxQ} (${l.beforePct}%)` : 'No prior score'}</span>
+                            <span className="zte-rc-arrow">&rarr;</span>
+                            <span className={`zte-rc-score-after ${l.cleared ? 'green' : 'red'}`}>{l.after !== null ? `${l.after}/${l.maxQ} (${l.afterPct}%)` : '--'}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className={`zte-rc-badge ${l.cleared ? 'cleared' : 'flagged'}`}>{l.cleared ? 'CLEARED' : 'FLAGGED'}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="zte-rc-verdict">{verdict}</div>
+                <div className="zte-mc-btns">
+                  {!allCleared && (
+                    <button className="zte-btn-secondary" onClick={() => { setShowReviewComplete(false); }}>Review Again Later</button>
+                  )}
+                  {cNext
+                    ? <button className="zte-mc-cta" onClick={() => { setShowReviewComplete(false); openLesson(cNext.id, cNext.lessons[0].id); }}>Start {cNext.title} &rarr;</button>
+                    : <button className="zte-mc-cta" onClick={() => { setShowReviewComplete(false); setScreen("curriculum"); }}>View Full Curriculum &rarr;</button>
+                  }
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+
+                <div className="zte-lesson-layout">
+          {reviewQueue && (
+            <div className="zte-review-banner">
+              <div className="zte-review-banner-left">
+                <span className="zte-review-banner-label">REVIEW SESSION</span>
+                <span className="zte-review-banner-pos">Lesson {reviewQueue.index + 1} of {reviewQueue.lessons.length}</span>
+                <div className="zte-review-banner-dots">
+                  {reviewQueue.lessons.map((_, i) => (
+                    <span key={i} className={`zte-review-dot ${i < reviewQueue.index ? "done" : i === reviewQueue.index ? "active" : ""}`} />
+                  ))}
+                </div>
+              </div>
+              <button className="zte-review-banner-exit" onClick={exitReviewSession}>Exit &times;</button>
+            </div>
+          )}
           <main className="zte-lesson-main">
             <div className="zte-lesson-main-header">
               <div className="zte-lesson-header-top">
@@ -728,10 +853,10 @@ export default function App() {
                 const passing = quizScore >= PASS_THRESHOLD;
                 const perfect = quizScore === quizDeck.length;
                 const justCleared = startScore !== null && startScore < PASS_THRESHOLD && passing;
-                // Build an updated scores map that includes the score we just saved
-                // (lessonScores state may not have updated yet due to React async)
+                const inReviewSession = reviewQueue !== null;
                 const currentScores = { ...lessonScores, [lessonKey]: quizScore };
-                const remainingFlags = justCleared
+
+                const remainingFlags = (!inReviewSession && justCleared)
                   ? MODULES[activeModuleId].lessons.filter(l => {
                       const k = `${activeModuleId}-${l.id}`;
                       if (l.id === activeLessonId) return false;
@@ -742,29 +867,60 @@ export default function App() {
                     })
                   : [];
                 const nextFlag = remainingFlags[0] || null;
+
+                const hasNextInQueue = inReviewSession && (reviewQueue.index + 1) < reviewQueue.lessons.length;
+                const nextInQueue = hasNextInQueue ? reviewQueue.lessons[reviewQueue.index + 1] : null;
+
                 const statusIcon = perfect ? 'PERFECT' : passing ? 'PASS' : 'KEEP GOING';
-                const statusMsg = justCleared
-                  ? perfect ? 'Perfect score -- and you cleared a flagged lesson.' : 'Cleared -- 80% threshold met.'
-                  : perfect ? 'Perfect score!' : passing ? 'Good work. Review any misses.' : 'Not quite -- this lesson is worth another read.';
+                const statusMsg = inReviewSession
+                  ? passing
+                    ? justCleared ? 'Cleared -- 80% threshold met.' : 'Good work. Moving on.'
+                    : 'Still below 80% -- this one is still flagged.'
+                  : justCleared
+                    ? perfect ? 'Perfect score -- and you cleared a flagged lesson.' : 'Cleared -- 80% threshold met.'
+                    : perfect ? 'Perfect score!' : passing ? 'Good work. Review any misses.' : 'Not quite -- this lesson is worth another read.';
+
                 return (
                 <div className="zte-results">
                   <div className={`zte-results-icon${justCleared ? ' cleared' : ''}`}>{statusIcon}</div>
-                  <div className="zte-results-title">{justCleared ? 'LESSON CLEARED' : 'LESSON COMPLETE'}</div>
+                  <div className="zte-results-title">{inReviewSession && justCleared ? 'LESSON CLEARED' : inReviewSession && !passing ? 'STILL FLAGGED' : justCleared ? 'LESSON CLEARED' : 'LESSON COMPLETE'}</div>
                   <div className="zte-results-score">{quizScore}/{quizDeck.length}</div>
                   <div className="zte-results-msg">{statusMsg}</div>
-                  {justCleared && nextFlag && (
+
+                  {inReviewSession && !passing && (
+                    <div className="zte-results-still-flagged">Below 80% -- still flagged. Retake or keep moving through your review queue.</div>
+                  )}
+                  {!inReviewSession && justCleared && nextFlag && (
                     <div className="zte-results-next-flag">Still flagged in this module: <strong>{nextFlag.title}</strong></div>
                   )}
-                  {justCleared && !nextFlag && (
+                  {!inReviewSession && justCleared && !nextFlag && (
                     <div className="zte-results-all-clear">All flagged lessons in this module are now cleared.</div>
                   )}
+
                   <div className="zte-results-btns">
                     <button className="zte-btn-secondary" onClick={() => { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); quizStartScoreRef.current = lessonScores[lessonKey] ?? null; setQuizDeck(pickQuiz(lesson.quiz, isModQuiz ? 10 : 5)); }}>Retake Quiz</button>
                     <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>Ask AI Tutor</button>
                     {(() => {
-                      // Explicit CTA logic -- no ternary chain that can fall through wrong
+                      if (inReviewSession) {
+                        if (hasNextInQueue) {
+                          return (
+                            <div className="zte-review-next-btns">
+                              <button className="zte-btn-primary" onClick={() => { completeLesson(); advanceReviewQueue(currentScores); }}>
+                                Next: {nextInQueue.title} &rarr;
+                              </button>
+                              <button className="zte-btn-review-end" onClick={() => { completeLesson(); setReviewQueue(null); setShowReviewComplete(true); }}>
+                                End Session
+                              </button>
+                            </div>
+                          );
+                        }
+                        return (
+                          <button className="zte-btn-primary" onClick={() => { completeLesson(); setReviewQueue(null); setShowReviewComplete(true); }}>
+                            Review Complete &rarr;
+                          </button>
+                        );
+                      }
                       if (justCleared && nextFlag) {
-                        // Still more flagged lessons to review
                         return <button className="zte-btn-primary" onClick={() => {
                           completeLesson();
                           const nextScore = currentScores[`${activeModuleId}-${nextFlag.id}`] ?? null;
@@ -773,13 +929,11 @@ export default function App() {
                         }}>Review {nextFlag.title} &rarr;</button>;
                       }
                       if (justCleared && !nextFlag) {
-                        // All flags cleared -- go to next module regardless of alreadyDone
                         const nextMod = MODULES[activeModuleId + 1];
                         return nextMod
                           ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextMod.id, nextMod.lessons[0].id); }}>Start {nextMod.title} &rarr;</button>
                           : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>View Full Curriculum &rarr;</button>;
                       }
-                      // Normal (non-review) flow
                       if (nextLesson) {
                         return <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : 'Next Lesson ->'}</button>;
                       }
