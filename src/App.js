@@ -830,21 +830,30 @@ export default function App() {
                       );
                     })}
                   </div>
-                  {quizSelected !== null && !quizAnswered && (
-                    <button className="zte-btn-primary" onClick={() => {
-                      if (quizSelected === quizDeck[quizIndex].answer) setQuizScore(s => s+1);
-                      setQuizAnswered(true);
-                    }}>Confirm Answer</button>
-                  )}
                   {quizAnswered && (
-                    <>
-                      <div className="zte-explanation">{quizDeck[quizIndex].explanation}</div>
-                      <button className="zte-btn-primary" onClick={() => {
-                        if (quizIndex < quizDeck.length - 1) { setQuizIndex(i => i+1); setQuizSelected(null); setQuizAnswered(false); }
-                        else { saveQuizScore(quizScore); setQuizDone(true); }
-                      }}>{quizIndex < quizDeck.length - 1 ? "Next Question ->" : "See Results ->"}</button>
-                    </>
+                    <div className="zte-explanation">{quizDeck[quizIndex].explanation}</div>
                   )}
+                  <button className="zte-btn-primary" disabled={quizSelected === null}
+                    style={quizSelected === null ? {opacity: 0.4, cursor: 'not-allowed'} : {}}
+                    onClick={() => {
+                      if (!quizAnswered) {
+                        // Next Question = lock in answer, score it, show explanation
+                        if (quizSelected === quizDeck[quizIndex].answer) setQuizScore(s => s+1);
+                        setQuizAnswered(true);
+                      } else {
+                        // Continue = advance to next question or results
+                        if (quizIndex < quizDeck.length - 1) {
+                          setQuizIndex(i => i+1); setQuizSelected(null); setQuizAnswered(false);
+                        } else {
+                          saveQuizScore(quizScore); setQuizDone(true);
+                        }
+                      }
+                    }}>
+                    {quizAnswered
+                      ? (quizIndex < quizDeck.length - 1 ? "Continue ->" : "See Results ->")
+                      : (quizIndex < quizDeck.length - 1 ? "Next Question ->" : "Submit Answer ->")
+                    }
+                  </button>
                 </div>
               )}
 
