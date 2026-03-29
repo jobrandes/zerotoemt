@@ -28,6 +28,11 @@ function Model3DEmbed({ model }) {
         <span className="zte-video-source">3D</span>
         <span className="zte-video-caption-text">{model.caption} &mdash; drag to rotate, scroll to zoom</span>
       </div>
+      {model.credit && (
+        <div className="zte-model3d-credit">
+          Model: {model.credit}{model.license && model.license !== 'Verify' && model.license !== 'Educational use' ? ` \u2014 ${model.license}` : ''}
+        </div>
+      )}
     </div>
   );
 }
