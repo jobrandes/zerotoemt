@@ -151,7 +151,7 @@ const L2 = {
     bridge: "In EMS, communication is care. If you can't describe the body, you can't report on it, document it, or hand it off. This lesson gives you the map."
   },
   video: { youtubeId: '-lrKDRAbP38', caption: 'Skeletal structure and function', source: 'Khan Academy', duration: '9 min' },
-  model3d: { sketchfabId: '911b9df7e7834175b69b4840ea15e054', caption: 'Full human skeleton - CT scan derived' },
+  model3d: { sketchfabId: '911b9df7e7834175b69b4840ea15e054', caption: 'Full human skeleton - CT scan derived', credit: 'Terrie Simmons-Ehrhardt via NIH 3D Print Exchange', license: 'CC BY 4.0' },
   content: [
     { heading: "Anatomical Position: The Baseline", body: "All body descriptions in medicine assume the patient is in **anatomical position**: standing upright, facing forward, arms at sides, palms facing forward. Everything  -  left, right, front, back  -  is described from this reference. The patient's left is YOUR right when facing them. This trips people up constantly." },
     { heading: "Directional Terms You'll Use Every Day", body: "* **Superior / Inferior**  -  Above / Below (head is superior to the chest)\n* **Anterior / Posterior**  -  Front / Back (chest is anterior, spine is posterior)\n* **Medial / Lateral**  -  Toward midline / Away from midline\n* **Proximal / Distal**  -  Closer to / Farther from the point of attachment\n* **Bilateral**  -  Both sides\n\nExample: 'Pain is in the right upper quadrant, radiating lateral to the flank.'" },
@@ -272,7 +272,7 @@ const L4 = {
     bridge: "Anatomy isn't memorizing a textbook diagram. It's knowing where things live so you can find problems fast, protect the right structures, and tell the hospital exactly what's coming through their door."
   },
   video: { youtubeId: '-lrKDRAbP38', caption: 'Skeletal structure and function', source: 'Khan Academy', duration: '9 min' },
-  model3d: { sketchfabId: 'baf6ac7b781a46218dca2b59dee58817', caption: 'Human skull anatomy - CT scan derived' },
+  model3d: { sketchfabId: 'baf6ac7b781a46218dca2b59dee58817', caption: 'Human skull anatomy - CT scan derived', credit: 'Hannah Newey, MSc Medical Art', license: 'CC BY-NC-SA' },
   content: [
     {
       heading: "The Skeleton: Your Structural Roadmap",
@@ -472,7 +472,7 @@ const M1L1 = {
   moduleId: 1, id: 1,
   title: "Respiratory Anatomy",
   video: { youtubeId: "qGiPZf7njqY", caption: "Meet the lungs - respiratory anatomy overview", source: "Khan Academy", duration: "9 min video" },
-  model3d: { sketchfabId: "5c62cd4d4ba04243be1062d2263d3ef0", caption: "Healthy heart and lungs - interactive 3D (University Medical Center)" },
+  model3d: { sketchfabId: "5c62cd4d4ba04243be1062d2263d3ef0", caption: "Healthy heart and lungs - interactive 3D (University Medical Center)", credit: "Anna Sieben / UMCG, Monique Jongbloed / LUMC, Leiden-Delft-Groningen Universities", license: "CC BY-NC-SA" },
   subtitle: "The airway from nose to alveoli  -  and why every millimeter matters",
   duration: "12 min",
   dispatch: {
@@ -624,6 +624,7 @@ const M1L3 = {
     bridge: "Airway adjuncts are simple tools that make a huge difference. Knowing which one to grab, how to size it, and when NOT to use it separates a good airway manager from a dangerous one."
   },
   video: { youtubeId: 'mykrnTh1tz8', caption: 'Inhaling and exhaling - how breathing works', source: 'Khan Academy', duration: '8 min' },
+    model3d: { sketchfabId: '20b938dcd6f44f259449756e529fa54f', caption: 'Human lungs, trachea and larynx - airway anatomy', credit: '@slung2 on Sketchfab', license: 'CC BY 4.0' },
   content: [
     {
       heading: "Suction: Always First",
@@ -695,7 +696,6 @@ const M1L4 = {
     hook: "COPD patient, 2-3 word sentences. You know she needs oxygen. But how much? The wrong answer could actually make her worse. This is one of EMS's most misunderstood topics.",
     bridge: "Oxygen is a drug. Like every drug, it has indications, contraindications, dosing, and side effects. This lesson teaches you to match the device to the patient  -  not just grab whatever's closest."
   },
-  video: { youtubeId: 'mykrnTh1tz8', caption: 'Inhaling and exhaling - oxygen delivery', source: 'Khan Academy', duration: '8 min' },
   content: [
     {
       heading: "Oxygen as a Drug",
@@ -768,6 +768,7 @@ const M1L5 = {
     bridge: "Respiratory emergencies are among the most common  -  and most mismanaged  -  calls in EMS. The conditions look similar but have different mechanisms and different treatments. Getting them right starts with recognition."
   },
   video: { youtubeId: 'ZKvatbn4a_I', caption: 'Asthma pathophysiology', source: 'Khan Academy', duration: '11 min' },
+    model3d: { sketchfabId: '20b938dcd6f44f259449756e529fa54f', caption: 'Human lungs, trachea and larynx - respiratory anatomy', credit: '@slung2 on Sketchfab', license: 'CC BY 4.0' },
   content: [
     {
       heading: "Asthma",
@@ -971,7 +972,7 @@ const M2L1 = {
     source: "Khan Academy",
     duration: "9 min video"
   },
-  model3d: { sketchfabId: "a3f0ea2030214a6bbaa97e7357eebd58", caption: "Cardiac anatomy - external view with coronary arteries (University of Dundee)" },
+  model3d: { sketchfabId: "a3f0ea2030214a6bbaa97e7357eebd58", caption: "Cardiac anatomy - external view with coronary arteries (University of Dundee)", credit: "Hannah Newey, University of Dundee", license: "CC BY-NC-SA" },
   dispatch: {
     call: `"Unit 7, respond to 883 Birchwood Court  -  61-year-old male, sudden onset chest pain radiating to the left arm, diaphoretic, nauseous."`,
     time: "10:44 AM", eta: "5 minutes",
@@ -1034,6 +1035,7 @@ const M2L2 = {
     bridge: "Chest pain is one of the most common EMS calls and most dangerous to miss. Your assessment sets everything in motion  -  hospital preparation, cath lab activation, patient outcome."
   },
   video: { youtubeId: 'kO8-RPIkuLE', caption: 'Heart attack diagnosis and ECG', source: 'Khan Academy', duration: '7 min' },
+    model3d: { sketchfabId: 'f5fa1e719f3d4f28a7c31728a86a9b42', caption: 'Human heart - chambers, valves and coronary anatomy', credit: '3D EduTex (@Yasama) on Sketchfab', license: 'CC BY 4.0' },
   content: [
     { heading: "OPQRST: Your Assessment Tool", body: "Every chest pain assessment follows OPQRST:\n\n* **O  -  Onset:** What were you doing when it started? Exertional onset is more concerning.\n* **P  -  Provocation/Palliation:** What makes it better or worse? Does rest or nitroglycerin help?\n* **Q  -  Quality:** Classic cardiac: pressure, squeezing, heaviness, tightness. Sharp stabbing pain that changes with breathing is less likely cardiac.\n* **R  -  Radiation:** Classic cardiac radiates to left arm, jaw, neck, or back.\n* **S  -  Severity:** 0-10 scale. Don't anchor on the number  -  a 4/10 can be a massive MI.\n* **T  -  Time:** How long? Prior episodes?" },
     { heading: "Classic vs Atypical Presentations", body: "**Classic ACS (more common in men):**\n* Crushing, pressure chest pain\n* Left arm or jaw radiation\n* Diaphoresis, nausea, shortness of breath\n\n**Atypical (more common in women, diabetics, elderly):**\n* Epigastric pain or indigestion\n* Jaw or neck pain without chest pain\n* Nausea and vomiting only\n* Fatigue, weakness, lightheadedness\n* Silent MI  -  no pain at all\n\nWomen are twice as likely to have atypical presentations. Never dismiss chest-equivalent symptoms in high-risk patients." },
@@ -1091,6 +1093,7 @@ const M2L3 = {
     bridge: "ACS is the umbrella for everything from angina to massive heart attack. Understanding the spectrum determines your treatment."
   },
   video: { youtubeId: 'T_b9U5gn_Zk', caption: 'Heart attack (myocardial infarction) pathophysiology', source: 'Khan Academy', duration: '8 min' },
+    model3d: { sketchfabId: 'f5fa1e719f3d4f28a7c31728a86a9b42', caption: 'Human heart - coronary arteries and ACS territory', credit: '3D EduTex (@Yasama) on Sketchfab', license: 'CC BY 4.0' },
   content: [
     { heading: "The ACS Spectrum", body: "* **Stable angina**  -  Predictable with exertion, relieved by rest/nitro <15 min. Warning sign, not emergency.\n* **Unstable angina**  -  At rest, new onset, or worsening. Plaque becoming unstable. Emergency.\n* **NSTEMI**  -  Partial blockage, elevated troponin, no ST elevation. Serious.\n* **STEMI**  -  Complete sudden blockage. ST elevation on ECG. Maximum damage occurring now. Every minute counts." },
     { heading: "Plaque Rupture", body: "1. Atherosclerosis  -  fatty plaque builds in coronary arteries over years\n2. Plaque rupture  -  fibrous cap tears\n3. Platelet aggregation  -  clot forms\n4. Partial blockage -> unstable angina/NSTEMI\n5. Complete blockage -> STEMI\n\nThis is why aspirin works  -  inhibits platelet aggregation.\n\nHeart muscle begins dying within 20-40 min of complete occlusion. After 6 hours most damage is done." },
@@ -1148,6 +1151,7 @@ const M2L4 = {
     bridge: "Cardiac arrest is the ultimate emergency. Scene management, team dynamics, high-quality CPR, rhythm analysis, defibrillation  -  get this right and people survive."
   },
   video: { youtubeId: '_HXl3mu1IoM', caption: 'PEA and asystole - non-shockable rhythms', source: 'Khan Academy', duration: '7 min' },
+    model3d: { sketchfabId: 'f5fa1e719f3d4f28a7c31728a86a9b42', caption: 'Human heart - cardiac cycle and electrical pathways', credit: '3D EduTex (@Yasama) on Sketchfab', license: 'CC BY 4.0' },
   content: [
     { heading: "The Chain of Survival", body: "Survival depends on every link:\n\n1. **Early recognition and activation**  -  Call 911. Every minute without CPR = 7-10% decrease in survival.\n2. **Early CPR**  -  Bystander CPR doubles or triples survival. Maintains perfusion until defibrillator arrives.\n3. **Early defibrillation**  -  Only thing that fixes VF/pVT. AED within 3-5 min = 50-70% survival.\n4. **Advanced life support**  -  Medications, advanced airways (paramedic)\n5. **Post-cardiac arrest care**  -  ICU, targeted temperature management, cath lab\n\nYour job covers links 1-3 decisively." },
     { heading: "High-Quality CPR", body: "CPR quality determines outcomes. Substandard CPR kills people who would have survived.\n\n**Rate:** 100-120 compressions per minute\n**Depth:** At least 2 inches (5 cm), no more than 2.4 inches\n**Ratio:** 30 compressions : 2 breaths (basic airway)\n**After advanced airway:** Continuous compressions, 1 breath every 6 seconds\n**Minimize interruptions:** No pause >10 seconds\n**Full chest recoil:** Don't lean  -  prevents venous return\n**Rotate compressors:** Every 2 minutes  -  fatigue degrades quality within 2 min" },
@@ -1382,7 +1386,7 @@ const M3L1 = {
     hook: "Two cars. One ejected. Highway speed. You have six minutes before you're on scene. What are you already thinking about?",
     bridge: "Trauma is the leading cause of death for Americans under 45. Most of those deaths are preventable. The difference between preventable and prevented is how fast you think, how well you assess, and how quickly you get the right patient to the right hospital. It starts before you arrive."
   },
-  video: { youtubeId: 'OzLoUCCASwM', caption: 'Stomach and GI system overview', source: 'Khan Academy', duration: '7 min' },
+    video: { youtubeId: 'koanqOKIIB0', caption: 'Trauma assessment and mechanism of injury overview', source: 'San Diego Miramar EMT Program', duration: '8 min' },
   content: [
     { heading: "Mechanism of Injury: Your Early Warning System", body: "Mechanism of injury (MOI) is how energy was transferred to the body. It tells you what injuries to expect before you even touch the patient.\n\nTwo types:\n* **Blunt trauma**  -  Energy transferred through impact without penetration. MVAs, falls, assaults. Organs compress, shear, and rupture.\n* **Penetrating trauma**  -  Object breaches the skin. Stab wounds, gunshots, impaled objects.\n\nMOI matters because injuries hide. Internal bleeding doesn't show up on skin. A spine fracture can look like nothing from the outside. MOI is your index of suspicion before physical findings confirm it." },
     { heading: "Kinetic Energy: The Physics of Injury", body: "Injury severity depends on kinetic energy: **KE = 1/2 x mass x velocity squared**\n\nVelocity matters more than mass. Double the speed = four times the energy. This is why:\n* A car at 60 mph causes far worse injuries than the same car at 30 mph\n* High-velocity rifle rounds cause massive tissue cavitation vs handguns\n* Falls: each additional floor dramatically increases injury severity\n\n**Deceleration injuries:** When a body stops suddenly, organs keep moving. The aorta tears at attachment points. The brain rebounds inside the skull. Always think: what was moving, and what stopped it suddenly?" },
@@ -1539,7 +1543,7 @@ const M3L3 = {
 const M3L4 = {
   moduleId: 3, id: 4,
   title: "Head & Spine Trauma",
-  model3d: { sketchfabId: "f3fc9a98d9d942cab8e9ab6ff67ec4e3", caption: "Human spine and vertebral column - cervical anatomy" },
+  model3d: { sketchfabId: "bcd9eee09ce044ef98a69c315aa792e2", caption: "Human spine and vertebral column - all regions", credit: '@scratchi on Sketchfab', license: 'CC BY 4.0' },
   subtitle: "TBI, spinal injuries, assessment, immobilization, and the decisions that protect the cord",
   duration: "12 min",
   dispatch: {
@@ -1657,7 +1661,8 @@ const M3L6 = {
     hook: "Restrained driver. T-bone at 45 mph. Seatbelt sign. Airbag. She's talking to you. She looks okay. She is not okay. What's happening inside her abdomen right now?",
     bridge: "Abdominal trauma is the great deceiver. The abdomen can absorb tremendous hemorrhage with minimal external findings. A patient who looks stable can be bleeding at rates that will kill them before the next assessment cycle. The key is recognizing who needs a surgeon, not who looks sick."
   },
-  video: { youtubeId: 'P1paaFPcdak', caption: 'Abdominal aortic aneurysm', source: 'Khan Academy', duration: '5 min' },
+    video: { youtubeId: 'Oh_Pt_UrtEE', caption: 'Meet the gastrointestinal tract - abdominal organ anatomy', source: 'Khan Academy', duration: '8 min' },
+    model3d: { sketchfabId: 'bfe2c671298947f8bcf0f69c06e74ed8', caption: 'Abdominal organs - digestive system anatomy', credit: 'Education Resource Fund (@bobsmusail) on Sketchfab', license: 'CC BY 4.0' },
   content: [
     { heading: "Abdominal Anatomy: What Can Get Hurt", body: "The abdomen contains two types of organs with very different injury patterns:\n\n**Solid organs** (liver, spleen, kidneys, pancreas): Highly vascular. Lacerations cause significant hemorrhage. The spleen and liver are the most commonly injured in blunt trauma.\n\n**Hollow organs** (stomach, small intestine, large intestine, bladder, gallbladder): Rupture releases contents into the peritoneal cavity. Initial presentation may be subtle. Peritonitis develops over hours.\n\n**Retroperitoneal structures** (kidneys, aorta, inferior vena cava, pancreas): Behind the peritoneum. Injury can be completely occult initially  -  minimal abdominal tenderness even with major hemorrhage.\n\n**The seatbelt sign:** Abrasion or bruising across the abdomen from the seatbelt = significant deceleration force applied directly to solid and hollow organs. High index of suspicion regardless of initial presentation." },
     { heading: "Signs and Symptoms of Abdominal Trauma", body: "The abdomen is notoriously difficult to assess in the field:\n\n**Pain:** May be diffuse, localized, or referred. Diaphragmatic irritation from blood causes referred shoulder pain (Kehr's sign with splenic injury).\n\n**Rigidity/guarding:** Involuntary muscle guarding indicates peritoneal irritation. A rigid board-like abdomen is a critical finding.\n\n**Distension:** A distended abdomen after trauma suggests significant internal bleeding or hollow organ rupture.\n\n**Tenderness:** Palpate all four quadrants. Note location and character. Rebound tenderness indicates peritoneal irritation.\n\n**What you won't see:** Early solid organ hemorrhage may have no abdominal findings at all. The patient from your call may have liver or splenic laceration with a completely soft, non-tender abdomen initially. The MOI is your guide." },
@@ -1822,7 +1827,7 @@ const M4L1 = {
     hook: "Sudden confusion. Right-sided weakness. 20 minutes ago. Every minute of brain tissue dying right now has a name. Do you know it, and do you know what the clock means?",
     bridge: "The brain is the most oxygen-dependent organ in the body. When it loses perfusion or electrical stability, behavior changes fast  -  and the window for intervention is measured in minutes, not hours. Recognition and time-to-notification are the two things an EMT controls."
   },
-  model3d: { sketchfabId: '172506246af44eb29fab763fa76ec447', caption: 'Human brain - MRI derived model' },
+  model3d: { sketchfabId: 'c9c9d4d671b94345952d012cc2ea7a24', caption: 'Human brain - cerebrum, brainstem and cerebellum', credit: 'AH (@agher) on Sketchfab', license: 'CC BY 4.0' },
   content: [
     { heading: "Altered Mental Status: The AEIOU-TIPS Framework", body: "Altered mental status (AMS) has many causes. Use AEIOU-TIPS to systematically consider them:\n\n* **A**  -  Alcohol\n* **E**  -  Epilepsy/seizures\n* **I**  -  Insulin (diabetic emergency)\n* **O**  -  Overdose/poisoning\n* **U**  -  Uremia (kidney failure)\n* **T**  -  Trauma\n* **I**  -  Infection (sepsis, meningitis)\n* **P**  -  Psychiatric\n* **S**  -  Stroke, shock, syncope\n\nAMS is a symptom, not a diagnosis. Your job is to identify the most likely life-threatening cause and treat what you can while transporting." },
     { heading: "Stroke: Time Is Brain", body: "A stroke is a sudden interruption of blood flow to part of the brain. Two types:\n\n* **Ischemic (87%):** Clot blocks a cerebral artery. Treatable with tPA if within 3-4.5 hours of symptom onset.\n* **Hemorrhagic (13%):** Vessel ruptures. Higher mortality. tPA is contraindicated.\n\n**The Cincinnati Stroke Scale  -  3 findings:**\n1. **Facial droop**  -  ask to smile. One side droops = abnormal.\n2. **Arm drift**  -  arms out, eyes closed, 10 seconds. One drifts down = abnormal.\n3. **Speech**  -  repeat 'the sky is blue.' Slurred, wrong words, or silent = abnormal.\n\nOne abnormal finding = high suspicion for stroke.\n\n**The MOST important thing you do:** Establish exact time of symptom onset (or last known well). This determines tPA eligibility. Ask family: 'When was the last time you saw her acting completely normally?'" },
@@ -1878,6 +1883,7 @@ const M4L2 = {
     bridge: "Diabetic emergencies are among the most common medical calls in EMS. They can look like stroke, intoxication, psychiatric emergency, or simply someone being difficult. A glucose check takes 30 seconds and can completely redirect your assessment."
   },
   video: { youtubeId: 'rPLjSY00JlE', caption: 'Glucose, insulin and diabetes', source: 'Khan Academy', duration: '18 min' },
+    model3d: { sketchfabId: 'bfe2c671298947f8bcf0f69c06e74ed8', caption: 'Abdominal organs - pancreas and digestive system', credit: 'Education Resource Fund (@bobsmusail) on Sketchfab', license: 'CC BY 4.0' },
   content: [
     { heading: "Glucose Physiology: What You Need to Know", body: "Glucose is the primary fuel for the brain. The brain cannot store glucose and cannot use fatty acids  -  it depends on a continuous blood supply of glucose.\n\nNormal blood glucose: **70-140 mg/dL** (fasting: 70-100 mg/dL)\n\n**Insulin** lowers blood glucose by enabling cells to take up glucose.\n**Glucagon** raises blood glucose by stimulating liver glycogen breakdown.\n\n**Type 1 diabetes:** No insulin production (autoimmune destruction of beta cells). Dependent on injected insulin. Can develop DKA.\n**Type 2 diabetes:** Insulin resistance + relative deficiency. Managed with diet, oral medications, or insulin. DKA rare.\n\nIn EMS, **hypoglycemia** is the most common and immediately dangerous diabetic emergency. It kills faster than hyperglycemia." },
     { heading: "Hypoglycemia: Recognition and Treatment", body: "Hypoglycemia = blood glucose < 70 mg/dL. Symptoms begin under 60-70 mg/dL, severe under 40 mg/dL.\n\n**Signs and symptoms (think AEIOU):**\n* Altered mental status, confusion, combativeness\n* Diaphoresis (sweating)  -  catecholamine response\n* Tachycardia, tremors\n* Headache, weakness, hunger\n* Seizure or coma (severe)\n\n**Treatment:**\n* **Conscious, able to swallow:** Oral glucose (glucose paste, juice, regular soda). Recheck in 15 minutes.\n* **Unconscious or cannot protect airway:** Do NOT give anything by mouth. IV dextrose (D50, D10) per protocol, or glucagon IM if no IV access.\n* Recheck glucose after treatment\n* If no improvement after oral glucose, transport\n\n**The combative patient:** Hypoglycemia causes combativeness and confusion that looks like intoxication or psychiatric emergency. Check glucose first, every time." },
@@ -2444,7 +2450,7 @@ const M5L5 = {
     hook: "Priority 1. Lights and sirens. 60-year-old, not breathing. Engine is 2 minutes ahead. How you drive to this call will determine if you arrive at all.",
     bridge: "More EMS providers are killed in vehicle accidents than by any other occupational hazard. Emergency driving creates unique risk - high speed, intersections against the light, fatigue, and the cognitive split between driving and pre-planning patient care. Understanding these risks is the first step to surviving them."
   },
-  video: { youtubeId: 'C7nvyhID_Eg', caption: 'The scene size-up and safe vehicle positioning', source: 'Paramedic Coach', duration: '5 min' },
+    video: { youtubeId: '9W-qBN4UKBw', caption: 'Emergency vehicle operations course (EVOC) - ambulance driving', source: 'Manatee County EMS', duration: '15 min' },
   content: [
     { heading: "The Danger of Emergency Driving", body: "EMS vehicle crashes kill and injure providers at rates far exceeding other occupational hazards. The numbers are sobering:\n\n**Risk factors specific to emergency driving:**\n- High speed increases stopping distance exponentially (doubling speed quadruples stopping distance)\n- Intersection runs against red lights - the most dangerous maneuver in EMS\n- Siren ineffectiveness: civilian drivers may not hear sirens until an ambulance is within 50-100 feet at highway speeds\n- 'Siren syndrome': the cognitive effect where urgency impairs driving judgment\n- Night driving: reduced visibility, fatigue, altered perception\n- Distraction: radio, ePCR, partner conversation, pre-planning\n\n**The intersection rule:** Most EMS fatalities occur at intersections. Every red light requires:\n1. Full stop or near-stop\n2. Visual clearance of all lanes\n3. Treat it as a 4-way stop\n4. Proceed only when clear\n\nNo patient outcome is worth a T-bone collision. A delayed arrival by 30 seconds is recoverable. A crash that injures your crew is not." },
     { heading: "Due Regard: The Legal Standard", body: "Every state grants emergency vehicles certain exemptions from standard traffic laws during emergency operations - but these exemptions come with a condition: **due regard for the safety of all others.**\n\n**What due regard means:**\n- You must drive in a way that a reasonable, careful driver would under the same circumstances\n- You can speed, but not recklessly\n- You can run a red light, but you must ensure it's clear\n- You can use the wrong side of the road, but only when safe\n- You remain legally liable for crashes caused by negligence even with lights and sirens\n\n**The due regard standard is not suspended by urgency.** A patient in cardiac arrest does not give you the right to run through a red light without checking it. The legal and moral responsibility for any crash lies with the driver.\n\n**Lights and siren do not guarantee right of way.** Legally, they request right of way. Drivers must yield - but you cannot assume they will. Treat every intersection as though no one can see or hear you." },
