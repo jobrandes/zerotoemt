@@ -795,9 +795,7 @@ export default function App() {
                 </div>
               ) : (
                 <div className="zte-exam-debrief-text">
-                  {examDebrief.split('
-
-').map((para, i) => <p key={i}>{para}</p>)}
+                  {examDebrief.split(/\n\n/).map((para, i) => para.trim() ? <p key={i}>{para.trim()}</p> : null)}
                 </div>
               )}
             </div>
@@ -1049,9 +1047,7 @@ export default function App() {
               </div>
             ) : (
               <div className="zte-exam-debrief-text">
-                {examDebrief.split('
-
-').map((para, i) => (
+                {examDebrief.split(/\n\n/).map((para, i) => (
                   para.trim() ? <p key={i}>{para.trim()}</p> : null
                 ))}
               </div>
