@@ -3,6 +3,7 @@ import { supabase } from "./lib/supabase";
 import { shuffle, pickQuiz } from "./lib/helpers";
 import { MODULES, LESSON_DATA, TOTAL_LESSONS } from "./lessons/data";
 import "./App.css";
+import { EXAM_DOMAINS, EXAM_QUESTIONS, buildExamDeck } from "./examData";
 import Auth from "./components/Auth";
 
 function renderBold(text) {
@@ -29,9 +30,7 @@ function Model3DEmbed({ model }) {
         <span className="zte-video-caption-text">{model.caption} &mdash; drag to rotate, scroll to zoom</span>
       </div>
       {model.credit && (
-        <div className="zte-model3d-credit">
-          Model: {model.credit}{model.license && model.license !== 'Verify' && model.license !== 'Educational use' ? ` \u2014 ${model.license}` : ''}
-        </div>
+        <div className="zte-model3d-credit">Model: {model.credit}{model.license && model.license !== 'Verify' ? `  --  ${model.license}` : ''}</div>
       )}
     </div>
   );
@@ -87,7 +86,32 @@ export default function App() {
   const [showModuleComplete, setShowModuleComplete] = useState(false);
   const [reviewQueue, setReviewQueue] = useState(null);
   const [showReviewComplete, setShowReviewComplete] = useState(false);
+  // Exam access
   const [hasExamAccess, setHasExamAccess] = useState(false);
+  // Exam simulator state
+  const [examPhase, setExamPhase] = useState(null); // null | 'active' | 'results' | 'debrief'
+  const [examDeck, setExamDeck] = useState([]);
+  const [examCurrent, setExamCurrent] = useState(0);
+  const [examAnswers, setExamAnswers] = useState({});
+  const [examFlagged, setExamFlagged] = useState(new Set());
+  const [examTimeLeft, setExamTimeLeft] = useState(7200);
+  const [examResults, setExamResults] = useState(null);
+  const [examDebrief, setExamDebrief] = useState('');
+  const [examDebriefLoading, setExamDebriefLoading] = useState(false);
+  const examTimerRef = useRef(null);
+  // Exam access
+  const [hasExamAccess, setHasExamAccess] = useState(false);
+  // Exam simulator state
+  const [examPhase, setExamPhase] = useState(null); // null | 'active' | 'results' | 'debrief'
+  const [examDeck, setExamDeck] = useState([]);
+  const [examCurrent, setExamCurrent] = useState(0);
+  const [examAnswers, setExamAnswers] = useState({});
+  const [examFlagged, setExamFlagged] = useState(new Set());
+  const [examTimeLeft, setExamTimeLeft] = useState(7200);
+  const [examResults, setExamResults] = useState(null);
+  const [examDebrief, setExamDebrief] = useState('');
+  const [examDebriefLoading, setExamDebriefLoading] = useState(false);
+  const examTimerRef = useRef(null);
   const reviewScoresRef = useRef({});
   const completedModuleRef = useRef(null);
   const quizStartScoreRef = useRef(null);
@@ -114,12 +138,12 @@ export default function App() {
     // Step 2: Then check Supabase  -  if logged in, sync from server (server wins)
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
-      if (session?.user) loadProgressFromServer(session.user.id);
+      if (session?.user) { loadProgressFromServer(session.user.id); loadExamAccess(session.user.id); }
       setAuthLoading(false);
     });
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
-      if (session?.user) loadProgressFromServer(session.user.id);
+      if (session?.user) { loadProgressFromServer(session.user.id); loadExamAccess(session.user.id); }
     });
     return () => subscription.unsubscribe();
   }, []);
@@ -145,10 +169,283 @@ export default function App() {
       { user_id: userId, completed_lessons: merged, lesson_scores: mergedScores, updated_at: new Date().toISOString() },
       { onConflict: "user_id" }
     );
-    // Check exam access
-    const { data: examData } = await supabase.from("exam_access").select("id").eq("user_id", userId).maybeSingle();
-    setHasExamAccess(!!examData);
   }
+
+  // Exam access check
+  async function loadExamAccess(userId) {
+    try {
+      const { data } = await supabase.from("exam_access").select("id").eq("user_id", userId).maybeSingle();
+      setHasExamAccess(!!data);
+    } catch(e) { console.log('exam access check failed', e); }
+  }
+
+  // === EXAM SIMULATOR FUNCTIONS ===
+  function startExam() {
+    const deck = buildExamDeck(EXAM_QUESTIONS, 120);
+    setExamDeck(deck);
+    setExamCurrent(0);
+    setExamAnswers({});
+    setExamFlagged(new Set());
+    setExamTimeLeft(7200);
+    setExamResults(null);
+    setExamDebrief('');
+    setExamPhase('active');
+    if (examTimerRef.current) clearInterval(examTimerRef.current);
+    examTimerRef.current = setInterval(() => {
+      setExamTimeLeft(prev => {
+        if (prev <= 1) { clearInterval(examTimerRef.current); submitExamAuto(); return 0; }
+        return prev - 1;
+      });
+    }, 1000);
+  }
+
+  function submitExamAuto() {
+    // Called when timer runs out
+    clearInterval(examTimerRef.current);
+    finishExam();
+  }
+
+  function submitExam() {
+    clearInterval(examTimerRef.current);
+    finishExam();
+  }
+
+  function finishExam() {
+    setExamDeck(deck => {
+      setExamAnswers(answers => {
+        setExamTimeLeft(t => {
+          const correct = deck.filter((q, i) => answers[i] === q.answer).length;
+          const byDomain = {};
+          Object.keys(EXAM_DOMAINS).forEach(d => { byDomain[d] = { correct: 0, total: 0, label: EXAM_DOMAINS[d].label, color: EXAM_DOMAINS[d].color }; });
+          deck.forEach((q, i) => {
+            const d = q.domain;
+            if (byDomain[d]) {
+              byDomain[d].total++;
+              if (answers[i] === q.answer) byDomain[d].correct++;
+            }
+          });
+          const score = Math.round((correct / deck.length) * 100);
+          const passed = score >= 80;
+          const timeUsed = 7200 - t;
+          setExamResults({ score, correct, total: deck.length, byDomain, timeUsed, passed });
+          setExamPhase('results');
+          return t;
+        });
+        return answers;
+      });
+      return deck;
+    });
+  }
+
+  function toggleFlag(idx) {
+    setExamFlagged(prev => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx); else next.add(idx);
+      return next;
+    });
+  }
+
+  function answerExam(qIdx, aIdx) {
+    if (examPhase !== 'active') return;
+    setExamAnswers(prev => ({ ...prev, [qIdx]: aIdx }));
+  }
+
+  function formatExamTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    const urgent = sec < 300;
+    return { text: `${m}:${String(s).padStart(2,'0')}`, urgent };
+  }
+
+  async function loadExamDebrief() {
+    setExamDebrief('');
+    setExamDebriefLoading(true);
+    setExamPhase('debrief');
+    try {
+      const domainSummary = Object.entries(examResults.byDomain)
+        .map(([k, v]) => `${v.label}: ${v.total > 0 ? Math.round((v.correct/v.total)*100) : 0}%`)
+        .join(', ');
+      const weak = Object.entries(examResults.byDomain)
+        .filter(([, v]) => v.total > 0)
+        .sort((a, b) => (a[1].correct/a[1].total) - (b[1].correct/b[1].total));
+      const prompt = `An EMT student just completed a 120-question NREMT practice exam.
+
+Overall score: ${examResults.score}% (${examResults.correct}/${examResults.total} correct) - ${examResults.passed ? 'PASSED' : 'DID NOT PASS'} (80% threshold)
+Time used: ${Math.floor(examResults.timeUsed/60)} minutes of 120
+Domain scores: ${domainSummary}
+Weakest domain: ${weak[0]?.[1]?.label || 'N/A'} at ${weak[0] ? Math.round((weak[0][1].correct/weak[0][1].total)*100) : 0}%
+
+Give a focused, direct debrief in 3-4 paragraphs:
+1. Honest overall assessment - are they ready? Be direct.
+2. Their weakest area(s) with specific, actionable study advice
+3. Top 3 concrete things to do before their next attempt
+4. One encouraging closing line
+
+This is a pre-class EMT student - no medical background. Keep language clear and practical.`;
+
+      const res = await fetch('/.netlify/functions/exam-debrief', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await res.json();
+      setExamDebrief(data.response || 'Unable to generate debrief. Please try again.');
+    } catch(e) {
+      setExamDebrief('Unable to connect. Check your connection and try again.');
+    }
+    setExamDebriefLoading(false);
+  }
+
+  function resetExam() {
+    clearInterval(examTimerRef.current);
+    setExamPhase(null);
+    setExamDeck([]);
+    setExamCurrent(0);
+    setExamAnswers({});
+    setExamFlagged(new Set());
+    setExamTimeLeft(7200);
+    setExamResults(null);
+    setExamDebrief('');
+  }
+
+
+  // Exam access check
+  async function loadExamAccess(userId) {
+    try {
+      const { data } = await supabase.from("exam_access").select("id").eq("user_id", userId).maybeSingle();
+      setHasExamAccess(!!data);
+    } catch(e) { console.log('exam access check failed', e); }
+  }
+
+  // === EXAM SIMULATOR FUNCTIONS ===
+  function startExam() {
+    const deck = buildExamDeck(EXAM_QUESTIONS, 120);
+    setExamDeck(deck);
+    setExamCurrent(0);
+    setExamAnswers({});
+    setExamFlagged(new Set());
+    setExamTimeLeft(7200);
+    setExamResults(null);
+    setExamDebrief('');
+    setExamPhase('active');
+    if (examTimerRef.current) clearInterval(examTimerRef.current);
+    examTimerRef.current = setInterval(() => {
+      setExamTimeLeft(prev => {
+        if (prev <= 1) { clearInterval(examTimerRef.current); submitExamAuto(); return 0; }
+        return prev - 1;
+      });
+    }, 1000);
+  }
+
+  function submitExamAuto() {
+    // Called when timer runs out
+    clearInterval(examTimerRef.current);
+    finishExam();
+  }
+
+  function submitExam() {
+    clearInterval(examTimerRef.current);
+    finishExam();
+  }
+
+  function finishExam() {
+    setExamDeck(deck => {
+      setExamAnswers(answers => {
+        setExamTimeLeft(t => {
+          const correct = deck.filter((q, i) => answers[i] === q.answer).length;
+          const byDomain = {};
+          Object.keys(EXAM_DOMAINS).forEach(d => { byDomain[d] = { correct: 0, total: 0, label: EXAM_DOMAINS[d].label, color: EXAM_DOMAINS[d].color }; });
+          deck.forEach((q, i) => {
+            const d = q.domain;
+            if (byDomain[d]) {
+              byDomain[d].total++;
+              if (answers[i] === q.answer) byDomain[d].correct++;
+            }
+          });
+          const score = Math.round((correct / deck.length) * 100);
+          const passed = score >= 80;
+          const timeUsed = 7200 - t;
+          setExamResults({ score, correct, total: deck.length, byDomain, timeUsed, passed });
+          setExamPhase('results');
+          return t;
+        });
+        return answers;
+      });
+      return deck;
+    });
+  }
+
+  function toggleFlag(idx) {
+    setExamFlagged(prev => {
+      const next = new Set(prev);
+      if (next.has(idx)) next.delete(idx); else next.add(idx);
+      return next;
+    });
+  }
+
+  function answerExam(qIdx, aIdx) {
+    if (examPhase !== 'active') return;
+    setExamAnswers(prev => ({ ...prev, [qIdx]: aIdx }));
+  }
+
+  function formatExamTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    const urgent = sec < 300;
+    return { text: `${m}:${String(s).padStart(2,'0')}`, urgent };
+  }
+
+  async function loadExamDebrief() {
+    setExamDebrief('');
+    setExamDebriefLoading(true);
+    setExamPhase('debrief');
+    try {
+      const domainSummary = Object.entries(examResults.byDomain)
+        .map(([k, v]) => `${v.label}: ${v.total > 0 ? Math.round((v.correct/v.total)*100) : 0}%`)
+        .join(', ');
+      const weak = Object.entries(examResults.byDomain)
+        .filter(([, v]) => v.total > 0)
+        .sort((a, b) => (a[1].correct/a[1].total) - (b[1].correct/b[1].total));
+      const prompt = `An EMT student just completed a 120-question NREMT practice exam.
+
+Overall score: ${examResults.score}% (${examResults.correct}/${examResults.total} correct) - ${examResults.passed ? 'PASSED' : 'DID NOT PASS'} (80% threshold)
+Time used: ${Math.floor(examResults.timeUsed/60)} minutes of 120
+Domain scores: ${domainSummary}
+Weakest domain: ${weak[0]?.[1]?.label || 'N/A'} at ${weak[0] ? Math.round((weak[0][1].correct/weak[0][1].total)*100) : 0}%
+
+Give a focused, direct debrief in 3-4 paragraphs:
+1. Honest overall assessment - are they ready? Be direct.
+2. Their weakest area(s) with specific, actionable study advice
+3. Top 3 concrete things to do before their next attempt
+4. One encouraging closing line
+
+This is a pre-class EMT student - no medical background. Keep language clear and practical.`;
+
+      const res = await fetch('/.netlify/functions/exam-debrief', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await res.json();
+      setExamDebrief(data.response || 'Unable to generate debrief. Please try again.');
+    } catch(e) {
+      setExamDebrief('Unable to connect. Check your connection and try again.');
+    }
+    setExamDebriefLoading(false);
+  }
+
+  function resetExam() {
+    clearInterval(examTimerRef.current);
+    setExamPhase(null);
+    setExamDeck([]);
+    setExamCurrent(0);
+    setExamAnswers({});
+    setExamFlagged(new Set());
+    setExamTimeLeft(7200);
+    setExamResults(null);
+    setExamDebrief('');
+  }
+
 
   async function saveProgress(lessons, scores) {
     try { localStorage.setItem("zte-progress", JSON.stringify(lessons)); } catch {}
@@ -296,21 +593,11 @@ export default function App() {
   const Footer = () => (
     <footer className="zte-footer">
       <div className="zte-footer-inner">
-        <div className="zte-footer-top">
-          <div className="zte-footer-brand">
-            <div className="zte-footer-logo">ZERO <span>TO</span> EMT</div>
-            <div className="zte-footer-tagline">Free pre-class prep for people starting from zero.</div>
-          </div>
-          <div className="zte-footer-links">
-            <button className="zte-footer-link" onClick={() => setScreen("curriculum")}>Curriculum</button>
-            <a className="zte-footer-link" href="https://nremt.org" target="_blank" rel="noopener noreferrer">NREMT.org ↗</a>
-            <a className="zte-footer-link" href="https://github.com/jobrandes/zerotoemt" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-          </div>
-        </div>
+        <div className="zte-footer-logo">ZERO <span>TO</span> EMT</div>
         <div className="zte-footer-disclaimer">
-          <strong>Educational Use Only.</strong> Zero to EMT is a free study preparation platform for pre-class EMT students. Content is for educational purposes only  --  not medical advice, clinical guidance, or a substitute for formal certification or accredited coursework. Not affiliated with or endorsed by NREMT or any state EMS regulatory body. Always follow protocols from your training program and medical director.
+          <strong>Educational Use Only.</strong> Zero to EMT is a free study preparation platform designed to help students prepare for EMT coursework and the NREMT certification exam. The content on this site is for educational and informational purposes only. It does not constitute medical advice, clinical guidance, or professional medical training. It is not a substitute for formal EMT certification, accredited coursework, or the judgment of a licensed medical professional. Zero to EMT is not affiliated with, endorsed by, or approved by the National Registry of Emergency Medical Technicians (NREMT) or any state EMS regulatory body. Always follow the protocols established by your training program and medical director.
         </div>
-        <div className="zte-footer-copy">&copy; {new Date().getFullYear()} Zero to EMT &middot; Always free &middot; Built for future EMTs</div>
+        <div className="zte-footer-copy">&copy; {new Date().getFullYear()} Zero to EMT &middot; Built for future EMTs &middot; Always free</div>
       </div>
     </footer>
   );
@@ -325,8 +612,8 @@ export default function App() {
       <div className="zte-nav-links">
         <button className={`zte-nav-link ${screen === "home" ? "active" : ""}`} onClick={() => setScreen("home")}>Home</button>
         <button className={`zte-nav-link ${screen === "curriculum" ? "active" : ""}`} onClick={() => setScreen("curriculum")}>Curriculum</button>
-        <button className={`zte-nav-link zte-nav-link-exam ${screen === "exam" ? "active" : ""}`} onClick={() => setScreen("exam")}>
-          {hasExamAccess ? "Exam Simulator" : "Exam Simulator 🔒"}
+        <button className={`zte-nav-link zte-nav-exam-btn ${screen === "exam" ? "active" : ""}`} onClick={() => setScreen("exam")}>
+          Exam {(hasExamAccess || devMode) ? <span style={{color:'var(--green)'}}>&#10003;</span> : <span style={{opacity:.5}}>&#128274;</span>}
         </button>
       </div>
       <div style={{display:"flex",gap:8,alignItems:"center",flexShrink:0}}>
@@ -359,31 +646,24 @@ export default function App() {
       <Nav />
       <section className="zte-hero">
         <div className="zte-hero-left">
-          <div className="zte-hero-eyebrow">{completedLessons.length > 0 ? `WELCOME BACK${displayName ? ", " + displayName.toUpperCase() : ""}` : "FREE EMT PREP"}</div>
+          <div className="zte-hero-eyebrow">{completedLessons.length > 0 ? `WELCOME BACK${displayName ? ", " + displayName.toUpperCase() : ""}` : "EMT CERTIFICATION PREP"}</div>
           <h1 className="zte-hero-title">ZERO<br/>TO<br/><span>EMT.</span></h1>
-          <p className="zte-hero-desc">{completedLessons.length > 0 ? "Pick up where you left off. Every lesson, every flashcard, every quiz  --  right where you were." : "Your EMT class starts in weeks. You have zero medical background. This platform was built for exactly that moment."}</p>
+          <p className="zte-hero-desc">The only free, AI-powered platform built for people with zero medical background. Learn everything before your first EMT class even starts.</p>
           <div className="zte-hero-btns">
             <button className="zte-btn-hero-primary" onClick={() => { const r = getResumeLesson(); openLesson(r ? r.mId : 0, r ? r.lId : 1); }}>{completedLessons.length > 0 ? "CONTINUE LEARNING" : "START LEARNING FREE"}</button>
             <button className="zte-btn-hero-secondary" onClick={() => setScreen("curriculum")}>See Curriculum</button>
-          </div>
-          {completedLessons.length > 0 && (
-            <button className="zte-btn-reset" onClick={() => { if(window.confirm("Reset all progress? This cannot be undone.")) { setCompletedLessons([]); try{localStorage.removeItem("zte-progress")}catch{} try{localStorage.removeItem("zte-scores")}catch{} setLessonScores({}); } }}>Reset Progress</button>
-          )}
-          <div className="zte-hero-trust">
-            <span className="zte-hero-trust-item">No account required</span>
-            <span className="zte-hero-trust-sep">&middot;</span>
-            <span className="zte-hero-trust-item">No credit card</span>
-            <span className="zte-hero-trust-sep">&middot;</span>
-            <span className="zte-hero-trust-item">Free forever</span>
+            {completedLessons.length > 0 && (
+              <button className="zte-btn-reset" onClick={() => { setCompletedLessons([]); try { localStorage.removeItem("zte-progress"); } catch {} try { localStorage.removeItem("zte-scores"); } catch {} setLessonScores({}); }}>Reset Progress</button>
+            )}
           </div>
         </div>
         <div className="zte-hero-right">
           <div className="zte-hero-card">
             {[
-              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="9" height="9" rx="2"/><rect x="16" y="4" width="9" height="9" rx="2"/><rect x="3" y="17" width="9" height="9" rx="2"/><rect x="16" y="17" width="9" height="9" rx="2"/></svg>, num: "6", label: "Modules", sub: "Airway, Cardiology, Trauma, Medical, Ops" },
-              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 4h18a1 1 0 011 1v18a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M8 10h12M8 14h12M8 18h7"/></svg>, num: `${TOTAL_LESSONS}`, label: "Lessons", sub: "Each opens with a real 911 scenario" },
-              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="14" cy="10" r="5"/><path d="M4 24c0-5.52 4.48-10 10-10s10 4.48 10 10"/><path d="M19 5l2 2-2 2"/></svg>, num: "AI", label: "Tutor", sub: "Ask anything. No judgment. Always on." },
-              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 3l2.5 8H24l-6.5 4.7 2.5 8L14 19.4 8 23.7l2.5-8L4 11h7.5z"/></svg>, num: "0", label: "Prerequisites", sub: "Built for people with zero medical background" },
+              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="9" height="9" rx="2"/><rect x="16" y="4" width="9" height="9" rx="2"/><rect x="3" y="17" width="9" height="9" rx="2"/><rect x="16" y="17" width="9" height="9" rx="2"/></svg>, num: "6", label: "Modules", sub: "Foundation through Operations" },
+              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 4h18a1 1 0 011 1v18a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M8 10h12M8 14h12M8 18h7"/></svg>, num: "40+", label: "Lessons", sub: "Each built around a real 911 call" },
+              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="14" cy="10" r="5"/><path d="M4 24c0-5.52 4.48-10 10-10s10 4.48 10 10"/><path d="M19 5l2 2-2 2"/></svg>, num: "AI", label: "Tutor", sub: "Built into every single lesson" },
+              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 3l2.5 8H24l-6.5 4.7 2.5 8L14 19.4 8 23.7l2.5-8L4 11h7.5z"/></svg>, num: "100%", label: "Free", sub: "No account. No credit card. Ever." },
             ].map((item, i) => (
               <div key={i} className="zte-hero-feature">
                 <div className="zte-hero-feature-icon">{item.icon}</div>
@@ -396,74 +676,21 @@ export default function App() {
           </div>
         </div>
       </section>
-
-      <div className="zte-how-it-works">
-        <div className="zte-how-inner">
-          <div className="zte-how-label">HOW IT WORKS</div>
-          <div className="zte-how-steps">
-            {[
-              { num: "01", title: "Scenario", desc: "Every lesson opens with a real 911 dispatch. You are on the truck before you open a textbook." },
-              { num: "02", title: "Lesson", desc: "Five focused sections. Clinical depth without the nursing school overhead." },
-              { num: "03", title: "Flashcards", desc: "Key terms and concepts, flip-card style. Spaced repetition without the app subscription." },
-              { num: "04", title: "Quiz", desc: "NREMT-style questions. 80% to pass. Your score saves automatically." },
-              { num: "05", title: "AI Tutor", desc: "Stuck on a concept? Ask anything. It knows exactly what lesson you are in." },
-            ].map((step, i) => (
-              <div key={i} className="zte-how-step">
-                <div className="zte-how-step-num">{step.num}</div>
-                <div className="zte-how-step-content">
-                  <div className="zte-how-step-title">{step.title}</div>
-                  <div className="zte-how-step-desc">{step.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
       <div className="zte-stats-bar">
-        {[
-          ["6", "MODULES"],
-          [String(TOTAL_LESSONS), "LESSONS"],
-          ["612+", "FLASHCARDS"],
-          ["5", "NREMT DOMAINS"],
-          ["Free", "ALWAYS"],
-        ].map(([n, l], i) => (
+        {[["6","CORE MODULES"],["40+","LESSONS"],["5","NREMT DOMAINS"],["0","PRIOR KNOWLEDGE"],["Free","ALWAYS"]].map(([n,l],i) => (
           <div key={i} className="zte-stat">
             <div className="zte-stat-num">{n}</div>
             <div className="zte-stat-label">{l}</div>
           </div>
         ))}
       </div>
-
-      <div className="zte-for-strip">
-        <div className="zte-for-inner">
-          <div className="zte-for-label">BUILT FOR PEOPLE WHO ARE &mdash;</div>
-          <div className="zte-for-items">
-            {[
-              "Starting EMT class in the next few weeks",
-              "Working full-time and studying in the margins",
-              "Completely new to medicine or healthcare",
-              "Terrified they will be the only one who does not get it",
-            ].map((t, i) => (
-              <div key={i} className="zte-for-item">
-                <span className="zte-for-check">✓</span>
-                <span>{t}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
       <section className="zte-home-curriculum">
         <div className="zte-home-curriculum-header">
           <h2 className="zte-section-title">THE CURRICULUM</h2>
           <div className="zte-section-meta">NREMT-ALIGNED &middot; {TOTAL_LESSONS} LESSONS</div>
         </div>
         <div className="zte-module-grid">
-          {MODULES.map(mod => {
-            const completedInMod = mod.lessons.filter(l => isLessonCompleted(mod.id, l.id)).length;
-            const pct = Math.round((completedInMod / mod.lessons.length) * 100);
-            return (
+          {MODULES.map(mod => (
             <div key={mod.id} className="zte-module-preview-card" style={{"--accent": mod.accentColor}}>
               <div className="zte-mpc-top">
                 <span className="zte-mpc-code" style={{color: mod.accentColor, borderColor: mod.accentColor}}>{mod.code}</span>
@@ -471,40 +698,26 @@ export default function App() {
               </div>
               <h3 className="zte-mpc-title">{mod.title}</h3>
               <p className="zte-mpc-desc">{mod.desc}</p>
-              {completedInMod > 0 && (
-                <div className="zte-mpc-progress">
-                  <div className="zte-mpc-progress-bar">
-                    <div className="zte-mpc-progress-fill" style={{width: `${pct}%`, background: mod.accentColor}} />
-                  </div>
-                  <span className="zte-mpc-progress-label">{completedInMod}/{mod.lessons.length} lessons</span>
-                </div>
-              )}
               <div className="zte-mpc-footer">
-                {completedInMod === 0 && <span className="zte-mpc-count">{mod.lessons.length} lessons</span>}
-                {mod.id === 0
-                  ? <button className="zte-mpc-btn" onClick={() => openLesson(0,1)}>START HERE &rarr;</button>
-                  : <button className="zte-mpc-btn" onClick={() => openLesson(mod.id, mod.lessons[0].id)}>
-                      {completedInMod === mod.lessons.length ? "REVIEW &rarr;" : completedInMod > 0 ? "CONTINUE &rarr;" : "BEGIN &rarr;"}
-                    </button>
-                }
+                <span className="zte-mpc-count">{mod.lessons.length} lessons</span>
+                {mod.id === 0 && <button className="zte-mpc-btn" onClick={() => openLesson(0,1)}>START HERE</button>}
               </div>
             </div>
-            );
-          })}
+          ))}
         </div>
       </section>
 
-      {/* Exam Simulator promo card */}
+      {/* Exam Simulator Promo */}
       <div className="zte-exam-promo">
         <div className="zte-exam-promo-inner">
           <div className="zte-exam-promo-left">
-            <div className="zte-exam-promo-eyebrow">COMING NEXT</div>
+            <div className="zte-tagline-mono" style={{color:'var(--red)',marginBottom:12}}>COMING SOON</div>
             <h2 className="zte-exam-promo-title">NREMT EXAM<br/>SIMULATOR</h2>
-            <p className="zte-exam-promo-desc">120 questions. 2-hour timer. Full domain breakdown. AI debrief. Everything you need to know if you're ready before you sit for the real thing.</p>
+            <p className="zte-exam-promo-desc">120 questions. 2 hours. Full domain scoring. AI debrief. Know if you're ready before you sit for the real thing.</p>
             <div className="zte-exam-promo-features">
-              {["120 NREMT-weighted questions","Timed -- 2 hours, just like the real exam","Domain breakdown: Airway, Cardiology, Trauma, Medical, Ops","AI debrief tied to your exact results","Unlimited retakes"].map((f,i) => (
+              {['120 NREMT-weighted questions','2-hour timer, just like the real exam','Domain breakdown: Airway, Cardiology, Trauma, Medical, Ops','AI debrief tied to your exact results','Unlimited retakes'].map((f,i) => (
                 <div key={i} className="zte-exam-promo-feature">
-                  <span className="zte-exam-promo-check">✓</span>
+                  <span style={{color:'var(--green)'}}>&#10003;</span>
                   <span>{f}</span>
                 </div>
               ))}
@@ -512,14 +725,46 @@ export default function App() {
           </div>
           <div className="zte-exam-promo-right">
             <div className="zte-exam-promo-price-card">
-              <div className="zte-exam-promo-price-label">ONE-TIME</div>
-              <div className="zte-exam-promo-price">$29</div>
-              <div className="zte-exam-promo-price-sub">Unlimited retakes included</div>
-              {hasExamAccess
-                ? <button className="zte-exam-promo-cta owned" onClick={() => setScreen("exam")}>Go to Exam Simulator &rarr;</button>
-                : <button className="zte-exam-promo-cta" onClick={() => setScreen("exam")}>Learn More &rarr;</button>
+              <div style={{fontFamily:"Space Mono,monospace",fontSize:9,letterSpacing:2,color:'rgba(255,255,255,.4)',marginBottom:8}}>ONE-TIME</div>
+              <div style={{fontFamily:"Anton,sans-serif",fontSize:64,color:'white',lineHeight:1,marginBottom:4}}>$29</div>
+              <div style={{fontSize:12,color:'rgba(255,255,255,.4)',marginBottom:20}}>Unlimited retakes included</div>
+              {(hasExamAccess || devMode)
+                ? <button className="zte-exam-promo-cta" style={{background:'var(--green)'}} onClick={() => setScreen('exam')}>Go to Exam &#8594;</button>
+                : <button className="zte-exam-promo-cta" onClick={() => setScreen('exam')}>Learn More &#8594;</button>
               }
-              <div className="zte-exam-promo-disclaimer">Practice tool only -- not affiliated with NREMT</div>
+              <div style={{fontFamily:"Space Mono,monospace",fontSize:8,color:'rgba(255,255,255,.2)',marginTop:12,lineHeight:1.5}}>Practice tool only &mdash; not affiliated with NREMT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      {/* Exam Simulator Promo */}
+      <div className="zte-exam-promo">
+        <div className="zte-exam-promo-inner">
+          <div className="zte-exam-promo-left">
+            <div className="zte-tagline-mono" style={{color:'var(--red)',marginBottom:12}}>COMING SOON</div>
+            <h2 className="zte-exam-promo-title">NREMT EXAM<br/>SIMULATOR</h2>
+            <p className="zte-exam-promo-desc">120 questions. 2 hours. Full domain scoring. AI debrief. Know if you're ready before you sit for the real thing.</p>
+            <div className="zte-exam-promo-features">
+              {['120 NREMT-weighted questions','2-hour timer, just like the real exam','Domain breakdown: Airway, Cardiology, Trauma, Medical, Ops','AI debrief tied to your exact results','Unlimited retakes'].map((f,i) => (
+                <div key={i} className="zte-exam-promo-feature">
+                  <span style={{color:'var(--green)'}}>&#10003;</span>
+                  <span>{f}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="zte-exam-promo-right">
+            <div className="zte-exam-promo-price-card">
+              <div style={{fontFamily:"Space Mono,monospace",fontSize:9,letterSpacing:2,color:'rgba(255,255,255,.4)',marginBottom:8}}>ONE-TIME</div>
+              <div style={{fontFamily:"Anton,sans-serif",fontSize:64,color:'white',lineHeight:1,marginBottom:4}}>$29</div>
+              <div style={{fontSize:12,color:'rgba(255,255,255,.4)',marginBottom:20}}>Unlimited retakes included</div>
+              {(hasExamAccess || devMode)
+                ? <button className="zte-exam-promo-cta" style={{background:'var(--green)'}} onClick={() => setScreen('exam')}>Go to Exam &#8594;</button>
+                : <button className="zte-exam-promo-cta" onClick={() => setScreen('exam')}>Learn More &#8594;</button>
+              }
+              <div style={{fontFamily:"Space Mono,monospace",fontSize:8,color:'rgba(255,255,255,.2)',marginTop:12,lineHeight:1.5}}>Practice tool only &mdash; not affiliated with NREMT</div>
             </div>
           </div>
         </div>
@@ -542,26 +787,12 @@ export default function App() {
         {MODULES.map(mod => {
           const unlocked = isModuleUnlocked(mod.id);
           const completed = isModuleCompleted(mod.id);
-          const completedInMod = mod.lessons.filter(l => isLessonCompleted(mod.id, l.id)).length;
-          const modPct = Math.round((completedInMod / mod.lessons.length) * 100);
           return (
-            <div key={mod.id} className={`zte-curr-card ${!unlocked ? "locked" : ""} ${completed ? "completed" : ""}`} style={{"--accent": mod.accentColor}}>
+            <div key={mod.id} className={`zte-curr-card ${!unlocked ? "locked" : ""}`} style={{"--accent": mod.accentColor}}>
               <div className="zte-curr-card-top">
                 <span className="zte-curr-code" style={{color: mod.accentColor, borderColor: mod.accentColor}}>{mod.code}</span>
-                <div className="zte-curr-card-top-right">
-                  <span className="zte-curr-mod-num">MODULE {mod.id}</span>
-                  {completedInMod > 0 && (
-                    <span className="zte-curr-mod-pct" style={{color: completed ? "var(--green)" : mod.accentColor}}>
-                      {completed ? "DONE" : `${modPct}%`}
-                    </span>
-                  )}
-                </div>
+                <span className="zte-curr-mod-num">MODULE {mod.id}</span>
               </div>
-              {completedInMod > 0 && (
-                <div className="zte-curr-mod-progress">
-                  <div className="zte-curr-mod-progress-fill" style={{width: `${modPct}%`, background: completed ? "var(--green)" : mod.accentColor}} />
-                </div>
-              )}
               <h3 className="zte-curr-card-title">{mod.title}</h3>
               <p className="zte-curr-card-desc">{mod.desc}</p>
               <div className="zte-curr-lessons">
@@ -569,9 +800,7 @@ export default function App() {
                   const lDone = isLessonCompleted(mod.id, l.id);
                   const lUnlocked = isLessonUnlocked(mod.id, l.id);
                   return (
-                    <div key={l.id} className={`zte-curr-lesson-row ${lDone ? "done" : ""}`}
-                      style={{cursor: lUnlocked ? "pointer" : "default"}}
-                      onClick={() => lUnlocked && openLesson(mod.id, l.id)}>
+                    <div key={l.id} className={`zte-curr-lesson-row ${lDone ? "done" : ""}`}>
                       <span className="zte-curr-lesson-dot" style={{background: lDone ? mod.accentColor : lUnlocked ? "#d1d5db" : "#e5e7eb"}}/>
                       <span className="zte-curr-lesson-name">{l.title}</span>
                       <span className="zte-curr-lesson-dur">{l.duration}</span>
@@ -579,13 +808,10 @@ export default function App() {
                   );
                 })}
               </div>
-              <div className="zte-curr-footer">
-                <span className="zte-curr-lesson-count">{completedInMod}/{mod.lessons.length} lessons</span>
-                <button className={`zte-curr-cta ${!unlocked ? "locked-btn" : ""}`}
-                  onClick={() => unlocked && openLesson(mod.id, mod.lessons[0].id)} disabled={!unlocked}>
-                  {!unlocked ? `Complete Module ${mod.id - 1} first` : completed ? "Review Module \u2192" : completedInMod > 0 ? "Continue \u2192" : "Start Module \u2192"}
-                </button>
-              </div>
+              <button className={`zte-curr-cta ${!unlocked ? "locked-btn" : ""}`}
+                onClick={() => unlocked && openLesson(mod.id, mod.lessons[0].id)} disabled={!unlocked}>
+                {!unlocked ? `Complete Module ${mod.id - 1} first` : completed ? "Review Module ->" : "Start Module ->"}
+              </button>
             </div>
           );
         })}
@@ -595,79 +821,515 @@ export default function App() {
   );
 
   // -- EXAM SIMULATOR --
-  if (screen === "exam") return (
-    <div id="zte-root">
-      <Nav />
-      <div className="zte-exam-hero">
-        <div className="zte-exam-hero-inner">
-          <div className="zte-tagline-mono">NREMT EXAM SIMULATOR</div>
-          <h1 className="zte-exam-hero-title">ARE YOU READY<br/>FOR THE REAL THING?</h1>
-          <p className="zte-exam-hero-sub">120 questions. 2 hours. Full domain scoring. AI debrief. Built for Zero to EMT students who want to know where they stand before they sit for the NREMT.</p>
-        </div>
-      </div>
+  if (screen === "exam") {
+    // DEV bypass
+    const effectiveAccess = hasExamAccess || devMode;
 
-      <div className="zte-exam-content">
-        {hasExamAccess ? (
-          <div className="zte-exam-access-panel">
-            <div className="zte-exam-access-badge">✓ Exam Access Active</div>
-            <h2 className="zte-exam-access-title">YOUR EXAM SIMULATOR</h2>
-            <p className="zte-exam-access-desc">The full exam simulator is coming soon. You already have access -- it will appear here automatically when it launches. No action needed.</p>
-            <div className="zte-exam-coming-soon-card">
-              <div className="zte-exam-cs-icon">📋</div>
-              <div className="zte-exam-cs-title">BUILDING NOW</div>
-              <div className="zte-exam-cs-desc">120 questions, timer, domain breakdown, AI debrief. You paid -- you get it the moment it ships.</div>
+    // -- ACTIVE EXAM --
+    if (examPhase === 'active' && examDeck.length > 0) {
+      const q = examDeck[examCurrent];
+      const answered = examAnswers[examCurrent] !== undefined;
+      const flagged = examFlagged.has(examCurrent);
+      const answeredCount = Object.keys(examAnswers).length;
+      const timeWarning = examTimeLeft < 600; // < 10 min
+      return (
+        <div id="zte-root" className="zte-exam-active-root">
+          {/* Top bar */}
+          <div className="zte-exam-topbar">
+            <button className="zte-logo" onClick={() => { if(window.confirm('Exit exam? Progress will be lost.')) { clearInterval(examTimerRef.current); setExamPhase(null); setScreen('exam'); } }}>ZERO <span>TO</span> EMT</button>
+            <div className="zte-exam-topbar-center">
+              <span className="zte-exam-q-counter">{examCurrent + 1} / {examDeck.length}</span>
+              <span className="zte-exam-answered">{answeredCount} answered</span>
+            </div>
+            <div className={`zte-exam-timer${timeWarning ? ' warning' : ''}`}>
+              {fmtTime(examTimeLeft)}
             </div>
           </div>
-        ) : (
-          <div className="zte-exam-purchase-panel">
-            <div className="zte-exam-features-grid">
-              {[
-                { icon: "📋", title: "120 Questions", desc: "Weighted to NREMT domain proportions -- the same distribution as the real exam." },
-                { icon: "⏱", title: "2-Hour Timer", desc: "Same time limit as the NREMT. Learn to pace yourself before it counts." },
-                { icon: "📊", title: "Domain Breakdown", desc: "See exactly how you scored in Airway, Cardiology, Trauma, Medical, and Operations." },
-                { icon: "🤖", title: "AI Debrief", desc: "An AI coach analyzes your results and tells you exactly what to study next." },
-                { icon: "🔄", title: "Unlimited Retakes", desc: "Questions randomize every attempt. Retake until you're confident." },
-                { icon: "🚩", title: "Flag & Review", desc: "Flag questions mid-exam and review every answer with full explanations after." },
-              ].map((f, i) => (
-                <div key={i} className="zte-exam-feature-card">
-                  <div className="zte-exam-feature-icon">{f.icon}</div>
-                  <div className="zte-exam-feature-title">{f.title}</div>
-                  <div className="zte-exam-feature-desc">{f.desc}</div>
-                </div>
-              ))}
-            </div>
 
-            <div className="zte-exam-purchase-box">
-              <div className="zte-exam-purchase-left">
-                <div className="zte-exam-purchase-title">NREMT Exam Simulator</div>
-                <div className="zte-exam-purchase-sub">One-time payment. Unlimited retakes. Yours to keep.</div>
-                <ul className="zte-exam-purchase-list">
-                  <li>120-question timed practice exam</li>
-                  <li>Domain scoring aligned to NREMT weights</li>
-                  <li>Full question review with explanations</li>
-                  <li>AI debrief personalized to your results</li>
-                  <li>Flag button on every question</li>
-                  <li>Track improvement across attempts</li>
-                </ul>
+          <div className="zte-exam-body">
+            {/* Question panel */}
+            <div className="zte-exam-main">
+              <div className="zte-exam-domain-badge" style={{background: EXAM_DOMAINS[q.domain]?.color || '#666'}}>
+                {EXAM_DOMAINS[q.domain]?.label || q.domain}
               </div>
-              <div className="zte-exam-purchase-right">
-                <div className="zte-exam-purchase-price-label">ONE-TIME PAYMENT</div>
-                <div className="zte-exam-purchase-price">$29</div>
-                <button className="zte-exam-purchase-btn" onClick={() => {
-                  // Stripe checkout will be wired here
-                  alert("Stripe checkout coming soon! Check back when the exam simulator launches.");
-                }}>
-                  Get Exam Access &rarr;
+              <div className="zte-exam-question">{q.q}</div>
+              <div className="zte-exam-options">
+                {q.options.map((opt, i) => {
+                  const selected = examAnswers[examCurrent] === i;
+                  return (
+                    <button
+                      key={i}
+                      className={`zte-exam-option${selected ? ' selected' : ''}`}
+                      onClick={() => setExamAnswers(prev => ({...prev, [examCurrent]: i}))}
+                    >
+                      <span className="zte-exam-option-letter">{String.fromCharCode(65+i)}</span>
+                      <span className="zte-exam-option-text">{opt}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="zte-exam-question-actions">
+                <button className={`zte-exam-flag-btn${flagged ? ' flagged' : ''}`} onClick={() => toggleFlag(examCurrent)}>
+                  {flagged ? '&#128681; Flagged' : '&#9873; Flag for Review'}
                 </button>
-                <div className="zte-exam-purchase-note">Practice tool only. Not affiliated with or endorsed by NREMT. Questions last reviewed March 2026.</div>
+                <div className="zte-exam-nav-btns">
+                  <button className="zte-exam-nav-btn" onClick={() => setExamCurrent(c => Math.max(0, c-1))} disabled={examCurrent === 0}>&#8592; Prev</button>
+                  {examCurrent < examDeck.length - 1
+                    ? <button className="zte-exam-nav-btn primary" onClick={() => setExamCurrent(c => c+1)}>Next &#8594;</button>
+                    : <button className="zte-exam-submit-btn" onClick={() => { if(window.confirm(`Submit exam? You've answered ${answeredCount} of ${examDeck.length} questions.`)) doSubmitExam(); }}>Submit Exam</button>
+                  }
+                </div>
+              </div>
+            </div>
+
+            {/* Question grid sidebar */}
+            <div className="zte-exam-sidebar">
+              <div className="zte-exam-sidebar-title">Questions</div>
+              <div className="zte-exam-grid">
+                {examDeck.map((_, i) => {
+                  const isAnswered = examAnswers[i] !== undefined;
+                  const isFlagged = examFlagged.has(i);
+                  const isCurrent = i === examCurrent;
+                  let cls = 'zte-exam-grid-cell';
+                  if (isCurrent) cls += ' current';
+                  else if (isFlagged) cls += ' flagged';
+                  else if (isAnswered) cls += ' answered';
+                  return <button key={i} className={cls} onClick={() => setExamCurrent(i)}>{i+1}</button>;
+                })}
+              </div>
+              <div className="zte-exam-sidebar-legend">
+                <span className="zte-legend-dot answered"></span>Answered
+                <span className="zte-legend-dot flagged"></span>Flagged
+                <span className="zte-legend-dot unanswered"></span>Skipped
+              </div>
+              <button className="zte-exam-submit-sidebar" onClick={() => { if(window.confirm(`Submit exam? You've answered ${answeredCount} of ${examDeck.length} questions.`)) doSubmitExam(); }}>
+                Submit Exam
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // -- RESULTS --
+    if (examPhase === 'results' && examResults) {
+      const passed = examResults.score >= 80;
+      return (
+        <div id="zte-root">
+          <Nav />
+          <div className="zte-exam-results">
+            <div className="zte-exam-results-hero" style={{background: passed ? 'var(--green)' : 'var(--red)'}}>
+              <div className="zte-exam-results-score">{examResults.score}%</div>
+              <div className="zte-exam-results-verdict">{passed ? 'PASSING SCORE' : 'BELOW PASSING'}</div>
+              <div className="zte-exam-results-sub">{examResults.correct}/{examResults.total} correct &mdash; {fmtTime(examResults.timeUsed)} used</div>
+            </div>
+            <div className="zte-exam-results-body">
+              <h2 className="zte-exam-results-section-title">Domain Breakdown</h2>
+              <div className="zte-exam-domain-scores">
+                {Object.entries(examResults.byDomain).map(([domain, data]) => {
+                  if (data.total === 0) return null;
+                  const pct = Math.round(data.correct/data.total*100);
+                  const color = EXAM_DOMAINS[domain]?.color || '#666';
+                  return (
+                    <div key={domain} className="zte-exam-domain-row">
+                      <div className="zte-exam-domain-label">
+                        <span className="zte-exam-domain-dot" style={{background:color}}></span>
+                        {EXAM_DOMAINS[domain]?.label || domain}
+                      </div>
+                      <div className="zte-exam-domain-bar-wrap">
+                        <div className="zte-exam-domain-bar" style={{width:`${pct}%`, background:color}}></div>
+                        <span className={`zte-exam-domain-pct${pct < 80 ? ' low' : ''}`}>{pct}%</span>
+                      </div>
+                      <span className="zte-exam-domain-fraction">{data.correct}/{data.total}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="zte-exam-results-actions">
+                <button className="zte-exam-action-btn primary" onClick={loadDebrief}>Get AI Debrief</button>
+                <button className="zte-exam-action-btn" onClick={() => { setExamPhase(null); }}>Review Answers</button>
+                <button className="zte-exam-action-btn ghost" onClick={startExam}>Retake Exam</button>
               </div>
             </div>
           </div>
-        )}
+          <Footer />
+        </div>
+      );
+    }
+
+    // -- AI DEBRIEF --
+    if (examPhase === 'debrief') {
+      const passed = examResults?.score >= 80;
+      return (
+        <div id="zte-root">
+          <Nav />
+          <div className="zte-exam-debrief">
+            <div className="zte-exam-debrief-header">
+              <div className="zte-tagline-mono">AI DEBRIEF</div>
+              <h1 className="zte-exam-debrief-title">YOUR STUDY PLAN</h1>
+              <div className={`zte-exam-debrief-score${passed ? ' pass' : ' fail'}`}>{examResults?.score}% &mdash; {passed ? 'Passing' : 'Below Passing'}</div>
+            </div>
+            <div className="zte-exam-debrief-body">
+              {examDebriefLoading ? (
+                <div className="zte-exam-debrief-loading">
+                  <div className="zte-exam-debrief-spinner"></div>
+                  <p>Analyzing your results...</p>
+                </div>
+              ) : (
+                <div className="zte-exam-debrief-text">
+                  {examDebrief.split('
+
+').map((para, i) => <p key={i}>{para}</p>)}
+                </div>
+              )}
+            </div>
+            <div className="zte-exam-debrief-actions">
+              <button className="zte-exam-action-btn primary" onClick={startExam}>Retake Exam</button>
+              <button className="zte-exam-action-btn ghost" onClick={() => setExamPhase('results')}>Back to Results</button>
+            </div>
+          </div>
+          <Footer />
+        </div>
+      );
+    }
+
+    // -- LANDING (default) --
+    return (
+      <div id="zte-root">
+        <Nav />
+        <div className="zte-exam-hero">
+          <div className="zte-exam-hero-inner">
+            <div className="zte-tagline-mono">NREMT EXAM SIMULATOR</div>
+            <h1 className="zte-exam-hero-title">ARE YOU READY<br/>FOR THE REAL THING?</h1>
+            <p className="zte-exam-hero-sub">120 questions. 2 hours. Full domain scoring. AI debrief. Built for Zero to EMT students who want to know where they stand before they sit for the NREMT.</p>
+          </div>
+        </div>
+        <div className="zte-exam-content">
+          {effectiveAccess ? (
+            <div className="zte-exam-access-panel">
+              <div className="zte-exam-access-badge">&#10003; Exam Access Active{devMode ? ' (DEV)' : ''}</div>
+              <h2 className="zte-exam-access-title">READY TO TEST?</h2>
+              <p className="zte-exam-access-desc">120 questions across all 5 NREMT domains. 2-hour timer. Your results and AI debrief waiting at the end.</p>
+              <div className="zte-exam-start-info">
+                <div className="zte-exam-start-stat"><span>120</span>Questions</div>
+                <div className="zte-exam-start-stat"><span>2:00:00</span>Time Limit</div>
+                <div className="zte-exam-start-stat"><span>80%</span>Pass Threshold</div>
+                <div className="zte-exam-start-stat"><span>5</span>Domains</div>
+              </div>
+              <button className="zte-exam-start-btn" onClick={startExam}>Start Exam &#8594;</button>
+              <p className="zte-exam-start-note">Questions randomize every attempt. Timer starts immediately.</p>
+            </div>
+          ) : (
+            <div className="zte-exam-purchase-panel">
+              <div className="zte-exam-features-grid">
+                {[
+                  { icon: '&#128203;', title: '120 Questions', desc: 'Weighted to NREMT domain proportions  --  same distribution as the real exam.' },
+                  { icon: '&#9201;', title: '2-Hour Timer', desc: 'Same time limit as the NREMT. Learn to pace yourself before it counts.' },
+                  { icon: '&#128202;', title: 'Domain Breakdown', desc: 'See exactly how you scored in Airway, Cardiology, Trauma, Medical, and Operations.' },
+                  { icon: '&#129302;', title: 'AI Debrief', desc: 'An AI coach analyzes your results and tells you exactly what to study next.' },
+                  { icon: '&#128260;', title: 'Unlimited Retakes', desc: 'Questions randomize every attempt. Retake until you're confident.' },
+                  { icon: '&#128681;', title: 'Flag & Review', desc: 'Flag questions mid-exam and review every answer with explanations after.' },
+                ].map((f,i) => (
+                  <div key={i} className="zte-exam-feature-card">
+                    <div className="zte-exam-feature-icon" dangerouslySetInnerHTML={{__html: f.icon}}></div>
+                    <div className="zte-exam-feature-title">{f.title}</div>
+                    <div className="zte-exam-feature-desc">{f.desc}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="zte-exam-purchase-box">
+                <div className="zte-exam-purchase-left">
+                  <div className="zte-exam-purchase-title">NREMT Exam Simulator</div>
+                  <div className="zte-exam-purchase-sub">One-time payment. Unlimited retakes. Yours to keep.</div>
+                  <ul className="zte-exam-purchase-list">
+                    <li>120-question timed practice exam</li>
+                    <li>Domain scoring aligned to NREMT weights</li>
+                    <li>Full question review with explanations</li>
+                    <li>AI debrief personalized to your results</li>
+                    <li>Flag any question for later review</li>
+                    <li>Track improvement across attempts</li>
+                  </ul>
+                </div>
+                <div className="zte-exam-purchase-right">
+                  <div className="zte-exam-purchase-price-label">ONE-TIME PAYMENT</div>
+                  <div className="zte-exam-purchase-price">$29</div>
+                  <button className="zte-exam-purchase-btn" onClick={() => alert('Stripe checkout coming soon. Check back when the exam simulator launches.')}>
+                    Get Exam Access &#8594;
+                  </button>
+                  <div className="zte-exam-purchase-note">Practice tool only. Not affiliated with or endorsed by NREMT. Questions last reviewed March 2026.</div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
-  );
+    );
+  }
+
+  // -- EXAM SIMULATOR --
+  if (screen === "exam") {
+    const canAccess = hasExamAccess || devMode;
+
+    // Phase: Active Exam
+    if (examPhase === 'active' && examDeck.length > 0) {
+      const q = examDeck[examCurrent];
+      const answered = examAnswers[examCurrent];
+      const flagged = examFlagged.has(examCurrent);
+      const timeInfo = formatExamTime(examTimeLeft);
+      const answeredCount = Object.keys(examAnswers).length;
+
+      return (
+        <div id="zte-root" className="zte-exam-active-root">
+          {/* Header Bar */}
+          <div className="zte-exam-header">
+            <div className="zte-exam-header-left">
+              <span className="zte-exam-domain-badge" style={{background: EXAM_DOMAINS[q.domain]?.color || '#666'}}>
+                {EXAM_DOMAINS[q.domain]?.label || q.domain}
+              </span>
+            </div>
+            <div className={`zte-exam-timer ${timeInfo.urgent ? 'urgent' : ''}`}>
+              &#9201; {timeInfo.text}
+            </div>
+            <div className="zte-exam-header-right">
+              <span className="zte-exam-progress-text">{answeredCount}/{examDeck.length} answered</span>
+              <button className="zte-exam-submit-btn" onClick={() => {
+                if (window.confirm(`Submit exam? You've answered ${answeredCount} of ${examDeck.length} questions.`)) submitExam();
+              }}>Submit Exam</button>
+            </div>
+          </div>
+
+          <div className="zte-exam-body">
+            {/* Question Panel */}
+            <div className="zte-exam-question-panel">
+              <div className="zte-exam-q-number">Question {examCurrent + 1} of {examDeck.length}</div>
+              <div className="zte-exam-q-text">{q.q}</div>
+              <div className="zte-exam-options">
+                {q.options.map((opt, i) => (
+                  <button
+                    key={i}
+                    className={`zte-exam-option ${answered === i ? 'selected' : ''}`}
+                    onClick={() => answerExam(examCurrent, i)}
+                  >
+                    <span className="zte-exam-option-letter">{['A','B','C','D'][i]}</span>
+                    <span className="zte-exam-option-text">{opt}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="zte-exam-q-actions">
+                <button className={`zte-exam-flag-btn ${flagged ? 'flagged' : ''}`} onClick={() => toggleFlag(examCurrent)}>
+                  &#128681; {flagged ? 'Flagged' : 'Flag for Review'}
+                </button>
+                <div className="zte-exam-nav-btns">
+                  <button className="zte-exam-nav-btn" onClick={() => setExamCurrent(c => Math.max(0, c-1))} disabled={examCurrent === 0}>
+                    &#8592; Prev
+                  </button>
+                  <button className="zte-exam-nav-btn primary" onClick={() => setExamCurrent(c => Math.min(examDeck.length-1, c+1))} disabled={examCurrent === examDeck.length-1}>
+                    Next &#8594;
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Question Grid Sidebar */}
+            <div className="zte-exam-sidebar">
+              <div className="zte-exam-sidebar-title">Questions</div>
+              <div className="zte-exam-grid">
+                {examDeck.map((_, i) => {
+                  const isAnswered = examAnswers[i] !== undefined;
+                  const isFlagged = examFlagged.has(i);
+                  const isCurrent = i === examCurrent;
+                  return (
+                    <button
+                      key={i}
+                      className={`zte-exam-grid-btn ${isCurrent ? 'current' : ''} ${isFlagged ? 'flagged' : ''} ${isAnswered && !isFlagged ? 'answered' : ''}`}
+                      onClick={() => setExamCurrent(i)}
+                    >
+                      {i + 1}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="zte-exam-legend">
+                <div className="zte-exam-legend-item"><span className="zte-exam-legend-dot answered"></span>Answered</div>
+                <div className="zte-exam-legend-item"><span className="zte-exam-legend-dot flagged"></span>Flagged</div>
+                <div className="zte-exam-legend-item"><span className="zte-exam-legend-dot"></span>Unanswered</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Phase: Results
+    if (examPhase === 'results' && examResults) {
+      const { score, correct, total, byDomain, passed, timeUsed } = examResults;
+      return (
+        <div id="zte-root">
+          <Nav />
+          <div className="zte-exam-results-hero" style={{background: passed ? 'var(--navy)' : '#1a0a0a'}}>
+            <div className="zte-tagline-mono">{passed ? 'EXAM COMPLETE  --  PASSED' : 'EXAM COMPLETE  --  REVIEW NEEDED'}</div>
+            <div className="zte-exam-results-score" style={{color: passed ? 'var(--green)' : 'var(--red)'}}>
+              {score}%
+            </div>
+            <div className="zte-exam-results-sub">{correct}/{total} correct &mdash; {passed ? 'Above 80% pass threshold' : 'Below 80% pass threshold'}</div>
+            <div className="zte-exam-results-time">Time used: {Math.floor(timeUsed/60)}:{String(timeUsed%60).padStart(2,'0')} of 2:00:00</div>
+          </div>
+
+          <div className="zte-exam-results-body">
+            <h2 className="zte-exam-results-section-title">DOMAIN BREAKDOWN</h2>
+            <div className="zte-exam-domain-bars">
+              {Object.entries(byDomain).filter(([,v]) => v.total > 0).map(([key, v]) => {
+                const pct = Math.round((v.correct / v.total) * 100);
+                return (
+                  <div key={key} className="zte-exam-domain-bar-row">
+                    <div className="zte-exam-domain-bar-label">
+                      <span className="zte-exam-domain-dot" style={{background: v.color}}></span>
+                      {v.label}
+                    </div>
+                    <div className="zte-exam-domain-bar-track">
+                      <div className="zte-exam-domain-bar-fill" style={{width: pct+'%', background: pct >= 80 ? 'var(--green)' : pct >= 60 ? '#f59e0b' : 'var(--red)'}}></div>
+                    </div>
+                    <div className="zte-exam-domain-bar-pct" style={{color: pct >= 80 ? 'var(--green)' : pct >= 60 ? '#f59e0b' : 'var(--red)'}}>{pct}%</div>
+                    <div className="zte-exam-domain-bar-count">{v.correct}/{v.total}</div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="zte-exam-results-actions">
+              <button className="zte-exam-results-btn primary" onClick={loadExamDebrief}>
+                &#129302; Get AI Debrief
+              </button>
+              <button className="zte-exam-results-btn" onClick={resetExam}>
+                &#128260; Retake Exam
+              </button>
+            </div>
+          </div>
+          <Footer />
+        </div>
+      );
+    }
+
+    // Phase: AI Debrief
+    if (examPhase === 'debrief') {
+      return (
+        <div id="zte-root">
+          <Nav />
+          <div className="zte-exam-debrief-header">
+            <div className="zte-tagline-mono">AI DEBRIEF</div>
+            <h1 className="zte-exam-debrief-title">YOUR PERSONALIZED<br/>STUDY PLAN</h1>
+            <div className="zte-exam-debrief-score">
+              Based on your score: <strong style={{color: examResults?.passed ? 'var(--green)' : 'var(--red)'}}>{examResults?.score}%</strong>
+            </div>
+          </div>
+          <div className="zte-exam-debrief-body">
+            {examDebriefLoading ? (
+              <div className="zte-exam-debrief-loading">
+                <div className="zte-exam-debrief-spinner"></div>
+                <div>Analyzing your results&hellip;</div>
+              </div>
+            ) : (
+              <div className="zte-exam-debrief-text">
+                {examDebrief.split('
+
+').map((para, i) => (
+                  para.trim() ? <p key={i}>{para.trim()}</p> : null
+                ))}
+              </div>
+            )}
+            <div className="zte-exam-debrief-actions">
+              <button className="zte-exam-results-btn" onClick={() => setExamPhase('results')}>
+                &#8592; Back to Results
+              </button>
+              <button className="zte-exam-results-btn" onClick={resetExam}>
+                &#128260; Retake Exam
+              </button>
+            </div>
+          </div>
+          <Footer />
+        </div>
+      );
+    }
+
+    // Phase: Landing (default when screen === 'exam')
+    return (
+      <div id="zte-root">
+        <Nav />
+        <div className="zte-exam-hero">
+          <div className="zte-exam-hero-inner">
+            <div className="zte-tagline-mono">NREMT EXAM SIMULATOR</div>
+            <h1 className="zte-exam-hero-title">ARE YOU READY<br/>FOR THE REAL THING?</h1>
+            <p className="zte-exam-hero-sub">120 questions. 2 hours. Full domain scoring. AI debrief. Built for Zero to EMT students who want to know where they stand before they sit for the NREMT.</p>
+          </div>
+        </div>
+
+        <div className="zte-exam-content">
+          {canAccess ? (
+            <div className="zte-exam-access-panel">
+              {devMode && <div className="zte-exam-dev-badge">DEV MODE  --  Exam Access Bypassed</div>}
+              <h2 className="zte-exam-access-title">START YOUR PRACTICE EXAM</h2>
+              <p className="zte-exam-access-desc">120 questions across all 5 NREMT domains. 2-hour timer. Your results and AI debrief at the end. Retake as many times as you want.</p>
+              <div className="zte-exam-start-details">
+                {Object.entries(EXAM_DOMAINS).map(([key, d]) => (
+                  <div key={key} className="zte-exam-start-domain">
+                    <span className="zte-exam-domain-dot" style={{background: d.color}}></span>
+                    <span>{d.label}</span>
+                    <span className="zte-exam-start-count">~{d.target}q</span>
+                  </div>
+                ))}
+              </div>
+              <button className="zte-exam-start-btn" onClick={startExam}>
+                Start Exam &#8594;
+              </button>
+              <div className="zte-exam-start-note">Questions are randomized on every attempt &mdash; not affiliated with or endorsed by NREMT</div>
+            </div>
+          ) : (
+            <div className="zte-exam-purchase-panel">
+              <div className="zte-exam-features-grid">
+                {[
+                  { icon: '&#128203;', title: '120 Questions', desc: 'Weighted to NREMT domain proportions  --  same distribution as the real exam.' },
+                  { icon: '&#9201;', title: '2-Hour Timer', desc: 'Same time limit as the NREMT. Learn to pace yourself before it counts.' },
+                  { icon: '&#128202;', title: 'Domain Breakdown', desc: 'See exactly how you scored in Airway, Cardiology, Trauma, Medical, and Operations.' },
+                  { icon: '&#129302;', title: 'AI Debrief', desc: 'An AI coach analyzes your results and tells you exactly what to study next.' },
+                  { icon: '&#128260;', title: 'Unlimited Retakes', desc: 'Questions randomize every attempt. Retake until you're confident.' },
+                  { icon: '&#128681;', title: 'Flag & Review', desc: 'Flag questions mid-exam and review every answer after.' },
+                ].map((f, i) => (
+                  <div key={i} className="zte-exam-feature-card">
+                    <div className="zte-exam-feature-icon" dangerouslySetInnerHTML={{__html: f.icon}} />
+                    <div className="zte-exam-feature-title">{f.title}</div>
+                    <div className="zte-exam-feature-desc">{f.desc}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="zte-exam-purchase-box">
+                <div className="zte-exam-purchase-left">
+                  <div className="zte-exam-purchase-title">NREMT Exam Simulator</div>
+                  <div className="zte-exam-purchase-sub">One-time payment. Unlimited retakes. Yours to keep.</div>
+                  <ul className="zte-exam-purchase-list">
+                    <li>120-question timed practice exam</li>
+                    <li>Domain scoring aligned to NREMT weights</li>
+                    <li>Full question review with explanations</li>
+                    <li>AI debrief personalized to your results</li>
+                    <li>Flag button on every question</li>
+                  </ul>
+                </div>
+                <div className="zte-exam-purchase-right">
+                  <div style={{fontFamily:'Space Mono,monospace',fontSize:9,letterSpacing:2,color:'rgba(255,255,255,.4)',marginBottom:8}}>ONE-TIME PAYMENT</div>
+                  <div style={{fontFamily:'Anton,sans-serif',fontSize:72,color:'white',lineHeight:1,marginBottom:20}}>$29</div>
+                  <button className="zte-exam-purchase-btn" onClick={() => alert('Payment coming soon! Check back when the exam simulator launches.')}>
+                    Get Exam Access &#8594;
+                  </button>
+                  <div style={{fontFamily:'Space Mono,monospace',fontSize:8,color:'rgba(255,255,255,.2)',marginTop:12,lineHeight:1.6}}>Practice tool only. Not affiliated with or endorsed by NREMT.</div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   // -- LESSON --
   if (screen === "lesson" && activeLesson && activeModule) {
@@ -913,7 +1575,7 @@ export default function App() {
                   return (
                     <div key={l.id} className="zte-strip-item">
                       <div className={`zte-strip-node ${done ? "done" : active ? "active" : !unlocked ? "locked" : "upcoming"}`}>
-                        {done ? <span>✓</span> : String(l.id).padStart(2,"0")}
+                        {done ? <span>&#10003;</span> : String(l.id).padStart(2,"0")}
                       </div>
                       <div className={`zte-strip-label ${active ? "active" : ""}`}>{l.title}</div>
                       {!isLast && <div className={`zte-strip-connector ${done ? "done" : ""}`}/>}
