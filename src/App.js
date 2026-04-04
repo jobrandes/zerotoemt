@@ -99,19 +99,7 @@ export default function App() {
   const [examDebrief, setExamDebrief] = useState('');
   const [examDebriefLoading, setExamDebriefLoading] = useState(false);
   const examTimerRef = useRef(null);
-  // Exam access
-  const [hasExamAccess, setHasExamAccess] = useState(false);
-  // Exam simulator state
-  const [examPhase, setExamPhase] = useState(null); // null | 'active' | 'results' | 'debrief'
-  const [examDeck, setExamDeck] = useState([]);
-  const [examCurrent, setExamCurrent] = useState(0);
-  const [examAnswers, setExamAnswers] = useState({});
-  const [examFlagged, setExamFlagged] = useState(new Set());
-  const [examTimeLeft, setExamTimeLeft] = useState(7200);
-  const [examResults, setExamResults] = useState(null);
-  const [examDebrief, setExamDebrief] = useState('');
-  const [examDebriefLoading, setExamDebriefLoading] = useState(false);
-  const examTimerRef = useRef(null);
+
   const reviewScoresRef = useRef({});
   const completedModuleRef = useRef(null);
   const quizStartScoreRef = useRef(null);
@@ -171,7 +159,7 @@ export default function App() {
     );
   }
 
-  // Exam access check
+  // === EXAM SIMULATOR FUNCTIONS ===
   async function loadExamAccess(userId) {
     try {
       const { data } = await supabase.from("exam_access").select("id").eq("user_id", userId).maybeSingle();
@@ -179,7 +167,6 @@ export default function App() {
     } catch(e) { console.log('exam access check failed', e); }
   }
 
-  // === EXAM SIMULATOR FUNCTIONS ===
   function startExam() {
     const deck = buildExamDeck(EXAM_QUESTIONS, 120);
     setExamDeck(deck);
@@ -193,24 +180,14 @@ export default function App() {
     if (examTimerRef.current) clearInterval(examTimerRef.current);
     examTimerRef.current = setInterval(() => {
       setExamTimeLeft(prev => {
-        if (prev <= 1) { clearInterval(examTimerRef.current); submitExamAuto(); return 0; }
+        if (prev <= 1) { clearInterval(examTimerRef.current); submitExam(); return 0; }
         return prev - 1;
       });
     }, 1000);
   }
 
-  function submitExamAuto() {
-    // Called when timer runs out
-    clearInterval(examTimerRef.current);
-    finishExam();
-  }
-
   function submitExam() {
     clearInterval(examTimerRef.current);
-    finishExam();
-  }
-
-  function finishExam() {
     setExamDeck(deck => {
       setExamAnswers(answers => {
         setExamTimeLeft(t => {
@@ -219,15 +196,10 @@ export default function App() {
           Object.keys(EXAM_DOMAINS).forEach(d => { byDomain[d] = { correct: 0, total: 0, label: EXAM_DOMAINS[d].label, color: EXAM_DOMAINS[d].color }; });
           deck.forEach((q, i) => {
             const d = q.domain;
-            if (byDomain[d]) {
-              byDomain[d].total++;
-              if (answers[i] === q.answer) byDomain[d].correct++;
-            }
+            if (byDomain[d]) { byDomain[d].total++; if (answers[i] === q.answer) byDomain[d].correct++; }
           });
           const score = Math.round((correct / deck.length) * 100);
-          const passed = score >= 80;
-          const timeUsed = 7200 - t;
-          setExamResults({ score, correct, total: deck.length, byDomain, timeUsed, passed });
+          setExamResults({ score, correct, total: deck.length, byDomain, timeUsed: 7200 - t, passed: score >= 80 });
           setExamPhase('results');
           return t;
         });
@@ -253,8 +225,7 @@ export default function App() {
   function formatExamTime(sec) {
     const m = Math.floor(sec / 60);
     const s = sec % 60;
-    const urgent = sec < 300;
-    return { text: `${m}:${String(s).padStart(2,'0')}`, urgent };
+    return { text: `${m}:${String(s).padStart(2,'0')}`, urgent: sec < 300 };
   }
 
   async function loadExamDebrief() {
@@ -263,26 +234,12 @@ export default function App() {
     setExamPhase('debrief');
     try {
       const domainSummary = Object.entries(examResults.byDomain)
-        .map(([k, v]) => `${v.label}: ${v.total > 0 ? Math.round((v.correct/v.total)*100) : 0}%`)
+        .map(([, v]) => `${v.label}: ${v.total > 0 ? Math.round((v.correct/v.total)*100) : 0}%`)
         .join(', ');
       const weak = Object.entries(examResults.byDomain)
         .filter(([, v]) => v.total > 0)
         .sort((a, b) => (a[1].correct/a[1].total) - (b[1].correct/b[1].total));
-      const prompt = `An EMT student just completed a 120-question NREMT practice exam.
-
-Overall score: ${examResults.score}% (${examResults.correct}/${examResults.total} correct) - ${examResults.passed ? 'PASSED' : 'DID NOT PASS'} (80% threshold)
-Time used: ${Math.floor(examResults.timeUsed/60)} minutes of 120
-Domain scores: ${domainSummary}
-Weakest domain: ${weak[0]?.[1]?.label || 'N/A'} at ${weak[0] ? Math.round((weak[0][1].correct/weak[0][1].total)*100) : 0}%
-
-Give a focused, direct debrief in 3-4 paragraphs:
-1. Honest overall assessment - are they ready? Be direct.
-2. Their weakest area(s) with specific, actionable study advice
-3. Top 3 concrete things to do before their next attempt
-4. One encouraging closing line
-
-This is a pre-class EMT student - no medical background. Keep language clear and practical.`;
-
+      const prompt = `EMT student completed 120-question NREMT practice exam.\nScore: ${examResults.score}% (${examResults.correct}/${examResults.total}) - ${examResults.passed ? 'PASSED' : 'DID NOT PASS'}\nTime: ${Math.floor(examResults.timeUsed/60)} min of 120\nDomains: ${domainSummary}\nWeakest: ${weak[0]?.[1]?.label || 'N/A'} at ${weak[0] ? Math.round((weak[0][1].correct/weak[0][1].total)*100) : 0}%\n\nGive a focused 3-4 paragraph debrief: overall readiness assessment, weakest domain study advice, top 3 action items, brief encouragement. Be direct and practical. Pre-class student, no medical background.`;
       const res = await fetch('/.netlify/functions/exam-debrief', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -307,145 +264,6 @@ This is a pre-class EMT student - no medical background. Keep language clear and
     setExamResults(null);
     setExamDebrief('');
   }
-
-
-  // Exam access check
-  async function loadExamAccess(userId) {
-    try {
-      const { data } = await supabase.from("exam_access").select("id").eq("user_id", userId).maybeSingle();
-      setHasExamAccess(!!data);
-    } catch(e) { console.log('exam access check failed', e); }
-  }
-
-  // === EXAM SIMULATOR FUNCTIONS ===
-  function startExam() {
-    const deck = buildExamDeck(EXAM_QUESTIONS, 120);
-    setExamDeck(deck);
-    setExamCurrent(0);
-    setExamAnswers({});
-    setExamFlagged(new Set());
-    setExamTimeLeft(7200);
-    setExamResults(null);
-    setExamDebrief('');
-    setExamPhase('active');
-    if (examTimerRef.current) clearInterval(examTimerRef.current);
-    examTimerRef.current = setInterval(() => {
-      setExamTimeLeft(prev => {
-        if (prev <= 1) { clearInterval(examTimerRef.current); submitExamAuto(); return 0; }
-        return prev - 1;
-      });
-    }, 1000);
-  }
-
-  function submitExamAuto() {
-    // Called when timer runs out
-    clearInterval(examTimerRef.current);
-    finishExam();
-  }
-
-  function submitExam() {
-    clearInterval(examTimerRef.current);
-    finishExam();
-  }
-
-  function finishExam() {
-    setExamDeck(deck => {
-      setExamAnswers(answers => {
-        setExamTimeLeft(t => {
-          const correct = deck.filter((q, i) => answers[i] === q.answer).length;
-          const byDomain = {};
-          Object.keys(EXAM_DOMAINS).forEach(d => { byDomain[d] = { correct: 0, total: 0, label: EXAM_DOMAINS[d].label, color: EXAM_DOMAINS[d].color }; });
-          deck.forEach((q, i) => {
-            const d = q.domain;
-            if (byDomain[d]) {
-              byDomain[d].total++;
-              if (answers[i] === q.answer) byDomain[d].correct++;
-            }
-          });
-          const score = Math.round((correct / deck.length) * 100);
-          const passed = score >= 80;
-          const timeUsed = 7200 - t;
-          setExamResults({ score, correct, total: deck.length, byDomain, timeUsed, passed });
-          setExamPhase('results');
-          return t;
-        });
-        return answers;
-      });
-      return deck;
-    });
-  }
-
-  function toggleFlag(idx) {
-    setExamFlagged(prev => {
-      const next = new Set(prev);
-      if (next.has(idx)) next.delete(idx); else next.add(idx);
-      return next;
-    });
-  }
-
-  function answerExam(qIdx, aIdx) {
-    if (examPhase !== 'active') return;
-    setExamAnswers(prev => ({ ...prev, [qIdx]: aIdx }));
-  }
-
-  function formatExamTime(sec) {
-    const m = Math.floor(sec / 60);
-    const s = sec % 60;
-    const urgent = sec < 300;
-    return { text: `${m}:${String(s).padStart(2,'0')}`, urgent };
-  }
-
-  async function loadExamDebrief() {
-    setExamDebrief('');
-    setExamDebriefLoading(true);
-    setExamPhase('debrief');
-    try {
-      const domainSummary = Object.entries(examResults.byDomain)
-        .map(([k, v]) => `${v.label}: ${v.total > 0 ? Math.round((v.correct/v.total)*100) : 0}%`)
-        .join(', ');
-      const weak = Object.entries(examResults.byDomain)
-        .filter(([, v]) => v.total > 0)
-        .sort((a, b) => (a[1].correct/a[1].total) - (b[1].correct/b[1].total));
-      const prompt = `An EMT student just completed a 120-question NREMT practice exam.
-
-Overall score: ${examResults.score}% (${examResults.correct}/${examResults.total} correct) - ${examResults.passed ? 'PASSED' : 'DID NOT PASS'} (80% threshold)
-Time used: ${Math.floor(examResults.timeUsed/60)} minutes of 120
-Domain scores: ${domainSummary}
-Weakest domain: ${weak[0]?.[1]?.label || 'N/A'} at ${weak[0] ? Math.round((weak[0][1].correct/weak[0][1].total)*100) : 0}%
-
-Give a focused, direct debrief in 3-4 paragraphs:
-1. Honest overall assessment - are they ready? Be direct.
-2. Their weakest area(s) with specific, actionable study advice
-3. Top 3 concrete things to do before their next attempt
-4. One encouraging closing line
-
-This is a pre-class EMT student - no medical background. Keep language clear and practical.`;
-
-      const res = await fetch('/.netlify/functions/exam-debrief', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
-      });
-      const data = await res.json();
-      setExamDebrief(data.response || 'Unable to generate debrief. Please try again.');
-    } catch(e) {
-      setExamDebrief('Unable to connect. Check your connection and try again.');
-    }
-    setExamDebriefLoading(false);
-  }
-
-  function resetExam() {
-    clearInterval(examTimerRef.current);
-    setExamPhase(null);
-    setExamDeck([]);
-    setExamCurrent(0);
-    setExamAnswers({});
-    setExamFlagged(new Set());
-    setExamTimeLeft(7200);
-    setExamResults(null);
-    setExamDebrief('');
-  }
-
 
   async function saveProgress(lessons, scores) {
     try { localStorage.setItem("zte-progress", JSON.stringify(lessons)); } catch {}
