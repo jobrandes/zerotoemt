@@ -843,7 +843,7 @@ export default function App() {
                   { icon: '&#9201;', title: '2-Hour Timer', desc: 'Same time limit as the NREMT. Learn to pace yourself before it counts.' },
                   { icon: '&#128202;', title: 'Domain Breakdown', desc: 'See exactly how you scored in Airway, Cardiology, Trauma, Medical, and Operations.' },
                   { icon: '&#129302;', title: 'AI Debrief', desc: 'An AI coach analyzes your results and tells you exactly what to study next.' },
-                  { icon: '&#128260;', title: 'Unlimited Retakes', desc: 'Questions randomize every attempt. Retake until you're confident.' },
+                  { icon: '&#128260;', title: 'Unlimited Retakes', desc: "Questions randomize every attempt. Retake until you're confident." },
                   { icon: '&#128681;', title: 'Flag & Review', desc: 'Flag questions mid-exam and review every answer with explanations after.' },
                 ].map((f,i) => (
                   <div key={i} className="zte-exam-feature-card">
@@ -1106,7 +1106,7 @@ export default function App() {
                   { icon: '&#9201;', title: '2-Hour Timer', desc: 'Same time limit as the NREMT. Learn to pace yourself before it counts.' },
                   { icon: '&#128202;', title: 'Domain Breakdown', desc: 'See exactly how you scored in Airway, Cardiology, Trauma, Medical, and Operations.' },
                   { icon: '&#129302;', title: 'AI Debrief', desc: 'An AI coach analyzes your results and tells you exactly what to study next.' },
-                  { icon: '&#128260;', title: 'Unlimited Retakes', desc: 'Questions randomize every attempt. Retake until you're confident.' },
+                  { icon: '&#128260;', title: 'Unlimited Retakes', desc: "Questions randomize every attempt. Retake until you're confident." },
                   { icon: '&#128681;', title: 'Flag & Review', desc: 'Flag questions mid-exam and review every answer after.' },
                 ].map((f, i) => (
                   <div key={i} className="zte-exam-feature-card">
