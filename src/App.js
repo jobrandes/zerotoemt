@@ -469,7 +469,72 @@ export default function App() {
 
   if (screen === "home") return (
     <div id="zte-root">
-      <DevPanel />
+            {devPanelOpen && (
+        <div className="zte-dev-overlay" onClick={() => setDevPanelOpen(false)}>
+          <div className="zte-dev-panel" onClick={e => e.stopPropagation()}>
+            <div className="zte-dev-panel-header">
+              <span className="zte-dev-panel-title">DEV PANEL</span>
+              <button className="zte-dev-panel-close" onClick={() => setDevPanelOpen(false)}>x</button>
+            </div>
+            <div className="zte-dev-section">
+              <div className="zte-dev-section-label">CURRICULUM</div>
+              <label className="zte-dev-toggle">
+                <span>Unlock All Lessons</span>
+                <input type="checkbox" checked={dev.unlockLessons} onChange={() => devToggle('unlockLessons')} />
+                <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
+              </label>
+              <label className="zte-dev-toggle">
+                <span>Skip to Quiz</span>
+                <input type="checkbox" checked={dev.skipToQuiz} onChange={() => devToggle('skipToQuiz')} />
+                <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
+              </label>
+            </div>
+            <div className="zte-dev-section">
+              <div className="zte-dev-section-label">EXAM SIMULATOR</div>
+              <label className="zte-dev-toggle">
+                <span>Bypass Paywall</span>
+                <input type="checkbox" checked={dev.examAccess} onChange={() => devToggle('examAccess')} />
+                <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
+              </label>
+              <button
+                className={`zte-dev-action-btn ${!(screen === 'exam' && examPhase === 'active' && examDeck.length > 0) ? 'disabled' : ''}`}
+                onClick={() => {
+                  if (!(screen === 'exam' && examPhase === 'active' && examDeck.length > 0)) return;
+                  const domainAcc = { airway:0.85, cardiology:0.80, trauma:0.70, medical:0.65, operations:0.80, special:0.75 };
+                  const filled = {};
+                  const toFlag = new Set();
+                  examDeck.forEach((q, i) => {
+                    const acc = domainAcc[q.domain] || 0.75;
+                    if (Math.random() < acc) {
+                      filled[i] = q.answer;
+                    } else {
+                      const wrong = q.options.map((_,idx) => idx).filter(idx => idx !== q.answer);
+                      filled[i] = wrong[Math.floor(Math.random() * wrong.length)];
+                    }
+                    if (Math.random() < 0.07) toFlag.add(i);
+                  });
+                  [1,2,3,4,5].forEach(n => delete filled[examDeck.length - n]);
+                  setExamAnswers(filled);
+                  setExamFlagged(toFlag);
+                  setExamCurrent(0);
+                  setDevPanelOpen(false);
+                }}
+                title={screen === 'exam' && examPhase === 'active' ? 'Auto-fill all answers' : 'Start an exam first'}
+              >
+                Auto-Fill Exam
+                <span className="zte-dev-action-sub">~74% correct, weak Medical/Trauma</span>
+              </button>
+            </div>
+            <div className="zte-dev-section">
+              <div className="zte-dev-section-label">STATUS</div>
+              <div className="zte-dev-status-row"><span>Screen</span><span>{screen}{examPhase ? ' / ' + examPhase : ''}</span></div>
+              <div className="zte-dev-status-row"><span>Lessons unlocked</span><span>{dev.unlockLessons ? 'ALL' : completedLessons.length + '/42'}</span></div>
+              <div className="zte-dev-status-row"><span>Exam access</span><span>{dev.examAccess ? 'bypassed' : hasExamAccess ? 'paid' : 'locked'}</span></div>
+              <div className="zte-dev-status-row"><span>Skip to quiz</span><span>{dev.skipToQuiz ? 'on' : 'off'}</span></div>
+            </div>
+          </div>
+        </div>
+      )}
       <Nav />
       <section className="zte-hero">
         <div className="zte-hero-left">
@@ -604,7 +669,72 @@ export default function App() {
   // -- CURRICULUM --
   if (screen === "curriculum") return (
     <div id="zte-root">
-      <DevPanel />
+            {devPanelOpen && (
+        <div className="zte-dev-overlay" onClick={() => setDevPanelOpen(false)}>
+          <div className="zte-dev-panel" onClick={e => e.stopPropagation()}>
+            <div className="zte-dev-panel-header">
+              <span className="zte-dev-panel-title">DEV PANEL</span>
+              <button className="zte-dev-panel-close" onClick={() => setDevPanelOpen(false)}>x</button>
+            </div>
+            <div className="zte-dev-section">
+              <div className="zte-dev-section-label">CURRICULUM</div>
+              <label className="zte-dev-toggle">
+                <span>Unlock All Lessons</span>
+                <input type="checkbox" checked={dev.unlockLessons} onChange={() => devToggle('unlockLessons')} />
+                <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
+              </label>
+              <label className="zte-dev-toggle">
+                <span>Skip to Quiz</span>
+                <input type="checkbox" checked={dev.skipToQuiz} onChange={() => devToggle('skipToQuiz')} />
+                <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
+              </label>
+            </div>
+            <div className="zte-dev-section">
+              <div className="zte-dev-section-label">EXAM SIMULATOR</div>
+              <label className="zte-dev-toggle">
+                <span>Bypass Paywall</span>
+                <input type="checkbox" checked={dev.examAccess} onChange={() => devToggle('examAccess')} />
+                <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
+              </label>
+              <button
+                className={`zte-dev-action-btn ${!(screen === 'exam' && examPhase === 'active' && examDeck.length > 0) ? 'disabled' : ''}`}
+                onClick={() => {
+                  if (!(screen === 'exam' && examPhase === 'active' && examDeck.length > 0)) return;
+                  const domainAcc = { airway:0.85, cardiology:0.80, trauma:0.70, medical:0.65, operations:0.80, special:0.75 };
+                  const filled = {};
+                  const toFlag = new Set();
+                  examDeck.forEach((q, i) => {
+                    const acc = domainAcc[q.domain] || 0.75;
+                    if (Math.random() < acc) {
+                      filled[i] = q.answer;
+                    } else {
+                      const wrong = q.options.map((_,idx) => idx).filter(idx => idx !== q.answer);
+                      filled[i] = wrong[Math.floor(Math.random() * wrong.length)];
+                    }
+                    if (Math.random() < 0.07) toFlag.add(i);
+                  });
+                  [1,2,3,4,5].forEach(n => delete filled[examDeck.length - n]);
+                  setExamAnswers(filled);
+                  setExamFlagged(toFlag);
+                  setExamCurrent(0);
+                  setDevPanelOpen(false);
+                }}
+                title={screen === 'exam' && examPhase === 'active' ? 'Auto-fill all answers' : 'Start an exam first'}
+              >
+                Auto-Fill Exam
+                <span className="zte-dev-action-sub">~74% correct, weak Medical/Trauma</span>
+              </button>
+            </div>
+            <div className="zte-dev-section">
+              <div className="zte-dev-section-label">STATUS</div>
+              <div className="zte-dev-status-row"><span>Screen</span><span>{screen}{examPhase ? ' / ' + examPhase : ''}</span></div>
+              <div className="zte-dev-status-row"><span>Lessons unlocked</span><span>{dev.unlockLessons ? 'ALL' : completedLessons.length + '/42'}</span></div>
+              <div className="zte-dev-status-row"><span>Exam access</span><span>{dev.examAccess ? 'bypassed' : hasExamAccess ? 'paid' : 'locked'}</span></div>
+              <div className="zte-dev-status-row"><span>Skip to quiz</span><span>{dev.skipToQuiz ? 'on' : 'off'}</span></div>
+            </div>
+          </div>
+        </div>
+      )}
       <Nav />
       <div className="zte-curr-hero">
         <div className="zte-tagline-mono">FULL CURRICULUM</div>
@@ -661,7 +791,72 @@ export default function App() {
       const answeredCount = Object.keys(examAnswers).length;
 
       return (
-        <div id="zte-root" className="zte-exam-active-root"><DevPanel />
+        <div id="zte-root" className="zte-exam-active-root">      {devPanelOpen && (
+        <div className="zte-dev-overlay" onClick={() => setDevPanelOpen(false)}>
+          <div className="zte-dev-panel" onClick={e => e.stopPropagation()}>
+            <div className="zte-dev-panel-header">
+              <span className="zte-dev-panel-title">DEV PANEL</span>
+              <button className="zte-dev-panel-close" onClick={() => setDevPanelOpen(false)}>x</button>
+            </div>
+            <div className="zte-dev-section">
+              <div className="zte-dev-section-label">CURRICULUM</div>
+              <label className="zte-dev-toggle">
+                <span>Unlock All Lessons</span>
+                <input type="checkbox" checked={dev.unlockLessons} onChange={() => devToggle('unlockLessons')} />
+                <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
+              </label>
+              <label className="zte-dev-toggle">
+                <span>Skip to Quiz</span>
+                <input type="checkbox" checked={dev.skipToQuiz} onChange={() => devToggle('skipToQuiz')} />
+                <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
+              </label>
+            </div>
+            <div className="zte-dev-section">
+              <div className="zte-dev-section-label">EXAM SIMULATOR</div>
+              <label className="zte-dev-toggle">
+                <span>Bypass Paywall</span>
+                <input type="checkbox" checked={dev.examAccess} onChange={() => devToggle('examAccess')} />
+                <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
+              </label>
+              <button
+                className={`zte-dev-action-btn ${!(screen === 'exam' && examPhase === 'active' && examDeck.length > 0) ? 'disabled' : ''}`}
+                onClick={() => {
+                  if (!(screen === 'exam' && examPhase === 'active' && examDeck.length > 0)) return;
+                  const domainAcc = { airway:0.85, cardiology:0.80, trauma:0.70, medical:0.65, operations:0.80, special:0.75 };
+                  const filled = {};
+                  const toFlag = new Set();
+                  examDeck.forEach((q, i) => {
+                    const acc = domainAcc[q.domain] || 0.75;
+                    if (Math.random() < acc) {
+                      filled[i] = q.answer;
+                    } else {
+                      const wrong = q.options.map((_,idx) => idx).filter(idx => idx !== q.answer);
+                      filled[i] = wrong[Math.floor(Math.random() * wrong.length)];
+                    }
+                    if (Math.random() < 0.07) toFlag.add(i);
+                  });
+                  [1,2,3,4,5].forEach(n => delete filled[examDeck.length - n]);
+                  setExamAnswers(filled);
+                  setExamFlagged(toFlag);
+                  setExamCurrent(0);
+                  setDevPanelOpen(false);
+                }}
+                title={screen === 'exam' && examPhase === 'active' ? 'Auto-fill all answers' : 'Start an exam first'}
+              >
+                Auto-Fill Exam
+                <span className="zte-dev-action-sub">~74% correct, weak Medical/Trauma</span>
+              </button>
+            </div>
+            <div className="zte-dev-section">
+              <div className="zte-dev-section-label">STATUS</div>
+              <div className="zte-dev-status-row"><span>Screen</span><span>{screen}{examPhase ? ' / ' + examPhase : ''}</span></div>
+              <div className="zte-dev-status-row"><span>Lessons unlocked</span><span>{dev.unlockLessons ? 'ALL' : completedLessons.length + '/42'}</span></div>
+              <div className="zte-dev-status-row"><span>Exam access</span><span>{dev.examAccess ? 'bypassed' : hasExamAccess ? 'paid' : 'locked'}</span></div>
+              <div className="zte-dev-status-row"><span>Skip to quiz</span><span>{dev.skipToQuiz ? 'on' : 'off'}</span></div>
+            </div>
+          </div>
+        </div>
+      )}
           {/* Header Bar */}
           <div className="zte-exam-header">
             <div className="zte-exam-header-left">
@@ -1673,91 +1868,4 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
 
   return null;
 }
-  // === DEV PANEL ===
-  function DevPanel() {
-    if (!devPanelOpen) return null;
-    const isOnExam = screen === 'exam' && examPhase === 'active';
-
-    function autoFillExam() {
-      if (!isOnExam || examDeck.length === 0) return;
-      // Fill with realistic domain-weighted accuracy
-      const domainAccuracy = {
-        airway: 0.85, cardiology: 0.80, trauma: 0.70,
-        medical: 0.65, operations: 0.80, special: 0.75
-      };
-      const filled = {};
-      const toFlag = new Set();
-      examDeck.forEach((q, i) => {
-        const acc = domainAccuracy[q.domain] || 0.75;
-        const correct = Math.random() < acc;
-        if (correct) {
-          filled[i] = q.answer;
-        } else {
-          // Pick a wrong answer
-          const wrong = q.options.map((_,idx) => idx).filter(idx => idx !== q.answer);
-          filled[i] = wrong[Math.floor(Math.random() * wrong.length)];
-        }
-        // Flag ~8 random questions
-        if (Math.random() < 0.07) toFlag.add(i);
-      });
-      // Leave last 5 unanswered
-      [1,2,3,4,5].forEach(n => delete filled[examDeck.length - n]);
-      setExamAnswers(filled);
-      setExamFlagged(toFlag);
-      setExamCurrent(0);
-      setDevPanelOpen(false);
-    }
-
-    return (
-      <div className="zte-dev-overlay" onClick={() => setDevPanelOpen(false)}>
-        <div className="zte-dev-panel" onClick={e => e.stopPropagation()}>
-          <div className="zte-dev-panel-header">
-            <span className="zte-dev-panel-title">DEV PANEL</span>
-            <button className="zte-dev-panel-close" onClick={() => setDevPanelOpen(false)}>x</button>
-          </div>
-
-          <div className="zte-dev-section">
-            <div className="zte-dev-section-label">CURRICULUM</div>
-            <label className="zte-dev-toggle">
-              <span>Unlock All Lessons</span>
-              <input type="checkbox" checked={dev.unlockLessons} onChange={() => devToggle('unlockLessons')} />
-              <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
-            </label>
-            <label className="zte-dev-toggle">
-              <span>Skip to Quiz</span>
-              <input type="checkbox" checked={dev.skipToQuiz} onChange={() => devToggle('skipToQuiz')} />
-              <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
-            </label>
-          </div>
-
-          <div className="zte-dev-section">
-            <div className="zte-dev-section-label">EXAM SIMULATOR</div>
-            <label className="zte-dev-toggle">
-              <span>Bypass Paywall</span>
-              <input type="checkbox" checked={dev.examAccess} onChange={() => devToggle('examAccess')} />
-              <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
-            </label>
-            <button
-              className={`zte-dev-action-btn ${!isOnExam ? 'disabled' : ''}`}
-              onClick={autoFillExam}
-              disabled={!isOnExam}
-              title={isOnExam ? 'Auto-fill all 120 answers with realistic accuracy' : 'Start an exam first'}
-            >
-              Auto-Fill Exam
-              <span className="zte-dev-action-sub">~74% correct, weak in Medical/Trauma</span>
-            </button>
-          </div>
-
-          <div className="zte-dev-section zte-dev-status">
-            <div className="zte-dev-section-label">STATUS</div>
-            <div className="zte-dev-status-row"><span>Screen</span><span>{screen}{examPhase ? ' / ' + examPhase : ''}</span></div>
-            <div className="zte-dev-status-row"><span>Lessons unlocked</span><span>{dev.unlockLessons ? 'ALL' : completedLessons.length + '/42'}</span></div>
-            <div className="zte-dev-status-row"><span>Exam access</span><span>{dev.examAccess ? 'bypassed' : hasExamAccess ? 'paid' : 'locked'}</span></div>
-            <div className="zte-dev-status-row"><span>Skip to quiz</span><span>{dev.skipToQuiz ? 'on' : 'off'}</span></div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
 
