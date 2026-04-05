@@ -16,17 +16,14 @@ const MODULES = [
     ]
   },
   {
-    id: 1, code: "NREMT: AIRWAY", codeColor: "#6366f1", accentColor: "#6366f1",
-    title: "AIRWAY",
-    desc: "Breathing anatomy, airway assessment, BVM, suctioning, and oxygen delivery.",
+    id: 1, code: "DOMAIN 1: SCENE SIZE-UP", codeColor: "#e8193c", accentColor: "#e8193c",
+    title: "SCENE SIZE-UP & SAFETY",
+    desc: "Scene safety, hazard recognition, standard precautions, mechanism of injury, nature of illness, triage, and mass casualty incidents.",
     lessons: [
-      { id: 1, title: "Respiratory Anatomy", duration: "~1.5 hrs total" },
-      { id: 2, title: "Patient Assessment: Airway", duration: "~1.5 hrs total" },
-      { id: 3, title: "Airway Adjuncts", duration: "~1.5 hrs total" },
-      { id: 4, title: "Oxygen Delivery", duration: "~1.5 hrs total" },
-      { id: 5, title: "Respiratory Emergencies", duration: "~1.5 hrs total" },
-      { id: 6, title: "Airway Management in Special Situations", duration: "~1.5 hrs total" },
-      { id: 7, title: "Airway Module Quiz", duration: "~30 min" },
+      { id: 1, title: "Scene Safety & Size-Up", duration: "~1.5 hrs total" },
+      { id: 2, title: "Mechanism of Injury & Nature of Illness", duration: "~1.5 hrs total" },
+      { id: 3, title: "Triage & Mass Casualty Incidents", duration: "~1.5 hrs total" },
+      { id: 4, title: "Module 1 Quiz", duration: "~30 min" },
     ]
   },
   {
@@ -102,7 +99,6 @@ const L1 = {
     hook: "You're in Ambulance 7. Your partner pulls out of the station. You've never been on a real call. What is your job in the next four minutes?",
     bridge: "You didn't just get in an ambulance. You stepped into one of the most carefully designed emergency response systems in the world. Every person, every piece of equipment, every radio transmission follows a structure. And you are now part of it."
   },
-  video: { youtubeId: 'PDeyev0bAsI', caption: 'EMT - what the job is really like', source: 'Khan Academy', duration: '5 min' },
   content: [
     { heading: "EMS Stands For Emergency Medical Services", body: "EMS is the system  -  not just the people. It includes the 911 dispatch center, the first responders, the EMTs and paramedics, the ambulances, the hospitals, and all the protocols connecting them. When you become an EMT, you're joining this system as a critical link." },
     { heading: "The EMS System Has Levels", body: "Not all EMS providers are the same. There are four national certification levels:\n\n* **Emergency Medical Responder (EMR)**  -  Basic life-saving skills. Think bystanders, firefighters.\n* **Emergency Medical Technician (EMT)**  -  That's you. Assessment, basic interventions, transport.\n* **Advanced EMT (AEMT)**  -  EMT skills plus IV access and some medications.\n* **Paramedic**  -  The most advanced prehospital provider. Advanced airway, medications, cardiac monitoring." },
@@ -150,8 +146,6 @@ const L2 = {
     hook: "Your partner asks: 'What's your assessment?' You freeze. You know something is wrong but don't have the words  -  or the framework  -  to describe what you're seeing.",
     bridge: "In EMS, communication is care. If you can't describe the body, you can't report on it, document it, or hand it off. This lesson gives you the map."
   },
-  video: { youtubeId: '-lrKDRAbP38', caption: 'Skeletal structure and function', source: 'Khan Academy', duration: '9 min' },
-  model3d: { sketchfabId: '911b9df7e7834175b69b4840ea15e054', caption: 'Full human skeleton - CT scan derived', credit: 'Terrie Simmons-Ehrhardt via NIH 3D Print Exchange', license: 'CC BY 4.0' },
   content: [
     { heading: "Anatomical Position: The Baseline", body: "All body descriptions in medicine assume the patient is in **anatomical position**: standing upright, facing forward, arms at sides, palms facing forward. Everything  -  left, right, front, back  -  is described from this reference. The patient's left is YOUR right when facing them. This trips people up constantly." },
     { heading: "Directional Terms You'll Use Every Day", body: "* **Superior / Inferior**  -  Above / Below (head is superior to the chest)\n* **Anterior / Posterior**  -  Front / Back (chest is anterior, spine is posterior)\n* **Medial / Lateral**  -  Toward midline / Away from midline\n* **Proximal / Distal**  -  Closer to / Farther from the point of attachment\n* **Bilateral**  -  Both sides\n\nExample: 'Pain is in the right upper quadrant, radiating lateral to the flank.'" },
@@ -271,8 +265,6 @@ const L4 = {
     hook: "Two injuries, two body regions, one patient. You need to locate them precisely, assess them fast, and communicate what you find. Do you know your landmarks?",
     bridge: "Anatomy isn't memorizing a textbook diagram. It's knowing where things live so you can find problems fast, protect the right structures, and tell the hospital exactly what's coming through their door."
   },
-  video: { youtubeId: '-lrKDRAbP38', caption: 'Skeletal structure and function', source: 'Khan Academy', duration: '9 min' },
-  model3d: { sketchfabId: 'baf6ac7b781a46218dca2b59dee58817', caption: 'Human skull anatomy - CT scan derived', credit: 'Hannah Newey, MSc Medical Art', license: 'CC BY-NC-SA' },
   content: [
     {
       heading: "The Skeleton: Your Structural Roadmap",
@@ -468,499 +460,644 @@ const L6 = {
 };
 
 // --- MODULE 1  -  AIRWAY, LESSON 1 ---------------------------------------------
+// ============================================================
+// MODULE 1: SCENE SIZE-UP & SAFETY
+// NREMT Domain 1: 15-19% of exam
+// Lessons: L1 Scene Safety & Size-Up | L2 MOI & NOI | L3 Triage & MCI | L4 Module Quiz
+// ============================================================
+
 const M1L1 = {
   moduleId: 1, id: 1,
-  title: "Respiratory Anatomy",
-  video: { youtubeId: "qGiPZf7njqY", caption: "Meet the lungs - respiratory anatomy overview", source: "Khan Academy", duration: "9 min video" },
-  model3d: { sketchfabId: "5c62cd4d4ba04243be1062d2263d3ef0", caption: "Healthy heart and lungs - interactive 3D (University Medical Center)", credit: "Anna Sieben / UMCG, Monique Jongbloed / LUMC, Leiden-Delft-Groningen Universities", license: "CC BY-NC-SA" },
-  subtitle: "The airway from nose to alveoli  -  and why every millimeter matters",
-  duration: "12 min",
+  title: "Scene Safety & Size-Up",
+  video: { youtubeId: "PPBz_3II_mk", caption: "Scene size-up walkthrough - what to assess before touching any patient", source: "PrepMedic", duration: "4 min" },
+  subtitle: "Protect yourself first -- you cannot help anyone if you become a patient",
+  duration: "~1.5 hrs total",
   dispatch: {
-    call: `"Unit 2, respond to 1847 Elmwood Avenue  -  6-year-old male, found unresponsive by mother, possible choking incident."`,
-    time: "8:14 PM", eta: "3 minutes",
-    hook: "A child. Unresponsive. Possible airway obstruction. You have 3 minutes and everything you do in the next 10 minutes depends on understanding exactly how air gets in  -  and what stops it.",
-    bridge: "The airway is the first thing you assess on every single patient. Not the second thing. Not after vitals. First. Because without a patent airway, nothing else matters. This lesson gives you the map."
+    call: `"Unit 12 - respond to 1840 Industrial Blvd, report of a worker down inside a warehouse. Fire is also responding. Caller states coworkers tried to help and two of them are now also unconscious."`,
+    time: "11:22 AM", eta: "6 minutes",
+    hook: "Three people unconscious in an industrial warehouse. Your partner looks at you. What do you do before you even step off the truck?",
+    bridge: "Scene size-up is not a checkbox -- it is the decision that determines whether you go home tonight. The most dangerous EMT is a brave one who charges in without thinking. Your brain is your best safety tool."
   },
   content: [
     {
-      heading: "The Upper Airway",
-      body: "The upper airway runs from the nose and mouth down to the larynx:\n\n* **Nose/Mouth**  -  Air enters here. The nose filters, warms, and humidifies air. In emergencies, the mouth provides a larger opening.\n* **Nasopharynx**  -  Behind the nose. A nasopharyngeal airway (NPA) sits here.\n* **Oropharynx**  -  Behind the mouth. An oropharyngeal airway (OPA) sits here.\n* **Epiglottis**  -  A leaf-shaped flap that covers the trachea during swallowing. Critical structure  -  it's what prevents food from entering the lungs.\n* **Larynx (voice box)**  -  Where the airway and digestive tract diverge. Contains the vocal cords.\n* **Glottis**  -  The opening between the vocal cords. This is what you're targeting when managing an airway."
+      heading: "The First 60 Seconds",
+      body: `Before you leave the truck, you have already made critical decisions. Standard Precautions -- formerly called BSI (Body Substance Isolation) -- go on before you touch anything. Gloves are mandatory on every call. Eye protection when fluids are possible. Mask when airborne exposure is likely.
+
+The scene size-up happens the moment you pull up. You are reading the environment before you open the door:
+* Is the scene safe to enter?
+* What is the mechanism of injury or nature of illness?
+* How many patients?
+* What additional resources do I need?
+
+In the warehouse scenario above, three unconscious patients in an enclosed industrial space has one cause until proven otherwise: confined space atmospheric hazard. IDLH -- Immediately Dangerous to Life and Health. You do not go in without SCBA. Not even to check pulses. The most common cause of confined space rescue deaths is would-be rescuers who became victims.
+
+**The scene size-up framework (memorize this sequence):**
+1. Standard precautions -- on before you arrive
+2. Scene safety -- is it safe to enter?
+3. Mechanism of injury (MOI) or nature of illness (NOI)
+4. Number of patients
+5. Additional resources needed`
     },
     {
-      heading: "The Lower Airway",
-      body: "Below the larynx, air moves through:\n\n* **Trachea (windpipe)**  -  About 4-5 inches long, reinforced by C-shaped cartilage rings. Runs down the midline of the neck and chest.\n* **Carina**  -  Where the trachea splits into left and right mainstem bronchi. An important landmark  -  tubes placed too far go into the right mainstem (it's straighter and wider).\n* **Bronchi**  -  Left and right mainstem bronchi deliver air to each lung.\n* **Bronchioles**  -  Smaller branches within each lung.\n* **Alveoli**  -  Tiny air sacs at the end of the bronchioles where gas exchange actually happens. 300 million of them in adult lungs. Oxygen in, CO2 out."
+      heading: "Scene Safety: Hazard Profiles",
+      body: `Every scene type has a threat profile. Learn these before you need them.
+
+**Traffic scenes:** Park apparatus to create a buffer zone. Place traffic cones or flares 50-100 feet upstream minimum. Wear a high-visibility vest. Never turn your back to traffic. Use the ambulance as a physical shield between you and oncoming vehicles.
+
+**Violence scenes:** Law enforcement secures the scene BEFORE you enter. A stabbing scene is not safe because the patient is on the ground -- the attacker may still be present. Stage outside until law enforcement gives the all-clear. If a scene becomes unsafe after you enter, get out. Your patient cannot benefit from a second victim.
+
+**Hazmat:** Identify placards from a safe distance. The North American Emergency Response Guidebook (ERG) identifies the substance and safe perimeter. Hot zone: contaminated area -- EMTs do not enter. Warm zone: decontamination by trained responders. Cold zone: where you set up treatment.
+
+**Structural hazards:** Downed power lines, fire, potential collapse. Do not assume a structure is stable. Do not touch downed electrical lines even if they appear dead -- energized lines can energize the ground in a radius around them. Stay 30 feet minimum from downed lines.
+
+**Industrial hazards:** Machinery, electrical equipment, confined spaces, unknown chemicals. Before entering any industrial building, ask: what do they make here? What chemicals are in use?`
     },
     {
-      heading: "Gas Exchange: The Whole Point",
-      body: "Everything in the respiratory system exists to make gas exchange happen at the alveoli:\n\n1. You breathe in -> air travels to alveoli\n2. Oxygen crosses the thin alveolar wall into surrounding capillaries\n3. CO2 crosses from capillaries into the alveoli\n4. You breathe out -> CO2 leaves\n\n**Tidal volume**  -  The amount of air moved in one normal breath (~500 mL in an adult).\n**Minute volume**  -  Tidal volume x respiratory rate. This is how much air moves through the lungs per minute.\n\nWhen the airway is compromised, gas exchange fails. When gas exchange fails, cells die. Brain cells start dying within 4-6 minutes of oxygen deprivation."
+      heading: "Number of Patients and Resource Management",
+      body: `One of your first size-up tasks is patient count. If there are more patients than your crew can safely manage, call for additional units immediately -- not after you assess everyone.
+
+**The general rule:** One ambulance manages one critical patient well. Two ambulances manage two critical patients. Three or more patients may require multiple units plus a supervisor.
+
+**Call early.** Additional resources you do not end up needing can stage and return to service. Patients who die waiting for help you could have requested sooner cannot be brought back.
+
+**Who calls?** The first arriving unit. Do not wait for someone with more seniority. If you see it and need it, you call it.
+
+**Staging:** Direct additional incoming units to a staging area outside the immediate scene. Do not flood the scene with uncoordinated responders. Establish a clear treatment area and staging zone before additional units arrive.
+
+**Dispatch information is often inaccurate.** "One patient" routinely becomes three when you arrive. "Minor injury" becomes critical. Build a mental habit: add 20% to whatever dispatch tells you, and be prepared to adjust upward again when you get on scene.`
     },
     {
-      heading: "Pediatric Airways: Different Rules",
-      body: "Children are not small adults when it comes to airways:\n\n* **Larger tongue relative to airway**  -  More likely to obstruct.\n* **Narrowest point is the cricoid cartilage** (subglottic), not the glottis  -  foreign bodies can wedge here.\n* **Softer, more pliable trachea**  -  Can collapse with hyperextension. Use a neutral or sniffing position, not full extension.\n* **Higher respiratory rate**  -  Normal infant rate is 30-60 breaths/min. A child breathing at 12 is in trouble.\n* **Faster decompensation**  -  Children compensate well until they don't. When they crash, they crash fast.\n\nAlways size your airway adjuncts to the patient."
+      heading: "Standard Precautions: The Real Rules",
+      body: `Standard Precautions (formerly BSI) assumes every patient's blood and bodily fluids are potentially infectious. This is not optional.
+
+**Always:** Gloves before any patient contact. Non-latex preferred -- latex allergy is common in both patients and providers.
+
+**When fluids may splash:** Eye protection -- safety glasses or goggles. Face shield for suctioning, active bleeding trauma, or childbirth.
+
+**Respiratory precautions:** Surgical mask for known or suspected respiratory illness. N95 respirator for confirmed or suspected airborne pathogens (TB, measles, suspected novel respiratory illness). N95 masks require annual fit testing -- a mask that does not seal provides no protection.
+
+**Gown:** When significant clothing contamination is likely -- major trauma, active hemorrhage, delivery.
+
+**Sharps safety:** Never recap needles one-handed if avoidable. Sharps container goes to the scene, not just in the ambulance. If a needle-stick or splash exposure occurs: immediately wash the site, report to your supervisor, and seek medical evaluation within hours. The window for post-exposure prophylaxis for some pathogens is narrow.
+
+**After patient contact:** Remove PPE in the correct order. Gloves off last. Perform hand hygiene even after glove removal. Decontaminate all equipment and the stretcher after every patient contact.`
     },
     {
-      heading: "Airway Sounds and What They Tell You",
-      body: "Your ears are assessment tools:\n\n* **Snoring**  -  Partial upper airway obstruction, usually the tongue. Fix: head-tilt chin-lift or jaw thrust.\n* **Stridor**  -  High-pitched sound on inhalation. Partial upper airway obstruction, often at the larynx. Think croup, epiglottitis, foreign body.\n* **Wheezing**  -  Musical lower airway sound, usually on exhalation. Bronchospasm  -  think asthma, COPD, allergic reaction.\n* **Gurgling**  -  Fluid in the airway (blood, secretions, vomit). Suction immediately.\n* **Silent chest**  -  No air movement at all in a patient in respiratory distress. Critical  -  complete obstruction or severe bronchospasm.\n\nNo sound from a patient in distress is one of the most dangerous findings in EMS."
+      heading: "Situational Awareness Throughout the Call",
+      body: `Scene safety is not a one-time check at arrival. Conditions change throughout a call.
+
+**Know your exits:** When you enter any structure, note your exit routes before you focus on the patient. Never allow unknown persons to position themselves between you and the door.
+
+**Trust your instincts:** If something feels wrong, it probably is. There is no award for ignoring your instincts. You can always retreat and reassess.
+
+**Home positioning:** In residential calls, do not position yourself with your back to the door. Do not allow unknown persons to leave the room without knowing why. Be aware of weapons -- firearms are common in homes.
+
+**Environmental deterioration:** Weather, fire spread, structural instability, and crowd behavior can all change while you are working. Assign someone -- your partner, a firefighter -- to monitor scene conditions while you treat.
+
+**The golden rule of scene safety:** A dead EMT helps no one. Your first obligation on every call is to arrive, work, and go home safely. Everything else follows from that.`
     }
   ],
   flashcards: [
-    { front: "What is the epiglottis?", back: "A leaf-shaped flap that covers the trachea during swallowing, preventing food/liquid from entering the lungs." },
-    { front: "What is the carina?", back: "Where the trachea splits into the left and right mainstem bronchi." },
-    { front: "Where does gas exchange occur?", back: "At the alveoli  -  tiny air sacs at the end of the bronchioles. Oxygen in, CO2 out." },
-    { front: "What is tidal volume?", back: "The amount of air moved in one normal breath  -  approximately 500 mL in an adult." },
-    { front: "What is the glottis?", back: "The opening between the vocal cords  -  the target when managing an advanced airway." },
-    { front: "What does snoring respirations indicate?", back: "Partial upper airway obstruction, usually the tongue. Needs airway repositioning." },
-    { front: "What does stridor indicate?", back: "Partial upper airway obstruction at or near the larynx  -  high-pitched sound on inhalation." },
-    { front: "What does gurgling indicate?", back: "Fluid in the airway (blood, secretions, vomit). Suction immediately." },
-    { front: "What does a silent chest mean in a patient in distress?", back: "Complete airway obstruction or severe bronchospasm  -  critical emergency." },
-    { front: "Why is the pediatric airway different?", back: "Larger tongue, softer trachea, narrowest point at cricoid (not glottis), faster decompensation." },
-    { front: "What is minute volume?", back: "Tidal volume x respiratory rate  -  total air moved through the lungs per minute." },
-    { front: "What is the nasopharynx?", back: "The airway space behind the nose  -  where an NPA (nasopharyngeal airway) is placed." },
-    { front: "What is the oropharynx?", back: "The airway space behind the mouth  -  where an OPA (oropharyngeal airway) is placed." },
-    { front: "How soon do brain cells begin to die without oxygen?", back: "Within 4-6 minutes of oxygen deprivation." },
-    { front: "Why might an ET tube go into the right mainstem bronchus?", back: "The right mainstem bronchus is straighter and wider  -  tubes placed too far will preferentially enter it." },
-    { front: "What is wheezing?", back: "A musical lower airway sound on exhalation  -  indicates bronchospasm (asthma, COPD, allergic reaction)." },
+    { front: "What are the 5 components of scene size-up in order?", back: "1. Standard precautions\n2. Scene safety\n3. MOI or NOI\n4. Number of patients\n5. Additional resources needed" },
+    { front: "What does BSI / Standard Precautions assume?", back: "That every patient's blood and bodily fluids are potentially infectious. Gloves on every patient contact, minimum." },
+    { front: "Three workers unconscious in a warehouse -- what do you suspect?", back: "Confined space atmospheric hazard (oxygen deficiency, toxic gas, or flammable atmosphere). Do NOT enter without SCBA. Stage and call technical rescue." },
+    { front: "What is the hot zone in hazmat?", back: "The contaminated area. EMTs do not enter the hot zone. Patients are decontaminated in the warm zone before reaching you in the cold zone." },
+    { front: "How far should you stay from downed power lines?", back: "Minimum 30 feet. Energized lines can energize the ground around them. Do not touch even if they appear dead." },
+    { front: "When do you call for additional resources at a scene?", back: "As soon as you determine patient count may exceed your crew's capacity -- not after you have assessed all patients." },
+    { front: "When should a violence scene be entered?", back: "Only after law enforcement has secured and cleared it. Stage outside until cleared." },
+    { front: "What respiratory protection is required for suspected TB or airborne pathogens?", back: "N95 respirator -- fit-tested annually. A surgical mask does NOT protect against airborne pathogens." },
+    { front: "What is IDLH?", back: "Immediately Dangerous to Life and Health -- atmospheric conditions that can cause death or irreversible injury. Requires SCBA to enter safely." },
+    { front: "Where do you direct additional incoming units at a multi-unit scene?", back: "To a staging area outside the scene perimeter. Do not flood the scene. Assign units from staging as needed." },
+    { front: "What is the correct order to remove PPE after patient contact?", back: "Remove gown and outer gloves first. Eye protection next. Mask. Inner gloves last. Hand hygiene after every step." },
+    { front: "What should you do immediately after a needle-stick exposure?", back: "Wash the site immediately. Report to supervisor. Seek medical evaluation within hours -- the window for post-exposure prophylaxis is narrow." }
   ],
   quiz: [
-    { q: "Where does oxygen actually cross into the bloodstream?", options: ["Trachea", "Bronchi", "Alveoli", "Larynx"], answer: 2, explanation: "Gas exchange happens at the alveoli  -  300 million tiny air sacs where O2 crosses into capillaries and CO2 crosses out." },
-    { q: "A patient has loud snoring respirations. The MOST likely cause is:", options: ["Fluid in the airway", "Bronchospasm", "The tongue obstructing the upper airway", "A foreign body in the trachea"], answer: 2, explanation: "Snoring = partial upper airway obstruction, almost always the tongue falling back. Fix with head-tilt chin-lift or jaw thrust." },
-    { q: "You intubate a patient and hear breath sounds only on the right side. What happened?", options: ["The tube is in the esophagus", "Right-sided pneumothorax", "The tube went into the right mainstem bronchus", "The patient has asthma"], answer: 2, explanation: "The right mainstem bronchus is straighter and wider. A tube placed too far bypasses the carina and only ventilates the right lung. Pull back and reassess." },
-    { q: "Stridor in a patient in respiratory distress indicates:", options: ["Lower airway bronchospasm", "Fluid in the lungs", "Partial upper airway obstruction near the larynx", "Complete airway obstruction"], answer: 2, explanation: "Stridor is a high-pitched inspiratory sound caused by partial obstruction at or near the larynx  -  croup, epiglottitis, foreign body, allergic swelling." },
-    { q: "A child's airway is different from an adult's because:", options: ["Children breathe slower than adults", "The narrowest point is at the glottis, not the cricoid", "The tongue is smaller relative to the airway", "They decompensate faster and have softer tracheas"], answer: 3, explanation: "Pediatric airways have larger tongues relative to the space, softer tracheas, narrowest point at the cricoid, and children decompensate rapidly once they start to fail." },
-    { q: "What is tidal volume?", options: ["Total lung capacity", "Air moved in one normal breath (~500mL in adults)", "Air remaining after maximum exhalation", "Respiratory rate per minute"], answer: 1, explanation: "Tidal volume is the amount of air in a single normal breath  -  roughly 500 mL in an adult at rest." },
-    { q: "A patient in severe respiratory distress has a completely silent chest. This means:", options: ["The patient is breathing normally", "There is complete airway obstruction or severe bronchospasm  -  critical", "The patient is unconscious and not breathing", "Breath sounds are just hard to hear"], answer: 1, explanation: "A silent chest in a patient in distress means no air is moving. This is one of the most dangerous findings in EMS  -  complete obstruction or severe bronchospasm." },
-    { q: "The epiglottis serves what function?", options: ["Produces vocal sounds", "Divides the trachea into bronchi", "Covers the trachea during swallowing to prevent aspiration", "Warms and filters incoming air"], answer: 2, explanation: "The epiglottis is a flap that snaps down over the trachea when you swallow, routing food and liquid to the esophagus, not the lungs." },
-    { q: "Gurgling sounds in a patient's airway indicate:", options: ["Bronchospasm  -  give a bronchodilator", "Fluid in the airway  -  suction immediately", "Normal secretions  -  no action needed", "Partial obstruction  -  reposition the airway"], answer: 1, explanation: "Gurgling = fluid (blood, secretions, vomit) in the upper airway. Your immediate action is suctioning before it's aspirated into the lungs." },
-    { q: "Brain cells begin to die without oxygen after approximately:", options: ["1-2 minutes", "4-6 minutes", "8-10 minutes", "15-20 minutes"], answer: 1, explanation: "Brain cells start dying within 4-6 minutes of oxygen deprivation. This is why airway management is always the first priority." },
-    { q: "The carina is:", options: ["The opening between the vocal cords", "The point where the trachea splits into left and right bronchi", "The bottom of the epiglottis", "The narrowest part of a child's airway"], answer: 1, explanation: "The carina is where the trachea bifurcates into the left and right mainstem bronchi. Tubes placed past the carina go into the right bronchus." },
-    { q: "Wheezing on exhalation most likely indicates:", options: ["Upper airway obstruction", "Fluid in the alveoli", "Bronchospasm in the lower airways", "A foreign body in the trachea"], answer: 2, explanation: "Wheezing is a musical expiratory sound from bronchospasm  -  narrowed lower airways. Think asthma, COPD, anaphylaxis." },
-    { q: "When managing a pediatric airway, you should:", options: ["Fully hyperextend the neck like an adult", "Use a neutral or sniffing position  -  avoid hyperextension", "Always use an adult-sized OPA", "Avoid any airway adjuncts under age 5"], answer: 1, explanation: "Pediatric tracheas are soft and can kink with hyperextension. Use a neutral or gentle sniffing position to keep the airway open." },
-    { q: "Minute volume is calculated as:", options: ["Tidal volume / respiratory rate", "Tidal volume x respiratory rate", "Respiratory rate / tidal volume", "Tidal volume + dead space"], answer: 1, explanation: "Minute volume = tidal volume x respiratory rate. It tells you the total amount of air moving through the lungs each minute." },
-    { q: "The nasopharyngeal airway (NPA) is placed:", options: ["In the trachea", "Between the vocal cords", "Through the nose into the nasopharynx", "In the oropharynx behind the tongue"], answer: 2, explanation: "An NPA is a soft rubber tube placed through the nostril into the nasopharynx. It's better tolerated than an OPA in semi-conscious patients." },
+    {
+      q: "You arrive at a warehouse with three workers unconscious inside. Your first action is:",
+      options: ["Enter immediately to check pulses", "Call for additional units and stage -- suspect atmospheric hazard", "Send your partner in while you call dispatch", "Enter with full PPE from your jump bag"],
+      answer: 1,
+      explanation: "Multiple unconscious victims in an enclosed industrial space = atmospheric hazard until proven otherwise. Do NOT enter without SCBA. Stage, call technical rescue, and treat patients once they are brought to the cold zone."
+    },
+    {
+      q: "You arrive at a stabbing scene. The patient is on the ground and appears critical. Law enforcement has not yet arrived. You should:",
+      options: ["Approach carefully and begin assessment", "Stage at a safe distance until law enforcement secures the scene", "Enter with your partner -- two is safer than one", "Treat from the perimeter without full assessment"],
+      answer: 1,
+      explanation: "A scene is not safe because the patient is down. The attacker may still be present. Stage until law enforcement clears the scene. Your safety is the first priority."
+    },
+    {
+      q: "Standard Precautions require you to wear an N95 respirator when:",
+      options: ["Any patient is coughing", "A patient has known or suspected airborne pathogen (TB, measles)", "Performing CPR on any patient", "Any patient has a fever"],
+      answer: 1,
+      explanation: "N95 is required for airborne pathogens like TB and measles. A surgical mask is used for droplet precautions. N95s require annual fit testing."
+    },
+    {
+      q: "You are working a motor vehicle crash when you notice the patient's agitated brother approaching with his hands in his pockets. You should:",
+      options: ["Continue working -- the patient is your priority", "Have your partner watch him while you work", "Reassess scene safety -- position near your exit and alert law enforcement", "Ask him to help hold an IV bag"],
+      answer: 2,
+      explanation: "Scene safety is ongoing. An agitated bystander approaching with concealed hands is a threat indicator. Know your exit, alert law enforcement, and do not let unknown persons get between you and your way out."
+    },
+    {
+      q: "Dispatch reports 'one patient, minor injury' at a construction site. You arrive to find a building partially collapsed with workers calling for help from inside. You should:",
+      options: ["Proceed with one-patient protocol", "Immediately request additional resources and establish scene command", "Enter the building to assess the full patient count", "Wait for dispatch to update the call"],
+      answer: 1,
+      explanation: "Dispatch information is frequently inaccurate. You are on scene -- you assess and call what you see. Request resources immediately. Do not enter a potentially unstable structure."
+    },
+    {
+      q: "A downed power line is across the road at your scene. It appears to not be sparking. Safe minimum distance:",
+      options: ["10 feet", "5 feet -- if it looks dead it is dead", "30 feet minimum", "Any distance -- only sparking lines are dangerous"],
+      answer: 2,
+      explanation: "30 feet minimum from downed power lines regardless of appearance. Energized lines can energize the ground around them. A line that appears dead may not be. Utility company must de-energize before anyone approaches."
+    },
+    {
+      q: "You remove your gloves after a bloody trauma call. The next correct step is:",
+      options: ["Proceed to the next task", "Hand hygiene even though you wore gloves", "Put on new gloves immediately", "Wipe hands with a dry towel"],
+      answer: 1,
+      explanation: "Hand hygiene is performed after glove removal. Gloves can have micro-tears and contamination can occur during removal. This is a fundamental component of Standard Precautions."
+    },
+    {
+      q: "At a scene with 6 patients, what is your immediate priority after scene safety?",
+      options: ["Begin treating the most critical patient", "Request additional resources before beginning treatment", "Triage all patients before calling for help", "Begin CPR on any patient in cardiac arrest"],
+      answer: 1,
+      explanation: "Six patients exceed any single crew's capacity. Call for resources immediately -- you cannot treat 6 patients alone. Resources you do not need can stage; patients you cannot treat may die."
+    }
   ]
 };
 
-// --- MODULE 1  -  AIRWAY, LESSON 2 ---------------------------------------------
 const M1L2 = {
   moduleId: 1, id: 2,
-  title: "Patient Assessment: Airway",
-  subtitle: "How to assess breathing  -  look, listen, feel, and what it all means",
-  duration: "10 min",
+  title: "Mechanism of Injury & Nature of Illness",
+  subtitle: "What happened before you arrived is your first diagnostic tool",
+  duration: "~1.5 hrs total",
   dispatch: {
-    call: `"Unit 4, respond to 552 Harbor Blvd  -  67-year-old male, found slumped in chair by wife, breathing but unresponsive."`,
-    time: "9:22 AM", eta: "5 minutes",
-    hook: "He's breathing. But is he breathing well enough? There's a massive difference between 'has a pulse and is breathing' and 'is ventilating adequately.' Your job in the next 60 seconds is to figure out which one this is.",
-    bridge: "Airway assessment isn't a checkbox  -  it's a sequence of questions you answer with your eyes, ears, and hands. This lesson teaches you exactly what to look for and what it means."
+    call: `"Unit 6 -- respond to I-80 westbound mile marker 14. Multi-vehicle MVA, at least two patients, one reported ejected. Semitruck involved. Fire is 4 minutes behind you."`,
+    time: "2:47 PM", eta: "5 minutes",
+    hook: "Ejected patient. Semitruck. Before you arrive, you already know this person is at high risk for cervical spine injury, internal bleeding, and head trauma. How? Mechanism of injury.",
+    bridge: "MOI and NOI are the detective work you do before you touch the patient. They shape everything -- how aggressively you search for hidden injuries, how fast you move, and where you take them. Master this and you think like a clinician, not a technician."
   },
   content: [
     {
-      heading: "The Sequence: Look, Listen, Feel",
-      body: "Every airway assessment follows the same sequence:\n\n**Look**  -  Is the chest rising and falling? Symmetrically? Are there signs of distress  -  nasal flaring, retractions (skin pulling in between ribs), accessory muscle use?\n\n**Listen**  -  Open your ears before your stethoscope. Snoring, stridor, gurgling, wheezing  -  all tell you something. Listen at the mouth and nose for air movement. Then auscultate.\n\n**Feel**  -  Hold your hand near the patient's mouth and nose. Do you feel air movement? Is it warm? Any abnormal sounds you can feel?\n\nThis takes about 10 seconds when you're trained. Practice until it's automatic."
+      heading: "MOI vs NOI: Two Roads to the Same Assessment",
+      body: `Every patient call falls into one of two categories:
+
+**Mechanism of Injury (MOI)** -- Trauma. Energy was transferred to the body. The question is how much, where, and what structures were in the way.
+
+**Nature of Illness (NOI)** -- Medical. Something is going wrong internally -- a disease process, a metabolic crisis, a toxic exposure. The question is what system is failing and why.
+
+Some calls are both. A diabetic who crashes their car has a medical NOI (hypoglycemia) AND a trauma MOI. Always consider both.
+
+**Why this matters before you arrive:** MOI and NOI allow you to build a mental model of likely injuries and illness patterns before you have physical findings to confirm them. Dispatch tells you the address and the rough complaint -- your brain fills in the rest. "Motorcycle crash at highway speed" should immediately trigger: spine, head, chest, and long bone fractures. "Unresponsive elderly female" triggers: stroke, hypoglycemia, overdose, sepsis.
+
+This mental model is called your **index of suspicion** -- and it drives how aggressively you look for hidden injuries.`
     },
     {
-      heading: "Respiratory Rate and Quality",
-      body: "Count respirations for 30 seconds and multiply by 2. Normal ranges:\n\n* **Adult:** 12-20 breaths/min\n* **Child (1-12):** 15-30 breaths/min\n* **Infant (<1 year):** 25-50 breaths/min\n\nBut rate alone isn't enough. Assess **quality**:\n\n* **Depth**  -  Are breaths shallow (barely moving) or deep?\n* **Effort**  -  Is breathing labored? Using neck/shoulder muscles?\n* **Regularity**  -  Regular rhythm or irregular?\n* **Symmetry**  -  Both sides of the chest rising equally?\n\nA patient breathing 22 times per minute with full, easy breaths is fine. A patient breathing 22 times with shallow, labored, asymmetric breaths is in serious trouble."
+      heading: "MOI: The Physics of Injury",
+      body: `Trauma severity depends on kinetic energy transferred to the body:
+
+**KE = 1/2 x mass x velocity squared**
+
+Velocity matters more than mass. Double the speed = four times the energy. This is why:
+* A car at 60 mph causes far worse injury than the same car at 30 mph
+* High-velocity rifle rounds cause massive tissue destruction compared to handgun rounds
+* Each additional floor of a fall dramatically increases injury severity
+
+**Types of traumatic forces:**
+* **Blunt trauma:** Energy transferred without skin penetration. MVAs, falls, assaults. Organs compress, shear, and rupture internally while the skin may look intact.
+* **Penetrating trauma:** Object breaches the skin. Stab wounds, gunshots, impaled objects. Injury track depends on the object and velocity.
+* **Blast injury:** Multiple mechanisms simultaneously -- pressure wave, penetrating fragments, thermal, and blunt from being thrown.
+
+**Deceleration injuries:** When a body stops suddenly, organs keep moving. The aorta tears at its attachment points to the spine. The brain rebounds inside the skull. The unrestrained front-seat occupant at 45 mph travels at 45 mph until the windshield stops them. The liver and spleen continue traveling.`
     },
     {
-      heading: "Signs of Adequate vs Inadequate Breathing",
-      body: "**Adequate breathing:**\n* Rate within normal range\n* Regular rhythm\n* Equal chest rise bilaterally\n* Pink, warm, dry skin\n* Speaking in full sentences\n* SpO2 >= 94%\n\n**Inadequate breathing  -  intervene now:**\n* Rate too fast (>30 adult) or too slow (<8 adult)\n* Shallow, barely visible chest rise\n* Asymmetric chest movement\n* Cyanosis (blue lips, fingertips)\n* Altered mental status\n* Accessory muscle use\n* Speaking only in single words or unable to speak\n* SpO2 < 94%\n\nInadequate breathing = you take over. Adequate breathing = support with oxygen."
+      heading: "Significant MOI: High-Risk Patterns",
+      body: `These patterns predict serious injury even when the patient appears okay. Significant MOI requires a full rapid trauma assessment and aggressive transport.
+
+**High-risk MOI patterns:**
+* High-speed MVA (>40 mph), rollover, ejection, or death of another occupant in the same vehicle
+* Fall greater than 20 feet (greater than 10 feet for children -- their anatomy is different)
+* Penetrating trauma to head, neck, chest, or abdomen
+* Motorcycle or bicycle crash at any speed
+* Pedestrian or cyclist struck by a motor vehicle
+* Blast injury of any kind
+* Unrestrained occupant in any significant crash
+
+**Ejection:** Increases mortality by approximately 300%. Automatic high MOI. Assume cervical spine injury, internal bleeding, and head trauma.
+
+**The hidden injury principle:** Significant MOI means you search aggressively for injuries the patient cannot feel (spinal cord injury, internal bleeding) or may not report (head injury causing AMS). You are not just treating what the patient tells you. You are finding what the body is not telling you.`
     },
     {
-      heading: "Pulse Oximetry (SpO2)",
-      body: "The pulse ox clips to a finger and measures oxygen saturation  -  the percentage of hemoglobin carrying oxygen.\n\n**Normal:** 94-100%\n**Concerning:** 90-93%  -  supplement oxygen, monitor closely\n**Critical:** <90%  -  immediate intervention\n\n**Limitations you must know:**\n* **Carbon monoxide poisoning**  -  SpO2 reads falsely normal. CO binds hemoglobin just like oxygen. A CO patient can read 100% while dying.\n* **Poor perfusion**  -  Cold fingers, shock, poor circulation give unreliable readings.\n* **Nail polish**  -  Dark polish blocks the sensor. Remove or use a different site.\n* **Motion**  -  Movement causes artifact.\n\nTreat the patient, not the number. If they look bad, they are bad  -  even with a good SpO2."
+      heading: "NOI: Reading Medical Emergencies",
+      body: `For medical patients, NOI shapes your assessment before you gather a single vital sign.
+
+**Common NOI patterns and what they suggest:**
+
+* **Unresponsive patient:** Stroke, hypoglycemia, overdose, cardiac arrest, head trauma -- these all look the same from the street. Your assessment protocol disambiguates them.
+* **Chest pain:** Cardiac, pulmonary, musculoskeletal, GI. Age, risk factors, and character of pain narrow the field.
+* **Difficulty breathing:** Asthma, COPD exacerbation, CHF, pneumothorax, anaphylaxis, pulmonary embolism. Work fast -- respiratory failure kills fast.
+* **Altered mental status:** Blood glucose is checked on every AMS patient. It is the most treatable cause and the fastest to kill.
+* **Abdominal pain:** GI bleed, ruptured ectopic pregnancy, appendicitis, aortic aneurysm. Know which ones are immediately life-threatening.
+
+**Dispatch clues to NOI:**
+* "Diabetic patient" = check blood glucose first
+* "Known cardiac history" = 12-lead and aspirin protocol
+* "Psychiatric patient" = rule out organic cause before assuming psych
+* "Elderly female, fell" = medical cause of fall is common (syncope, dysrhythmia)
+
+**Never anchor on the first explanation.** The "drunken" patient may be a head injury. The "psychiatric" patient may have low blood sugar. Rule out the immediately dangerous before settling on a diagnosis.`
     },
     {
-      heading: "Positioning for Airway",
-      body: "Position is your first intervention for airway problems:\n\n* **Head-tilt chin-lift**  -  Standard maneuver for unconscious patients with no suspected spinal injury. Tilt head back, lift chin forward. Opens the airway by moving the tongue off the posterior pharynx.\n\n* **Jaw thrust**  -  For patients with suspected spinal injury. Grip the angles of the jaw and thrust forward without moving the head or neck.\n\n* **Recovery position**  -  For unconscious patients who are breathing adequately. Roll to their side so secretions drain out rather than into the airway.\n\n* **Sniffing position**  -  For pediatric patients. Slight forward head tilt, like sniffing a flower. Aligns the airway axes.\n\n* **Sitting up / tripod position**  -  Patients in respiratory distress naturally assume this. Don't force them supine  -  you'll make it worse."
+      heading: "Transport Decisions and the Golden Period",
+      body: `MOI and NOI determine not just how you assess but where you take your patient.
+
+**Trauma center criteria (significant MOI triggers rapid transport to trauma center):**
+* Penetrating injury to head, neck, chest, abdomen, or extremities proximal to elbow/knee
+* Significant blunt force MOI (see above)
+* Physiologic compromise: GCS < 14, RR < 10 or > 29, systolic BP < 90
+* Burns > 20% BSA or involving face/airway
+* Spinal injury with motor or sensory deficit
+
+**Specialty centers:** Beyond trauma centers, destination decisions include:
+* Stroke centers for suspected CVA (time to CT and intervention is critical)
+* STEMI-receiving facilities for suspected heart attacks
+* Burn centers for major burns
+* Pediatric trauma centers when available for pediatric major trauma
+
+**The Golden Period:** Trauma patients with internal hemorrhage need an operating room. Every minute of scene time beyond what is absolutely necessary increases mortality. For significant MOI: life threats only on scene, package fast, move to definitive care. You are the transport vehicle, not the definitive treatment.`
     }
   ],
   flashcards: [
-    { front: "What is the normal adult respiratory rate?", back: "12-20 breaths per minute" },
-    { front: "What SpO2 level is considered critical?", back: "Below 90%  -  immediate intervention needed" },
-    { front: "What is the head-tilt chin-lift used for?", back: "Opening the airway in unconscious patients without suspected spinal injury" },
-    { front: "When do you use a jaw thrust instead of head-tilt chin-lift?", back: "When spinal injury is suspected  -  moves the jaw forward without moving the head/neck" },
-    { front: "What does cyanosis look like and what does it mean?", back: "Blue/purple lips and fingertips  -  indicates severe hypoxia, oxygen not reaching tissues" },
-    { front: "Why is SpO2 unreliable in CO poisoning?", back: "CO binds hemoglobin like oxygen  -  the monitor reads it as normal saturation even while the patient is dying" },
-    { front: "What are retractions?", back: "Skin pulling in between ribs during breathing  -  sign of increased respiratory effort/distress" },
-    { front: "What is the normal infant respiratory rate?", back: "25-50 breaths per minute" },
-    { front: "What is the recovery position used for?", back: "Unconscious patients breathing adequately  -  rolled to their side so secretions drain out" },
-    { front: "Name 3 signs of inadequate breathing in an adult", back: "Rate <8 or >30, cyanosis, shallow chest rise, SpO2 <94%, accessory muscle use, altered mental status" },
-    { front: "What does accessory muscle use look like?", back: "Neck and shoulder muscles visibly working during breathing  -  sign of increased respiratory effort" },
-    { front: "What is tidal volume?", back: "Amount of air in one normal breath  -  ~500mL in adults" },
-    { front: "What is the sniffing position used for?", back: "Pediatric airway management  -  slight forward head tilt to align airway axes" },
-    { front: "What SpO2 is normal?", back: "94-100%" },
-    { front: "What does asymmetric chest rise suggest?", back: "One lung not ventilating  -  could be pneumothorax, hemothorax, or mainstem intubation" },
-    { front: "What is the tripod position?", back: "Patient sitting up, leaning forward on hands  -  self-assumed position of respiratory distress, do not force supine" },
+    { front: "What is Mechanism of Injury (MOI)?", back: "How energy was transferred to the body during a traumatic event. Tells you what injuries to expect before physical examination." },
+    { front: "What is Nature of Illness (NOI)?", back: "The underlying medical process causing the patient's symptoms. Used to build your pre-assessment index of suspicion for medical patients." },
+    { front: "Formula for kinetic energy -- why does it matter?", back: "KE = 1/2 x mass x velocity squared. Velocity is squared, so doubling speed quadruples energy. Speed matters more than mass in trauma severity." },
+    { front: "What fall height is considered significant MOI for adults?", back: "Greater than 20 feet for adults. Greater than 10 feet for children (their anatomy differs -- lower threshold for serious injury)." },
+    { front: "Why is ejection from a vehicle high-risk MOI?", back: "Ejection increases mortality approximately 300%. Assume cervical spine injury, internal bleeding, and head trauma automatically." },
+    { front: "What is the index of suspicion?", back: "A mental model of likely injuries or illness built from MOI/NOI before physical findings confirm it. Drives how aggressively you search." },
+    { front: "Why is 'the patient looks fine' not reassuring after significant MOI?", back: "Significant MOI means hidden injuries are possible (internal bleeding, spinal cord injury). The patient may not feel or report what is killing them." },
+    { front: "What is the first thing to check in any AMS patient?", back: "Blood glucose. Hypoglycemia is the most treatable cause of AMS and can mimic stroke, intoxication, or psychiatric emergency." },
+    { front: "What is a deceleration injury?", back: "When the body stops suddenly but organs keep moving. Causes aortic tears at attachment points, brain rebound against skull, and liver/spleen laceration." },
+    { front: "Name 3 NOI patterns and what they suggest.", back: "Chest pain = cardiac/pulmonary; Difficulty breathing = asthma/CHF/pneumothorax; Unresponsive = stroke/hypoglycemia/overdose/arrest." },
+    { front: "What is the 'Golden Period' in trauma?", back: "The window during which definitive surgical care (OR) can prevent trauma death. Minimize scene time -- move critical trauma patients fast." },
+    { front: "When should you consider a 'drunken' patient to have a head injury instead?", back: "Always until proven otherwise. Altered mental status with recent trauma, no odor of alcohol, or atypical presentation should raise suspicion for head injury." }
   ],
   quiz: [
-    { q: "An adult patient is breathing 8 times per minute with shallow chest rise. You should:", options: ["Monitor and apply oxygen", "Begin assisted ventilations with BVM", "Place in recovery position", "Obtain a pulse ox reading first"], answer: 1, explanation: "A rate of 8 with shallow breathing in an adult is inadequate. Take over ventilations with a BVM  -  don't wait for more assessment." },
-    { q: "A patient's SpO2 reads 99% but you suspect carbon monoxide poisoning. You should:", options: ["Trust the reading  -  99% is normal", "Remove the pulse ox  -  it's broken", "Treat for CO poisoning regardless  -  SpO2 is falsely normal in CO poisoning", "Give high-flow oxygen only if SpO2 drops"], answer: 2, explanation: "CO binds hemoglobin just like oxygen, so the pulse ox can't distinguish. A CO patient can read 100% while dying. Treat the mechanism, not the number." },
-    { q: "You arrive to find an unconscious patient with possible spinal injury. To open the airway you should use:", options: ["Head-tilt chin-lift", "Jaw thrust", "Recovery position", "Hyperextension"], answer: 1, explanation: "Jaw thrust opens the airway by moving the mandible forward without moving the cervical spine  -  critical when spinal injury is suspected." },
-    { q: "A patient in severe respiratory distress is sitting in the tripod position. You should:", options: ["Lay them flat for assessment", "Allow them to remain upright  -  this position maximizes breathing", "Apply a cervical collar", "Begin CPR"], answer: 1, explanation: "Tripod position (sitting, leaning forward on hands) is self-assumed by patients in severe distress because it maximizes diaphragm movement. Forcing them supine makes breathing worse." },
-    { q: "Normal SpO2 range is:", options: ["85-90%", "90-93%", "94-100%", "100% only"], answer: 2, explanation: "Normal SpO2 is 94-100%. Below 94% warrants supplemental oxygen. Below 90% is critical and requires immediate intervention." },
-    { q: "You count respirations for 30 seconds and get 6 breaths. The respiratory rate is:", options: ["6 per minute", "12 per minute", "18 per minute", "3 per minute"], answer: 1, explanation: "Count for 30 seconds and multiply by 2. 6 x 2 = 12 per minute  -  the low end of normal for an adult." },
-    { q: "Skin pulling in between a child's ribs during breathing is called:", options: ["Cyanosis", "Retractions", "Accessory muscle use", "Paradoxical breathing"], answer: 1, explanation: "Retractions are the visible pulling in of skin between ribs  -  a sign the patient is working very hard to breathe. Significant in children." },
-    { q: "An unconscious patient is breathing adequately. The best position is:", options: ["Supine with head elevated 30 degrees", "Recovery position  -  on their side", "Prone face down", "Sitting upright"], answer: 1, explanation: "Recovery position (lateral) allows secretions, vomit, and blood to drain away from the airway rather than being aspirated. Use when breathing is adequate and no spinal injury." },
-    { q: "Which finding indicates ADEQUATE breathing?", options: ["Cyanosis of the lips", "Speaking in full sentences with SpO2 of 97%", "Respiratory rate of 32 in an adult", "Accessory muscle use at rest"], answer: 1, explanation: "Speaking in full sentences requires adequate air movement and gas exchange. SpO2 of 97% confirms good oxygenation. The other options are all signs of inadequate breathing." },
-    { q: "You notice asymmetric chest rise after intubating a patient. Most likely cause:", options: ["The tube is in the esophagus", "The patient has asthma", "Right mainstem intubation  -  tube too far", "Normal variation"], answer: 2, explanation: "Asymmetric rise after intubation almost always means the tube went too far into the right mainstem bronchus, ventilating only the right lung. Pull back and reassess." },
-    { q: "Nail polish can affect pulse oximetry by:", options: ["Causing falsely low readings", "Causing falsely high readings", "Blocking the sensor and giving inaccurate results", "Only affecting fingers  -  use an ear probe instead"], answer: 2, explanation: "Dark nail polish blocks the light sensor, causing unreliable or absent readings. Remove polish or use an alternative site like the earlobe." },
-    { q: "A patient is breathing 26 times per minute with deep, equal chest rise and SpO2 of 96%. You should:", options: ["Begin assisted ventilations immediately", "Apply supplemental oxygen and monitor", "No intervention needed  -  this is adequate breathing", "Place in recovery position"], answer: 1, explanation: "Rate of 26 is slightly elevated but breathing is deep, symmetric, and SpO2 is good. Supplemental oxygen is appropriate while you investigate the cause of the elevated rate." },
-    { q: "The jaw thrust maneuver is performed by:", options: ["Tilting the head back and lifting the chin", "Gripping the angles of the jaw and thrusting it forward without moving the head", "Inserting an OPA to hold the tongue forward", "Applying a cervical collar"], answer: 1, explanation: "Jaw thrust grips the posterior angles of the mandible and thrusts forward, displacing the tongue without requiring cervical spine movement." },
-    { q: "What does SpO2 actually measure?", options: ["The amount of oxygen dissolved in plasma", "The percentage of hemoglobin carrying oxygen", "The respiratory rate indirectly", "Carbon dioxide levels in the blood"], answer: 1, explanation: "SpO2 measures oxygen saturation  -  what percentage of hemoglobin molecules are carrying oxygen. It does NOT measure dissolved O2 or CO2." },
-    { q: "An infant is breathing 55 times per minute. This is:", options: ["Normal  -  infant rate is 25-50", "Slightly elevated but acceptable", "Abnormal  -  tachypnea requiring assessment", "Normal  -  infants breathe faster than children"], answer: 2, explanation: "Normal infant rate is 25-50/min. A rate of 55 is tachypnea  -  abnormal and requires assessment. In infants, tachypnea often indicates respiratory distress or systemic illness." },
+    {
+      q: "A motorcyclist is down after a crash at highway speed. He is alert and denies pain. Your approach should be:",
+      options: ["Accept his denial and do a focused assessment of his chief complaint", "Perform a rapid full-body trauma assessment -- significant MOI means hidden injuries", "Immobilize only if he complains of neck pain", "Transport without full assessment since he is alert"],
+      answer: 1,
+      explanation: "Significant MOI (motorcycle crash at speed) requires a full rapid trauma assessment regardless of symptoms. Alert patients with significant MOI commonly have life-threatening injuries they cannot feel."
+    },
+    {
+      q: "A vehicle crashed at 60 mph will transfer approximately how much more kinetic energy than the same vehicle at 30 mph?",
+      options: ["Twice as much", "Three times as much", "Four times as much", "The same -- mass is what matters"],
+      answer: 2,
+      explanation: "KE = 1/2 x mass x velocity squared. Doubling velocity (30 to 60 mph) squares the multiplier: 2 squared = 4. The 60 mph crash transfers 4 times the kinetic energy."
+    },
+    {
+      q: "You arrive to find an elderly woman on the floor after a fall. Her daughter says 'She just tripped.' Your index of suspicion should include:",
+      options: ["Only musculoskeletal injury from the fall", "A medical event (syncope, dysrhythmia, stroke) that CAUSED the fall, plus fall injuries", "Only document what the daughter observed", "No hidden injuries -- she was ambulatory before the fall"],
+      answer: 1,
+      explanation: "Elderly patients frequently fall due to a medical event -- syncope, dysrhythmia, or stroke. The fall is the result, not the cause. Always consider what caused the fall, not just the injuries from it."
+    },
+    {
+      q: "Which patient should be transported to a trauma center rather than the nearest ED?",
+      options: ["25-year-old with isolated forearm laceration", "40-year-old unrestrained driver, rollover, GCS 12", "55-year-old bicyclist, minor fall, helmet intact, GCS 15", "30-year-old with road rash from low-speed bicycle fall"],
+      answer: 1,
+      explanation: "Unrestrained driver in a rollover crash meets significant MOI criteria. Altered GCS (12) confirms physiologic compromise. This patient needs a trauma center's surgical capability, not a general ED."
+    },
+    {
+      q: "Your patient appears intoxicated -- slurred speech, unsteady gait, confused. No odor of alcohol. Your first priority is:",
+      options: ["Treat as alcohol intoxication and transport for monitoring", "Check blood glucose immediately -- hypoglycemia can mimic intoxication", "Psychiatric evaluation", "Assess for drug use and call for law enforcement"],
+      answer: 1,
+      explanation: "No odor of alcohol with intoxication-like presentation = check blood glucose first. Hypoglycemia is rapidly fatal and immediately treatable. Never anchor on 'intoxication' without ruling out organic causes."
+    }
   ]
 };
 
-// --- MODULE 1  -  AIRWAY, LESSON 3 ---------------------------------------------
 const M1L3 = {
   moduleId: 1, id: 3,
-  title: "Airway Adjuncts",
-  subtitle: "OPA, NPA, suction  -  your basic airway toolkit and when to use each",
-  duration: "10 min",
+  title: "Triage & Mass Casualty Incidents",
+  video: { youtubeId: "nfBJGeAdu5o", caption: "START triage system -- how to categorize patients in a mass casualty incident", source: "The Paramedic Coach", duration: "7 min" },
+  subtitle: "When patients outnumber resources, triage saves the most lives",
+  duration: "~1.5 hrs total",
   dispatch: {
-    call: `"Unit 8, respond to 29 Oak Street  -  55-year-old female, seizure, now postictal, snoring respirations, vomit noted around mouth."`,
-    time: "2:47 PM", eta: "4 minutes",
-    hook: "Postictal, snoring, vomit visible. Three immediate airway threats in one patient. What do you reach for first, and in what order?",
-    bridge: "Airway adjuncts are simple tools that make a huge difference. Knowing which one to grab, how to size it, and when NOT to use it separates a good airway manager from a dangerous one."
+    call: `"All units -- major vehicle accident on I-80 westbound at mile marker 47. Semi vs passenger bus. Initial report: 20-plus patients, multiple critical. Fire, EMS, and law enforcement responding. Establish command."`,
+    time: "4:15 PM", eta: "4 minutes",
+    hook: "Twenty patients. Your crew. Four minutes. What do you do first?",
+    bridge: "Mass casualty incidents break every normal rule of EMS. You do not treat the worst patient first. You do not stay on scene until everyone is packaged. You triage -- and triage means making hard decisions that save the most lives possible from available resources."
   },
-  video: { youtubeId: 'mykrnTh1tz8', caption: 'Inhaling and exhaling - how breathing works', source: 'Khan Academy', duration: '8 min' },
-    model3d: { sketchfabId: '20b938dcd6f44f259449756e529fa54f', caption: 'Human lungs, trachea and larynx - airway anatomy', credit: '@slung2 on Sketchfab', license: 'CC BY 4.0' },
   content: [
     {
-      heading: "Suction: Always First",
-      body: "If there's fluid in the airway  -  blood, vomit, secretions  -  suction before anything else. You cannot effectively manage an airway full of vomit.\n\n**Rigid (Yankauer) suction**  -  Hard plastic tip, best for oropharynx. Most common for vomit and thick secretions. Limit suction to 15 seconds in adults, 10 seconds in children.\n\n**Flexible catheter**  -  Soft, for deeper or narrower spaces. Used through an NPA or ET tube.\n\n**Key rules:**\n* Suction on the way OUT, not on the way in\n* Never lose sight of the tip\n* Watch SpO2  -  stop if it drops significantly\n* Pre-oxygenate when possible before suctioning\n* If vomiting is ongoing  -  turn the patient to their side"
+      heading: "What is an MCI and When Does Triage Apply?",
+      body: `A Mass Casualty Incident (MCI) is any event where the number of patients exceeds the immediate capacity of available resources to provide optimal care. That threshold is not a fixed number -- it depends on available resources.
+
+Two critical patients with one ambulance crew = MCI. Twenty patients with ten ambulances may not be.
+
+**When triage principles apply:**
+* Patient count exceeds available crew capacity
+* Injuries are severe enough that not all can receive immediate advanced care
+* Resources (personnel, equipment, transport) are limited relative to demand
+
+**The core triage principle:** Allocate limited resources to patients most likely to survive with intervention. This means you may bypass the most critically injured to reach those with better survivability. This is not abandonment -- it is evidence-based allocation.
+
+**The hardest lesson in MCI:** Doing the most good for the most people sometimes means doing less for one individual. Every EMS provider who works an MCI grapples with this. The triage system exists to make these decisions systematic and defensible.
+
+**MCI Declaration:** When you arrive and determine you have an MCI, declare it immediately. "Dispatch -- Unit 3 is declaring an MCI at this location. Initial estimate 20-plus patients. Activating MCI protocol. Requesting additional resources."
+
+Do not wait for confirmation. Do not wait for a supervisor. You saw it, you call it.`
     },
     {
-      heading: "Oropharyngeal Airway (OPA)",
-      body: "The OPA is a curved plastic device that sits in the oropharynx and holds the tongue away from the posterior pharynx.\n\n**Use when:** Patient is unconscious with no gag reflex\n**Never use when:** Patient has a gag reflex  -  you will induce vomiting\n\n**Sizing:** Measure from the corner of the mouth to the earlobe. Or from the center of the mouth to the angle of the jaw.\n\n**Insertion (adult):** Insert upside down (curve pointing up toward palate), rotate 180 degrees as you pass the tongue, seat in position.\n\n**Insertion (pediatric):** Insert right-side up using a tongue depressor  -  do NOT rotate in children, you can damage soft tissue.\n\nAn OPA does NOT protect the airway from aspiration  -  it just keeps it open."
+      heading: "START Triage: Simple Triage And Rapid Treatment",
+      body: `START is the standard MCI triage system used by most EMS agencies in the United States. It categorizes patients in approximately 30 seconds each using three assessments.
+
+**START triage sequence:**
+1. **Respirations** -- Is the patient breathing?
+2. **Perfusion** -- Is there adequate circulation? (radial pulse or capillary refill)
+3. **Mental status** -- Can the patient follow simple commands?
+
+**The four START categories:**
+
+**BLACK (Expectant/Deceased):**
+* No respirations after repositioning airway
+* Respirations that are clearly agonal (gasping, irregular)
+* Injuries incompatible with survival given available resources
+* These patients receive no immediate resources in an MCI
+
+**RED (Immediate):**
+* Respirations present but above 30/min
+* No radial pulse (delayed capillary refill > 2 seconds)
+* Cannot follow simple commands (altered mental status)
+* Can survive with immediate intervention
+
+**YELLOW (Delayed):**
+* Respirations present, below 30/min
+* Radial pulse present (capillary refill < 2 seconds)
+* Can follow commands
+* Stable enough to wait -- serious but not immediately life-threatening
+
+**GREEN (Minor/Walking Wounded):**
+* Walking and responsive
+* First step in START: direct all walking patients to a collection point. Anyone who can walk is GREEN.
+* Green patients may self-transport or can be assessed later`
     },
     {
-      heading: "Nasopharyngeal Airway (NPA)",
-      body: "The NPA is a soft rubber tube inserted through the nostril into the nasopharynx.\n\n**Use when:** Patient needs airway support but has a gag reflex, clenched teeth, or you can't use an OPA\n**Avoid when:** Suspected skull base fracture (fluid from ears/nose, raccoon eyes, Battle's sign)  -  you risk inserting into the cranial vault\n\n**Sizing:** Diameter  -  as wide as the patient's pinky finger. Length  -  from the nostril to the earlobe.\n\n**Insertion:** Lubricate generously. Insert with the bevel toward the septum (midline). Advance gently  -  if resistance, try the other nostril. Never force it.\n\nNPAs are better tolerated in semi-conscious patients and won't trigger vomiting the way an OPA can."
+      heading: "ICS at an MCI: Command Structure",
+      body: `The Incident Command System (ICS) provides the organizational framework for managing an MCI. Every person on scene has one role and one supervisor.
+
+**First unit on scene automatically establishes command.** No exceptions. You do not wait for someone with more seniority. You do not hope someone else does it. You establish command and announce it on the radio.
+
+"Dispatch -- Unit 3 has arrived at I-80, mile marker 47. We are establishing I-80 Command. Initial report: bus and semi accident, approximately 20 patients. Requesting multiple additional ALS and BLS units, supervisor, and hospital notification."
+
+**EMS MCI functional areas:**
+* **Incident Command (IC):** Overall control, resource management, media, communication with hospitals
+* **Triage Group:** Rapid assessment and categorization of all patients using START
+* **Treatment Group:** Provides care in treatment areas organized by triage category
+* **Transport Group:** Manages ambulance loading, destination, and hospital notification
+
+**Medical Branch Director:** At large MCIs, a Medical Branch Director reports to the IC and oversees all EMS operations.
+
+**The rule of spans:** Each supervisor manages no more than 5-7 personnel. Beyond 7, communication breaks down. As an MCI grows, the command structure expands -- new supervisors are assigned to keep spans of control manageable.`
     },
     {
-      heading: "Bag-Valve Mask (BVM)",
-      body: "The BVM is your most important piece of airway equipment. It delivers positive pressure ventilation  -  pushing air into the lungs when the patient can't do it themselves.\n\n**Components:** Self-inflating bag + one-way valve + mask + oxygen reservoir\n\n**One-person BVM:** EC clamp technique  -  middle, ring, pinky fingers grip the jaw (E), thumb and index form a C over the mask. Tilt head, seal mask, squeeze bag with your other hand.\n\n**Two-person BVM:** One provider holds the mask with both hands (both thumbs on top, fingers gripping jaw), second provider squeezes the bag. Better seal, better ventilation. Use two-person whenever possible.\n\n**Ventilation rate:**\n* Adults: 1 breath every 5-6 seconds (10-12/min)\n* Children: 1 breath every 3-5 seconds (12-20/min)\n\nCommon mistake: squeezing too hard and too fast. Give just enough volume to see chest rise. Over-ventilation causes gastric distension and reduces venous return."
+      heading: "MCI Zones and Treatment Areas",
+      body: `Physical layout of an MCI scene is as important as patient care. Disorganized scenes kill patients through delayed transport.
+
+**Scene zones:**
+* **Hot zone:** Area of immediate hazard (wreckage, fire, hazmat). Extraction occurs here. Treatment does not.
+* **Warm zone:** Transition area. Patients are moved from hot to warm for initial stabilization.
+* **Cold zone:** Safe area. Treatment areas and staging are established here. No hazard.
+
+**Treatment area organization:**
+* **RED treatment area:** Immediate patients. Located closest to transport loading.
+* **YELLOW treatment area:** Delayed patients. Continuous monitoring for deterioration.
+* **GREEN collection point:** Walking wounded. Separated from critical patients to prevent them from flooding the treatment area.
+* **BLACK area:** Deceased and expectant patients. Separate, out of view of other patients and families.
+
+**Ambulance staging:** Incoming ambulances stage at a designated point and are called forward one at a time to load patients. This prevents traffic gridlock at the scene. A Transport Officer manages this.
+
+**Hospital notification:** Hospitals receive patient counts and injury patterns as early as possible to prepare. Spreading critical patients across multiple facilities prevents any one hospital from being overwhelmed.`
     },
     {
-      heading: "Putting It Together: The Airway Priority Order",
-      body: "When you walk up to an airway problem, this is your sequence:\n\n1. **Position**  -  Open the airway manually (head-tilt chin-lift or jaw thrust)\n2. **Suction**  -  Clear anything in the way\n3. **Adjunct**  -  OPA or NPA to maintain the opening\n4. **Oxygen**  -  Nonrebreather mask if breathing adequately\n5. **BVM**  -  If breathing is inadequate or absent\n6. **Advanced airway**  -  Intubation, supraglottic device (paramedic level)\n\nYou don't always need all six steps. A patient who just needs their airway repositioned and an OPA placed doesn't need a BVM. Match your intervention to the problem."
+      heading: "Special Considerations and After the MCI",
+      body: `**Pediatric patients in MCIs:** JumpSTART is a modified triage system for children under 8. Key difference: children who are not breathing receive 5 rescue breaths before being tagged black (since pediatric arrest is more often respiratory than cardiac in origin).
+
+**Retriage:** Patients are not triaged once. Delayed (YELLOW) patients can deteriorate to Immediate (RED). Patients in the treatment area must be continuously reassessed. Assign someone to walk through treatment areas and reassess regularly.
+
+**Documentation at MCIs:** Triage tags (physical tags attached to patients) document triage category, assessment findings, and treatments given. Tag number is your tracking system. Hospitals use tag numbers to match patients.
+
+**Hazmat MCIs:** Contaminated patients must be decontaminated before entering treatment areas. Non-contaminated providers do not enter the hot or warm zone. Decon corridor is established and patients are decontaminated systematically before reaching you.
+
+**Critical Incident Stress:** MCIs are psychologically traumatic for responders. Providers who work a mass casualty event -- especially one involving children -- need access to Critical Incident Stress Debriefing (CISD). This is not optional and it is not a sign of weakness. Peer support, CISD, and mental health resources are part of MCI after-action protocol.`
     }
   ],
   flashcards: [
-    { front: "What does OPA stand for and what does it do?", back: "Oropharyngeal Airway  -  holds the tongue away from the posterior pharynx in unconscious patients" },
-    { front: "When should you NEVER use an OPA?", back: "When the patient has a gag reflex  -  you will induce vomiting and aspiration" },
-    { front: "How do you size an OPA?", back: "Corner of the mouth to the earlobe, or center of mouth to angle of jaw" },
-    { front: "What does NPA stand for and when is it preferred over OPA?", back: "Nasopharyngeal Airway  -  preferred when patient has a gag reflex, clenched teeth, or is semi-conscious" },
-    { front: "When should you avoid an NPA?", back: "Suspected skull base fracture  -  signs: blood/fluid from ears or nose, raccoon eyes, Battle's sign" },
-    { front: "How do you size an NPA?", back: "Diameter = patient's pinky finger width. Length = nostril to earlobe." },
-    { front: "What is the Yankauer?", back: "A rigid suction catheter used to suction the oropharynx  -  best for vomit and thick secretions" },
-    { front: "What is the EC clamp technique?", back: "One-person BVM mask hold: E = middle/ring/pinky grip jaw, C = thumb/index seal mask" },
-    { front: "Adult BVM ventilation rate?", back: "One breath every 5-6 seconds (10-12 per minute)" },
-    { front: "What is Battle's sign?", back: "Bruising behind the ear  -  sign of basilar skull fracture. Contraindication to NPA." },
-    { front: "How long should you suction at one time (adult)?", back: "Maximum 15 seconds  -  watch SpO2 and stop if it drops" },
-    { front: "What are raccoon eyes a sign of?", back: "Periorbital bruising suggesting basilar skull fracture  -  contraindication to NPA" },
-    { front: "What is the adult OPA insertion technique?", back: "Insert upside down (curve up), rotate 180 degrees as you pass the tongue, seat in oropharynx" },
-    { front: "Why can over-ventilation with BVM be harmful?", back: "Causes gastric distension and reduces venous return  -  give just enough to see chest rise" },
-    { front: "What is the airway priority sequence?", back: "Position -> Suction -> Adjunct (OPA/NPA) -> Oxygen -> BVM -> Advanced airway" },
-    { front: "What is the pediatric OPA insertion technique?", back: "Insert right-side up using a tongue depressor  -  do NOT rotate (can damage soft tissue)" },
+    { front: "What is an MCI?", back: "Any incident where the number of patients exceeds the immediate capacity of available resources to provide optimal care." },
+    { front: "What does START stand for?", back: "Simple Triage And Rapid Treatment. The standard MCI triage system." },
+    { front: "What are the 4 START categories?", back: "BLACK (expectant/deceased), RED (immediate), YELLOW (delayed), GREEN (minor/walking wounded)" },
+    { front: "In START, what is the first step?", back: "Direct all walking patients to a collection point. Anyone who can walk is GREEN." },
+    { front: "RED criteria in START triage?", back: "Respirations > 30/min, OR no radial pulse (capillary refill > 2 sec), OR cannot follow simple commands. Can survive with immediate intervention." },
+    { front: "BLACK criteria in START triage?", back: "No respirations after airway repositioning, OR agonal breathing, OR unsurvivable injuries given available resources." },
+    { front: "Who establishes command at an MCI?", back: "The first arriving unit. Automatically. No exceptions. Announced on radio immediately." },
+    { front: "What are the 3 EMS functional areas at an MCI?", back: "Triage Group, Treatment Group, and Transport Group (all under Medical Branch or IC)." },
+    { front: "What is the difference between JumpSTART and START?", back: "JumpSTART is for children under 8. Key difference: non-breathing children get 5 rescue breaths before being tagged black." },
+    { front: "What is retriage and why is it necessary?", back: "Reassessing already-triaged patients because YELLOW patients can deteriorate to RED. Triage is not a one-time event at an MCI." },
+    { front: "What is the span of control rule in ICS?", back: "Each supervisor manages no more than 5-7 people. Beyond that, communication breaks down and a new supervisory level is added." },
+    { front: "Where is the treatment area located relative to scene zones?", back: "In the cold zone (safe area). Hot zone = extraction only. Warm zone = transition. Cold zone = treatment and staging." }
   ],
   quiz: [
-    { q: "A 45-year-old is unconscious after a seizure with no gag reflex and vomit in the mouth. Your FIRST action is:", options: ["Insert an OPA", "Begin BVM ventilations", "Suction the oropharynx", "Apply a nonrebreather mask"], answer: 2, explanation: "Suction first  -  always. You cannot manage an airway full of vomit. Clear it, then proceed to adjunct and oxygenation." },
-    { q: "You attempt to insert an OPA and the patient gags violently. You should:", options: ["Push it through quickly  -  gagging will stop", "Remove the OPA and consider an NPA instead", "Use a smaller OPA size", "Place the patient in Trendelenburg position"], answer: 1, explanation: "A gag reflex is an absolute contraindication to OPA. Remove immediately to prevent vomiting. Consider an NPA which is better tolerated in conscious/semi-conscious patients." },
-    { q: "You suspect a basilar skull fracture. The patient needs airway support but has a gag reflex. You should:", options: ["Insert an NPA  -  it's always safe", "Insert an OPA  -  gag reflex doesn't matter in emergencies", "Use BVM with mask seal only  -  NPA is contraindicated", "Delay airway management until CT scan"], answer: 2, explanation: "Basilar skull fracture is a contraindication to NPA  -  risk of inserting into the cranial vault. Manage the airway with positioning and BVM without an adjunct if possible." },
-    { q: "How do you size an OPA?", options: ["From the nose to the earlobe", "From the corner of the mouth to the earlobe", "Same size as the patient's thumb", "Use the largest one that fits"], answer: 1, explanation: "OPA sizing: corner of the mouth to the earlobe. Too small won't lift the tongue; too large can push the epiglottis down." },
-    { q: "Two-person BVM ventilation is preferred over one-person because:", options: ["It delivers oxygen faster", "One provider can focus on mask seal while the other squeezes the bag  -  better seal and ventilation", "It uses less oxygen", "It's required by protocol"], answer: 1, explanation: "Maintaining a perfect mask seal with one hand while squeezing the bag with the other is genuinely difficult. Two-person technique provides a much better seal and more reliable ventilation." },
-    { q: "The correct adult BVM ventilation rate is:", options: ["1 breath every 2-3 seconds", "1 breath every 5-6 seconds", "1 breath every 10 seconds", "As fast as possible"], answer: 1, explanation: "Adult ventilation rate: 1 breath every 5-6 seconds (10-12/min). Over-ventilation is a common mistake that causes gastric distension and reduces cardiac output." },
-    { q: "Battle's sign is:", options: ["Bruising around both eyes", "Bruising behind the ear", "Blood from the nose", "A midline skull deformity"], answer: 1, explanation: "Battle's sign is ecchymosis (bruising) behind the ear over the mastoid process  -  a delayed sign of basilar skull fracture. Contraindicates NPA insertion." },
-    { q: "When inserting an NPA you meet resistance in one nostril. You should:", options: ["Push harder  -  resistance is normal", "Remove and try the other nostril", "Use a larger NPA", "Abandon the NPA and use an OPA"], answer: 1, explanation: "Never force an NPA. If you meet resistance, gently remove and try the other nostril. Forcing can cause significant bleeding." },
-    { q: "What is the maximum suction time for an adult patient?", options: ["5 seconds", "15 seconds", "30 seconds", "60 seconds"], answer: 1, explanation: "Suction for a maximum of 15 seconds in adults (10 seconds in children). Each second of suctioning also removes oxygen  -  monitor SpO2 and pre-oxygenate when possible." },
-    { q: "You're squeezing the BVM and the patient's abdomen is rising more than the chest. This means:", options: ["Ventilation is working correctly", "Air is going into the stomach  -  adjust mask seal and head position", "The patient needs a larger mask", "Chest compressions should be started"], answer: 1, explanation: "Abdominal rise means air is entering the stomach (gastric insufflation), not the lungs. Recheck mask seal, head position, and ventilation pressure. Over-vigorous BVM use causes this." },
-    { q: "For a pediatric patient, OPA insertion differs from adults because:", options: ["You use a smaller bag-valve mask", "You insert it right-side up using a tongue depressor  -  never rotate", "The sizing method is different", "You always use NPA instead"], answer: 1, explanation: "In children, the OPA is inserted right-side up (curve pointing down) using a tongue depressor to displace the tongue. Rotating in children can damage the soft palate." },
-    { q: "A patient has a gag reflex and clenched teeth. Which airway adjunct is most appropriate?", options: ["OPA  -  it will fit despite clenched teeth", "NPA  -  can be placed despite clenched teeth and tolerates gag reflex", "Neither  -  wait for them to relax", "Intubation is the only option"], answer: 1, explanation: "NPA is the adjunct of choice when the patient has a gag reflex or clenched jaw  -  it's inserted nasally and doesn't require opening the mouth." },
-    { q: "The OPA is inserted upside down in adults and then rotated 180 degrees. The purpose of this technique is:", options: ["To avoid the teeth", "To navigate around the tongue without pushing it back into the airway", "Because the curve faces the wrong direction naturally", "To test for a gag reflex"], answer: 1, explanation: "Inserting the OPA upside down and rotating allows you to navigate past the tongue without using it as a ramp, which would push it into the airway. Once past the tongue, the curve guides it into position." },
-    { q: "Which statement about the OPA is TRUE?", options: ["It protects against aspiration", "It replaces the need for suction", "It maintains airway patency but does NOT prevent aspiration", "It can be used in any patient regardless of consciousness"], answer: 2, explanation: "The OPA holds the tongue forward and keeps the airway open  -  it does NOT protect against aspiration. You still need to monitor for vomiting and have suction ready." },
-    { q: "The oxygen reservoir bag on a BVM serves what purpose?", options: ["Stores medication for nebulization", "Collects exhaled CO2", "Accumulates oxygen between breaths to deliver higher FiO2", "Provides a backup air supply if oxygen runs out"], answer: 2, explanation: "The reservoir bag accumulates oxygen from the flow source between breaths. This allows delivery of near 100% oxygen (vs ~21% room air) when connected to high-flow O2." },
+    {
+      q: "You are the first unit to arrive at a bus accident with an estimated 15 patients. Your first action is:",
+      options: ["Begin treating the most visibly injured patient", "Triage all patients before doing anything else", "Declare MCI, request resources, establish command", "Wait for a supervisor to arrive before making decisions"],
+      answer: 2,
+      explanation: "First arriving unit declares MCI and establishes command immediately -- no supervisor needed. Resource requests happen at the same time. Triage begins once command is established and triage group is formed."
+    },
+    {
+      q: "Using START triage, a patient is breathing at 28/min, has a radial pulse, and can follow commands. This patient is:",
+      options: ["RED -- immediate", "YELLOW -- delayed", "GREEN -- minor", "BLACK -- expectant"],
+      answer: 1,
+      explanation: "YELLOW: Respirations < 30/min (28), radial pulse present, follows commands. This patient is serious but stable enough to wait. Monitor for deterioration."
+    },
+    {
+      q: "A patient has no respirations. You reposition the airway. Respirations do not return. In an MCI, this patient is tagged:",
+      options: ["RED -- attempt resuscitation", "YELLOW -- monitor", "BLACK -- expectant", "GREEN -- walking wounded"],
+      answer: 2,
+      explanation: "BLACK. In an MCI, a patient with no respirations after airway repositioning receives no immediate resources. In normal EMS you would begin CPR -- MCI triage changes this to save the most lives from limited resources."
+    },
+    {
+      q: "At a multi-vehicle accident, incoming ambulances should:",
+      options: ["Proceed directly to patients and self-assign", "Stage at a designated area and be called forward by the Transport Officer", "Park wherever space allows near the scene", "Begin transport immediately with any available patient"],
+      answer: 1,
+      explanation: "Incoming ambulances stage and are called forward one at a time. Uncontrolled ambulance traffic gridlocks the scene and prevents efficient transport. The Transport Officer manages this."
+    },
+    {
+      q: "A 6-year-old is not breathing at an MCI. Using JumpSTART, your first action is:",
+      options: ["Tag immediately BLACK", "Give 5 rescue breaths, then reassess", "Begin full CPR", "Tag YELLOW and monitor"],
+      answer: 1,
+      explanation: "JumpSTART for pediatric patients: give 5 rescue breaths before tagging BLACK. Children are more likely to arrest from respiratory causes than cardiac -- a brief ventilation may restart breathing."
+    }
   ]
 };
 
-// --- MODULE 1  -  AIRWAY, LESSON 4 ---------------------------------------------
 const M1L4 = {
   moduleId: 1, id: 4,
-  title: "Oxygen Delivery",
-  subtitle: "Oxygen devices, flow rates, and when to use what  -  matching the tool to the patient",
-  duration: "9 min",
+  title: "Module 1 Quiz",
+  subtitle: "Scene Size-Up & Safety -- full module assessment",
+  duration: "~30 min",
   dispatch: {
-    call: `"Unit 6, respond to 4411 Ridgeline Drive  -  72-year-old female, history of COPD, shortness of breath for 2 hours, speaking in 2-3 word sentences."`,
-    time: "11:05 AM", eta: "6 minutes",
-    hook: "COPD patient, 2-3 word sentences. You know she needs oxygen. But how much? The wrong answer could actually make her worse. This is one of EMS's most misunderstood topics.",
-    bridge: "Oxygen is a drug. Like every drug, it has indications, contraindications, dosing, and side effects. This lesson teaches you to match the device to the patient  -  not just grab whatever's closest."
+    call: `"All units -- Module 1 Assessment. You have covered scene safety and size-up, mechanism of injury and nature of illness, and triage in mass casualty incidents. This quiz covers all three lessons."`,
+    time: "Assessment time", eta: "Ready when you are",
+    hook: "Scene Size-Up and Safety is 15-19% of the NREMT exam. These questions test whether you can think like a provider who arrives on scene safely and gathers the right information before touching a single patient.",
+    bridge: "Answer every question. Review every explanation whether you got it right or wrong. The NREMT will ask these questions in different ways -- understanding the reasoning matters more than memorizing the answer."
   },
   content: [
     {
-      heading: "Oxygen as a Drug",
-      body: "Oxygen has a therapeutic window  -  too little is dangerous, but so is too much in certain patients.\n\n**FiO2** (Fraction of Inspired Oxygen)  -  the percentage of oxygen delivered. Room air is 21%. A nonrebreather mask can deliver up to 90-100%.\n\nYour goal in most patients: maintain SpO2 >= 94%. In STEMI and stroke patients: maintain SpO2 >= 94% but avoid hyperoxia (too much oxygen can cause vasoconstriction).\n\n**The COPD caveat:** Some COPD patients have chronically high CO2 and may rely on hypoxic drive to breathe. Flooding them with high-flow oxygen can potentially suppress their drive to breathe. Don't withhold oxygen from a hypoxic COPD patient  -  but target SpO2 of 88-92% rather than 100%, and monitor closely."
-    },
-    {
-      heading: "Nasal Cannula",
-      body: "**What it is:** Two small prongs that sit in the nostrils. Delivers low-flow oxygen.\n\n**Flow rate:** 1-6 L/min\n**FiO2 delivered:** ~24-44% (roughly, add 4% per liter above room air)\n\n**Use when:**\n* Patient needs mild supplemental oxygen\n* SpO2 is 90-93% and patient is stable\n* Patient is speaking and breathing adequately\n* Patient cannot tolerate a mask\n\n**Limitations:**\n* Ineffective if patient is mouth breathing\n* Maximum useful flow is 6 L/min  -  beyond that, use a mask\n* Does not protect against aspiration"
-    },
-    {
-      heading: "Nonrebreather Mask (NRB)",
-      body: "**What it is:** A mask with a one-way valve and oxygen reservoir bag. Prevents exhaled air from re-entering the bag.\n\n**Flow rate:** 10-15 L/min\n**FiO2 delivered:** 60-90% (reservoir bag must be inflated before placing on patient)\n\n**Use when:**\n* Patient needs high-flow oxygen\n* SpO2 < 94% despite nasal cannula\n* Suspected CO poisoning  -  always high flow regardless of SpO2\n* Chest pain, stroke, severe respiratory distress\n* Any seriously ill patient\n\n**Key step:** Inflate the reservoir bag BEFORE applying the mask  -  press your finger over the one-way valve until the bag fills. An empty reservoir bag delivers room air, not oxygen."
-    },
-    {
-      heading: "Simple Face Mask and Partial Rebreather",
-      body: "**Simple face mask:**\n* Flow rate: 6-10 L/min\n* FiO2: ~35-60%\n* Must run at minimum 6 L/min  -  below this, exhaled CO2 accumulates in the mask\n* Less commonly used in EMS  -  NRB is usually the better choice for sick patients\n\n**Partial rebreather mask:**\n* Similar to NRB but without the one-way valve\n* Allows some exhaled air to mix with reservoir oxygen\n* FiO2: ~35-60%\n* Rarely used in EMS prehospital  -  you'll mainly see it in hospital\n\n**Venturi mask:**\n* Delivers precise FiO2 (24%, 28%, 31%, 35%, 40%)\n* Used for COPD patients who need controlled oxygen delivery\n* Color-coded adapters set the exact FiO2\n* More of a hospital/interfacility tool"
-    },
-    {
-      heading: "Matching Device to Patient",
-      body: "**Quick decision guide:**\n\n| Patient situation | Device | Flow |\n|---|---|---|\n| Mild hypoxia, stable, talking | Nasal cannula | 2-4 L/min |\n| Moderate distress, SpO2 90-93% | Nasal cannula | 4-6 L/min |\n| Serious illness, SpO2 <94% | Nonrebreather | 10-15 L/min |\n| CO poisoning (any SpO2) | Nonrebreather | 15 L/min |\n| Not breathing / inadequate | BVM | 15 L/min |\n| COPD, target 88-92% | Nasal cannula or Venturi | 2-4 L/min |\n\n**Bottom line:** When in doubt, go higher. You can always back off oxygen. You can't undo hypoxic brain damage."
+      heading: "What Module 1 Covers",
+      body: `**Domain: Scene Size-Up and Safety (NREMT: 15-19% of exam)**
+
+This module covers the first actions of every call -- the decisions made before and during your approach to the scene that determine whether you can safely work and what you are walking into.
+
+**Lesson 1 -- Scene Safety & Size-Up:**
+Standard precautions, scene safety by hazard type (traffic, violence, hazmat, structural), patient count and resource management, BSI/PPE rules, situational awareness throughout the call.
+
+**Lesson 2 -- MOI & NOI:**
+Mechanism of injury vs nature of illness, kinetic energy and trauma physics, significant MOI patterns, index of suspicion, NOI patterns for common medical presentations, transport destination decisions.
+
+**Lesson 3 -- Triage & MCI:**
+MCI declaration and command establishment, START triage (RPM: respirations, perfusion, mental status), four triage categories, JumpSTART for pediatrics, ICS roles at MCIs, scene zones, treatment area organization.`
     }
   ],
   flashcards: [
-    { front: "What is FiO2?", back: "Fraction of Inspired Oxygen  -  the percentage of oxygen being delivered. Room air = 21%." },
-    { front: "What flow rate does a nasal cannula use?", back: "1-6 L/min, delivering approximately 24-44% FiO2" },
-    { front: "What flow rate does a nonrebreather mask use?", back: "10-15 L/min, delivering 60-90% FiO2" },
-    { front: "What is the target SpO2 for most patients?", back: "94% or above" },
-    { front: "What is the target SpO2 for COPD patients?", back: "88-92%  -  avoid hyperoxia which may suppress hypoxic drive" },
-    { front: "What is the critical step before applying an NRB mask?", back: "Inflate the reservoir bag first by covering the one-way valve  -  an empty bag delivers room air" },
-    { front: "Why is CO poisoning always treated with high-flow oxygen?", back: "High-flow O2 displaces CO from hemoglobin faster  -  SpO2 will read falsely normal, so treat the mechanism not the number" },
-    { front: "What is the minimum flow rate for a simple face mask?", back: "6 L/min minimum  -  below this, exhaled CO2 accumulates in the mask" },
-    { front: "When should you use a nasal cannula instead of NRB?", back: "Mild hypoxia, stable breathing, SpO2 90-93%, or patient cannot tolerate a mask" },
-    { front: "What is hypoxic drive?", back: "Some COPD patients breathe in response to low O2 rather than high CO2  -  high-flow oxygen may suppress this drive" },
-    { front: "What device delivers the most precise FiO2?", back: "Venturi mask  -  color-coded adapters deliver exact percentages (24%, 28%, 31%, 35%, 40%)" },
-    { front: "Room air contains what percentage of oxygen?", back: "21% FiO2" },
-    { front: "A patient with suspected CO poisoning needs:", back: "High-flow oxygen via NRB at 15 L/min regardless of SpO2 reading" },
-    { front: "What does a nonrebreather mask's one-way valve do?", back: "Prevents exhaled air from entering the reservoir bag, keeping it filled with pure oxygen" },
-    { front: "Nasal cannula is ineffective when:", back: "The patient is breathing exclusively through their mouth  -  nasal prongs won't deliver oxygen effectively" },
-    { front: "When should you use BVM instead of an oxygen mask?", back: "When breathing is absent or inadequate  -  oxygen masks only work when the patient is breathing on their own" },
+    { front: "NREMT Domain 1 covers what percentage of the exam?", back: "15-19% of the NREMT EMT exam." },
+    { front: "What are the 5 scene size-up components?", back: "1. Standard precautions 2. Scene safety 3. MOI or NOI 4. Number of patients 5. Additional resources" },
+    { front: "What does START assess in order?", back: "Respirations, Perfusion (pulse/capillary refill), Mental status (follows commands)" },
+    { front: "KE formula and significance?", back: "KE = 1/2 x mass x velocity squared. Doubling speed quadruples energy. Speed matters more than mass in trauma." },
+    { front: "Ejection from vehicle -- what do you assume?", back: "Cervical spine injury, internal bleeding, and head trauma. Mortality risk increases approximately 300% with ejection." },
+    { front: "What is the first step when arriving to any MCI as first unit?", back: "Declare MCI, establish command, request resources -- all announced on radio immediately." },
+    { front: "Confined space, multiple unconscious victims -- your action?", back: "Stage outside. Do NOT enter without SCBA. Suspect atmospheric hazard. Call technical rescue." },
+    { front: "YELLOW in START means?", back: "Delayed -- respirations < 30, radial pulse present, follows commands. Stable enough to wait but needs monitoring." }
   ],
   quiz: [
-    { q: "A 72-year-old COPD patient has SpO2 of 86% and is in moderate distress. You should:", options: ["Withhold oxygen  -  COPD patients shouldn't get O2", "Apply NRB at 15 L/min to maximize oxygen delivery", "Apply nasal cannula at 2-4 L/min targeting SpO2 88-92%", "Only give oxygen if SpO2 drops below 80%"], answer: 2, explanation: "COPD patients who are hypoxic (SpO2 <88%) need oxygen  -  never withhold it. But target 88-92%, not 100%. Start with a nasal cannula at low flow and titrate." },
-    { q: "You apply an NRB mask but the reservoir bag stays deflated. What will the patient receive?", options: ["High-flow oxygen  -  the mask still works", "Mostly room air  -  the reservoir isn't filled with oxygen", "No oxygen  -  the mask is broken", "CO2  -  the bag collects exhaled air"], answer: 1, explanation: "The reservoir bag must be inflated before application. An empty bag means the patient inhales through the one-way valve directly  -  mostly room air (21% O2). Always inflate first." },
-    { q: "Room air contains approximately what percentage of oxygen?", options: ["10%", "21%", "40%", "78%"], answer: 1, explanation: "Room air is approximately 21% oxygen (78% nitrogen, 1% other gases). This is your baseline  -  any supplemental oxygen device increases FiO2 above this." },
-    { q: "A patient with suspected carbon monoxide poisoning has SpO2 of 99%. You should:", options: ["Observe only  -  SpO2 is normal", "Apply nasal cannula at 2 L/min", "Apply NRB at 15 L/min immediately", "Only treat if patient becomes symptomatic"], answer: 2, explanation: "CO binds hemoglobin and reads as normal SpO2. Always apply high-flow oxygen to suspected CO poisoning regardless of the reading  -  it's one of the most dangerous false negatives in EMS." },
-    { q: "The maximum useful flow rate for a nasal cannula is:", options: ["2 L/min", "4 L/min", "6 L/min", "10 L/min"], answer: 2, explanation: "Above 6 L/min, a nasal cannula delivers minimal additional benefit and dries out mucous membranes. Switch to a mask for higher flow needs." },
-    { q: "Which device delivers the most precise and controlled FiO2?", options: ["Nonrebreather mask", "Nasal cannula", "Venturi mask", "Simple face mask"], answer: 2, explanation: "Venturi masks use color-coded adapters to deliver exact FiO2 percentages  -  commonly used for COPD patients needing controlled oxygen. Nasal cannula and NRBs deliver approximate FiO2." },
-    { q: "A patient is not breathing. Which oxygen delivery device do you use?", options: ["Nonrebreather mask", "Nasal cannula", "BVM connected to oxygen", "Venturi mask"], answer: 2, explanation: "Passive oxygen devices (NRB, cannula, masks) only work when the patient is breathing on their own. An apneic patient needs positive pressure ventilation  -  BVM connected to high-flow O2." },
-    { q: "The minimum flow rate for a simple face mask is 6 L/min because:", options: ["Lower flows can't penetrate the mask seal", "Below 6 L/min, exhaled CO2 accumulates in the mask", "The mask reservoir won't inflate at lower flows", "Lower flows damage the mask valve"], answer: 1, explanation: "Simple face masks have vents but not enough airflow below 6 L/min to flush exhaled CO2. The patient would rebreathe their own CO2, defeating the purpose." },
-    { q: "An NRB mask at 15 L/min delivers approximately:", options: ["21% FiO2", "40% FiO2", "60-90% FiO2", "100% FiO2 always"], answer: 2, explanation: "NRB masks deliver 60-90% FiO2 when properly applied with the reservoir inflated. True 100% delivery requires a sealed system  -  masks always allow some room air entrainment." },
-    { q: "A patient is speaking in full sentences with SpO2 of 91%. The most appropriate intervention is:", options: ["No oxygen needed  -  they're speaking fine", "BVM ventilation", "Nasal cannula at 2-4 L/min", "NRB at 15 L/min immediately"], answer: 2, explanation: "SpO2 of 91% warrants supplemental oxygen. The patient is breathing adequately (full sentences) so a nasal cannula is appropriate. Start at 2-4 L/min and titrate to >=94%." },
-    { q: "Why might high-flow oxygen be harmful to some COPD patients?", options: ["Oxygen is toxic to COPD lung tissue", "Some COPD patients breathe in response to low O2  -  flooding them with O2 may suppress this drive", "High-flow O2 worsens bronchospasm", "COPD patients absorb oxygen faster, causing hyperoxia"], answer: 1, explanation: "Some severe COPD patients have adapted to high CO2 and rely on hypoxic drive. High O2 can theoretically suppress breathing. In practice: never withhold O2 from hypoxic COPD patients  -  just target 88-92%." },
-    { q: "You apply a nasal cannula but the patient is breathing only through their mouth. You should:", options: ["Increase the flow rate to compensate", "Switch to a face mask", "Add a second nasal cannula", "No change needed  -  nasal cannula still works"], answer: 1, explanation: "Nasal cannula delivers oxygen through the nostrils. If the patient is exclusively mouth-breathing, the prongs deliver little to no benefit. Switch to a face mask." },
-    { q: "FiO2 stands for:", options: ["Flow index of oxygen", "Fraction of inspired oxygen", "Fixed inspired oxygenation", "Flow in oxygen"], answer: 1, explanation: "FiO2 = Fraction of Inspired Oxygen  -  the decimal or percentage of oxygen in the air the patient breathes. Room air FiO2 = 0.21 (21%)." },
-    { q: "A STEMI patient is breathing adequately with SpO2 of 98%. Oxygen should be:", options: ["Applied at 15 L/min NRB immediately", "Not applied  -  target SpO2 >=94% and avoid hyperoxia in STEMI", "Applied at 2 L/min nasal cannula", "Applied only if SpO2 drops below 90%"], answer: 1, explanation: "Current evidence suggests hyperoxia may worsen outcomes in STEMI by causing coronary vasoconstriction. If SpO2 is already >=94%, supplemental oxygen is not indicated." },
-    { q: "Which oxygen device is MOST appropriate for a seriously ill patient with SpO2 of 88%?", options: ["Room air  -  avoid oxygen in sick patients", "Nasal cannula at 1 L/min", "Nonrebreather mask at 10-15 L/min", "BVM ventilation"], answer: 2, explanation: "SpO2 of 88% in a seriously ill patient warrants high-flow oxygen via NRB. The patient is breathing so BVM isn't indicated yet. Start with NRB and reassess." },
+    {
+      q: "You arrive at a structural fire scene. A bystander tells you a victim is inside. You should:",
+      options: ["Enter to rescue the victim -- you have gloves and a mask", "Stage outside -- fire entry requires SCBA and fire department clearance", "Enter quickly and return before smoke overcomes you", "Assess the victim through a window"],
+      answer: 1,
+      explanation: "EMTs do not enter fire scenes. Carbon monoxide, structural instability, and smoke make entry without SCBA and proper protective equipment lethal. Fire department handles extraction. You treat outside."
+    },
+    {
+      q: "The single most important reason to call for additional resources early at a multi-patient scene is:",
+      options: ["It demonstrates good leadership", "Resources you don't need can stage -- patients without help cannot wait", "Protocol requires it", "To document the call correctly"],
+      answer: 1,
+      explanation: "Unused resources can return to service. Patients who die waiting for resources that were never called cannot be saved. Call early, call often. The cost of unused resources is far less than the cost of undertreated patients."
+    },
+    {
+      q: "An unresponsive 45-year-old male. No trauma history. First step:",
+      options: ["Start CPR", "Open airway and check breathing", "Check blood glucose", "Place AED"],
+      answer: 2,
+      explanation: "Airway and breathing are assessed first in every primary assessment. If not breathing, interventions follow. Blood glucose is important for AMS but cannot be the first action before confirming the patient has an airway."
+    },
+    {
+      q: "At an MCI, which patient gets RED (Immediate) tag?",
+      options: ["Walking, minor cuts", "Respirations 26/min, radial pulse present, follows commands", "Respirations 36/min, no radial pulse", "No respirations after airway repositioning"],
+      answer: 2,
+      explanation: "RED: Respirations > 30 OR no radial pulse OR cannot follow commands. Respirations 36/min alone qualifies as RED. The no-radial-pulse patient (capillary refill > 2 sec) is also RED."
+    },
+    {
+      q: "Nature of illness for a patient with sudden onset slurred speech and right arm weakness:",
+      options: ["Alcohol intoxication", "Hypoglycemia -- check glucose immediately", "Possible stroke -- time-sensitive transport to stroke center", "Psychiatric emergency"],
+      answer: 2,
+      explanation: "Sudden onset slurred speech + unilateral weakness = stroke until proven otherwise. This is time-sensitive -- stroke center transport and early notification. Check glucose but do not delay transport for medical workup."
+    },
+    {
+      q: "During a home visit, the patient's adult son becomes increasingly agitated and moves between you and the door. You should:",
+      options: ["Continue treating -- the patient is the priority", "Ask him to sit down politely and continue", "Recognize a threat indicator, reposition toward exit, alert law enforcement", "Have your partner physically move him"],
+      answer: 2,
+      explanation: "An agitated person positioning between you and your exit is a threat indicator. Scene safety is ongoing -- not just at arrival. Reposition, maintain situational awareness, alert law enforcement if needed."
+    },
+    {
+      q: "For START triage, the walking wounded are tagged:",
+      options: ["YELLOW, since they still need evaluation", "RED, since they may have hidden injuries", "GREEN -- anyone ambulatory goes to the collection point", "No tag until formally assessed"],
+      answer: 2,
+      explanation: "First step of START: direct all walking patients to a green collection point. This clears them from the immediate scene, allows you to focus on non-ambulatory patients, and categorizes them as GREEN automatically."
+    },
+    {
+      q: "A patient fell from a 25-foot ladder. He is alert and only complains of shoulder pain. You should:",
+      options: ["Focused assessment of the shoulder only", "Full rapid trauma assessment -- 25 feet is significant MOI", "Transport without assessment -- his own report guides care", "Assess only if he loses consciousness"],
+      answer: 1,
+      explanation: "25-foot fall is significant MOI (> 20 feet threshold). Significant MOI requires full rapid trauma assessment regardless of symptoms. Patients with high MOI can have life-threatening injuries they cannot feel."
+    },
+    {
+      q: "Your patient is a 70-year-old female found on the floor after an unwitnessed fall. Besides fall injuries, what must you consider?",
+      options: ["Only the fall injuries -- she tripped", "A medical event (syncope, dysrhythmia, stroke, hypoglycemia) that CAUSED the fall", "Abuse -- always suspect in elderly falls", "Nothing -- witness accounts are not available"],
+      answer: 1,
+      explanation: "Elderly patients frequently fall because of a medical event. The fall is the result, not the cause. Assess for syncope, dysrhythmia, stroke, and hypoglycemia as potential causes. The fall injuries are secondary."
+    },
+    {
+      q: "Which patient should be transported to a Level I trauma center rather than the nearest ED?",
+      options: ["30-year-old, isolated wrist fracture from fall", "22-year-old unrestrained driver, rollover at highway speed, GCS 11", "45-year-old cyclist, minor fall, helmet on, GCS 15", "60-year-old, fell from standing, hip pain, alert"],
+      answer: 1,
+      explanation: "Unrestrained driver in a rollover crash at highway speed = significant MOI. GCS 11 = altered mental status. This patient needs a trauma center's 24/7 surgical capability. An isolated fracture or minor fall does not."
+    },
+    {
+      q: "At a hazmat scene you are treating a patient in the cold zone. An untreated contaminated patient stumbles toward your treatment area. You should:",
+      options: ["Allow them in -- they need treatment", "Direct them to the decontamination corridor -- contaminated patients cannot enter the cold zone treatment area", "Treat them quickly and decon afterward", "Physically restrain them at the boundary"],
+      answer: 1,
+      explanation: "Contaminated patients cannot enter the cold zone treatment area. They contaminate equipment, personnel, and other patients. Direct them to the decon corridor. Decontamination must occur before treatment in the cold zone."
+    },
+    {
+      q: "You are 3 minutes from a reported 'minor fender-bender, one patient.' En route considerations should include:",
+      options: ["Minimal concern -- minor accidents rarely have serious injuries", "Possibility that actual conditions may differ significantly from dispatch report", "Drive at normal speed since it is a minor call", "Assume one patient, no additional resources needed"],
+      answer: 1,
+      explanation: "Dispatch information is frequently incomplete or inaccurate. 'Minor' calls regularly become serious on arrival. Approach every call with openness to a different scene than reported. 'Minor fender-bender' has been the scene of multiple fatalities."
+    },
+    {
+      q: "An ICS span of control means each supervisor manages:",
+      options: ["As many people as needed for the task", "No more than 5-7 personnel", "Only their own crew", "One person at a time at an MCI"],
+      answer: 1,
+      explanation: "ICS span of control: 5-7 people per supervisor, with 5 as ideal. Beyond 7, communication and coordination break down. As incidents grow, additional supervisory levels are added to maintain these ratios."
+    },
+    {
+      q: "CISD (Critical Incident Stress Debriefing) after an MCI is:",
+      options: ["Optional and only for providers who request it", "A required component of MCI after-action protocol, not a sign of weakness", "Only for providers who made errors", "Handled by the agency -- no provider participation required"],
+      answer: 1,
+      explanation: "CISD is a standard component of MCI response. MCIs -- especially those involving pediatric patients or mass casualties -- cause psychological trauma in responders. CISD access is not optional and seeking it is not weakness."
+    },
+    {
+      q: "N95 respirators require:",
+      options: ["No special preparation -- one size fits all", "Annual fit testing -- an improperly fitted N95 provides no protection", "Only cleaning and reuse", "Replacement only when visibly soiled"],
+      answer: 1,
+      explanation: "N95 respirators must be fit-tested annually. A respirator that does not properly seal provides no protection against airborne pathogens. This is a legal and safety requirement for providers."
+    },
+    {
+      q: "You are working a scene when a bystander shouts 'there is a gas smell.' You should:",
+      options: ["Finish packaging the patient before evacuating", "Evacuate the patient and yourself immediately and reassess scene safety", "Identify the source before reacting", "Continue working -- bystanders often overreact"],
+      answer: 1,
+      explanation: "Scene safety is continuous. A reported gas smell is an immediate threat indicator -- evacuate and reassess. The risk of explosion or asphyxiation outweighs any benefit of continued scene treatment. Reassess and re-enter only when safe."
+    },
+    {
+      q: "A pediatric patient (age 5) is unresponsive and not breathing at an MCI. JumpSTART protocol directs you to:",
+      options: ["Tag immediately BLACK -- same as adult START", "Begin full CPR protocol", "Give 5 rescue breaths and reassess", "Tag RED and begin immediate treatment"],
+      answer: 2,
+      explanation: "JumpSTART for children under 8: give 5 rescue breaths before tagging BLACK. Pediatric arrest is more often respiratory than cardiac -- a brief ventilation may restore breathing. This is the key difference from adult START."
+    },
+    {
+      q: "Which PPE is always required on every patient contact, without exception?",
+      options: ["Gown and eye protection", "Gloves", "N95 respirator", "Full face shield"],
+      answer: 1,
+      explanation: "Gloves are required on every patient contact. Additional PPE (eye protection, mask, gown) is added based on exposure risk. Gloves are the minimum non-negotiable baseline of Standard Precautions."
+    },
+    {
+      q: "A trauma patient's blood pressure is 84/60. This physiologic indicator suggests transport to:",
+      options: ["Nearest hospital regardless of capability", "Trauma center -- systolic BP < 90 is a trauma center criterion", "Cardiac center -- low BP suggests cardiac cause", "Observation hold at any facility"],
+      answer: 1,
+      explanation: "Systolic BP < 90 in a trauma patient meets physiologic criteria for trauma center transport. This patient is in compensated or decompensated shock and needs a trauma center's immediate surgical capability."
+    },
+    {
+      q: "What is the purpose of triage tagging with numbered tags at an MCI?",
+      options: ["To identify the patient's name for family notification", "To create a tracking system linking patient to triage findings, treatments, and destination hospital", "To assign priority for ambulance loading only", "Required by law for liability documentation"],
+      answer: 1,
+      explanation: "Triage tags provide a tracking system. The tag number links the patient to their triage category, assessment findings, treatments given, and transport destination. Hospitals use tag numbers to identify and track incoming MCI patients."
+    },
   ]
 };
 
-// --- MODULE 1  -  AIRWAY, LESSON 5 ---------------------------------------------
-const M1L5 = {
-  moduleId: 1, id: 5,
-  title: "Respiratory Emergencies",
-  subtitle: "Asthma, COPD, pulmonary edema, pneumothorax  -  recognizing and managing breathing crises",
-  duration: "12 min",
-  dispatch: {
-    call: `"Unit 3, respond to 1290 Maple Street  -  28-year-old female, known asthmatic, severe shortness of breath, not improved with her inhaler, unable to speak in full sentences."`,
-    time: "3:15 PM", eta: "4 minutes",
-    hook: "Known asthmatic, inhaler not working, speaking in fragments. This is not a routine asthma call. Something has changed. Do you know the difference between a mild asthma attack and a life threat?",
-    bridge: "Respiratory emergencies are among the most common  -  and most mismanaged  -  calls in EMS. The conditions look similar but have different mechanisms and different treatments. Getting them right starts with recognition."
-  },
-  video: { youtubeId: 'ZKvatbn4a_I', caption: 'Asthma pathophysiology', source: 'Khan Academy', duration: '11 min' },
-    model3d: { sketchfabId: '20b938dcd6f44f259449756e529fa54f', caption: 'Human lungs, trachea and larynx - respiratory anatomy', credit: '@slung2 on Sketchfab', license: 'CC BY 4.0' },
-  content: [
-    {
-      heading: "Asthma",
-      body: "Asthma is reversible bronchospasm  -  the airways constrict in response to a trigger (allergen, exercise, cold air, infection). The airways swell and produce excess mucus, making exhalation difficult.\n\n**Signs:** Wheezing (expiratory), prolonged exhalation, accessory muscle use, tachycardia, anxiety\n\n**Severe asthma signs  -  act fast:**\n* Cannot speak in full sentences\n* Tripod positioning\n* Silent chest (no wheeze = no air moving = critical)\n* Altered mental status\n* SpO2 < 90% despite oxygen\n* Diaphoresis (sweating)\n\n**Treatment:** Sitting upright, high-flow O2, assisted ventilation if needed, assist with prescribed bronchodilator (albuterol inhaler or nebulizer if your scope allows), rapid transport\n\n**Status asthmaticus**  -  A severe asthma attack that does not respond to bronchodilators. Life threatening. Rapid transport, consider ALS intercept."
-    },
-    {
-      heading: "COPD",
-      body: "COPD (Chronic Obstructive Pulmonary Disease) is a progressive, irreversible disease  -  usually emphysema, chronic bronchitis, or both. Unlike asthma, the damage is permanent.\n\n**Emphysema**  -  Alveolar walls break down, reducing surface area for gas exchange. Classic appearance: barrel chest, pursed-lip breathing, pink complexion ('pink puffer').\n\n**Chronic bronchitis**  -  Chronic airway inflammation and excess mucus. 'Blue bloater'  -  cyanotic, overweight appearance, productive cough.\n\n**Signs:** Prolonged exhalation, wheezing, barrel chest, accessory muscle use, hypoxia\n\n**Key difference from asthma:** COPD patients have a baseline of chronic respiratory compromise. They may look like they're struggling but be at their normal. Know their baseline if possible.\n\n**Treatment:** Low-flow O2 (target SpO2 88-92%), sitting upright, assist with prescribed medications, transport. Avoid hyperoxia."
-    },
-    {
-      heading: "Pulmonary Edema",
-      body: "Pulmonary edema is fluid in the alveoli  -  usually from left heart failure (the left ventricle can't pump effectively, causing fluid backup into the lungs).\n\n**Signs:**\n* Severe respiratory distress, orthopnea (can't breathe lying flat)\n* Frothy, pink-tinged sputum (classic)\n* Crackles/rales on lung auscultation (wet, crackling sounds)\n* Diaphoresis, cyanosis\n* JVD (jugular venous distension)  -  neck veins bulging\n* Ankle/leg edema (bilateral)\n* Sitting bolt upright, refusing to lie down\n\n**Think of it as:** The patient is literally drowning in their own fluid.\n\n**Treatment:** Sitting upright (never lie them down), high-flow O2, CPAP if available and in scope, rapid transport. These patients deteriorate fast."
-    },
-    {
-      heading: "Pneumothorax",
-      body: "A pneumothorax is air in the pleural space (between the lung and chest wall), causing the lung to collapse.\n\n**Simple pneumothorax**  -  Air enters the pleural space, lung partially collapses. Usually from trauma or spontaneous (tall, thin young adults).\n\n**Tension pneumothorax**  -  Air accumulates and can't escape. Builds pressure, collapses the lung completely, then pushes the mediastinum to the opposite side, compressing the other lung and the heart. Rapidly fatal.\n\n**Signs of tension pneumothorax:**\n* Absent breath sounds on affected side\n* Tracheal deviation (away from affected side  -  late sign)\n* JVD\n* Hypotension\n* Severe respiratory distress\n* Shock that doesn't respond to fluids\n\n**Treatment:** High-flow O2, rapid transport, ALS intercept for needle decompression. EMTs do not decompress tension pneumo  -  but you need to recognize it and call for ALS."
-    },
-    {
-      heading: "Differentiating Respiratory Emergencies",
-      body: "These four conditions can look similar. Here's how to tell them apart:\n\n| Condition | Key Sound | Key Sign | Clue |\n|---|---|---|---|\n| Asthma | Wheezing (exp.) | Young, known history | Inhaler present |\n| COPD | Wheezing + crackles | Older, smoker | Barrel chest |\n| Pulmonary edema | Crackles/rales | Can't lie flat | Pink frothy sputum |\n| Pneumothorax | Absent on one side | After trauma | Asymmetric chest |\n\n**Universal treatment principles for all respiratory emergencies:**\n1. Position of comfort (usually sitting upright)\n2. High-flow oxygen (except COPD  -  low flow)\n3. Reassess frequently  -  these patients can deteriorate fast\n4. Rapid transport  -  don't delay on scene\n5. ALS intercept if available and patient is critical"
-    }
-  ],
-  flashcards: [
-    { front: "What is asthma?", back: "Reversible bronchospasm  -  airways constrict from a trigger, causing wheezing and expiratory difficulty" },
-    { front: "What is status asthmaticus?", back: "A severe asthma attack that does not respond to bronchodilators  -  life threatening, requires rapid transport" },
-    { front: "What is a silent chest in an asthma patient?", back: "No wheezing heard  -  indicates almost no air is moving. Critical emergency  -  worse than wheezing" },
-    { front: "What does COPD stand for?", back: "Chronic Obstructive Pulmonary Disease  -  progressive, irreversible airway disease (emphysema and/or chronic bronchitis)" },
-    { front: "What is the target SpO2 for COPD patients?", back: "88-92%  -  avoid hyperoxia which may suppress hypoxic drive" },
-    { front: "What is pulmonary edema?", back: "Fluid in the alveoli  -  usually from left heart failure causing fluid backup into the lungs" },
-    { front: "What is the classic sign of pulmonary edema?", back: "Frothy, pink-tinged sputum, crackles/rales, orthopnea, JVD, bilateral ankle edema" },
-    { front: "What is orthopnea?", back: "Inability to breathe lying flat  -  patient insists on sitting upright. Classic sign of pulmonary edema/heart failure" },
-    { front: "What is a tension pneumothorax?", back: "Air accumulates in pleural space without escape, collapsing the lung and shifting mediastinum  -  rapidly fatal" },
-    { front: "What are the signs of tension pneumothorax?", back: "Absent breath sounds one side, tracheal deviation (away from injury), JVD, hypotension, severe distress" },
-    { front: "What sound do you hear in pulmonary edema?", back: "Crackles/rales  -  wet, crackling sounds from fluid in the alveoli" },
-    { front: "What is tracheal deviation a sign of?", back: "Tension pneumothorax  -  mediastinum shifts away from the affected (collapsed) lung. Late and serious sign." },
-    { front: "What causes emphysema?", back: "Alveolar wall breakdown from COPD  -  reduces gas exchange surface area. Causes barrel chest and pursed-lip breathing." },
-    { front: "What is JVD?", back: "Jugular venous distension  -  bulging neck veins. Sign of increased venous pressure, seen in tension pneumo and pulmonary edema" },
-    { front: "What is the key difference between asthma and COPD?", back: "Asthma is reversible bronchospasm; COPD is irreversible progressive lung damage. COPD patients have chronic baseline compromise." },
-    { front: "What position should a pulmonary edema patient be in?", back: "Sitting upright  -  never lie them down. Lying flat worsens breathing by increasing venous return to the already failing heart." },
-  ],
-  quiz: [
-    { q: "An asthmatic patient has no wheezing on auscultation despite obvious respiratory distress. This means:", options: ["They are improving  -  wheeze is gone", "Silent chest  -  critical, almost no air moving", "You need a better stethoscope", "Asthma has resolved  -  look for another cause"], answer: 1, explanation: "Silence in an asthmatic in distress is a critical sign. Wheezing requires air movement. No wheeze = no air = life threat. This patient needs immediate intervention." },
-    { q: "A 68-year-old is sitting bolt upright, sweating, cannot lie flat, has crackles in both lungs and pink frothy sputum. Most likely diagnosis:", options: ["Asthma exacerbation", "Pneumothorax", "Pulmonary edema", "COPD exacerbation"], answer: 2, explanation: "Orthopnea (can't lie flat), diaphoresis, bilateral crackles, and pink frothy sputum are classic pulmonary edema signs  -  fluid in the alveoli from left heart failure." },
-    { q: "After a stab wound to the left chest, a patient develops absent breath sounds on the left, JVD, and hypotension. You suspect:", options: ["Simple pneumothorax", "Tension pneumothorax", "Pulmonary edema", "Hemothorax"], answer: 1, explanation: "Absent breath sounds + JVD + hypotension after penetrating chest trauma = tension pneumothorax. Tracheal deviation is a late sign. This patient needs immediate ALS and transport." },
-    { q: "The appropriate oxygen target for a COPD patient in mild distress with SpO2 of 87% is:", options: ["100% via NRB  -  maximize oxygenation", "Target SpO2 88-92% via nasal cannula", "No oxygen  -  COPD patients shouldn't receive supplemental O2", "Target SpO2 94-100% like any other patient"], answer: 1, explanation: "COPD patients who are hypoxic need oxygen  -  never withhold it. But target 88-92% to avoid suppressing hypoxic drive. Use nasal cannula at 2-4 L/min and titrate." },
-    { q: "Which respiratory emergency is characterized by reversible bronchospasm?", options: ["COPD", "Pulmonary edema", "Asthma", "Pneumothorax"], answer: 2, explanation: "Asthma is reversible bronchospasm triggered by allergens, exercise, cold air, or infection. COPD is irreversible. Pulmonary edema is fluid. Pneumothorax is air outside the lung." },
-    { q: "Tracheal deviation in a trauma patient indicates:", options: ["Normal finding  -  trachea can shift", "Tension pneumothorax  -  mediastinal shift away from collapsed lung", "Simple pneumothorax", "Rib fractures"], answer: 1, explanation: "Tracheal deviation (trachea shifting toward the unaffected side) is a late sign of tension pneumothorax. Don't wait for it to act  -  treat based on earlier signs." },
-    { q: "An asthmatic patient's inhaler has not worked. You should:", options: ["Have them use the inhaler again 3 more times", "Recognize this as potentially status asthmaticus  -  high-flow O2 and rapid transport", "Apply nasal cannula and monitor", "Wait 10 minutes before reassessing"], answer: 1, explanation: "Inhaler failure suggests status asthmaticus  -  a life-threatening emergency. High-flow O2, position of comfort, assisted ventilation if inadequate, and rapid transport are priorities." },
-    { q: "The 'pink puffer' presentation is associated with:", options: ["Chronic bronchitis", "Pulmonary edema", "Emphysema", "Pneumothorax"], answer: 2, explanation: "The 'pink puffer' is classic emphysema  -  pink (maintains oxygenation longer), pursed-lip breathing, barrel chest, thin. The 'blue bloater' is chronic bronchitis  -  cyanotic and productive cough." },
-    { q: "You hear crackles in a patient's lower lung fields bilaterally. The most likely cause is:", options: ["Asthma", "Pneumothorax", "Pulmonary edema or fluid in lungs", "Upper airway obstruction"], answer: 2, explanation: "Bilateral crackles (rales) in the lower fields are classic for pulmonary edema  -  fluid in the alveoli that crackles as air tries to pass through. Unilateral absence suggests pneumothorax." },
-    { q: "EMT management of a suspected tension pneumothorax includes:", options: ["Needle decompression at the 2nd intercostal space", "High-flow O2, rapid transport, ALS intercept  -  EMTs do not decompress", "Applying an occlusive dressing to all sides", "Positioning patient on the affected side"], answer: 1, explanation: "EMTs do not perform needle decompression  -  that's a paramedic/ALS skill. Your job: recognize it, provide high-flow O2, call for ALS intercept, and transport immediately." },
-    { q: "Which position is best for a patient in respiratory distress who is conscious?", options: ["Supine with legs elevated", "Position of comfort  -  usually sitting upright", "Recovery position on their side", "Prone (face down)"], answer: 1, explanation: "Sitting upright maximizes diaphragm movement and lung expansion. Conscious patients in distress will naturally find their best position  -  don't force them supine." },
-    { q: "A patient with pulmonary edema is refusing to lie down. You should:", options: ["Insist they lie down for proper assessment", "Restrain them and lay them flat for transport", "Allow them to remain upright  -  lying flat worsens their condition", "Sedate them before moving"], answer: 2, explanation: "Lying flat increases venous return to the failing heart and worsens pulmonary edema. These patients are refusing for a physiological reason  -  honor it. Transport sitting upright." },
-    { q: "What does CPAP stand for and when is it used?", options: ["Continuous Positive Airway Pressure  -  for pulmonary edema and COPD exacerbations", "Chest Pressure Airway Protocol  -  for cardiac arrest", "Controlled Pressure Airway Position  -  for spinal injuries", "Continuous Pressure Alveolar Protocol  -  for pneumonia"], answer: 0, explanation: "CPAP (Continuous Positive Airway Pressure) delivers positive pressure to splint open alveoli. Used for pulmonary edema and COPD exacerbations. Not all EMT scopes include CPAP  -  know your protocols." },
-    { q: "A 24-year-old tall thin male develops sudden left-sided chest pain and shortness of breath after lifting weights. Most likely cause:", options: ["Asthma attack", "Spontaneous pneumothorax", "Pulmonary embolism", "COPD exacerbation"], answer: 1, explanation: "Spontaneous pneumothorax classically affects tall thin young males. No trauma required  -  the apical blebs (air pockets) rupture spontaneously, especially with exertion. Absent left breath sounds confirms it." },
-    { q: "Jugular venous distension (JVD) in a respiratory emergency indicates:", options: ["Normal venous anatomy", "Increased venous pressure  -  seen in tension pneumo and pulmonary edema", "Dehydration", "Hypertension"], answer: 1, explanation: "JVD occurs when venous pressure backs up enough to distend the jugular veins  -  seen in tension pneumothorax (mediastinal compression) and pulmonary edema/right heart failure." },
-  ]
-};
-
-// --- MODULE 1  -  AIRWAY, LESSON 6 ---------------------------------------------
-const M1L6 = {
-  moduleId: 1, id: 6,
-  title: "Airway Management in Special Situations",
-  subtitle: "Pediatric airways, trauma airways, the vomiting patient, and when things go wrong",
-  duration: "11 min",
-  dispatch: {
-    call: `"Unit 11, respond to I-95 northbound, mile marker 47  -  multi-vehicle MVC, multiple patients, one reported unresponsive, trapped."`,
-    time: "7:43 PM", eta: "6 minutes",
-    hook: "Multi-vehicle MVC, one unresponsive, trapped. Airway management at a trauma scene is completely different from a medical call. How do you manage an airway when you can't move the patient, can't see inside the mouth, and the clock is running?",
-    bridge: "The basics get you through 80% of calls. The other 20% are the ones that test you. This lesson covers the hard scenarios  -  because the hard scenarios are the ones that matter most."
-  },
-  content: [
-    {
-      heading: "Trauma Airway Management",
-      body: "Trauma changes everything about airway management:\n\n**Spinal precautions**  -  Always assume cervical spine injury in significant mechanism. Use jaw thrust, not head-tilt chin-lift. Manual cervical stabilization while managing the airway.\n\n**Blood and secretions**  -  Trauma patients bleed. Suction is not optional  -  it's constant. Have it ready and running before you need it.\n\n**Facial trauma**  -  Broken facial bones, torn soft tissue, blood, and edema can make ventilation with a mask nearly impossible. Getting a mask seal may require two people.\n\n**Helmet removal**  -  Helmets must come off to assess and manage the airway. Two-person technique: one stabilizes the head while the other removes the helmet, then the first takes over stabilization.\n\n**Log roll**  -  A vomiting trauma patient needs to be rolled to their side as a unit (log roll) to maintain spinal alignment while clearing the airway."
-    },
-    {
-      heading: "The Pediatric Airway in Emergencies",
-      body: "Pediatric airway emergencies follow the same principles but with critical differences:\n\n**Croup**  -  Viral infection causing subglottic edema. Bark-like seal cough, stridor, worse at night. Most cases are mild. Cool/humidified air can help. Position of comfort, O2 if tolerated.\n\n**Epiglottitis**  -  Bacterial infection causing severe epiglottic swelling. Fever, drooling, tripod position, muffled 'hot potato' voice, refusal to swallow. DO NOT examine the throat  -  can cause complete obstruction. Calm, rapid transport, O2 gently.\n\n**Foreign body obstruction**  -  Children put things in their mouths. Complete obstruction: silent, unable to cry, cyanotic -> back blows and chest thrusts (infant) or abdominal thrusts (child >1 year). Partial obstruction with effective cough: encourage coughing, don't interfere.\n\n**Key rule:** A crying child has a patent airway. A silent child with distress does not."
-    },
-    {
-      heading: "The Actively Vomiting Patient",
-      body: "Aspiration of vomit is a leading cause of preventable airway deaths. Here's how to manage it:\n\n**Immediate actions:**\n1. Roll to lateral (recovery) position  -  if spinal injury suspected, log roll as a unit\n2. Suction  -  Yankauer, continuously if needed\n3. Do NOT attempt to insert an OPA until vomiting stops and airway is clear\n\n**Sellick's maneuver (cricoid pressure)**  -  Pressure on the cricoid cartilage during BVM ventilation compresses the esophagus against the spine, reducing gastric insufflation and regurgitation risk. Still used in some systems  -  know your protocols.\n\n**If they aspirate:** Suction, high-flow O2, BVM if breathing is compromised, rapid transport. Document exactly what happened and when."
-    },
-    {
-      heading: "When BVM Ventilation Fails",
-      body: "BVM failure is more common than you think. Signs: poor chest rise despite correct technique, rising gastric distension, SpO2 not improving.\n\n**Troubleshoot with DOPE:**\n* **D**islodgement  -  Is your mask seal broken? Has an OPA shifted?\n* **O**bstruction  -  Is there something in the airway? Suction?\n* **P**neumothorax  -  Is air escaping into the pleural space?\n* **E**quipment  -  Is your oxygen flowing? Is the BVM intact?\n\n**If seal is the problem:** Switch to two-person BVM technique\n**If obstruction:** Suction, reposition, reassess\n**If you truly can't ventilate:** Consider alternative positioning, consider calling for ALS, maximize efforts and transport immediately\n\nDocumentation of airway difficulties is critical  -  the hospital needs to know."
-    },
-    {
-      heading: "Documenting Airway Management",
-      body: "Your airway documentation protects the patient and protects you.\n\n**Always document:**\n* Initial airway assessment findings\n* What interventions were performed and in what order\n* Patient response to each intervention\n* SpO2 before and after interventions\n* Any difficulties encountered\n* Time of each intervention\n\n**Handoff report (SBAR or your system's format):**\n* Situation  -  Why you were called\n* Background  -  Relevant history\n* Assessment  -  What you found\n* Recommendation  -  What you did and what you recommend next\n\nIf airway management was difficult or unsuccessful, say so clearly in your handoff. The receiving team needs to prepare. Never minimize or omit airway problems in documentation."
-    }
-  ],
-  flashcards: [
-    { front: "Why do you use jaw thrust instead of head-tilt chin-lift in trauma?", back: "Suspected cervical spine injury  -  jaw thrust opens airway without moving the neck" },
-    { front: "What is croup?", back: "Viral infection causing subglottic edema  -  bark-like seal cough, stridor, worse at night" },
-    { front: "What is epiglottitis and why is it dangerous?", back: "Bacterial infection causing severe epiglottic swelling  -  can cause complete airway obstruction. Do NOT examine the throat." },
-    { front: "How do you recognize complete airway obstruction in an infant?", back: "Silent, cannot cry, cyanotic  -  perform back blows and chest thrusts immediately" },
-    { front: "What is the DOPE mnemonic for BVM failure?", back: "Dislodgement, Obstruction, Pneumothorax, Equipment  -  troubleshoot BVM failure in this order" },
-    { front: "What is Sellick's maneuver?", back: "Cricoid pressure during BVM ventilation  -  compresses esophagus to reduce gastric insufflation and regurgitation risk" },
-    { front: "How do you manage a vomiting trauma patient's airway?", back: "Log roll as a unit (maintain spinal alignment), suction continuously, do not insert OPA until airway is clear" },
-    { front: "What is the 'hot potato voice' a sign of?", back: "Epiglottitis  -  muffled voice from epiglottic swelling. Do not examine the throat." },
-    { front: "How is helmet removal performed?", back: "Two-person technique: one stabilizes the head, one removes the helmet, first rescuer takes over stabilization" },
-    { front: "What does a crying child tell you about their airway?", back: "A crying child has a patent airway  -  cry requires air movement. Silence in a distressed child is more dangerous." },
-    { front: "What is the two-person BVM technique?", back: "One provider holds mask with both hands (both thumbs on top), second provider squeezes the bag  -  better seal" },
-    { front: "What should you NEVER do with a child suspected of having epiglottitis?", back: "Never examine the throat  -  stimulation can cause complete laryngospasm and obstruction. Calm transport, O2 gently." },
-    { front: "What is a partial vs complete airway obstruction?", back: "Partial: effective cough, some air movement  -  encourage coughing. Complete: no sound, no cough, cyanosis  -  intervene immediately." },
-    { front: "What does SBAR stand for in handoff reporting?", back: "Situation, Background, Assessment, Recommendation  -  structured handoff format" },
-    { front: "Name 3 things that make trauma airway management harder than medical", back: "Spinal precautions (no head tilt), blood/secretions requiring constant suction, facial trauma making mask seal difficult" },
-    { front: "Where does epiglottitis classically present in children?", back: "High fever, drooling, tripod positioning, stridor, refusal to swallow, muffled voice  -  rapid progression to obstruction" },
-  ],
-  quiz: [
-    { q: "A trauma patient is vomiting. With suspected spinal injury, you should:", options: ["Suction while keeping patient supine", "Log roll as a unit to the lateral position and suction", "Insert an OPA immediately to protect the airway", "Apply cricoid pressure and continue suctioning"], answer: 1, explanation: "Suspected spinal injury means you maintain spinal alignment during all movements. Log roll the patient as a unit  -  everyone moves together  -  to the lateral position so vomit drains out." },
-    { q: "A 2-year-old has a barking seal cough and stridor that is worse at night. Most likely diagnosis:", options: ["Epiglottitis", "Foreign body obstruction", "Croup", "Asthma"], answer: 2, explanation: "Classic croup presentation: viral, barking seal cough, stridor, worse at night, usually 6 months-3 years. Cool humidified air can help. Position of comfort, O2 if tolerated." },
-    { q: "A 4-year-old has high fever, is drooling, sitting in tripod position, and has a muffled voice. You suspect epiglottitis. You should:", options: ["Examine the throat with a tongue depressor to confirm", "Have the parent hold the child, apply O2 gently, calm rapid transport  -  do not examine throat", "Insert an OPA immediately", "Lay them flat for assessment"], answer: 1, explanation: "NEVER examine the throat in suspected epiglottitis  -  direct laryngoscopy or even a tongue depressor can trigger complete laryngospasm. Keep the child calm, O2 gently if tolerated, rapid transport." },
-    { q: "You're ventilating with a BVM but the abdomen is rising more than the chest. Using DOPE, your first step is:", options: ["Check for pneumothorax", "Recheck mask seal and airway positioning (Dislodgement)", "Check your oxygen equipment", "Look for airway obstruction"], answer: 1, explanation: "DOPE starts with Dislodgement  -  is your mask seal broken? Is the head position optimal? Is the OPA in place? Mask seal issues are the most common BVM failure cause." },
-    { q: "In trauma, the preferred airway maneuver to avoid cervical spine movement is:", options: ["Head-tilt chin-lift", "Jaw thrust", "Neck extension", "Sniffing position"], answer: 1, explanation: "Jaw thrust opens the airway by moving the mandible forward without extending the neck  -  essential when cervical spine injury is suspected." },
-    { q: "A 10-month-old has a sudden onset of choking and is now silent, cyanotic, and cannot cry. You should:", options: ["Attempt finger sweep to remove the object", "Back blows and chest thrusts", "Abdominal thrusts (Heimlich)", "Immediate BVM ventilation"], answer: 1, explanation: "For infants under 1 year with complete obstruction: 5 back blows and 5 chest thrusts. Abdominal thrusts (Heimlich) are for children over 1 year. Finger sweeps only if you can SEE the object." },
-    { q: "Why does facial trauma make BVM ventilation difficult?", options: ["Broken bones can puncture the BVM", "Facial anatomy changes make mask seal nearly impossible", "Trauma patients should not receive positive pressure", "You need a different size mask for trauma"], answer: 1, explanation: "Fractured facial bones, torn tissue, swelling, and blood make achieving an airtight mask seal extremely difficult. Two-person technique and sometimes alternative airways become necessary." },
-    { q: "The DOPE mnemonic stands for:", options: ["Dislodgement, Obstruction, Pneumothorax, Equipment", "Delivery, Oxygen, Pressure, Esophagus", "Depth, Output, Position, Entry", "Drainage, Obstruction, Perfusion, Edema"], answer: 0, explanation: "DOPE = Dislodgement, Obstruction, Pneumothorax, Equipment. Use this systematic check when BVM ventilation is not producing adequate chest rise." },
-    { q: "Documenting that airway management was difficult is important because:", options: ["It protects you legally but has no clinical value", "The receiving team needs to prepare for a potentially difficult airway", "You only document successful interventions", "Difficulty documentation is optional"], answer: 1, explanation: "If the airway was difficult or interventions failed, the hospital must know. They may need to prepare advanced airway equipment, call anesthesia, or activate a difficult airway protocol." },
-    { q: "A child with partial airway obstruction is coughing forcefully. You should:", options: ["Immediately perform abdominal thrusts", "Encourage coughing  -  an effective cough is the best way to clear a partial obstruction", "Insert fingers to sweep the throat", "Begin back blows"], answer: 1, explanation: "A forceful cough generates more airway pressure than any manual technique. If the child is moving air and coughing effectively, let them work  -  intervene only if the cough becomes ineffective or the child deteriorates." },
-    { q: "What is the purpose of Sellick's maneuver (cricoid pressure)?", options: ["Opens the glottis for easier intubation", "Compresses the esophagus to reduce gastric insufflation and regurgitation risk during BVM", "Stabilizes the cervical spine during airway management", "Prevents laryngospasm during suctioning"], answer: 1, explanation: "Sellick's maneuver applies downward pressure on the cricoid cartilage, compressing the esophagus against the vertebral bodies. This reduces the risk of regurgitation and gastric inflation during BVM ventilation." },
-    { q: "Helmet removal at a trauma scene requires:", options: ["One person removing the helmet quickly", "Two-person technique maintaining cervical stabilization throughout", "Cutting the helmet off with trauma shears", "Leaving the helmet on until the hospital removes it"], answer: 1, explanation: "Helmet removal requires two people: one maintains inline cervical stabilization above while the other removes the helmet, then the first rescuer repositions to continue stabilization. The head never loses support." },
-    { q: "An unconscious trauma patient with significant facial injuries needs BVM ventilation. Your BEST option is:", options: ["One-person BVM with standard EC clamp", "Two-person BVM  -  one holds seal with both hands, one squeezes", "Nasal cannula at 6 L/min", "Delay ventilation until ALS arrives"], answer: 1, explanation: "Facial trauma makes mask seal extremely difficult. Two-person BVM dramatically improves seal quality  -  critical when normal anatomy is disrupted." },
-    { q: "A crying child arrives by private car with respiratory distress. The crying tells you:", options: ["The child is in extreme distress  -  immediate intervention needed", "The airway is patent  -  air is moving well enough to cry", "The child is faking  -  reduce urgency", "The child needs sedation before assessment"], answer: 1, explanation: "Crying requires air movement through the airway and vocal cords. A crying child has a functioning, open airway. Silence in a distressed child  -  especially sudden silence  -  is the alarming finding." },
-    { q: "After managing a difficult airway, your handoff should include:", options: ["Only the final outcome  -  what worked", "What interventions were tried, what worked, what didn't, and the timeline", "No airway details  -  the hospital will assess on arrival", "Only the patient's chief complaint and vitals"], answer: 1, explanation: "A complete airway handoff includes what you found, what you tried, what worked, what didn't, and when. This allows the receiving team to prepare appropriately and continues the chain of care." },
-  ]
-};
-
-// --- MODULE 1  -  AIRWAY, LESSON 7  -  MODULE QUIZ -------------------------------
-const M1L7 = {
-  moduleId: 1, id: 7,
-  title: "Airway Module Quiz",
-  subtitle: "Cumulative assessment  -  everything from Module 1: Airway",
-  duration: "15 min",
-  dispatch: {
-    call: `"All units, Module 1 Assessment. You will be tested on respiratory anatomy, patient assessment, airway adjuncts, oxygen delivery, respiratory emergencies, and special situation airway management."`,
-    time: "NOW", eta: "Your call",
-    hook: "Seven lessons. Everything in Airway. Time to find out what stuck  -  and what needs another pass.",
-    bridge: "This quiz pulls from all seven Airway lessons. Ten questions, randomly selected. Use the AI Tutor after to work through anything that trips you up."
-  },
-  content: [
-    {
-      heading: "What This Quiz Covers",
-      body: "This module quiz covers all of Module 1  -  Airway:\n\n* **Lesson 1**  -  Respiratory anatomy (upper/lower airway, gas exchange, pediatric differences, airway sounds)\n* **Lesson 2**  -  Patient assessment (look/listen/feel, respiratory rate, SpO2, adequate vs inadequate breathing)\n* **Lesson 3**  -  Airway adjuncts (OPA, NPA, suction, BVM technique)\n* **Lesson 4**  -  Oxygen delivery (FiO2, devices, flow rates, COPD caveat)\n* **Lesson 5**  -  Respiratory emergencies (asthma, COPD, pulmonary edema, pneumothorax)\n* **Lesson 6**  -  Special situations (trauma, pediatric, vomiting patient, DOPE)\n\nYou'll get 10 questions drawn randomly from across all lessons."
-    }
-  ],
-  flashcards: [
-    { front: "Where does gas exchange occur?", back: "Alveoli  -  300 million tiny air sacs where O2 crosses into capillaries and CO2 crosses out" },
-    { front: "Normal adult respiratory rate?", back: "12-20 breaths per minute" },
-    { front: "When is jaw thrust used instead of head-tilt chin-lift?", back: "Suspected cervical spine injury  -  jaw thrust opens airway without moving the neck" },
-    { front: "What is the OPA contraindication?", back: "Gag reflex  -  will trigger vomiting" },
-    { front: "NRB mask flow rate and FiO2?", back: "10-15 L/min delivering 60-90% FiO2 with reservoir inflated" },
-    { front: "Silent chest in asthma means:", back: "Critical  -  almost no air is moving. Worse than wheezing." },
-    { front: "Classic signs of pulmonary edema?", back: "Orthopnea, crackles/rales, pink frothy sputum, JVD, bilateral edema, diaphoresis" },
-    { front: "DOPE mnemonic?", back: "Dislodgement, Obstruction, Pneumothorax, Equipment  -  BVM failure troubleshooting" },
-    { front: "SpO2 target for COPD?", back: "88-92%  -  avoid hyperoxia" },
-    { front: "Signs of tension pneumothorax?", back: "Absent breath sounds one side, JVD, hypotension, tracheal deviation (late), severe distress" },
-    { front: "Adult BVM ventilation rate?", back: "1 breath every 5-6 seconds (10-12/min)" },
-    { front: "Croup vs epiglottitis key difference?", back: "Croup: viral, barking cough, treat with comfort. Epiglottitis: bacterial, drooling, DO NOT examine throat." },
-    { front: "What does stridor indicate?", back: "Partial upper airway obstruction near the larynx  -  high-pitched sound on inhalation" },
-    { front: "CO poisoning and SpO2?", back: "SpO2 reads falsely normal  -  always treat CO with high-flow O2 regardless of reading" },
-    { front: "Infant complete obstruction treatment?", back: "5 back blows + 5 chest thrusts (not abdominal thrusts  -  for infants under 1 year)" },
-  ],
-  quiz: [
-    { q: "Gas exchange  -  oxygen entering the bloodstream and CO2 leaving  -  occurs at the:", options: ["Trachea", "Bronchi", "Alveoli", "Larynx"], answer: 2, explanation: "Gas exchange happens at the alveoli  -  300 million tiny air sacs in the lungs with walls thin enough for gases to diffuse across." },
-    { q: "A patient has stridor on inhalation after eating. This indicates:", options: ["Lower airway bronchospasm", "Partial upper airway obstruction  -  possible foreign body", "Normal breathing sounds", "Pulmonary edema"], answer: 1, explanation: "Stridor is a high-pitched inspiratory sound from partial upper airway obstruction  -  near the larynx. After eating suggests possible foreign body. Also consider allergic swelling." },
-    { q: "SpO2 reads 99% in a patient you suspect has carbon monoxide poisoning. You should:", options: ["Reassure them  -  SpO2 is normal", "Apply nasal cannula at 2 L/min", "Apply NRB at 15 L/min  -  CO poisoning treatment regardless of SpO2", "Monitor and reassess in 5 minutes"], answer: 2, explanation: "CO binds hemoglobin identically to oxygen  -  pulse ox cannot distinguish. SpO2 in CO poisoning is meaningless. Always apply high-flow O2 based on the mechanism." },
-    { q: "You attempt to insert an OPA and the patient gags. You should:", options: ["Use a smaller size and try again", "Remove the OPA  -  gag reflex is a contraindication", "Push through quickly", "Try inserting without rotating"], answer: 1, explanation: "A gag reflex is an absolute contraindication to OPA. Remove it immediately. Consider NPA, which is better tolerated in conscious patients." },
-    { q: "A 68-year-old COPD patient is in moderate respiratory distress with SpO2 86%. Your oxygen target is:", options: ["100% via NRB", "94-100% like any other patient", "88-92% via low-flow nasal cannula", "No oxygen  -  COPD patients shouldn't get supplemental O2"], answer: 2, explanation: "COPD patients who are hypoxic (SpO2 <88%) need oxygen  -  never withhold it. Target 88-92% to avoid suppressing hypoxic drive." },
-    { q: "After trauma, a patient has absent breath sounds on the right, JVD, and is hypotensive. You suspect:", options: ["Pulmonary edema", "Tension pneumothorax", "Hemothorax", "Simple pneumothorax"], answer: 1, explanation: "Absent unilateral breath sounds + JVD + hypotension after trauma = tension pneumothorax. Call ALS, high-flow O2, immediate transport  -  this is rapidly fatal." },
-    { q: "A child has a barking cough, stridor, and low-grade fever that is worse at night. Most likely:", options: ["Epiglottitis", "Asthma", "Croup", "Foreign body obstruction"], answer: 2, explanation: "Croup: viral, barking seal cough, stridor, low/no fever, worse at night, 6 months-3 years. Epiglottitis has high fever, drooling, and no barking cough." },
-    { q: "BVM ventilation isn't producing chest rise. Using DOPE, you first check:", options: ["For pneumothorax", "Oxygen equipment", "Mask seal and airway positioning (Dislodgement)", "Airway obstruction"], answer: 2, explanation: "DOPE starts with Dislodgement  -  check mask seal and head/airway positioning first. Most BVM failures are seal problems." },
-    { q: "Classic pulmonary edema presentation includes all EXCEPT:", options: ["Orthopnea (can't lie flat)", "Pink frothy sputum", "Bilateral crackles", "Expiratory wheezing"], answer: 3, explanation: "Pulmonary edema presents with orthopnea, pink frothy sputum, crackles/rales (not wheeze). Wheezing suggests bronchospasm (asthma/COPD). Crackles are from fluid in alveoli." },
-    { q: "The correct ventilation rate for an adult with a BVM is:", options: ["1 breath every 2-3 seconds", "1 breath every 5-6 seconds", "1 breath every 10 seconds", "As fast as you can"], answer: 1, explanation: "1 breath every 5-6 seconds = 10-12/min for adults. Over-ventilation is dangerous  -  causes gastric distension and reduces cardiac output." },
-    { q: "A patient in respiratory distress spontaneously assumes a tripod position. You should:", options: ["Force them supine for assessment", "Allow them to remain upright  -  tripod maximizes breathing", "Apply a cervical collar", "Begin CPR"], answer: 1, explanation: "Tripod position is physiologically beneficial  -  patients assume it because it maximizes diaphragm movement. Honor it. Transport upright." },
-    { q: "An infant under 1 year has complete airway obstruction. The correct intervention is:", options: ["Abdominal thrusts (Heimlich)", "Back blows and chest thrusts", "Finger sweep regardless", "Immediate BVM ventilation"], answer: 1, explanation: "Infants under 1 year: 5 back blows + 5 chest thrusts. Abdominal thrusts (Heimlich) are for children over 1 year and adults. Finger sweeps only if you can SEE the object." },
-    { q: "The NPA is preferred over the OPA when:", options: ["The patient is completely unconscious", "The patient has a gag reflex or clenched teeth", "The patient has a suspected skull fracture", "The patient is a child under 5"], answer: 1, explanation: "NPA is preferred when the patient has a gag reflex, clenched jaw, or altered consciousness  -  it's inserted nasally, doesn't require opening the mouth, and is better tolerated." },
-    { q: "Wheezing on exhalation is most associated with:", options: ["Upper airway obstruction", "Pulmonary edema", "Bronchospasm (asthma/COPD)", "Pneumothorax"], answer: 2, explanation: "Expiratory wheeze = bronchospasm in the lower airways (asthma, COPD, anaphylaxis). Upper airway obstruction causes stridor (inspiratory). Pulmonary edema causes crackles." },
-    { q: "The reservoir bag on an NRB mask must be inflated before application because:", options: ["An empty bag deflects exhaled air", "An uninflated bag delivers mostly room air, not high-concentration oxygen", "The one-way valve won't open without pressure", "It provides a larger breathing space"], answer: 1, explanation: "The reservoir accumulates oxygen between breaths. An empty bag means the patient inhales through the valve into room air (21% O2). Always inflate the reservoir first by occluding the one-way valve." },
-    { q: "Documenting a difficult airway encounter is important because:", options: ["Only successful interventions need documentation", "The receiving team needs to prepare and the record protects everyone", "It's optional in emergencies", "Airway findings are assessed fresh at the hospital"], answer: 1, explanation: "Complete documentation of airway difficulties allows the receiving team to prepare (advanced airway equipment, anesthesia backup). It also protects you legally and ensures continuity of care." },
-    { q: "Why is SpO2 unreliable with dark nail polish?", back: "Dark polish blocks the light sensor, giving inaccurate or absent readings  -  use an alternate site", options: ["The polish reflects light and gives high readings", "Dark polish blocks the sensor, causing inaccurate results  -  use an alternate site", "Nail polish has no effect on SpO2", "Only red polish affects the reading"], answer: 1, explanation: "Pulse oximetry uses light transmission through tissue. Dark nail polish absorbs or blocks the light, making the reading unreliable. Remove polish or clip to earlobe." },
-    { q: "A trauma patient with facial injuries needs BVM ventilation. The BEST technique is:", options: ["Standard one-person EC clamp", "Two-person BVM for better mask seal", "Nasal cannula  -  avoid positive pressure in trauma", "Wait for ALS intubation"], answer: 1, explanation: "Facial trauma disrupts normal anatomy, making one-person mask seal very difficult. Two-person BVM (one holds seal with both hands, one squeezes) dramatically improves ventilation effectiveness." },
-    { q: "Frothy pink-tinged sputum in a patient with respiratory distress indicates:", options: ["Active bleeding from the airway", "Pulmonary edema  -  fluid mixing with air in the alveoli", "Normal secretions during distress", "Asthma with mucus production"], answer: 1, explanation: "Pink frothy sputum is classic pulmonary edema  -  fluid from the capillaries leaks into alveoli and mixes with air to create pink foam. It's one of the most specific signs of flash pulmonary edema." },
-    { q: "The primary difference between a simple and tension pneumothorax is:", options: ["Size of the air collection", "Tension pneumo accumulates air with no escape, causing mediastinal shift and cardiovascular compromise", "Simple pneumo requires surgery, tension does not", "They are treated identically in the field"], answer: 1, explanation: "Simple pneumo: air in pleural space, lung partially collapses. Tension: air accumulates, can't escape  -  builds pressure, collapses lung completely, shifts mediastinum, compresses heart. Tension is rapidly fatal." },
-  ]
-};
-
-// --- MODULE 2  -  CARDIOLOGY ---------------------------------------------------
-
-// M2L1 + M2L2 patch
 const M2L1 = {
   moduleId: 2, id: 1,
   title: "Heart Anatomy & the Cardiac Cycle",
@@ -972,7 +1109,7 @@ const M2L1 = {
     source: "Khan Academy",
     duration: "9 min video"
   },
-  model3d: { sketchfabId: "a3f0ea2030214a6bbaa97e7357eebd58", caption: "Cardiac anatomy - external view with coronary arteries (University of Dundee)", credit: "Hannah Newey, University of Dundee", license: "CC BY-NC-SA" },
+  model3d: { sketchfabId: "a3f0ea2030214a6bbaa97e7357eebd58", caption: "Cardiac anatomy - external view with coronary arteries (University of Dundee)" },
   dispatch: {
     call: `"Unit 7, respond to 883 Birchwood Court  -  61-year-old male, sudden onset chest pain radiating to the left arm, diaphoretic, nauseous."`,
     time: "10:44 AM", eta: "5 minutes",
@@ -1034,8 +1171,6 @@ const M2L2 = {
     hook: "Pressure chest pain in a 54-year-old woman during exertion. Textbook presentation  -  but women often present differently. What are you looking for?",
     bridge: "Chest pain is one of the most common EMS calls and most dangerous to miss. Your assessment sets everything in motion  -  hospital preparation, cath lab activation, patient outcome."
   },
-  video: { youtubeId: 'kO8-RPIkuLE', caption: 'Heart attack diagnosis and ECG', source: 'Khan Academy', duration: '7 min' },
-    model3d: { sketchfabId: 'f5fa1e719f3d4f28a7c31728a86a9b42', caption: 'Human heart - chambers, valves and coronary anatomy', credit: '3D EduTex (@Yasama) on Sketchfab', license: 'CC BY 4.0' },
   content: [
     { heading: "OPQRST: Your Assessment Tool", body: "Every chest pain assessment follows OPQRST:\n\n* **O  -  Onset:** What were you doing when it started? Exertional onset is more concerning.\n* **P  -  Provocation/Palliation:** What makes it better or worse? Does rest or nitroglycerin help?\n* **Q  -  Quality:** Classic cardiac: pressure, squeezing, heaviness, tightness. Sharp stabbing pain that changes with breathing is less likely cardiac.\n* **R  -  Radiation:** Classic cardiac radiates to left arm, jaw, neck, or back.\n* **S  -  Severity:** 0-10 scale. Don't anchor on the number  -  a 4/10 can be a massive MI.\n* **T  -  Time:** How long? Prior episodes?" },
     { heading: "Classic vs Atypical Presentations", body: "**Classic ACS (more common in men):**\n* Crushing, pressure chest pain\n* Left arm or jaw radiation\n* Diaphoresis, nausea, shortness of breath\n\n**Atypical (more common in women, diabetics, elderly):**\n* Epigastric pain or indigestion\n* Jaw or neck pain without chest pain\n* Nausea and vomiting only\n* Fatigue, weakness, lightheadedness\n* Silent MI  -  no pain at all\n\nWomen are twice as likely to have atypical presentations. Never dismiss chest-equivalent symptoms in high-risk patients." },
@@ -1092,8 +1227,6 @@ const M2L3 = {
     hook: "45 minutes of crushing pressure not relieved by rest. Heart muscle has been dying for 45 minutes. What are the next 10 minutes going to look like?",
     bridge: "ACS is the umbrella for everything from angina to massive heart attack. Understanding the spectrum determines your treatment."
   },
-  video: { youtubeId: 'T_b9U5gn_Zk', caption: 'Heart attack (myocardial infarction) pathophysiology', source: 'Khan Academy', duration: '8 min' },
-    model3d: { sketchfabId: 'f5fa1e719f3d4f28a7c31728a86a9b42', caption: 'Human heart - coronary arteries and ACS territory', credit: '3D EduTex (@Yasama) on Sketchfab', license: 'CC BY 4.0' },
   content: [
     { heading: "The ACS Spectrum", body: "* **Stable angina**  -  Predictable with exertion, relieved by rest/nitro <15 min. Warning sign, not emergency.\n* **Unstable angina**  -  At rest, new onset, or worsening. Plaque becoming unstable. Emergency.\n* **NSTEMI**  -  Partial blockage, elevated troponin, no ST elevation. Serious.\n* **STEMI**  -  Complete sudden blockage. ST elevation on ECG. Maximum damage occurring now. Every minute counts." },
     { heading: "Plaque Rupture", body: "1. Atherosclerosis  -  fatty plaque builds in coronary arteries over years\n2. Plaque rupture  -  fibrous cap tears\n3. Platelet aggregation  -  clot forms\n4. Partial blockage -> unstable angina/NSTEMI\n5. Complete blockage -> STEMI\n\nThis is why aspirin works  -  inhibits platelet aggregation.\n\nHeart muscle begins dying within 20-40 min of complete occlusion. After 6 hours most damage is done." },
@@ -1150,8 +1283,6 @@ const M2L4 = {
     hook: "Witnessed arrest. Bystander CPR already going. That bystander just doubled his survival odds. When you walk in, what are the next 2 minutes going to look like?",
     bridge: "Cardiac arrest is the ultimate emergency. Scene management, team dynamics, high-quality CPR, rhythm analysis, defibrillation  -  get this right and people survive."
   },
-  video: { youtubeId: '_HXl3mu1IoM', caption: 'PEA and asystole - non-shockable rhythms', source: 'Khan Academy', duration: '7 min' },
-    model3d: { sketchfabId: 'f5fa1e719f3d4f28a7c31728a86a9b42', caption: 'Human heart - cardiac cycle and electrical pathways', credit: '3D EduTex (@Yasama) on Sketchfab', license: 'CC BY 4.0' },
   content: [
     { heading: "The Chain of Survival", body: "Survival depends on every link:\n\n1. **Early recognition and activation**  -  Call 911. Every minute without CPR = 7-10% decrease in survival.\n2. **Early CPR**  -  Bystander CPR doubles or triples survival. Maintains perfusion until defibrillator arrives.\n3. **Early defibrillation**  -  Only thing that fixes VF/pVT. AED within 3-5 min = 50-70% survival.\n4. **Advanced life support**  -  Medications, advanced airways (paramedic)\n5. **Post-cardiac arrest care**  -  ICU, targeted temperature management, cath lab\n\nYour job covers links 1-3 decisively." },
     { heading: "High-Quality CPR", body: "CPR quality determines outcomes. Substandard CPR kills people who would have survived.\n\n**Rate:** 100-120 compressions per minute\n**Depth:** At least 2 inches (5 cm), no more than 2.4 inches\n**Ratio:** 30 compressions : 2 breaths (basic airway)\n**After advanced airway:** Continuous compressions, 1 breath every 6 seconds\n**Minimize interruptions:** No pause >10 seconds\n**Full chest recoil:** Don't lean  -  prevents venous return\n**Rotate compressors:** Every 2 minutes  -  fatigue degrades quality within 2 min" },
@@ -1208,7 +1339,6 @@ const M2L5 = {
     hook: "Palpitations, near-syncope, known AFib. Her heart is misfiring. Too fast, too slow, or chaotically  -  and does it matter for what you do right now?",
     bridge: "You don't need to read an ECG to manage most arrhythmias. Stable or unstable? What's the rate? Is it perfusing? That's it."
   },
-  video: { youtubeId: '0FufW_MZMa4', caption: 'Atrial fibrillation (AFib)', source: 'Khan Academy', duration: '9 min' },
   content: [
     { heading: "Stable vs Unstable Framework", body: "**Stable arrhythmia**  -  Abnormal rhythm but adequate perfusion:\n* Alert and oriented\n* Blood pressure maintained\n* Mild or no chest pain\n* No pulmonary edema\n-> Transport, O2 if needed, IV access, monitor\n\n**Unstable arrhythmia**  -  Rhythm causing hemodynamic compromise:\n* Altered mental status\n* Hypotension (SBP <90)\n* Chest pain\n* Shock signs or pulmonary edema\n-> Rapid transport, ALS intercept  -  needs cardioversion or pacing" },
     { heading: "Tachyarrhythmias", body: "**Sinus tachycardia**  -  Fast but normal rhythm. Response to something (pain, fever, hypovolemia). Treat the cause.\n\n**Atrial fibrillation (AFib)**  -  Chaotic atrial activity. Irregularly irregular. Palpitations, lightheadedness. Stroke risk from clot formation. Most common significant arrhythmia.\n\n**SVT (Supraventricular Tachycardia)**  -  Fast, narrow, regular (150-250/min). Abrupt onset. Vagal maneuvers may terminate it.\n\n**Ventricular Tachycardia (VT)**  -  Fast, wide-complex. Can have pulse (unstable) or no pulse (cardiac arrest  -  shock). Wide complex + unstable = treat as VT." },
@@ -1386,7 +1516,6 @@ const M3L1 = {
     hook: "Two cars. One ejected. Highway speed. You have six minutes before you're on scene. What are you already thinking about?",
     bridge: "Trauma is the leading cause of death for Americans under 45. Most of those deaths are preventable. The difference between preventable and prevented is how fast you think, how well you assess, and how quickly you get the right patient to the right hospital. It starts before you arrive."
   },
-    video: { youtubeId: 'koanqOKIIB0', caption: 'Trauma assessment and mechanism of injury overview', source: 'San Diego Miramar EMT Program', duration: '8 min' },
   content: [
     { heading: "Mechanism of Injury: Your Early Warning System", body: "Mechanism of injury (MOI) is how energy was transferred to the body. It tells you what injuries to expect before you even touch the patient.\n\nTwo types:\n* **Blunt trauma**  -  Energy transferred through impact without penetration. MVAs, falls, assaults. Organs compress, shear, and rupture.\n* **Penetrating trauma**  -  Object breaches the skin. Stab wounds, gunshots, impaled objects.\n\nMOI matters because injuries hide. Internal bleeding doesn't show up on skin. A spine fracture can look like nothing from the outside. MOI is your index of suspicion before physical findings confirm it." },
     { heading: "Kinetic Energy: The Physics of Injury", body: "Injury severity depends on kinetic energy: **KE = 1/2 x mass x velocity squared**\n\nVelocity matters more than mass. Double the speed = four times the energy. This is why:\n* A car at 60 mph causes far worse injuries than the same car at 30 mph\n* High-velocity rifle rounds cause massive tissue cavitation vs handguns\n* Falls: each additional floor dramatically increases injury severity\n\n**Deceleration injuries:** When a body stops suddenly, organs keep moving. The aorta tears at attachment points. The brain rebounds inside the skull. Always think: what was moving, and what stopped it suddenly?" },
@@ -1441,7 +1570,6 @@ const M3L2 = {
     hook: "Partial amputation. Coworkers pressing on it. Arterial bleeding can kill in 3 minutes. What goes on that arm the moment you arrive?",
     bridge: "Hemorrhage is the number one preventable cause of traumatic death. Most of these deaths happen in the field, before the hospital. You have the tools to stop them. The question is whether you know when and how to use them."
   },
-  video: { youtubeId: 'SffnpNxGWb8', caption: 'How bleeding stops - hemostasis', source: 'Khan Academy', duration: '8 min' },
   content: [
     { heading: "Why Bleeding Kills: The Physiology", body: "The adult body has approximately 5-6 liters of blood. Hemorrhagic shock begins when blood loss exceeds about 750 mL (15% of volume).\n\n**Classes of hemorrhage:**\n* **Class I**  -  <750 mL (up to 15%): minimal symptoms, HR may rise slightly\n* **Class II**  -  750-1500 mL (15-30%): tachycardia, anxiety, skin changes begin\n* **Class III**  -  1500-2000 mL (30-40%): hypotension, marked tachycardia, confusion\n* **Class IV**  -  >2000 mL (>40%): life-threatening, obtunded, extreme tachycardia\n\nThe body compensates with tachycardia and vasoconstriction. By the time BP drops, significant blood has already been lost." },
     { heading: "Types of External Bleeding", body: "Identify what you're dealing with:\n\n* **Arterial**  -  Bright red, spurting with each heartbeat. High pressure. Most dangerous. Tourniquet territory.\n* **Venous**  -  Dark red, steady flow. Easier to control with direct pressure.\n* **Capillary**  -  Oozing, slow. Controlled with basic wound care.\n\n**The partial amputation in your call:** Arterial and venous both. The spurting is the arterial component  -  that needs tourniquet, not pressure alone. Direct pressure on a partial amputation with arterial involvement buys seconds, not minutes." },
@@ -1543,7 +1671,7 @@ const M3L3 = {
 const M3L4 = {
   moduleId: 3, id: 4,
   title: "Head & Spine Trauma",
-  model3d: { sketchfabId: "bcd9eee09ce044ef98a69c315aa792e2", caption: "Human spine and vertebral column - all regions", credit: '@scratchi on Sketchfab', license: 'CC BY 4.0' },
+  model3d: { sketchfabId: "f3fc9a98d9d942cab8e9ab6ff67ec4e3", caption: "Human spine and vertebral column - cervical anatomy" },
   subtitle: "TBI, spinal injuries, assessment, immobilization, and the decisions that protect the cord",
   duration: "12 min",
   dispatch: {
@@ -1606,7 +1734,6 @@ const M3L5 = {
     hook: "Multiple blows to the chest. Respiratory distress. No obvious bleeding. The damage is inside  -  and if it's what you think it might be, it gets worse every breath he takes.",
     bridge: "The chest contains the heart, great vessels, and both lungs. Trauma to this cavity can kill without a drop of visible blood. An air leak, a blood collection, or a fractured chest wall can be just as lethal as the worst hemorrhage you'll see."
   },
-  video: { youtubeId: 'Bt0axpDlTd8', caption: 'Pneumothorax - causes and treatment', source: 'Osmosis', duration: '7 min' },
   content: [
     { heading: "The Chest Cavity and Why Trauma Is Dangerous", body: "The thoracic cavity is normally a closed, low-pressure space. The lungs expand because the chest wall creates negative pressure when the diaphragm descends.\n\nWhen trauma disrupts this:\n* Air enters where it shouldn't (pneumothorax)\n* Blood fills the space (hemothorax)\n* The chest wall loses structural integrity (flail chest)\n* The heart gets compressed (tamponade)\n\nAll of these impair ventilation, oxygenation, or cardiac output. Some worsen with every breath. Recognition is the skill  -  EMT treatment is supportive, but getting the right patient to the right place fast saves lives." },
     { heading: "Pneumothorax: Air Where It Shouldn't Be", body: "**Simple pneumothorax:** Air enters the pleural space through a lung tear or chest wall wound. Lung collapses partially. Respiratory distress, decreased breath sounds on affected side.\n\n**Open pneumothorax (sucking chest wound):** Penetrating wound creates a hole in the chest wall. Air enters with each breath through the wound instead of the airway. Treat with a **three-sided occlusive dressing** taped on three sides (leaves one side open to allow trapped air to escape).\n\n**Tension pneumothorax:** Air enters the pleural space and CANNOT escape. Pressure builds with each breath, shifting the mediastinum to the opposite side, compressing the heart and great vessels.\n* Rapidly fatal without intervention\n* Signs: severe respiratory distress, absent breath sounds one side, tracheal deviation (late), JVD, hypotension\n* Treatment: immediate needle decompression (ALS) or rapid transport\n* EMT recognition is critical  -  communicate this to receiving hospital" },
@@ -1661,8 +1788,6 @@ const M3L6 = {
     hook: "Restrained driver. T-bone at 45 mph. Seatbelt sign. Airbag. She's talking to you. She looks okay. She is not okay. What's happening inside her abdomen right now?",
     bridge: "Abdominal trauma is the great deceiver. The abdomen can absorb tremendous hemorrhage with minimal external findings. A patient who looks stable can be bleeding at rates that will kill them before the next assessment cycle. The key is recognizing who needs a surgeon, not who looks sick."
   },
-    video: { youtubeId: 'Oh_Pt_UrtEE', caption: 'Meet the gastrointestinal tract - abdominal organ anatomy', source: 'Khan Academy', duration: '8 min' },
-    model3d: { sketchfabId: 'bfe2c671298947f8bcf0f69c06e74ed8', caption: 'Abdominal organs - digestive system anatomy', credit: 'Education Resource Fund (@bobsmusail) on Sketchfab', license: 'CC BY 4.0' },
   content: [
     { heading: "Abdominal Anatomy: What Can Get Hurt", body: "The abdomen contains two types of organs with very different injury patterns:\n\n**Solid organs** (liver, spleen, kidneys, pancreas): Highly vascular. Lacerations cause significant hemorrhage. The spleen and liver are the most commonly injured in blunt trauma.\n\n**Hollow organs** (stomach, small intestine, large intestine, bladder, gallbladder): Rupture releases contents into the peritoneal cavity. Initial presentation may be subtle. Peritonitis develops over hours.\n\n**Retroperitoneal structures** (kidneys, aorta, inferior vena cava, pancreas): Behind the peritoneum. Injury can be completely occult initially  -  minimal abdominal tenderness even with major hemorrhage.\n\n**The seatbelt sign:** Abrasion or bruising across the abdomen from the seatbelt = significant deceleration force applied directly to solid and hollow organs. High index of suspicion regardless of initial presentation." },
     { heading: "Signs and Symptoms of Abdominal Trauma", body: "The abdomen is notoriously difficult to assess in the field:\n\n**Pain:** May be diffuse, localized, or referred. Diaphragmatic irritation from blood causes referred shoulder pain (Kehr's sign with splenic injury).\n\n**Rigidity/guarding:** Involuntary muscle guarding indicates peritoneal irritation. A rigid board-like abdomen is a critical finding.\n\n**Distension:** A distended abdomen after trauma suggests significant internal bleeding or hollow organ rupture.\n\n**Tenderness:** Palpate all four quadrants. Note location and character. Rebound tenderness indicates peritoneal irritation.\n\n**What you won't see:** Early solid organ hemorrhage may have no abdominal findings at all. The patient from your call may have liver or splenic laceration with a completely soft, non-tender abdomen initially. The MOI is your guide." },
@@ -1717,7 +1842,6 @@ const M3L7 = {
     hook: "Femur fracture. Possible neurological deficit in the other leg. This patient has at least two serious problems and you haven't arrived yet. Which one is life-threatening?",
     bridge: "Extremity injuries look dramatic  -  deformity, pain, swelling, bleeding. They draw the eye. But an extremity injury only kills you if you bleed out from it or miss a more serious injury because you were focused on the obvious. Priority and systematic assessment protect this patient."
   },
-    video: { youtubeId: 'TjYbFdSY0LA', caption: 'Skin anatomy - layers and structure', source: 'Khan Academy', duration: '8 min' },
   content: [
     { heading: "Fractures: Assessment and Management", body: "A fracture is any break in the continuity of bone. They range from minor stress fractures to life-threatening femur fractures.\n\n**Six Ps of neurovascular assessment:**\n* **Pain**  -  at the fracture site\n* **Pallor**  -  pale skin from vascular compromise\n* **Paresthesia**  -  tingling/numbness = nerve involvement\n* **Paralysis**  -  loss of movement = significant nerve or vascular compromise\n* **Pulselessness**  -  absent distal pulse = vascular injury (emergency)\n* **Pressure**  -  compartment syndrome (covered below)\n\n**Always assess pulse, motor, and sensation (PMS) distal to any fracture before and after splinting.**\n\n**Closed vs open fracture:**\n* Closed: intact skin\n* Open: bone through skin or wound communicating with fracture (contamination risk, greater blood loss)" },
     { heading: "Femur Fractures: The Hemorrhage Risk", body: "The femur (thigh bone) is the largest bone in the body. Femur fractures are life-threatening for one reason: **a single femur fracture can cause 1-2 liters of internal blood loss** into the thigh compartment.\n\nSigns:\n* Shortened, externally rotated leg\n* Severe thigh swelling\n* Significant pain\n* Signs of shock (from hemorrhage)\n\n**Traction splint** (Hare, Sager): applies in-line traction to realign bone, reduces pain, and most importantly **reduces the potential space in the thigh, decreasing hemorrhage**.\n* Indicated for mid-shaft femur fracture\n* NOT indicated for: hip fracture, distal femur fracture, open fracture with bone exposure, knee injury\n\nYour patient: deformed right femur = traction splint plus hemorrhagic shock monitoring." },
@@ -1827,7 +1951,6 @@ const M4L1 = {
     hook: "Sudden confusion. Right-sided weakness. 20 minutes ago. Every minute of brain tissue dying right now has a name. Do you know it, and do you know what the clock means?",
     bridge: "The brain is the most oxygen-dependent organ in the body. When it loses perfusion or electrical stability, behavior changes fast  -  and the window for intervention is measured in minutes, not hours. Recognition and time-to-notification are the two things an EMT controls."
   },
-  model3d: { sketchfabId: 'c9c9d4d671b94345952d012cc2ea7a24', caption: 'Human brain - cerebrum, brainstem and cerebellum', credit: 'AH (@agher) on Sketchfab', license: 'CC BY 4.0' },
   content: [
     { heading: "Altered Mental Status: The AEIOU-TIPS Framework", body: "Altered mental status (AMS) has many causes. Use AEIOU-TIPS to systematically consider them:\n\n* **A**  -  Alcohol\n* **E**  -  Epilepsy/seizures\n* **I**  -  Insulin (diabetic emergency)\n* **O**  -  Overdose/poisoning\n* **U**  -  Uremia (kidney failure)\n* **T**  -  Trauma\n* **I**  -  Infection (sepsis, meningitis)\n* **P**  -  Psychiatric\n* **S**  -  Stroke, shock, syncope\n\nAMS is a symptom, not a diagnosis. Your job is to identify the most likely life-threatening cause and treat what you can while transporting." },
     { heading: "Stroke: Time Is Brain", body: "A stroke is a sudden interruption of blood flow to part of the brain. Two types:\n\n* **Ischemic (87%):** Clot blocks a cerebral artery. Treatable with tPA if within 3-4.5 hours of symptom onset.\n* **Hemorrhagic (13%):** Vessel ruptures. Higher mortality. tPA is contraindicated.\n\n**The Cincinnati Stroke Scale  -  3 findings:**\n1. **Facial droop**  -  ask to smile. One side droops = abnormal.\n2. **Arm drift**  -  arms out, eyes closed, 10 seconds. One drifts down = abnormal.\n3. **Speech**  -  repeat 'the sky is blue.' Slurred, wrong words, or silent = abnormal.\n\nOne abnormal finding = high suspicion for stroke.\n\n**The MOST important thing you do:** Establish exact time of symptom onset (or last known well). This determines tPA eligibility. Ask family: 'When was the last time you saw her acting completely normally?'" },
@@ -1882,8 +2005,6 @@ const M4L2 = {
     hook: "Type 1 diabetic. Found confused and combative in the morning. Last seen normal last night. That gap matters. What is the first thing you check, and why will it change everything?",
     bridge: "Diabetic emergencies are among the most common medical calls in EMS. They can look like stroke, intoxication, psychiatric emergency, or simply someone being difficult. A glucose check takes 30 seconds and can completely redirect your assessment."
   },
-  video: { youtubeId: 'rPLjSY00JlE', caption: 'Glucose, insulin and diabetes', source: 'Khan Academy', duration: '18 min' },
-    model3d: { sketchfabId: 'bfe2c671298947f8bcf0f69c06e74ed8', caption: 'Abdominal organs - pancreas and digestive system', credit: 'Education Resource Fund (@bobsmusail) on Sketchfab', license: 'CC BY 4.0' },
   content: [
     { heading: "Glucose Physiology: What You Need to Know", body: "Glucose is the primary fuel for the brain. The brain cannot store glucose and cannot use fatty acids  -  it depends on a continuous blood supply of glucose.\n\nNormal blood glucose: **70-140 mg/dL** (fasting: 70-100 mg/dL)\n\n**Insulin** lowers blood glucose by enabling cells to take up glucose.\n**Glucagon** raises blood glucose by stimulating liver glycogen breakdown.\n\n**Type 1 diabetes:** No insulin production (autoimmune destruction of beta cells). Dependent on injected insulin. Can develop DKA.\n**Type 2 diabetes:** Insulin resistance + relative deficiency. Managed with diet, oral medications, or insulin. DKA rare.\n\nIn EMS, **hypoglycemia** is the most common and immediately dangerous diabetic emergency. It kills faster than hyperglycemia." },
     { heading: "Hypoglycemia: Recognition and Treatment", body: "Hypoglycemia = blood glucose < 70 mg/dL. Symptoms begin under 60-70 mg/dL, severe under 40 mg/dL.\n\n**Signs and symptoms (think AEIOU):**\n* Altered mental status, confusion, combativeness\n* Diaphoresis (sweating)  -  catecholamine response\n* Tachycardia, tremors\n* Headache, weakness, hunger\n* Seizure or coma (severe)\n\n**Treatment:**\n* **Conscious, able to swallow:** Oral glucose (glucose paste, juice, regular soda). Recheck in 15 minutes.\n* **Unconscious or cannot protect airway:** Do NOT give anything by mouth. IV dextrose (D50, D10) per protocol, or glucagon IM if no IV access.\n* Recheck glucose after treatment\n* If no improvement after oral glucose, transport\n\n**The combative patient:** Hypoglycemia causes combativeness and confusion that looks like intoxication or psychiatric emergency. Check glucose first, every time." },
@@ -1938,7 +2059,6 @@ const M4L3 = {
     hook: "Two-word sentences. Tripod position. 3:30 in the morning. COPD history. This is not a mild exacerbation. What are you thinking before you even pull up?",
     bridge: "Respiratory emergencies are time-sensitive. The patient working to breathe can only do it for so long. When they tire, they stop. Your job is to identify what type of breathing crisis this is and apply the right intervention  -  because not all breathing problems are treated the same way."
   },
-  video: { youtubeId: '-oHlcuS7AeU', caption: 'Types of pulmonary diseases', source: 'Khan Academy', duration: '9 min' },
   content: [
     { heading: "Assessing Respiratory Distress: The First 30 Seconds", body: "Before treatment, identify the severity and likely cause:\n\n**Severity indicators:**\n* **Mild:** Speaks in full sentences, SpO2 >95%, minimal accessory muscle use\n* **Moderate:** Phrases only (3-5 words), SpO2 88-95%, visible accessory muscle use\n* **Severe:** Single words or cannot speak, SpO2 <88%, tripod position, cyanosis, altered mental status\n\n**Accessory muscle use:** Neck muscles (sternocleidomastoid), intercostal retractions, subcostal retractions  -  the body is working beyond normal respiratory muscles.\n\n**Tripod position:** Hands on knees, leaning forward  -  optimizes diaphragm mechanics. Respected  -  do not force supine.\n\n**Ominous signs:** Silent chest (no air movement), cyanosis, AMS, extreme exhaustion, SpO2 <85%. These patients may stop breathing. Prepare to assist ventilation." },
     { heading: "Asthma: The Reversible Obstruction", body: "Asthma is reversible bronchoconstriction and airway inflammation triggered by allergens, exercise, cold air, irritants, or infections.\n\n**Pathophysiology:** Bronchospasm + mucosal edema + mucus plugging = increased airway resistance. Air traps in the lungs.\n\n**Signs:** Expiratory wheezing, prolonged expiration, tachycardia, anxiety, use of accessory muscles.\n\n**Treatment (EMT scope):**\n* Position of comfort (upright)\n* High-flow oxygen\n* **Assist with prescribed metered-dose inhaler (MDI)** or **administer albuterol** per protocol\n* **CPAP** if available per protocol for severe bronchospasm\n\n**Status asthmaticus:** Severe asthma not responding to bronchodilator therapy. Life-threatening. Rapid transport.\n\n**Silent chest warning:** No wheeze in a severely distressed asthmatic = no air movement. Critical. Not improvement." },
@@ -2103,7 +2223,6 @@ const M4L6 = {
     hook: "Unresponsive. Track marks. Slow breathing. Empty bottles. You already know what to do before you walk in. The question is how fast you do it.",
     bridge: "Overdose and poisoning calls are among the most common EMS responses. Most are unintentional. Many are immediately reversible with the right intervention. Your ability to identify the toxidrome, match it to a cause, and apply the antidote defines this call."
   },
-  video: { youtubeId: 'cssRZEI9ujY', caption: 'How naloxone reverses opioid overdose', source: 'National Library of Medicine', duration: '4 min' },
   content: [
     { heading: "Toxidromes: Pattern Recognition for Poisoning", body: "A toxidrome is a constellation of signs and symptoms characteristic of a specific class of poison. Learning toxidromes lets you identify the cause without knowing exactly what was taken.\n\n**Opioid toxidrome:**\n* Miosis (pinpoint pupils)\n* Respiratory depression (slow, shallow breathing)\n* Decreased LOC/coma\n* Bradycardia, hypotension\n* Treatment: **Naloxone (Narcan)**\n\n**Cholinergic (organophosphate/nerve agent) toxidrome  -  SLUDGE:**\n* **S**alivation, **L**acrimation, **U**rination, **D**efecation, **G**I distress, **E**mesis\n* Bronchospasm, bronchorrhea, miosis, bradycardia\n* Treatment: Atropine (ALS), decontamination\n\n**Sympathomimetic (stimulant) toxidrome:**\n* Mydriasis (dilated pupils), tachycardia, hypertension, hyperthermia\n* Agitation, diaphoresis\n* Cocaine, methamphetamine, synthetic cathinones\n\n**Sedative-hypnotic:**\n* CNS depression, slurred speech, ataxia\n* Normal pupils (vs opioid)\n* Alcohol, benzodiazepines, barbiturates" },
     { heading: "Opioid Overdose and Naloxone", body: "Opioid overdose is immediately life-threatening from respiratory depression. The classic triad:\n1. **Pinpoint pupils** (miosis)\n2. **Respiratory depression** (<12 breaths/min, shallow)\n3. **Decreased LOC**\n\n**Naloxone (Narcan):**\n* Opioid receptor antagonist  -  competitively displaces opioids from receptors\n* Reverses respiratory depression, sedation, miosis\n* Routes: IV, IM, intranasal (IN), subcutaneous\n* Dose: 0.4-2 mg IV/IM, 2-4 mg IN per protocol\n* Onset: 2-5 min IV, 5-10 min IM/IN\n* Duration: 30-90 minutes  -  **shorter than most opioids**\n\n**Critical:** The opioid may outlast the naloxone. The patient can re-sedate after initial reversal. **Always transport even if fully responsive after naloxone.**\n\n**Fentanyl and analogues:** May require higher or repeat naloxone doses. Standard dose may be insufficient." },
@@ -2158,7 +2277,6 @@ const M4L7 = {
     hook: "60-year-old male. Collapsed during a race. 95 degrees. Not responding. On a hot humid day, collapse with AMS has one cause you have to rule out immediately  -  and it kills if you don't cool it fast enough.",
     bridge: "Environmental emergencies don't look like typical medical calls. The injury is from the environment itself  -  temperature extremes, drowning, lightning. Recognition is often straightforward. Treatment is sometimes counterintuitive. And the stakes are high."
   },
-  video: { youtubeId: 'PpHM4DfPZQU', caption: 'What happens when you get heat stroke?', source: 'TED-Ed', duration: '5 min' },
   content: [
     { heading: "Heat Emergencies: The Spectrum", body: "**Heat cramps:** Painful muscle cramps from electrolyte loss during sweating. No AMS. Treatment: rest, cool environment, oral fluids with electrolytes.\n\n**Heat exhaustion:** Heavy sweating, weakness, nausea, headache, dizziness. Core temperature <40C (104F). Skin is cool and pale (sweating intact). Normal or near-normal mental status. Treatment: move to cool environment, remove excess clothing, cool the patient, oral or IV fluids.\n\n**Heat stroke:** Life-threatening. Core temperature >40C (104F) with **CNS dysfunction (AMS)**.\n* **Classic heat stroke:** Elderly, chronic illness, poor heat dissipation. Hot, dry skin (sweating mechanism fails).\n* **Exertional heat stroke:** Athletes, laborers in heat. May still have moist skin (sweating present but overwhelmed).\n* Both are emergencies. AMS + hyperthermia = heat stroke until proven otherwise.\n\n**Key distinction:** AMS separates heat exhaustion from heat stroke. Mental status change = emergency.\n\n**Treatment for heat stroke:**\n* Cool immediately and aggressively  -  ice packs to axilla/groin/neck, cold wet sheets, cold IV fluids\n* Goal: reduce core temp to 39C (102F) rapidly\n* Do not delay cooling for transport  -  cool on scene and en route" },
     { heading: "Hypothermia: Cold Kills Quietly", body: "Hypothermia = core temperature <35C (95F). The body loses heat faster than it can generate it.\n\n**Mild (32-35C):** Shivering, confusion, impaired coordination\n**Moderate (28-32C):** Shivering stops (bad sign  -  thermoregulation failing), worsening AMS, atrial fibrillation common\n**Severe (<28C):** Unconsciousness, no shivering, ventricular fibrillation risk, may appear dead\n\n**Remember:** Hypothermic cardiac arrest patients are not dead until they are warm and dead. VF in hypothermia may be unresponsive to defibrillation until rewarmed.\n\n**Treatment:**\n* Remove from cold environment\n* Remove wet clothing carefully\n* Prevent further heat loss: warm blankets, warm environment\n* Gentle handling  -  hypothermic heart is sensitive to VF from rough movement\n* Warm, humidified oxygen\n* Warm IV fluids if available\n* Transport to hospital  -  active rewarming is hospital-based (warm irrigation, ECMO in severe cases)\n\n**Handle gently:** Rough handling can trigger VF in a borderline hypothermic heart." },
@@ -2272,7 +2390,6 @@ const M5L1 = {
     bridge: "Scene size-up isn't a checkbox - it's the decision that determines whether you go home tonight. The most dangerous EMT is a brave one who charges in without thinking. Your brain is your best safety tool."
   },
   video: { url: "https://www.youtube.com/embed/4t7VLQXNZHI", source: "EMS Training", duration: "5 min", caption: "Scene size-up and BSI overview" },
-  video: { youtubeId: 'PPBz_3II_mk', caption: 'Patient assessment: scene size-up', source: 'PrepMedic', duration: '6 min' },
   content: [
     { heading: "The First 60 Seconds", body: "Before you leave the truck, you've already made critical decisions. BSI - Body Substance Isolation - goes on before you touch anything. Gloves are mandatory on every call. Eye protection when fluids are possible. Mask when airborne exposure is likely. N95 for suspected TB or respiratory illness.\n\nThe scene size-up happens simultaneously with your approach. You're reading the environment the moment you pull up:\n- Is the scene safe to enter?\n- What is the mechanism of injury or nature of illness?\n- How many patients?\n- What additional resources do I need?\n\nIn the warehouse scenario above, three unconscious patients in an enclosed industrial space has one cause until proven otherwise: confined space atmosphere. IDLH - Immediately Dangerous to Life and Health. You don't go in without SCBA. Not even to check pulses. The most common cause of confined space rescue deaths is would-be rescuers who became victims." },
     { heading: "Scene Safety: Specific Hazard Profiles", body: "Every scene type has a threat profile. Learn these cold:\n\n**Traffic scenes:** Park apparatus to create a buffer. Traffic cones 50-100 feet upstream minimum. Wear high-visibility vest. Never turn your back to traffic. Use ambulance as a shield.\n\n**Violence scenes:** Law enforcement secures BEFORE you enter. A stabbing scene isn't safe because the patient is down - the attacker may still be present. Stage until cleared.\n\n**Hazmat:** Identify the placards from distance. North American Emergency Response Guidebook (ERG) identifies the substance and safe perimeter. Hot zone = contaminated, EMTs don't go in. Warm zone = decontamination by trained responders. Cold zone = where you treat.\n\n**Structural hazards:** Fire, collapse, downed power lines. Don't assume a structure is stable. Don't touch downed lines even if they 'look dead.' Energized lines can energize the ground around them - stay 30 feet minimum.\n\n**Fire scenes:** Smoke inhalation, CO, structural collapse. Your job is at the perimeter with patients fire brings you. SCBA required for any entry.\n\n**Industrial hazards:** Machinery, electrical, confined spaces, chemicals. Always ask - what are they manufacturing here? What chemicals are used?" },
@@ -2317,7 +2434,6 @@ const M5L2 = {
     hook: "Thirty to forty patients. You're it for the next three minutes. What's the first thing you do when you arrive?",
     bridge: "A mass casualty incident doesn't fail because of a lack of responders. It fails because of chaos. ICS - the Incident Command System - is the architecture that turns chaos into coordination. And it always starts with one person: whoever arrives first."
   },
-  video: { youtubeId: 'P-dPBso2xPM', caption: 'Introduction to the Incident Command System (ICS)', source: 'Justice Institute of BC', duration: '8 min' },
   content: [
     { heading: "What Is ICS and Why Does It Exist?", body: "The Incident Command System was developed after multiple wildland firefighting disasters in the 1970s revealed a brutal truth: responders from different agencies couldn't communicate, didn't know who was in charge, and couldn't share resources effectively. People died because of organizational failure, not equipment failure.\n\nICS solves this with one core principle: **unified structure with clear roles, regardless of agency.** A firefighter, EMT, law enforcement officer, and public works employee can work together under ICS because the structure is identical everywhere.\n\n**The five core ICS functions:**\n1. **Command** - Overall incident authority and strategy\n2. **Operations** - Tactical execution (doing the work)\n3. **Planning** - Tracking resources and situation status\n4. **Logistics** - Getting resources to the scene\n5. **Finance/Administration** - Cost tracking and documentation\n\nFor most EMS calls, one person handles all five functions. As the incident grows, these expand to separate people." },
     { heading: "Incident Command: The First Five Minutes", body: "The first unit on scene of a major incident is automatically the Incident Commander (IC). This is non-negotiable. You don't wait for someone senior. You don't pass it off because you're nervous. You take command.\n\n**First arriving unit responsibilities:**\n1. **Announce you have command:** 'Dispatch - Unit 3 has arrived, establishing I-80 ICS Command.'\n2. **Size up:** What do you actually have? Confirm or correct dispatch numbers.\n3. **Call for resources:** Based on your size-up. Don't underestimate. Resources you don't need can stage; patients you can't treat because you have no help will die.\n4. **Establish divisions or groups:** Triage, Treatment, Transport - three essential EMS groups.\n5. **Brief incoming units:** Give them assignments immediately on arrival. Incoming units should never self-dispatch.\n\n**Command transfer:** When a more senior person arrives, they don't automatically take over. Command must be formally transferred with a briefing: 'You now have command - here's the situation.'" },
@@ -2362,7 +2478,6 @@ const M5L3 = {
     hook: "A 78-year-old on a bathroom floor. She's been there for an hour. Your spine will take the same beating hers did if you lift wrong. How do you move her safely - for both of you?",
     bridge: "Back injuries are the leading career-ender in EMS. And they're almost all preventable. Proper lifting technique isn't just good mechanics - it's how you protect a 30-year career. Patient positioning is equally critical: the wrong position can turn a stable patient into a critical one."
   },
-  video: { youtubeId: 'B7yvqchB9So', caption: 'Lifting mechanics and how to operate the stretcher', source: 'Chicago EMT Training', duration: '7 min' },
   content: [
     { heading: "Body Mechanics: The Foundation", body: "Back injuries end EMS careers. The forces involved in lifting patients, equipment, and loading stretchers are significant - and cumulative. A bad habit repeated thousands of times destroys your spine.\n\n**The six rules of proper lifting:**\n1. **Keep the weight close.** The farther from your body, the greater the torque on your spine. Slide, don't reach.\n2. **Bend your knees, not your back.** Your legs are the strongest muscles in your body. Let them do the work.\n3. **Keep your back straight.** Maintain the natural lumbar curve. Don't flex or hyperextend.\n4. **Don't twist.** Pivot your entire body. Twisting under load is the most common injury mechanism.\n5. **Communicate.** Count before every lift. 'On three: one, two, three.' Uncoordinated lifts injure both crew and patient.\n6. **Know your limits.** Ask for help. No patient or call is worth a herniated disc. Request lift assist when needed.\n\n**The power grip:** Full palm and all fingers wrapped around the object. Never fingertip grip under load.\n\n**The power lift stance:** Feet shoulder-width, staggered slightly, knees bent, back straight, weight on heels." },
     { heading: "Emergency Moves: When Urgency Overrides Caution", body: "Emergency moves are used when staying in position will kill the patient and there's no time for proper packaging. The risk of the move is outweighed by the risk of not moving.\n\n**Indications:**\n- Fire or risk of fire\n- Explosive hazard\n- Inability to reach another patient who needs care\n- Scene becoming unsafe\n- Patient in cardiac arrest in a position where CPR cannot be performed\n\n**The key principle:** Move the patient in the direction of the long axis of the body whenever possible. Dragging feet-first or head-first maintains some spinal alignment compared to lateral drag.\n\n**Emergency move techniques:**\n- **Clothes drag:** Grasp clothing at shoulders, keep head supported against forearms, drag toward head.\n- **Arm drag:** From behind, grab both arms, support head between your arms, drag.\n- **Blanket drag:** Roll patient onto blanket, drag blanket.\n- **Firefighter carry:** For self-rescue with an ambulatory or semi-ambulatory patient.\n\n**Important:** Emergency moves are for immediate life threat only. Don't rationalize non-urgent moves as emergencies because the proper move is inconvenient." },
@@ -2406,7 +2521,6 @@ const M5L4 = {
     hook: "Your documentation from a cardiac arrest has been flagged by the medical director. You remember the call clearly - but what you wrote doesn't match what you actually did. What went wrong?",
     bridge: "Your patient care report is a legal document, a medical record, and the only account of what happened on that call. Incomplete documentation doesn't just reflect poorly on you - it can compromise patient care at the hospital, create legal liability, and undermine quality improvement. Documentation is patient care."
   },
-    video: { youtubeId: 'eDlPNlMAjaM', caption: 'How to write EMS documentation and patient narratives', source: 'The Paramedic Coach', duration: '12 min' },
   content: [
     { heading: "The Patient Care Report (PCR): Your Legal Document", body: "The PCR is simultaneously:\n- A **medical record** (continuity of care at the hospital)\n- A **legal document** (court admissible, discoverable in litigation)\n- A **billing record** (justification for reimbursement)\n- A **quality improvement tool** (audited by medical director)\n- A **research database** (EMS system performance tracking)\n\nEvery omission is noticed. Every error is scrutinized. Writing 'normal' requires you to actually know what normal is for that patient.\n\n**Core PCR components:**\n- Dispatch information (time of call, nature, location)\n- Subjective findings (chief complaint, SAMPLE history, OPQRST)\n- Objective findings (vitals, physical exam, mental status)\n- Assessment (your clinical impression)\n- Treatment and response to treatment\n- Transport decision and destination\n- Times: dispatch, enroute, on-scene, patient contact, transport, arrival at hospital, back in service\n\n**The documentation principle:** Document what you found AND what you did AND the patient's response. 'Applied oxygen via NRB at 15 LPM - SpO2 improved from 88% to 97%' is complete. 'Applied O2' is not." },
     { heading: "SOAP and CHART: Documentation Frameworks", body: "Experienced providers often use frameworks to ensure complete documentation:\n\n**SOAP:**\n- **S - Subjective:** What the patient tells you (chief complaint, history)\n- **O - Objective:** What you find (vitals, physical exam)\n- **A - Assessment:** Your clinical impression (stable chest pain, possible AMI)\n- **P - Plan:** What you did and are doing\n\n**CHART:**\n- **C - Chief Complaint**\n- **H - History**\n- **A - Assessment**\n- **R - Rx (treatment)**\n- **T - Transport**\n\n**SAMPLE history (always document):**\nSigns/symptoms, Allergies, Medications, Pertinent history, Last oral intake, Events leading to the call.\n\n**Vital signs:** Document at minimum: HR, RR, BP, SpO2, GCS or mental status, skin signs, temperature when indicated, blood glucose when indicated. Serial vitals are critical for trending. A single vital sign is a data point; serial vitals tell a story.\n\n**Pertinent negatives:** Document what you looked for and did NOT find. 'No JVD, trachea midline, lung sounds equal bilaterally' is as important as positive findings." },
@@ -2450,7 +2564,6 @@ const M5L5 = {
     hook: "Priority 1. Lights and sirens. 60-year-old, not breathing. Engine is 2 minutes ahead. How you drive to this call will determine if you arrive at all.",
     bridge: "More EMS providers are killed in vehicle accidents than by any other occupational hazard. Emergency driving creates unique risk - high speed, intersections against the light, fatigue, and the cognitive split between driving and pre-planning patient care. Understanding these risks is the first step to surviving them."
   },
-    video: { youtubeId: '9W-qBN4UKBw', caption: 'Emergency vehicle operations course (EVOC) - ambulance driving', source: 'Manatee County EMS', duration: '15 min' },
   content: [
     { heading: "The Danger of Emergency Driving", body: "EMS vehicle crashes kill and injure providers at rates far exceeding other occupational hazards. The numbers are sobering:\n\n**Risk factors specific to emergency driving:**\n- High speed increases stopping distance exponentially (doubling speed quadruples stopping distance)\n- Intersection runs against red lights - the most dangerous maneuver in EMS\n- Siren ineffectiveness: civilian drivers may not hear sirens until an ambulance is within 50-100 feet at highway speeds\n- 'Siren syndrome': the cognitive effect where urgency impairs driving judgment\n- Night driving: reduced visibility, fatigue, altered perception\n- Distraction: radio, ePCR, partner conversation, pre-planning\n\n**The intersection rule:** Most EMS fatalities occur at intersections. Every red light requires:\n1. Full stop or near-stop\n2. Visual clearance of all lanes\n3. Treat it as a 4-way stop\n4. Proceed only when clear\n\nNo patient outcome is worth a T-bone collision. A delayed arrival by 30 seconds is recoverable. A crash that injures your crew is not." },
     { heading: "Due Regard: The Legal Standard", body: "Every state grants emergency vehicles certain exemptions from standard traffic laws during emergency operations - but these exemptions come with a condition: **due regard for the safety of all others.**\n\n**What due regard means:**\n- You must drive in a way that a reasonable, careful driver would under the same circumstances\n- You can speed, but not recklessly\n- You can run a red light, but you must ensure it's clear\n- You can use the wrong side of the road, but only when safe\n- You remain legally liable for crashes caused by negligence even with lights and sirens\n\n**The due regard standard is not suspended by urgency.** A patient in cardiac arrest does not give you the right to run through a red light without checking it. The legal and moral responsibility for any crash lies with the driver.\n\n**Lights and siren do not guarantee right of way.** Legally, they request right of way. Drivers must yield - but you cannot assume they will. Treat every intersection as though no one can see or hear you." },
@@ -2511,10 +2624,6 @@ const M5L6 = {
     { front: "Operations module: Hazmat zones - where do EMTs work?", back: "Cold zone only. Warm zone is decontamination by trained responders. Hot zone requires specialized entry team with full protective equipment." },
     { front: "Operations module: Strap order on long backboard?", back: "Chest, pelvis, legs, head LAST. Head last preserves airway access throughout packaging." },
     { front: "Operations module: Due regard legal standard?", back: "Emergency drivers must drive as a reasonable, careful person would under the same circumstances. Does not eliminate liability for negligence." },
-    { front: "Operations module: What is SAMPLE?", back: "Signs/symptoms, Allergies, Medications, Pertinent history, Last oral intake, Events. Core history mnemonic for documentation and patient handoff." },
-    { front: "Operations module: When is an emergency move justified?", back: "Immediate life threat to patient or crew: fire, structural collapse, hazardous atmosphere, or patient position preventing CPR. Move along long axis." },
-    { front: "Operations module: Pertinent negatives - what are they and why document them?", back: "Findings you assessed for and did not find. Example: 'No JVD, trachea midline, equal breath sounds.' Documents thoroughness of your assessment." },
-    { front: "Operations module: Scene size-up four components?", back: "1) BSI/scene safety, 2) Mechanism of injury or nature of illness, 3) Number of patients, 4) Additional resources needed. Continuous throughout the call." },
   ],
   quiz: [
     { q: "You arrive first at a building explosion with visible casualties. Your first radio transmission should be:", options: ["'Send all available units immediately'", "'[Your unit] is on scene, establishing [location] Command, report of structure explosion, multiple casualties, requesting additional EMS and fire resources'", "'We have a mass casualty - send help'", "'Dispatch confirm our location'"], answer: 1, explanation: "The first on-scene unit establishes command immediately, announces it to dispatch, provides a brief situation report, and calls resources. Formal ICS language establishes the response structure for all incoming units." },
@@ -2533,16 +2642,12 @@ const M5L6 = {
     { q: "The due regard standard means that an EMT driving Code 3:", options: ["Cannot be held liable for accidents that occur while responding", "Must drive as a reasonable, careful driver would under the same emergency circumstances", "Has absolute right of way at all intersections", "May exceed the speed limit by any amount needed"], answer: 1, explanation: "Due regard holds emergency drivers to a reasonable-careful-person standard under the same circumstances. Exemptions from traffic laws exist, but not exemptions from the duty of reasonable care. Negligent driving creates personal and agency liability even with lights and sirens." },
     { q: "At an MCI, the Treatment Group Supervisor reports to:", options: ["The Incident Commander directly", "The Operations Section Chief (or IC if no Operations Chief)", "The Planning Section", "The Transport Officer"], answer: 1, explanation: "ICS chain of command: Treatment Group Supervisor reports to Operations. Operations reports to Command. This structured chain maintains manageable span of control and clear accountability." },
     { q: "A confined space rescue has multiple unconscious victims visible. You have gloves and a surgical mask. You should:", options: ["Enter quickly to assess the victims", "Stage, call for technical rescue with atmospheric monitoring and SCBA, do not enter", "Enter with your partner for mutual safety", "Assess from the entrance before deciding"], answer: 1, explanation: "Multiple unconscious workers in a confined space = atmospheric hazard. IDLH (Immediately Dangerous to Life and Health) until proven otherwise. Entry without SCBA is potentially fatal. Stage, call technical rescue, and notify command." },
-    { q: "Proper body mechanics when lifting a patient from the floor require:", options: ["Bending at the waist to keep the weight close to the body", "Bending at the knees, keeping the back straight, and never twisting under load", "Lifting quickly to minimize the duration of strain", "Using only arm strength to spare the back"], answer: 1, explanation: "EMS back injury is the most common career-ending injury. Correct mechanics: knees bent, back straight, weight close to body, no twisting, coordinated lift with partner. The back bends under load and twisting under load are the two most common injury mechanisms." },
-    { q: "A patient has a respiratory rate of 32 breaths/min, no radial pulse, and is unconscious at an MCI. START category is:", options: ["Green (Minor)", "Yellow (Delayed)", "Red (Immediate)", "Black (Expectant)"], answer: 2, explanation: "RR >30 alone = Red (Immediate). No radial pulse = Red. Unconscious and not following commands = Red. Multiple Red criteria; this patient gets the Immediate tag and goes to the Red treatment sector." },
-    { q: "A bystander is performing CPR on a patient when you arrive. At an MCI with limited resources, this patient's START category is:", options: ["Red (Immediate) - cardiac arrest requires immediate intervention", "Black (Expectant) - cardiac arrest in MCI context exceeds available resources", "Yellow (Delayed) - CPR is already being provided", "Green (Minor) - not breathing spontaneously"], answer: 1, explanation: "In MCI context, cardiac arrest is tagged Black (Expectant). Resources cannot be committed to CPR on one patient when multiple others with survivable injuries await care. This is the hardest MCI reality - and it is the correct protocol." },
-    { q: "Your ambulance develops a mechanical problem during an emergency response. You should:", options: ["Continue the response at reduced speed", "Notify dispatch, pull over safely, request another unit", "Continue if the problem seems minor", "Transfer patient care at the scene of the breakdown"], answer: 1, explanation: "A compromised vehicle is a safety hazard for crew, patient, and public. Notify dispatch immediately. Pull over safely. Request another unit for the call. Never continue operating a mechanically compromised emergency vehicle." },
   ]
 };
 
 const LESSON_DATA = {
   "0-1": L1, "0-2": L2, "0-3": L3, "0-4": L4, "0-5": L5, "0-6": L6,
-  "1-1": M1L1, "1-2": M1L2, "1-3": M1L3, "1-4": M1L4, "1-5": M1L5, "1-6": M1L6, "1-7": M1L7,
+  "1-1": M1L1, "1-2": M1L2, "1-3": M1L3, "1-4": M1L4,
   "2-1": M2L1, "2-2": M2L2, "2-3": M2L3, "2-4": M2L4, "2-5": M2L5, "2-6": M2L6, "2-7": M2L7,
   "3-1": M3L1, "3-2": M3L2, "3-3": M3L3, "3-4": M3L4, "3-5": M3L5, "3-6": M3L6, "3-7": M3L7, "3-8": M3L8,
   "4-1": M4L1, "4-2": M4L2, "4-3": M4L3, "4-4": M4L4, "4-5": M4L5, "4-6": M4L6, "4-7": M4L7, "4-8": M4L8,
