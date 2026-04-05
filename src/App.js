@@ -81,7 +81,11 @@ export default function App() {
   const [tutorLoading, setTutorLoading] = useState(false);
   const [tutorFollowUps, setTutorFollowUps] = useState([]);
   const [tutorLastStep, setTutorLastStep] = useState(null);
-  const [devMode, setDevMode] = useState(false);
+  const [dev, setDev] = useState({ unlockLessons: false, skipToQuiz: false, examAccess: false });
+  const [devPanelOpen, setDevPanelOpen] = useState(false);
+  // Convenience aliases
+  const devMode = dev.unlockLessons || dev.skipToQuiz || dev.examAccess;
+  const devToggle = (key) => setDev(d => ({ ...d, [key]: !d[key] }));
   const [lessonScores, setLessonScores] = useState({});
   const [showModuleComplete, setShowModuleComplete] = useState(false);
   const [reviewQueue, setReviewQueue] = useState(null);
@@ -312,13 +316,13 @@ export default function App() {
   const isLessonCompleted = (mId, lId) => completedLessons.includes(`${mId}-${lId}`);
 
   const isLessonUnlocked = (mId, lId) => {
-    if (devMode) return true;
+    if (dev.unlockLessons) return true;
     if (mId !== 0) return MODULES[0].lessons.every(l => isLessonCompleted(0, l.id));
     if (lId === 1) return true;
     return isLessonCompleted(mId, lId - 1);
   };
   const isModuleUnlocked = (mId) => {
-    if (devMode) return true;
+    if (dev.unlockLessons) return true;
     if (mId === 0) return true;
     return MODULES[mId - 1].lessons.every(l => isLessonCompleted(mId - 1, l.id));
   };
@@ -335,7 +339,7 @@ export default function App() {
     quizStartScoreRef.current = null;
     const openedIsModQuiz = ld ? ld.id === (MODULES[mId]?.lessons.length ?? 99) : false;
     setQuizDeck(ld ? pickQuiz(ld.quiz, openedIsModQuiz ? 10 : 5) : []);
-    setTabUnlocked({ scenario: true, lesson: false, flashcards: false, quiz: false, tutor: true });
+    setTabUnlocked(dev.skipToQuiz ? { scenario: true, lesson: true, flashcards: true, quiz: true, tutor: true } : { scenario: true, lesson: false, flashcards: false, quiz: false, tutor: true });
     setTutorMessages([]);
     setTutorInput("");
     setTutorFollowUps([]);
@@ -435,7 +439,7 @@ export default function App() {
         <button className={`zte-nav-link ${screen === "home" ? "active" : ""}`} onClick={() => setScreen("home")}>Home</button>
         <button className={`zte-nav-link ${screen === "curriculum" ? "active" : ""}`} onClick={() => setScreen("curriculum")}>Curriculum</button>
         <button className={`zte-nav-link zte-nav-exam-btn ${screen === "exam" ? "active" : ""}`} onClick={() => setScreen("exam")}>
-          Exam {(hasExamAccess || devMode) ? <span style={{color:'var(--green)'}}>&#10003;</span> : <span style={{opacity:.5}}>&#128274;</span>}
+          Exam {(hasExamAccess || dev.examAccess) ? <span style={{color:'var(--green)'}}>&#10003;</span> : <span style={{opacity:.5}}>&#128274;</span>}
         </button>
       </div>
       <div style={{display:"flex",gap:8,alignItems:"center",flexShrink:0}}>
@@ -451,7 +455,7 @@ export default function App() {
               {hasProgress ? `Continue (${progress}%)` : "Start Free ->"}
             </button>
             <button className="zte-btn-signout" onClick={() => supabase.auth.signOut()}>Sign Out</button>
-            <button className={`zte-btn-devmode ${devMode ? "on" : ""}`} onClick={() => setDevMode(d => !d)} title="Toggle dev mode">{devMode ? "DEV ON" : "DEV"}</button>
+            <button className={`zte-btn-devmode ${devMode ? "on" : ""}`} onClick={() => setDevPanelOpen(o => !o)} title="Toggle dev mode">{devMode ? "DEV ON" : "DEV"}</button>
           </>
         )}
       </div>
@@ -465,6 +469,7 @@ export default function App() {
 
   if (screen === "home") return (
     <div id="zte-root">
+      <DevPanel />
       <Nav />
       <section className="zte-hero">
         <div className="zte-hero-left">
@@ -550,7 +555,7 @@ export default function App() {
               <div style={{fontFamily:"Space Mono,monospace",fontSize:9,letterSpacing:2,color:'rgba(255,255,255,.4)',marginBottom:8}}>ONE-TIME</div>
               <div style={{fontFamily:"Anton,sans-serif",fontSize:64,color:'white',lineHeight:1,marginBottom:4}}>$29</div>
               <div style={{fontSize:12,color:'rgba(255,255,255,.4)',marginBottom:20}}>Unlimited retakes included</div>
-              {(hasExamAccess || devMode)
+              {(hasExamAccess || dev.examAccess)
                 ? <button className="zte-exam-promo-cta" style={{background:'var(--green)'}} onClick={() => setScreen('exam')}>Go to Exam &#8594;</button>
                 : <button className="zte-exam-promo-cta" onClick={() => setScreen('exam')}>Learn More &#8594;</button>
               }
@@ -582,7 +587,7 @@ export default function App() {
               <div style={{fontFamily:"Space Mono,monospace",fontSize:9,letterSpacing:2,color:'rgba(255,255,255,.4)',marginBottom:8}}>ONE-TIME</div>
               <div style={{fontFamily:"Anton,sans-serif",fontSize:64,color:'white',lineHeight:1,marginBottom:4}}>$29</div>
               <div style={{fontSize:12,color:'rgba(255,255,255,.4)',marginBottom:20}}>Unlimited retakes included</div>
-              {(hasExamAccess || devMode)
+              {(hasExamAccess || dev.examAccess)
                 ? <button className="zte-exam-promo-cta" style={{background:'var(--green)'}} onClick={() => setScreen('exam')}>Go to Exam &#8594;</button>
                 : <button className="zte-exam-promo-cta" onClick={() => setScreen('exam')}>Learn More &#8594;</button>
               }
@@ -599,6 +604,7 @@ export default function App() {
   // -- CURRICULUM --
   if (screen === "curriculum") return (
     <div id="zte-root">
+      <DevPanel />
       <Nav />
       <div className="zte-curr-hero">
         <div className="zte-tagline-mono">FULL CURRICULUM</div>
@@ -644,7 +650,7 @@ export default function App() {
 
   // -- EXAM SIMULATOR --
   if (screen === "exam") {
-    const canAccess = hasExamAccess || devMode;
+    const canAccess = hasExamAccess || dev.examAccess;
 
     // Phase: Active Exam
     if (examPhase === 'active' && examDeck.length > 0) {
@@ -655,7 +661,7 @@ export default function App() {
       const answeredCount = Object.keys(examAnswers).length;
 
       return (
-        <div id="zte-root" className="zte-exam-active-root">
+        <div id="zte-root" className="zte-exam-active-root"><DevPanel />
           {/* Header Bar */}
           <div className="zte-exam-header">
             <div className="zte-exam-header-left">
@@ -1667,3 +1673,91 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
 
   return null;
 }
+  // === DEV PANEL ===
+  function DevPanel() {
+    if (!devPanelOpen) return null;
+    const isOnExam = screen === 'exam' && examPhase === 'active';
+
+    function autoFillExam() {
+      if (!isOnExam || examDeck.length === 0) return;
+      // Fill with realistic domain-weighted accuracy
+      const domainAccuracy = {
+        airway: 0.85, cardiology: 0.80, trauma: 0.70,
+        medical: 0.65, operations: 0.80, special: 0.75
+      };
+      const filled = {};
+      const toFlag = new Set();
+      examDeck.forEach((q, i) => {
+        const acc = domainAccuracy[q.domain] || 0.75;
+        const correct = Math.random() < acc;
+        if (correct) {
+          filled[i] = q.answer;
+        } else {
+          // Pick a wrong answer
+          const wrong = q.options.map((_,idx) => idx).filter(idx => idx !== q.answer);
+          filled[i] = wrong[Math.floor(Math.random() * wrong.length)];
+        }
+        // Flag ~8 random questions
+        if (Math.random() < 0.07) toFlag.add(i);
+      });
+      // Leave last 5 unanswered
+      [1,2,3,4,5].forEach(n => delete filled[examDeck.length - n]);
+      setExamAnswers(filled);
+      setExamFlagged(toFlag);
+      setExamCurrent(0);
+      setDevPanelOpen(false);
+    }
+
+    return (
+      <div className="zte-dev-overlay" onClick={() => setDevPanelOpen(false)}>
+        <div className="zte-dev-panel" onClick={e => e.stopPropagation()}>
+          <div className="zte-dev-panel-header">
+            <span className="zte-dev-panel-title">DEV PANEL</span>
+            <button className="zte-dev-panel-close" onClick={() => setDevPanelOpen(false)}>x</button>
+          </div>
+
+          <div className="zte-dev-section">
+            <div className="zte-dev-section-label">CURRICULUM</div>
+            <label className="zte-dev-toggle">
+              <span>Unlock All Lessons</span>
+              <input type="checkbox" checked={dev.unlockLessons} onChange={() => devToggle('unlockLessons')} />
+              <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
+            </label>
+            <label className="zte-dev-toggle">
+              <span>Skip to Quiz</span>
+              <input type="checkbox" checked={dev.skipToQuiz} onChange={() => devToggle('skipToQuiz')} />
+              <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
+            </label>
+          </div>
+
+          <div className="zte-dev-section">
+            <div className="zte-dev-section-label">EXAM SIMULATOR</div>
+            <label className="zte-dev-toggle">
+              <span>Bypass Paywall</span>
+              <input type="checkbox" checked={dev.examAccess} onChange={() => devToggle('examAccess')} />
+              <span className="zte-dev-toggle-track"><span className="zte-dev-toggle-thumb"></span></span>
+            </label>
+            <button
+              className={`zte-dev-action-btn ${!isOnExam ? 'disabled' : ''}`}
+              onClick={autoFillExam}
+              disabled={!isOnExam}
+              title={isOnExam ? 'Auto-fill all 120 answers with realistic accuracy' : 'Start an exam first'}
+            >
+              Auto-Fill Exam
+              <span className="zte-dev-action-sub">~74% correct, weak in Medical/Trauma</span>
+            </button>
+          </div>
+
+          <div className="zte-dev-section zte-dev-status">
+            <div className="zte-dev-section-label">STATUS</div>
+            <div className="zte-dev-status-row"><span>Screen</span><span>{screen}{examPhase ? ' / ' + examPhase : ''}</span></div>
+            <div className="zte-dev-status-row"><span>Lessons unlocked</span><span>{dev.unlockLessons ? 'ALL' : completedLessons.length + '/42'}</span></div>
+            <div className="zte-dev-status-row"><span>Exam access</span><span>{dev.examAccess ? 'bypassed' : hasExamAccess ? 'paid' : 'locked'}</span></div>
+            <div className="zte-dev-status-row"><span>Skip to quiz</span><span>{dev.skipToQuiz ? 'on' : 'off'}</span></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+
