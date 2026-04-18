@@ -3,6 +3,21 @@
 
 const MODULES = [
   {
+    id: "MT", code: "PRE-CLASS", codeColor: "#16a34a", accentColor: "#16a34a",
+    title: "MEDICAL TERMINOLOGY",
+    desc: "The decode system for medical language. Learn it once, decode thousands of terms. Designed to complement NURS 140.",
+    lessons: [
+      { id: 1, title: "How Medical Terms Are Built", duration: "~1 hr total" },
+      { id: 2, title: "Location & Direction Terms", duration: "~1 hr total" },
+      { id: 3, title: "Word Roots by Body System", duration: "~1 hr total" },
+      { id: 4, title: "Essential Prefixes", duration: "~1 hr total" },
+      { id: 5, title: "Essential Suffixes", duration: "~1 hr total" },
+      { id: 6, title: "Pharmacology Language", duration: "~1 hr total" },
+      { id: 7, title: "Decode Real Terms", duration: "~1 hr total" },
+      { id: 8, title: "Module Quiz", duration: "~30 min" },
+    ]
+  },
+  {
     id: 0, code: "START HERE", codeColor: "#e8193c", accentColor: "#e8193c",
     title: "FOUNDATION",
     desc: "How EMS works, your role as an EMT, medical terminology, and legal & ethical principles.",
@@ -87,6 +102,1175 @@ const MODULES = [
 
 const TOTAL_LESSONS = MODULES.reduce((sum, m) => sum + m.lessons.length, 0);
 export { TOTAL_LESSONS };
+
+// ============================================================
+// MEDICAL TERMINOLOGY MODULE
+// Optional prep before Foundation
+// 8 lessons: Word Building, Location Terms, Roots by System,
+// Prefixes, Suffixes, Pharmacology Language, Decode Practice, Quiz
+// ============================================================
+// DESIGN PHILOSOPHY FOR ADULT LEARNER:
+// - Every flashcard is a DECODE challenge, not a definition lookup
+// - Every section opens with a word they already know
+// - Small batches, anchored to real EMS context
+// - No lists of 50 terms -- patterns with examples then quiz
+// ============================================================
+
+const MT_L1 = {
+  moduleId: "MT", id: 1,
+  title: "How Medical Terms Are Built",
+  subtitle: "Learn the system, not the words -- decode anything",
+  duration: "~1 hr total",
+  dispatch: {
+    call: `"Unit 4, respond to 2210 Lakewood Drive. 67-year-old male, history of cardiomyopathy and subcutaneous edema. Wife states he has had increasing dyspnea for two days."`,
+    time: "9:32 AM", eta: "4 minutes",
+    hook: "Cardiomyopathy. Subcutaneous edema. Dyspnea. The dispatcher just told you exactly what is wrong with this patient -- if you can read the language. By the end of this lesson, you will be able to decode all three of those words from scratch.",
+    bridge: "Medical terminology is not a list of words to memorize. It is a system -- a small set of building blocks that combine to form thousands of terms. Learn the blocks, and you can decode a word you have never seen before."
+  },
+  content: [
+    {
+      heading: "Why Medical Terms Are Built This Way",
+      body: `Medical terminology comes almost entirely from Latin and Greek -- the languages of ancient medicine and science. This is good news: the system is consistent. The same building blocks appear across thousands of terms.
+
+The key insight: medical terms are not random words. They are descriptions, built from parts. When a doctor writes "tachycardia," they are not using a code word -- they are literally saying "fast heart condition" in Greek. Once you see that, you cannot unsee it.
+
+**The four building blocks:**
+
+**Word Root (WR)** -- The core meaning. Usually a body part or system.
+Example: cardi = heart
+
+**Prefix (P)** -- Comes before the root. Modifies or adds context.
+Example: tachy- = fast
+So: tachy + cardi = fast heart
+
+**Suffix (S)** -- Comes after the root. Tells you what is happening.
+Example: -ia = condition of
+So: tachy + cardi + ia = condition of fast heart = tachycardia
+
+**Combining Vowel (CV)** -- Usually "o" -- added to help pronunciation when connecting roots.
+Example: cardi/o is the combining form of cardi
+So: cardiology = cardi/o + logy (study of) = study of the heart
+
+That is the entire system.`
+    },
+    {
+      heading: "The Decoding Rule: Work Backwards",
+      body: `Here is the rule that terminology courses often bury in chapter 5: when you decode a medical term, start with the SUFFIX, then the PREFIX, then the ROOT.
+
+Suffix first. Prefix second. Root last.
+
+This sounds backwards, but the suffix tells you WHAT is happening (condition, procedure, disease), which frames the rest.
+
+**Example 1: Hepatitis**
+- Break it: hepat / itis
+- -itis = inflammation (what is happening)
+- hepat = liver (where)
+- Read it: inflammation of the liver
+- You decoded hepatitis without memorizing it.
+
+**Example 2: Pericarditis**
+- Break it: peri / cardi / itis
+- -itis = inflammation
+- peri- = around (where relative to the root)
+- cardi = heart
+- Read it: inflammation around the heart
+
+**Example 3: Electrocardiogram**
+- Break it: electr/o / cardi/o / gram
+- -gram = a record or picture
+- cardi/o = heart
+- electr/o = electricity
+- Read it: an electrical record of the heart = ECG
+
+Practice this rule until it is automatic. Every unfamiliar medical term: find the suffix, find the prefix, read the root.`
+    },
+    {
+      heading: "Words You Already Know",
+      body: `You have been using medical terminology your whole life without realizing it. Your brain learns new things by connecting them to what it already knows.
+
+**Familiar words and their hidden roots:**
+
+*Cardiology* -- you know this means heart stuff. cardi = heart, -ology = study of. You already knew the root.
+
+*Appendectomy* -- appendix removal. -ectomy = surgical removal. Now you know -ectomy forever.
+
+*Arthritis* -- joint inflammation. arthr = joint, -itis = inflammation.
+
+*Dermatology* -- skin doctor. derm = skin, -ology = study of.
+
+*Neurology* -- brain and nerve doctor. neur = nerve/brain, -ology = study of.
+
+*Hypertension* -- high blood pressure. hyper- = above normal, tens = stretch/pressure, -ion = condition.
+
+*Hypoglycemia* -- low blood sugar. hypo- = below normal, glyc = sugar, -emia = blood condition.
+
+The pattern: You already knew most of these roots. You just did not know you knew them. That is what this module does -- names what you already have, then expands it.`
+    },
+    {
+      heading: "The Combining Vowel",
+      body: `Many medical terms have what looks like a random "o" connecting pieces. This is the combining vowel, and it exists purely for pronunciation.
+
+**The rule:**
+- Use the combining vowel (usually "o") when connecting a root to a suffix that begins with a CONSONANT
+- Do NOT use the combining vowel when the suffix begins with a VOWEL
+
+**Examples:**
+- gastr (stomach) + -itis (inflammation) = gastritis NOT gastroitis (-itis starts with a vowel, skip the combining vowel)
+- gastr (stomach) + -o + -scope = gastroscope (-scope starts with a consonant, add combining vowel)
+
+Do not stress the rules too much right now. You will internalize them through use. The important thing: that "o" is not part of the meaning. It is just glue for pronunciation.
+
+The combining form = root + combining vowel written together: cardi/o, gastr/o, neur/o, hepat/o, nephr/o. You will see these in your TMCC course written exactly this way.`
+    },
+    {
+      heading: "Your First Decoding Practice",
+      body: `Decode the dispatch from this lesson:
+
+"67-year-old male, history of cardiomyopathy and subcutaneous edema. Wife states he has had increasing dyspnea for two days."
+
+**Cardiomyopathy:** cardi/o / my/o / pathy
+- -pathy = disease or disorder
+- my/o = muscle
+- cardi/o = heart
+- Meaning: disease of the heart muscle. This patient's heart muscle is not working properly.
+
+**Subcutaneous:** sub / cutane / ous
+- -ous = pertaining to
+- cutane = skin
+- sub- = under, below
+- Meaning: pertaining to under the skin. Subcutaneous edema = fluid under the skin. You will also see subcutaneous when medications are injected under the skin.
+
+**Dyspnea:** dys / pnea
+- -pnea = breathing
+- dys- = difficult, painful, abnormal
+- Meaning: difficult or labored breathing
+- Note: the "p" in -pnea is silent. Pronounced "DIS-nee-uh."
+
+You just read a medical dispatch correctly. This patient has a diseased heart muscle, fluid under his skin, and trouble breathing.`
+    }
+  ],
+  flashcards: [
+    { front: "Break apart and decode: TACHYCARDIA", back: "tachy- (fast) + cardi (heart) + -ia (condition of) = condition of a fast heart rate. Normal resting HR is 60-100 bpm. Tachycardia = above 100 bpm." },
+    { front: "Break apart and decode: HEPATITIS", back: "hepat (liver) + -itis (inflammation) = inflammation of the liver. You already knew this -- now you know WHY it is spelled that way." },
+    { front: "Break apart and decode: DYSPNEA", back: "dys- (difficult/abnormal) + -pnea (breathing) = difficult or labored breathing. Pronounced DIS-nee-uh. The P is silent." },
+    { front: "Break apart and decode: PERICARDITIS", back: "peri- (around) + cardi (heart) + -itis (inflammation) = inflammation around the heart. Specifically the pericardium -- the sac surrounding the heart." },
+    { front: "What is the decode rule for medical terms?", back: "Suffix FIRST (tells you what is happening), then PREFIX (modifies the root), then ROOT (body part). Suffix first, prefix second, root last." },
+    { front: "What is a combining vowel and why does it exist?", back: "Usually 'o' added between word parts to make pronunciation possible. cardi/o, gastr/o, neur/o. No meaning -- just glue for pronunciation." },
+    { front: "Break apart and decode: ELECTROCARDIOGRAM", back: "electr/o (electricity) + cardi/o (heart) + -gram (record/picture) = an electrical record of the heart. This is an ECG or EKG." },
+    { front: "Break apart and decode: CARDIOMYOPATHY", back: "cardi/o (heart) + my/o (muscle) + -pathy (disease/disorder) = disease of the heart muscle. A common cause of heart failure." },
+    { front: "Break apart and decode: SUBCUTANEOUS", back: "sub- (under/below) + cutane (skin) + -ous (pertaining to) = pertaining to under the skin. Subcutaneous injections go under the skin, not into muscle." },
+    { front: "What does -ectomy mean? Give an example.", back: "-ectomy = surgical removal. Appendectomy = removal of the appendix. Gastrectomy = removal of the stomach. Cholecystectomy = removal of the gallbladder." },
+    { front: "What does -ology mean? Give 3 examples.", back: "-ology = the study of. Cardiology (heart), Neurology (nerves/brain), Dermatology (skin). The doctor who studies hearts is a cardiologist." },
+    { front: "hyper- vs hypo- -- give a medical example of each.", back: "hyper- = above normal. Hypertension = high BP. Hyperglycemia = high blood sugar. hypo- = below normal. Hypotension = low BP. Hypoglycemia = low blood sugar." },
+    { front: "Break apart and decode: HYPOGLYCEMIA", back: "hypo- (below normal) + glyc (sugar) + -emia (blood condition) = below-normal blood sugar. Below 70 mg/dL. EMTs treat this with oral glucose." },
+    { front: "Word root vs combining form -- what is the difference?", back: "Word root is the base: cardi. Combining form is root + combining vowel: cardi/o. Use the combining form when connecting to a suffix beginning with a consonant." }
+  ],
+  quiz: [
+    {
+      q: "A patient is described as having 'bradycardia.' Using word-building logic, this means:",
+      options: ["Inflammation of the heart", "A condition of slow heart rate", "Disease of the heart muscle", "Recording of the heart's electricity"],
+      answer: 1,
+      explanation: "brady- = slow, cardi = heart, -ia = condition of. Bradycardia = condition of slow heart rate. Normal is 60-100 bpm. Bradycardia = below 60 bpm."
+    },
+    {
+      q: "When decoding a medical term you have never seen, you should start with:",
+      options: ["The prefix", "The word root", "The suffix", "The combining vowel"],
+      answer: 2,
+      explanation: "Always decode suffix first. The suffix tells you WHAT is happening. That frames how the rest of the word makes sense."
+    },
+    {
+      q: "'Gastr/itis' is written WITHOUT a combining vowel because:",
+      options: ["Gastritis is an exception", "The suffix -itis begins with a vowel, so no combining vowel is needed", "The combining vowel was accidentally left out", "Gastr is a prefix"],
+      answer: 1,
+      explanation: "Combining vowel is used when the suffix begins with a CONSONANT. Since -itis begins with a vowel (i), no combining vowel needed. Gastritis, not gastroitis."
+    },
+    {
+      q: "A dispatch says your patient has 'dyspnea.' This means the patient is experiencing:",
+      options: ["Chest pain", "Altered mental status", "Difficult or labored breathing", "Rapid heart rate"],
+      answer: 2,
+      explanation: "dys- = difficult/abnormal, -pnea = breathing. Dyspnea = difficult breathing. Pronounced DIS-nee-uh. Very common term in EMS."
+    },
+    {
+      q: "Which suffix indicates SURGICAL REMOVAL?",
+      options: ["-itis", "-ology", "-ectomy", "-gram"],
+      answer: 2,
+      explanation: "-ectomy = surgical removal. Appendectomy = appendix removed. -itis = inflammation. -ology = study of. -gram = a record."
+    },
+    {
+      q: "The combining form of 'cardi' is written as:",
+      options: ["cardi-", "cardio", "cardi/o", "-cardia"],
+      answer: 2,
+      explanation: "Combining form = word root + combining vowel, separated by a slash: cardi/o. This is the standard textbook notation."
+    },
+    {
+      q: "Decode: SUBCUTANEOUS",
+      options: ["Above the skin", "Pertaining to under the skin", "Inflammation of the skin", "Study of the skin"],
+      answer: 1,
+      explanation: "sub- = under/below, cutane = skin, -ous = pertaining to. Subcutaneous = pertaining to under the skin. Subcutaneous injections go just under the skin."
+    },
+    {
+      q: "A patient has 'hypertension.' Using word-building logic:",
+      options: ["They have a below-normal heart rate", "They have excessive pressure in their blood vessels", "They have inflammation around the heart", "They are anxious"],
+      answer: 1,
+      explanation: "hyper- = above normal/excessive, tens = stretch/tension, -ion = condition. Hypertension = condition of excessive pressure = high blood pressure."
+    }
+  ]
+};
+
+const MT_L2 = {
+  moduleId: "MT", id: 2,
+  title: "Location & Direction Terms",
+  subtitle: "The body's address system -- where things are and which way they face",
+  duration: "~1 hr total",
+  dispatch: {
+    call: `"Unit 7, respond to 450 Pine Street. 32-year-old male, motorcycle accident. Abrasions to the anterior chest and distal left forearm. Medial knee pain bilaterally. Patient ambulatory at scene."`,
+    time: "3:18 PM", eta: "6 minutes",
+    hook: "Anterior chest. Distal forearm. Medial knee. Bilaterally. The scene report told you exactly where every injury is. These terms are used in every patient report, every hospital handoff, and every PCR you will ever write.",
+    bridge: "Anatomical location terms are not optional vocabulary. They are the coordinates you use to communicate where something is on a patient's body. Learn these once and use them on every call for the rest of your career."
+  },
+  content: [
+    {
+      heading: "The Anatomical Position: Your Reference Point",
+      body: `All location and direction terms refer to one specific position: the anatomical position. Every term is defined relative to this standard.
+
+**Anatomical position:**
+- Standing upright
+- Facing forward
+- Arms at the sides
+- Palms facing FORWARD (not inward -- this is what people forget)
+- Feet flat on the floor
+
+Every direction term means exactly that direction relative to this position. A patient lying on their back is STILL described using anatomical position terms. "Anterior" still means the front of the body even when the patient is supine.
+
+Why this matters: When you say "the wound is on the anterior chest," every provider knows exactly where you mean. No ambiguity. That is the entire point of standardized language.`
+    },
+    {
+      heading: "Front/Back and Up/Down",
+      body: `These come in pairs. Learn both at once.
+
+**Anterior / Posterior**
+- Anterior = front of the body
+- Posterior = back of the body
+- Memory hook: "Anterior = the side you face when walking through a door"
+- EMS examples: Anterior chest pain (front -- cardiac). Posterior tibial pulse (back of ankle). ACL = anterior cruciate ligament (front of knee).
+
+**Superior / Inferior**
+- Superior = toward the head, above
+- Inferior = toward the feet, below
+- Memory hook: Superior = higher up, like a superior officer outranks you
+- EMS examples: The heart is superior to the liver. Superior vena cava brings blood from the upper body.
+
+**Putting them together:**
+"Stab wound in the left anterior superior chest wall" = front, upper, left side of the chest. One phrase. No ambiguity. The hospital knows exactly what they are receiving.`
+    },
+    {
+      heading: "Middle/Side and Near/Far",
+      body: `**Medial / Lateral**
+- Medial = toward the midline (center) of the body
+- Lateral = away from the midline (toward the outside)
+- Memory hook: "Medial = Middle" -- both start with M
+- EMS examples: Medial knee pain (inside of the knee). Lateral ankle sprain (outside -- most common ankle sprain). The nose is medial to the ears.
+
+**Proximal / Distal**
+- Proximal = closer to the point of attachment or body's core
+- Distal = farther from the point of attachment
+- Memory hook: "Distal = Distant from the body"
+- EMS examples: The elbow is proximal to the wrist. Fingers are the most distal part of the arm. A distal radius fracture = broken wrist (far end of the radius).
+
+**Why proximal/distal matters for EMTs:** "Distal pulse present" means you checked circulation at the far end of an injured limb. A distal pulse in a patient with a femur fracture tells you the blood supply to the leg is intact below the injury.`
+    },
+    {
+      heading: "Bilateral, Superficial/Deep, and Body Cavities",
+      body: `**Bilateral / Unilateral**
+- Bilateral = both sides (bi- = two)
+- Unilateral = one side (uni- = one)
+- EMS examples: Bilateral leg edema (swollen on both sides -- common in CHF). Unilateral facial droop (one side only -- classic stroke sign). Bilateral breath sounds present (air moving on both sides).
+
+**Superficial / Deep**
+- Superficial = closer to the body surface
+- Deep = farther from the surface, toward the interior
+- EMS examples: Superficial laceration (barely through the skin). Deep wound (may involve muscle or organs). Superficial vs. deep burns.
+
+**Key body cavities:**
+- Cranial: Inside the skull. Contains the brain.
+- Thoracic: The chest. Heart, lungs, major vessels. Separated from abdomen by the diaphragm.
+- Abdominal: Stomach, liver, intestines, spleen.
+- Pelvic: Below the abdomen. Bladder, rectum, reproductive organs.
+
+**Decoding the dispatch:**
+- Anterior chest = front of chest
+- Distal left forearm = near the wrist (far from elbow)
+- Medial knee = inside of the knee
+- Bilaterally = on both sides`
+    }
+  ],
+  flashcards: [
+    { front: "Decode: BILATERAL lower extremity edema. What does this mean?", back: "Bilateral = both sides. Lower extremity = legs. Both legs are swollen. Classic finding in CHF (congestive heart failure) or DVT (deep vein thrombosis)." },
+    { front: "Anterior vs Posterior -- define both.", back: "Anterior = front of the body. Posterior = back. Anterior chest pain = front chest pain (cardiac). Posterior chest pain = back of chest (possible aortic or pulmonary cause)." },
+    { front: "Decode: DISTAL pulse present in injured extremity. Why does this matter?", back: "Distal = far from body core. Distal pulse = circulation intact past the injury site. LOSS of distal pulse after fracture or dislocation = vascular compromise = urgent surgical emergency." },
+    { front: "Medial vs Lateral -- which side of the knee is medial?", back: "Medial = toward midline = INSIDE of the knee (where knees would touch). Lateral = outside. MCL = medial collateral ligament (inside). LCL = lateral (outside)." },
+    { front: "Decode: UNILATERAL facial droop. What are you looking for?", back: "Unilateral = one side only. Facial droop on ONE side = classic stroke sign. Cincinnati Stroke Scale: facial droop, arm drift, abnormal speech. Unilateral = stroke until proven otherwise." },
+    { front: "Superior vs Inferior: is the heart superior or inferior to the liver?", back: "Superior = toward the head. Heart is in the thoracic cavity (above diaphragm). Liver is in the abdominal cavity (below diaphragm). Heart is SUPERIOR to the liver." },
+    { front: "What is the anatomical position and why does it matter?", back: "Standing, facing forward, arms at sides, palms facing FORWARD. All anatomical direction terms are defined relative to this position -- even when the patient is lying down." },
+    { front: "Superficial vs Deep laceration -- clinical difference?", back: "Superficial = near the surface, skin and subcutaneous tissue only. Deep = penetrates deeper, may involve muscle, tendons, vessels, or organs. Deep may require surgery." },
+    { front: "What are the 3 major body cavities relevant to trauma?", back: "Thoracic (heart, lungs), Abdominal (liver, spleen, intestines), Pelvic (bladder, reproductive organs). Internal bleeding into any of these can be life-threatening and invisible from outside." },
+    { front: "Proximal vs Distal: A PROXIMAL humerus fracture is where?", back: "Proximal = close to attachment/core. Humerus = upper arm bone. Proximal humerus = shoulder end. Common fall injury in elderly patients." },
+    { front: "What does IPSILATERAL mean vs CONTRALATERAL?", back: "Ipsilateral = same side. Contralateral = opposite side. Left-sided brain injury causes RIGHT-sided weakness (contralateral) because motor pathways cross in the brainstem." },
+    { front: "Decode: BILATERAL breath sounds on exam. What are you confirming?", back: "Bilateral = both sides. You confirmed air movement on BOTH left and right chest. Absence on one side after trauma = pneumothorax or hemothorax until proven otherwise." }
+  ],
+  quiz: [
+    {
+      q: "Your patient has a stab wound to the 'posterior thorax.' Where is the wound?",
+      options: ["Front of the chest", "Back of the chest", "Side of the abdomen", "Lower back below the ribs"],
+      answer: 1,
+      explanation: "Posterior = back. Thorax = chest. The wound is on the BACK of the chest. Posterior thoracic stab wounds can injure lungs, aorta, or spinal cord."
+    },
+    {
+      q: "A patient fell and has 'distal radius' pain. Where does it hurt?",
+      options: ["Near the shoulder", "Near the elbow", "Near the wrist", "In the fingers"],
+      answer: 2,
+      explanation: "Distal = far from the body. The radius runs from elbow to wrist. Distal radius = the WRIST end. A distal radius fracture (Colles fracture) is one of the most common broken bones from falling on an outstretched hand."
+    },
+    {
+      q: "You are assessing bilateral breath sounds. 'Bilateral' means you are listening to:",
+      options: ["The front of the chest only", "The back of the chest only", "Both sides of the chest", "One side at a time"],
+      answer: 2,
+      explanation: "Bilateral = both sides (bi- = two). You confirmed air movement on BOTH left and right sides. Absence on one side after trauma = pneumothorax or hemothorax."
+    },
+    {
+      q: "The 'medial' side of the ankle is:",
+      options: ["The outside, facing away from the other foot", "The inside, facing toward the other foot", "The front of the ankle", "The bottom"],
+      answer: 1,
+      explanation: "Medial = toward the midline. Medial ankle = the INSIDE, facing the other foot. The medial malleolus is the bump on the inside of your ankle. Lateral ankle sprains (outside) are more common."
+    },
+    {
+      q: "A stroke patient has left-sided facial droop and left arm weakness. These are IPSILATERAL findings, meaning:",
+      options: ["They are on opposite sides", "They are on the same side", "The brain injury is on the left", "This is normal"],
+      answer: 1,
+      explanation: "Ipsilateral = same side. Both findings are LEFT-sided. Since motor pathways cross, left-sided deficits usually indicate a RIGHT-sided brain injury (contralateral)."
+    }
+  ]
+};
+
+const MT_L3 = {
+  moduleId: "MT", id: 3,
+  title: "Word Roots by Body System",
+  subtitle: "The building blocks -- organized by where they live in the body",
+  duration: "~1.5 hrs total",
+  dispatch: {
+    call: `"Unit 9, respond to 887 Clearwater Ave. 58-year-old female, known history of hepatomegaly and nephropathy secondary to diabetes. Currently complaining of oliguria and peripheral neuropathy."`,
+    time: "1:45 PM", eta: "5 minutes",
+    hook: "Hepatomegaly. Nephropathy. Oliguria. Peripheral neuropathy. Your dispatch just described a diabetic patient with an enlarged liver, kidney disease, low urine output, and nerve damage. You decoded that. Now let us make sure you can do it reliably.",
+    bridge: "Word roots are organized by body system -- which means learning them connects directly to what you study in every other EMT module. Learn a root once, use it everywhere."
+  },
+  content: [
+    {
+      heading: "Cardiovascular Roots",
+      body: `cardi/o = heart -- cardiology, cardiomegaly (enlarged heart), cardiomyopathy, cardiopulmonary
+
+angi/o, vas/o = blood vessel -- angioplasty (vessel repair), vasodilation (widening), vasoconstriction (narrowing)
+
+arteri/o = artery -- arteriosclerosis (hardening of arteries), arterial bleeding (bright red, pulsatile)
+
+ven/o, phleb/o = vein -- venous bleeding (dark red, flows steadily), phlebotomy (drawing blood), intravenous (IV = into a vein)
+
+hem/o, hemat/o = blood -- hemorrhage (excessive bleeding), hemoglobin, hematuria (blood in urine), hemothorax (blood in chest cavity)
+
+thromb/o = clot -- thrombosis (clot formation), thrombus (a clot), thromboembolism (clot that travels)
+
+Memory pattern: see cardi = heart. See hem/o = something involves blood. These appear so often in EMS they become automatic.`
+    },
+    {
+      heading: "Respiratory Roots",
+      body: `pulm/o, pulmon/o = lung -- pulmonary edema (fluid in lungs), pulmonary embolism (clot in lungs)
+
+pneum/o, pneumon/o = air, lung, or breath -- pneumonia (lung infection), pneumothorax (air outside the lung in chest cavity)
+Note: pneum/o can mean air OR lung depending on context.
+
+bronch/o = bronchus (large airways) -- bronchitis, bronchospasm (airways cramping shut -- asthma), bronchoscopy
+
+trache/o = trachea (windpipe) -- tracheotomy (surgical opening in trachea), tracheal deviation (sign of tension pneumothorax)
+
+nas/o, rhin/o = nose -- nasal cannula, rhinitis (runny nose)
+
+ox/o = oxygen -- hypoxia (below-normal oxygen), pulse oximetry
+
+-pnea = breathing -- dyspnea (difficult), apnea (no breathing), tachypnea (fast), bradypnea (slow)`
+    },
+    {
+      heading: "Neurological Roots",
+      body: `neur/o = nerve -- neurology, neuropathy (nerve disease), neurotransmitter
+
+encephal/o = brain -- encephalitis (brain inflammation), encephalopathy (brain disease causing AMS)
+
+cerebr/o = cerebrum -- cerebrovascular accident (CVA = stroke), cerebrospinal fluid (CSF)
+
+mening/o = meninges (membranes covering the brain/spinal cord) -- meningitis (a medical emergency)
+
+-plegia = paralysis -- hemiplegia (half the body), paraplegia (lower body), quadriplegia (all four limbs)
+
+-paresis = weakness (partial, not complete paralysis) -- hemiparesis = weakness on one side, common early stroke finding
+
+Note: Stroke = CVA = cerebrovascular accident. These all mean the same thing. cerebr/o (brain) + vascular (blood vessels) = blood vessel event in the brain.`
+    },
+    {
+      heading: "GI, Urinary, and Musculoskeletal Roots",
+      body: `gastr/o = stomach -- gastritis, gastroenteritis (stomach flu), gastroscopy
+
+hepat/o = liver -- hepatitis, hepatomegaly (enlarged liver, -megaly = enlargement), hepatic
+
+nephr/o, ren/o = kidney -- nephritis, nephropathy (kidney disease), renal failure
+
+ur/o = urine/urinary -- urology, oliguria (scanty urine, olig/o = few/little), anuria (no urine, an- = without), hematuria (blood in urine)
+
+oste/o = bone -- osteoporosis (porous/weakened bones), osteoarthritis
+
+arthr/o = joint -- arthritis (joint inflammation), arthroscopy
+
+my/o, muscul/o = muscle -- myocardium (heart muscle), myalgia (muscle pain)
+
+derm/o, dermat/o = skin -- dermatology, dermatitis, subcutaneous
+
+From the dispatch: Hepatomegaly = hepat/o + -megaly (enlargement) = enlarged liver. Nephropathy = nephr/o + -pathy (disease) = kidney disease. Oliguria = olig/o + -uria = little urine output.`
+    }
+  ],
+  flashcards: [
+    { front: "Decode: HEPATOMEGALY", back: "hepat/o (liver) + -megaly (enlargement) = enlargement of the liver. Causes: hepatitis, cirrhosis, CHF (blood backs up into liver), cancers." },
+    { front: "Decode: NEPHROPATHY -- clinical relevance?", back: "nephr/o (kidney) + -pathy (disease) = kidney disease. Look for this in patient history -- altered drug metabolism, fluid issues, dialysis dependence." },
+    { front: "Decode: HEMOTHORAX -- where is the blood?", back: "hem/o (blood) + thorax (chest) = blood in the chest cavity outside the lungs. Caused by trauma. Signs: decreased breath sounds, dullness to percussion, hypotension." },
+    { front: "Decode: CEREBROVASCULAR ACCIDENT -- what else is it called?", back: "cerebr/o (brain) + vascular (blood vessels) + accident = stroke or CVA. Ischemic (blocked vessel) or hemorrhagic (burst vessel)." },
+    { front: "Decode: TACHYPNEA -- clinical meaning?", back: "tachy- (fast) + -pnea (breathing) = fast breathing. Normal RR 12-20/min. Tachypnea suggests respiratory distress, pain, shock, fever, or anxiety." },
+    { front: "Decode: MYOCARDIAL INFARCTION -- every part.", back: "my/o (muscle) + cardi (heart) + -al (pertaining to) + infarction (tissue death from lack of blood) = death of heart muscle from lack of blood supply. Heart attack. MI." },
+    { front: "Decode: OLIGURIA -- kidney function implication?", back: "olig/o (few/little) + -uria (urine condition) = little urine output. Less than 400 mL/day. Suggests kidney failure, severe dehydration, or shock. Anuria = no urine at all = emergency." },
+    { front: "Decode: PULMONARY EDEMA -- what is happening?", back: "pulmon/o (lung) + -ary (pertaining to) + edema (fluid) = fluid in the lungs. Impairs gas exchange. Classic: pink frothy sputum, respiratory distress, wet crackles on exam." },
+    { front: "Decode: PNEUMOTHORAX -- what and why dangerous?", back: "pneum/o (air) + thorax (chest) = air in the chest cavity OUTSIDE the lung. Lung cannot expand. Tension pneumothorax: pressure builds each breath, compresses the heart -- immediately life-threatening." },
+    { front: "Decode: HEMIPLEGIA vs HEMIPARESIS -- what does hemi- mean?", back: "hemi- = half. Hemiplegia = complete paralysis of one side. Hemiparesis = weakness on one side. Both neurological. Paresis is partial; plegia is complete." },
+    { front: "Decode: INTRAVENOUS -- break it apart.", back: "intra- (within/inside) + ven (vein) + -ous (pertaining to) = pertaining to within a vein. IV access places a catheter inside a vein to deliver fluids or medications directly into the bloodstream." },
+    { front: "Decode: ARTERIOSCLEROSIS", back: "arteri/o (artery) + scler (hardening) + -osis (abnormal condition) = abnormal hardening of the arteries. Root cause of most heart attacks and strokes." }
+  ],
+  quiz: [
+    {
+      q: "A patient has 'hematuria.' What does this indicate?",
+      options: ["Blood in the chest", "Blood in the urine", "Blood clot in the lung", "Low blood pressure"],
+      answer: 1,
+      explanation: "hemat/o (blood) + -uria (urine condition) = blood in the urine. Always significant -- kidney stones, UTI, trauma, or kidney disease."
+    },
+    {
+      q: "A patient with COPD has 'bronchospasm.' This means:",
+      options: ["Bleeding from the airways", "Constriction of the bronchial airways", "Fluid in the lungs", "Lung tissue infection"],
+      answer: 1,
+      explanation: "bronch/o (bronchus/airways) + spasm = sudden involuntary constriction of the airways. The mechanism of an asthma attack -- airways clamp down, making exhalation difficult."
+    },
+    {
+      q: "A stroke patient has 'left hemiparesis.' This means:",
+      options: ["Complete paralysis of the left side", "Weakness on the left side", "Weakness on the right side", "Loss of sensation only"],
+      answer: 1,
+      explanation: "hemi- (half) + -paresis (weakness) = weakness on one half. Left hemiparesis = left-sided weakness. Since motor pathways cross, this suggests a RIGHT-sided brain injury."
+    },
+    {
+      q: "Decode: OSTEOPOROSIS tells you the patient has:",
+      options: ["Bone infection", "Joint inflammation", "Weakened porous bones at risk of fracture", "Bone tumor"],
+      answer: 2,
+      explanation: "oste/o (bone) + porosis (porous) = condition of porous, weakened bones. Common in elderly women. These patients fracture easily from minor falls."
+    },
+    {
+      q: "Your patient has 'hepatitis C with hepatomegaly.' This means:",
+      options: ["Gallbladder inflammation causing liver shrinkage", "Liver inflammation from hepatitis C causing liver enlargement", "Heart disease causing liver inflammation", "Kidney disease caused by hepatitis"],
+      answer: 1,
+      explanation: "hepat/itis = liver inflammation. hepatomegaly = liver enlargement. Chronic hepatitis C causes the liver to enlarge as it becomes scarred (cirrhosis)."
+    }
+  ]
+};
+
+const MT_L4 = {
+  moduleId: "MT", id: 4,
+  title: "Essential Prefixes",
+  subtitle: "15 prefixes that modify everything -- speed, quantity, location, absence",
+  duration: "~1 hr total",
+  dispatch: {
+    call: `"Unit 2, respond to 1140 Riverside Drive. 74-year-old male, post-surgical. Reports bilateral periorbital edema, dysphagia, and tachypnea. Currently afebrile. History of bilateral nephrectomy."`,
+    time: "10:55 AM", eta: "3 minutes",
+    hook: "Periorbital edema around his eyes. Dysphagia -- difficulty swallowing. Tachypnea -- fast breathing. Afebrile -- no fever. And he had both kidneys removed. You now have a complete clinical picture from one sentence. Prefixes made that possible.",
+    bridge: "Prefixes modify. They tell you how much, how fast, where relative to something, or whether something is absent. Learn 15 prefixes and you can modify every root you know."
+  },
+  content: [
+    {
+      heading: "Speed and Quantity Prefixes",
+      body: `brady- = slow -- bradycardia (slow heart rate, <60 bpm), bradypnea (slow breathing, <12/min)
+
+tachy- = fast -- tachycardia (fast heart rate, >100 bpm), tachypnea (fast breathing, >20/min)
+
+hyper- = above normal, excessive -- hypertension (high BP), hyperglycemia (high blood sugar), hyperthermia (heat stroke), hyperventilation
+
+hypo- = below normal, deficient -- hypotension (low BP), hypoglycemia (low blood sugar), hypothermia, hypovolemia (low blood volume from bleeding or dehydration)
+
+poly- = many, much -- polyuria (excessive urination -- diabetes sign), polydipsia (excessive thirst -- diabetes sign), polypharmacy (many medications -- common in elderly)
+
+Memory pattern: hyper/hypo are opposites. brady/tachy are opposites. Learn in pairs. hyper = too much. hypo = too little.`
+    },
+    {
+      heading: "Absence, Difficulty, and Opposition Prefixes",
+      body: `a-, an- = without, absence of -- apnea (no breathing), anuria (no urine), anemia (low red blood cells), asystole (no heartbeat)
+Note: a- before consonants, an- before vowels.
+
+dys- = difficult, painful, abnormal -- dyspnea (difficult breathing), dysphagia (difficult swallowing), dysrhythmia (abnormal rhythm), dystonia
+
+anti- = against, opposing -- anticoagulant (against clotting -- blood thinners), antihypertensive (against high BP), antibiotic
+
+Memory tip for a-/an-: think of everyday English -- atypical (not typical), asymmetry (not symmetrical). Same prefix, same meaning.`
+    },
+    {
+      heading: "Location and Relationship Prefixes",
+      body: `peri- = around, surrounding -- pericardium (sac AROUND the heart), pericarditis, periorbital (around the eye socket)
+
+epi- = upon, above, on top of -- epidermis (outer skin layer), epidural (on top of the dura), epigastric (above the stomach)
+Epinephrine: epi- (upon) + nephros (kidney) -- because the adrenal glands sit ON TOP of the kidneys and produce epinephrine.
+
+sub- = under, below -- subcutaneous (under the skin), sublingual (under the tongue -- nitro dissolves here), substernal (beneath the breastbone)
+
+endo- = within, inside -- endotracheal (within the trachea -- ETT tube), endocardium (inner heart lining), endoscopy
+
+intra- = within, inside -- intravenous (within the vein), intracranial (within the skull -- ICP), intramuscular (within the muscle)
+
+inter- = between -- intercostal (between the ribs), interphalangeal (between finger bones)
+
+intra vs inter: intra = IN something. inter = BETWEEN two things.`
+    },
+    {
+      heading: "Number and Time Prefixes",
+      body: `uni- = one -- unilateral (one side)
+bi- = two -- bilateral (both sides), bifurcation (splits into two -- the trachea bifurcates at the carina)
+hemi- = half -- hemiplegia (paralysis of half), hemiparesis (weakness of half)
+quad-, tetra- = four -- quadriplegia (all four limbs paralyzed), quadrant (one of four abdominal sections)
+
+pre- = before -- prehospital (before arriving at hospital -- your whole job), prenatal, preoperative
+post- = after -- postictal (after a seizure -- confusion and lethargy is NORMAL in this phase), postoperative, postpartum
+
+The postictal state: After a grand mal seizure, patients are confused, exhausted, slow to respond. This is NORMAL. Duration: minutes to hours. It does not mean the seizure is continuing.
+
+Decoding this lesson's dispatch:
+- Bilateral periorbital edema = fluid around BOTH eyes
+- Dysphagia = dys + -phagia (swallowing) = difficulty swallowing
+- Tachypnea = tachy + -pnea = fast breathing
+- Afebrile = a + febrile = WITHOUT fever
+- Bilateral nephrectomy = BOTH kidneys surgically removed -- patient is on dialysis`
+    }
+  ],
+  flashcards: [
+    { front: "Decode: APNEA -- what do you do?", back: "a- (without) + -pnea (breathing) = absence of breathing. Open the airway, begin BVM ventilation. Immediate emergency." },
+    { front: "Decode: BILATERAL NEPHRECTOMY -- care implications?", back: "bi-lateral (both sides) + nephr (kidney) + -ectomy (removed) = both kidneys removed. Patient on dialysis. Cannot excrete drugs normally. Critical for fluid and medication decisions." },
+    { front: "HYPER- vs HYPO-: decode HYPOVOLEMIA and HYPERVOLEMIA.", back: "Hypovolemia = below-normal blood volume (bleeding, dehydration -- SHOCK). Hypervolemia = excess fluid volume (CHF, kidney failure -- pulmonary edema risk)." },
+    { front: "Decode: POSTICTAL STATE -- when and what does it look like?", back: "post- (after) + ictal (seizure) = state AFTER a seizure. Confused, exhausted, slow to respond. NORMAL after grand mal. Duration: minutes to hours. Seizure has ended." },
+    { front: "Decode: DYSPHAGIA -- why does it matter on an EMS call?", back: "dys- (difficult) + -phagia (swallowing) = difficulty swallowing. Concerns: aspiration risk, possible stroke sign (sudden dysphagia), possible airway edema (anaphylaxis)." },
+    { front: "Decode: SUBLINGUAL -- how is it different from swallowing?", back: "sub- (under) + lingual (tongue) = under the tongue. Medications dissolve there and absorb directly into the bloodstream through the blood vessels under the tongue. Faster than swallowing." },
+    { front: "Decode: INTRACRANIAL PRESSURE -- what raises it and why dangerous?", back: "intra- (within) + cranial (skull) = pressure inside the skull. Raised by: head trauma, bleeding, brain swelling. Skull cannot expand -- rising ICP compresses the brain. Signs: Cushing triad (hypertension, bradycardia, irregular breathing)." },
+    { front: "Decode: EPINEPHRINE -- trace the word to its origin.", back: "epi- (upon) + nephrine (nephros = kidney) = upon the kidney. Adrenal glands sit ON TOP of kidneys and produce epinephrine (adrenaline). Named for where it comes from." },
+    { front: "Decode: ANTIHYPERTENSIVE -- what does this patient have?", back: "anti- (against) + hyper- (above normal) + tens (pressure) = drug that works AGAINST high blood pressure. Patient has hypertension. Examples: lisinopril, amlodipine, metoprolol." },
+    { front: "intra- vs inter- -- define both with an example.", back: "intra- = WITHIN (intravenous = within the vein). inter- = BETWEEN (intercostal = between the ribs)." },
+    { front: "Decode: ASYMPTOMATIC -- assessment implication?", back: "a- (without) + symptomatic = without symptoms. Patient has NO symptoms despite having a condition. Do NOT assume normal just because the patient feels fine." },
+    { front: "Decode: AFEBRILE -- what does this mean clinically?", back: "a- (without) + febrile (fever) = without fever. Important: elderly and immunocompromised patients may have serious infections WITHOUT fever. Afebrile does not mean not infected." }
+  ],
+  quiz: [
+    {
+      q: "A patient is described as 'afebrile.' This means:",
+      options: ["High fever", "Mild fever", "No fever", "Past fever"],
+      answer: 2,
+      explanation: "a- = without/absence of. Febrile = having a fever. Afebrile = WITHOUT fever. Important: many infections in elderly or immunocompromised patients present without fever."
+    },
+    {
+      q: "A patient just had a grand mal seizure and is now confused. This is:",
+      options: ["A second seizure starting", "The postictal state -- normal after a seizure", "A stroke", "Hypoglycemia"],
+      answer: 1,
+      explanation: "Postictal (post = after, ictal = seizure) = normal confusion and lethargy after a seizure. Can last minutes to hours. Unless new focal deficits appear or the seizure resumes, this is expected."
+    },
+    {
+      q: "The prefix PERI- means:",
+      options: ["Within or inside", "Under or below", "Around or surrounding", "Above or upon"],
+      answer: 2,
+      explanation: "peri- = around or surrounding. Pericardium = around the heart. Periorbital = around the eye. Compare: endo-/intra- (within), sub- (under), epi- (upon)."
+    },
+    {
+      q: "BILATERAL breath sounds on assessment means:",
+      options: ["Abnormal sounds on both sides", "Breath sounds present on both sides", "One side louder than the other", "Fast breathing"],
+      answer: 1,
+      explanation: "Bilateral = both sides (bi = two). Air movement confirmed on BOTH left and right sides. Absence on one side after trauma = pneumothorax or hemothorax."
+    },
+    {
+      q: "Nitroglycerin is given sublingually. SUBLINGUAL means:",
+      options: ["Swallowed with water", "Under the tongue", "Applied to skin", "Injected into vein"],
+      answer: 1,
+      explanation: "sub- = under, lingual = tongue. Sublingual = under the tongue. Nitro dissolves there and absorbs directly into bloodstream -- much faster than swallowing."
+    }
+  ]
+};
+
+const MT_L5 = {
+  moduleId: "MT", id: 5,
+  title: "Essential Suffixes",
+  subtitle: "What is happening -- endings that tell you condition, procedure, or disease",
+  duration: "~1 hr total",
+  dispatch: {
+    call: `"Unit 11, respond to 2250 Desert Way. 61-year-old female, history of cholecystectomy and appendectomy. Currently complaining of hemoptysis and pleuritic chest pain. Denies history of carcinoma. O2 saturation 91% on room air."`,
+    time: "7:44 AM", eta: "4 minutes",
+    hook: "Cholecystectomy -- gallbladder removed. Appendectomy -- appendix removed. Hemoptysis -- coughing up blood. Pleuritic -- sharp pain with breathing. Carcinoma -- cancer. O2 sat 91% -- low. This dispatch gave you a surgical history and an urgent respiratory presentation. All from suffixes.",
+    bridge: "Suffixes tell you whether something is a disease, a procedure, an examination, or a symptom. Know 15 suffixes and you can identify what kind of term you are looking at before you even know the root."
+  },
+  content: [
+    {
+      heading: "Disease and Condition Suffixes",
+      body: `-itis = inflammation -- the most common suffix in medicine. Gastritis, hepatitis, appendicitis, meningitis, pericarditis. Inflammation = redness, swelling, heat, pain.
+
+-emia = blood condition -- anemia (low red blood cells), hypoglycemia (low blood sugar), bacteremia (bacteria in blood = sepsis precursor), hypoxemia (low blood oxygen)
+
+-pathy = disease or disorder (often chronic) -- neuropathy, cardiomyopathy, nephropathy. Often implies a longer-term process vs. -itis which is acute inflammation.
+
+-oma = tumor or mass -- carcinoma (cancerous mass), hematoma (blood pooled into a mass), melanoma, lipoma (benign fat tumor). NOT all -omas are cancerous. A hematoma is a bruise. Carcinoma specifically = cancer.
+
+-algia, -dynia = pain -- myalgia (muscle pain), neuralgia (nerve pain), arthralgia (joint pain without inflammation), otalgia (ear pain)
+
+-ptysis = spitting or coughing up -- hemoptysis (coughing up blood). ALWAYS significant: possible pulmonary embolism, pneumonia, lung cancer, or tuberculosis. Never dismiss.`
+    },
+    {
+      heading: "Procedure and Surgical Suffixes",
+      body: `-ectomy = surgical removal -- appendectomy, cholecystectomy (gallbladder), gastrectomy (stomach), nephrectomy (kidney). If your patient had an -ectomy, that organ is GONE.
+
+-oscopy / -scopy = visual exam with a scope -- colonoscopy, gastroscopy, bronchoscopy, arthroscopy
+
+-plasty = surgical repair -- rhinoplasty (nose), angioplasty (blood vessel), arthroplasty (joint replacement)
+
+-otomy / -tomy = surgical incision -- tracheotomy (cut into trachea), laparotomy (cut into abdomen), thoracotomy (cut into chest)
+CRITICAL DIFFERENCE: -ectomy = REMOVE. -otomy = CUT INTO (not necessarily remove).
+
+-stomy = creating a surgical opening to outside -- colostomy (colon to skin), tracheostomy (permanent trachea opening), ileostomy`
+    },
+    {
+      heading: "Diagnostic and Measurement Suffixes",
+      body: `-gram = a record, image, or picture -- electrocardiogram (ECG), mammogram, angiogram, electroencephalogram (EEG)
+
+-graphy = the process of recording -- electrocardiography, radiography, angiography
+
+-graph = the instrument used -- electrocardiograph (the machine)
+
+Memory trick: -gram = the picture (what you look at). -graph = the machine. -graphy = the process.
+
+-meter = instrument for measuring -- spirometer (lung volume), oximeter (blood oxygen), sphygmomanometer (blood pressure)
+
+-metry = the process of measuring -- spirometry, oximetry
+
+-logy = the study of, the medical specialty -- cardiology, neurology, hematology, oncology (cancer)
+
+-logist = a specialist -- cardiologist, neurologist. The physician who practices the -logy.
+
+-megaly = enlargement -- cardiomegaly (heart), hepatomegaly (liver), splenomegaly (spleen)
+
+-stenosis = narrowing -- aortic stenosis (narrowed aortic valve), spinal stenosis`
+    },
+    {
+      heading: "Decoding This Lesson's Dispatch",
+      body: `"History of cholecystectomy and appendectomy. Hemoptysis and pleuritic chest pain. O2 sat 91%. Denies carcinoma."
+
+Cholecystectomy: chole (bile) + cyst (sac/pouch = the gallbladder is a bile sac) + -ectomy (removed) = gallbladder removed.
+
+Appendectomy: append (appendix) + -ectomy (removed) = appendix gone. She CANNOT have appendicitis.
+
+Hemoptysis: hem/o (blood) + -ptysis (coughing up) = coughing up blood. Serious. With low O2 sat and chest pain: think pulmonary embolism, pneumonia, or lung cancer.
+
+Pleuritic chest pain: pleura (lung lining) + -itic (pertaining to inflammation of) = pain from the pleural lining, SHARP and WORSENS WITH BREATHING. Classic with pulmonary embolism.
+
+Carcinoma: carcin (cancer) + -oma (tumor) = she is denying a cancer history. But hemoptysis in a 61-year-old requires ruling out lung cancer.
+
+Clinical picture: Coughing blood + sharp breathing pain + low oxygen = pulmonary embolism until proven otherwise. Urgent.`
+    }
+  ],
+  flashcards: [
+    { front: "Decode: CHOLECYSTECTOMY -- every part.", back: "chole (bile) + cyst (sac/pouch = gallbladder) + -ectomy (removal) = gallbladder removed. Common surgery. Patient has no gallbladder -- affects fat digestion." },
+    { front: "Decode: HEMOPTYSIS -- why always significant?", back: "hem/o (blood) + -ptysis (coughing up) = coughing up blood. Possible causes: pulmonary embolism, pneumonia, tuberculosis, lung cancer. Never dismiss." },
+    { front: "-ectomy vs -otomy -- critical difference?", back: "-ectomy = surgical REMOVAL (appendectomy = appendix removed). -otomy = surgical CUT INTO (tracheotomy = cutting into the trachea). An -otomy creates access; does not necessarily remove anything." },
+    { front: "Decode: CARCINOMA -- what does the suffix tell you?", back: "carcin (cancer) + -oma (tumor/mass) = a cancerous tumor. -oma = mass or tumor (not always cancerous -- hematoma = bruise, lipoma = benign fat lump). Carcinoma = specifically malignant." },
+    { front: "Decode: AORTIC STENOSIS -- what is happening?", back: "aortic (pertaining to aorta) + stenosis (narrowing) = narrowed aortic valve. Restricts blood flow out of the heart. Severe cases cause heart failure and sudden death." },
+    { front: "-gram vs -graphy vs -graph -- what is each?", back: "-gram = the image (ECG printout). -graphy = the process (performing the ECG). -graph = the machine (ECG machine). A cardiograph performs cardiography to produce a cardiogram." },
+    { front: "Decode: ARTERIOSCLEROSIS", back: "arteri/o (artery) + scler (hardening) + -osis (abnormal condition) = abnormal hardening of the arteries. Root cause of most heart attacks and strokes." },
+    { front: "Decode: NECROSIS -- when do EMTs encounter it?", back: "necr/o (death) + -osis (condition of) = tissue death. EMS: myocardial necrosis (heart attack), tissue necrosis in severe infection, necrotizing fasciitis (flesh-eating bacteria)." },
+    { front: "Decode: COLOSTOMY -- what does this patient have?", back: "col/o (colon) + -stomy (surgical opening to outside) = permanent opening from colon to abdominal skin. Patient uses an ostomy bag. Feces exit through the stoma, not rectally." },
+    { front: "Decode: PLEURITIC chest pain -- what does it feel like?", back: "pleura (lung lining) + -itic (pertaining to inflammation) = pain from the pleural lining. SHARP and WORSENS WITH BREATHING or movement. Classic: pulmonary embolism, pleuritis, pneumonia." },
+    { front: "-pathy vs -itis -- what does each tell you about the condition?", back: "-itis = acute inflammation (often sudden, treatable). -pathy = disease or disorder (often chronic, progressive). Arthritis = joint inflammation. Arthropathy = joint disease (broader, longer-term)." },
+    { front: "Decode: HEPATOMEGALY vs SPLENOMEGALY", back: "hepat/o = liver. Hepatomegaly = enlarged liver. Splen/o = spleen. Splenomegaly = enlarged spleen. -megaly = enlargement. Both can occur together in mononucleosis or portal hypertension." }
+  ],
+  quiz: [
+    {
+      q: "Your patient had an 'appendectomy 3 years ago.' They have right lower quadrant pain. You should:",
+      options: ["Prioritize appendicitis", "Rule out appendicitis -- appendix was removed", "Assume it is unrelated", "Ignore the 3-year-old history"],
+      answer: 1,
+      explanation: "-ectomy = surgical removal. Appendectomy = appendix removed. This patient CANNOT have appendicitis. RLQ pain now requires different differential: ovarian cyst, hernia, bowel obstruction."
+    },
+    {
+      q: "Decode: TRACHEOSTOMY vs TRACHEOTOMY. The patient with a tracheostomy has:",
+      options: ["A temporary surgical cut in the trachea", "A permanent surgically created opening they live with", "Both are the same", "An endotracheal tube"],
+      answer: 1,
+      explanation: "-stomy = permanent surgically created opening to outside. -otomy = surgical incision. Tracheostomy = permanent neck opening (patient breathes through it). Tracheotomy = surgical incision (often temporary)."
+    },
+    {
+      q: "The suffix -emia means:",
+      options: ["Inflammation", "A blood condition", "Surgical removal", "A tumor"],
+      answer: 1,
+      explanation: "-emia = blood condition. Anemia (deficient RBCs), hyperglycemia (high blood sugar), hypoxemia (low blood oxygen), bacteremia (bacteria in blood). Anything with -emia is happening IN or TO the blood."
+    },
+    {
+      q: "A patient has a 'hematoma' on their forehead. This means:",
+      options: ["A cancerous tumor", "A bruise or localized blood collection", "Skin inflammation", "A bone fracture"],
+      answer: 1,
+      explanation: "hemat/o (blood) + -oma (mass/collection) = localized blood collection. A bruise. NOT cancerous. -oma does not always mean cancer -- context matters."
+    },
+    {
+      q: "Your patient denies 'carcinoma.' In plain language, they have no history of:",
+      options: ["Heart disease", "Kidney disease", "Cancer", "Blood clots"],
+      answer: 2,
+      explanation: "carcin (cancer) + -oma (tumor) = carcinoma = cancerous tumor. Denying carcinoma = no cancer history. Clinically important -- cancers cause clots, anemia, organ dysfunction."
+    }
+  ]
+};
+
+const MT_L6 = {
+  moduleId: "MT", id: 6,
+  title: "Pharmacology Language",
+  subtitle: "Reading medication lists -- what drug names tell you about what they do",
+  duration: "~1 hr total",
+  dispatch: {
+    call: `"Unit 3, respond to 1660 Meadow Lane. 72-year-old male, chest pain. Medications: metoprolol, lisinopril, atorvastatin, aspirin 81mg, metformin, albuterol PRN. Crushing substernal chest pain 8/10, onset 20 minutes."`,
+    time: "6:15 AM", eta: "5 minutes",
+    hook: "You have 5 minutes. His medication list just told you everything -- heart disease, high blood pressure, high cholesterol, diabetes, and lung problems. The drug names told you. You just need to know how to read them.",
+    bridge: "As an EMT you will receive medication lists on every call. You cannot call medical direction for every drug. You need to recognize major drug classes from their names alone. This lesson gives you that skill."
+  },
+  content: [
+    {
+      heading: "How Drug Class Suffixes Work",
+      body: `Many drug classes share a SUFFIX or STEM that identifies the class. Once you know the stems, you can identify a drug class even from a drug you have never heard before.
+
+This is not memorizing every drug. This is learning the pattern so you can decode any drug.
+
+What to look for on a medication list:
+- What conditions does this drug treat? (tells you their medical history)
+- What does it do to the body? (affects your assessment and interventions)
+- What interactions matter? (before giving aspirin or nitro, check their meds)`
+    },
+    {
+      heading: "Cardiovascular Drug Classes",
+      body: `-olol = Beta blocker -- metoprolol, atenolol, carvedilol, propranolol
+What they do: Block beta receptors, slow heart rate, lower BP, reduce cardiac workload
+EMT significance: Patients on beta blockers may NOT develop expected tachycardia in shock. Their heart rate is pharmacologically suppressed. A "normal" HR in a beta blocker patient may actually be compensated shock.
+
+-pril = ACE inhibitor -- lisinopril, enalapril, ramipril
+What they do: Lower BP, reduce fluid retention
+EMT significance: ACE inhibitors can cause ANGIOEDEMA -- life-threatening swelling of the throat/tongue. Ask patients about throat swelling.
+
+-statin = Cholesterol medication -- atorvastatin, rosuvastatin, simvastatin
+What they do: Block cholesterol production in liver
+EMT significance: Statins = cardiovascular risk factors present. Combined with -olol and -pril = high-risk cardiac patient.
+
+-dipine = Calcium channel blocker -- amlodipine, nifedipine
+What they do: Vasodilation, lower BP`
+    },
+    {
+      heading: "Respiratory and Metabolic Drug Classes",
+      body: `-terol, -buterol = Beta-2 agonist bronchodilator -- albuterol, salmeterol, levalbuterol
+What they do: Open airways (bronchodilation)
+EMT significance: If using albuterol frequently, the condition is worsening. Side effect: tachycardia.
+
+-formin = Biguanide diabetes drug -- metformin
+What it does: Reduces liver glucose production, improves insulin sensitivity
+EMT significance: Metformin itself does NOT cause hypoglycemia. However, the patient may take other diabetes drugs that do.
+
+-sone, -solone, -cort = Corticosteroid -- prednisone, hydrocortisone, methylprednisolone
+What they do: Reduce inflammation, suppress immune response
+EMT significance: Long-term steroids cause: immune suppression (higher infection risk, may not show typical signs), adrenal suppression (cannot mount normal stress response), thin skin and easy bruising.
+
+Insulin -- no suffix pattern but universally recognized -- insulin lispro, glargine, aspart, regular
+EMT significance: Insulin CAN cause hypoglycemia. Altered mental status + insulin use = check glucose immediately.`
+    },
+    {
+      heading: "Anticoagulants, Antibiotics, and Opioids",
+      body: `Anticoagulants (blood thinners) -- warfarin (Coumadin), apixaban (Eliquis), rivaroxaban (Xarelto), heparin
+EMT significance: These patients BLEED MORE. Minor trauma can cause massive internal bleeding. Head injuries in anticoagulated patients = high priority. Always ask: "Are you on blood thinners?"
+
+-mycin, -cin, -cillin, -floxacin = Antibiotic -- azithromycin, amoxicillin, ciprofloxacin
+EMT significance: Active or recent infection. Consider sepsis if they appear ill.
+
+-codone, opioid class = Opioid analgesics -- oxycodone, hydrocodone, morphine, fentanyl
+EMT significance: Overdose signs = decreased respirations, pinpoint pupils, decreased LOC. Treated with naloxone. Chronic opioid users have higher tolerance.
+
+-fen, -profen = NSAID -- ibuprofen, naproxen
+EMT significance: Reduce platelet function, increase bleeding risk. Combined with anticoagulants = significantly increased danger.
+
+Decoding the dispatch medication list:
+Metoprolol (-olol) = beta blocker = heart rate pharmacologically controlled, may not tachycardize in shock
+Lisinopril (-pril) = ACE inhibitor = hypertension/heart failure, check for throat swelling history
+Atorvastatin (-statin) = cholesterol = cardiovascular risk
+Aspirin 81mg = antiplatelet = cardiac protection
+Metformin (-formin) = type 2 diabetes medication
+Albuterol PRN (-buterol) = bronchodilator = asthma or COPD`
+    }
+  ],
+  flashcards: [
+    { front: "A patient takes METOPROLOL. What class and what does it do to HR?", back: "-olol = beta blocker. SLOWS heart rate. Beta blocker patients may NOT tachycardize in shock. A normal HR in a beta blocker patient who is bleeding may actually be compensated shock." },
+    { front: "A patient takes LISINOPRIL. Airway concern?", back: "-pril = ACE inhibitor. Treats hypertension/heart failure. ANGIOEDEMA risk -- life-threatening swelling of tongue/throat/face. Ask every ACE inhibitor patient about throat swelling or voice changes." },
+    { front: "A patient takes WARFARIN. How does this change trauma assessment?", back: "Anticoagulant -- this patient BLEEDS MORE. Minor trauma can cause life-threatening internal bleeding. Any head injury = high priority transport. Even small lacerations may be difficult to control." },
+    { front: "A patient uses ALBUTEROL PRN. What does this tell you?", back: "-buterol = beta-2 agonist bronchodilator. PRN = as needed. Has asthma or COPD. If using frequently = condition worsening. Side effect: tachycardia." },
+    { front: "A patient takes ATORVASTATIN. What condition do they have?", back: "-statin = cholesterol medication. Elevated LDL and cardiovascular risk. Combined with -olol, -pril, and aspirin = classic coronary artery disease medication regimen." },
+    { front: "Patient is on OXYCODONE, found unresponsive, pinpoint pupils, slow breathing. Suspect:", back: "-codone = opioid. Pinpoint pupils + decreased respirations + decreased LOC = opioid overdose toxidrome. Treat with ventilation support and naloxone (Narcan) per protocol." },
+    { front: "Patient takes PREDNISONE long-term. Three clinical concerns:", back: "(-sone = corticosteroid). 1) Adrenal suppression -- cannot mount normal stress response. 2) Immune suppression -- higher infection risk, may not show typical infection signs. 3) Easy bruising/thin skin." },
+    { front: "5 major cardiac drug class suffixes -- name them.", back: "-olol = beta blocker (slow HR/lower BP). -pril = ACE inhibitor (lower BP/heart failure). -statin = cholesterol. -dipine = calcium channel blocker (vasodilate). Aspirin = antiplatelet. Patient on all five has significant cardiac history." },
+    { front: "Patient takes AZITHROMYCIN. What does this tell you about them right now?", back: "-mycin = antibiotic. Active or recent bacterial infection being treated. Consider sepsis if they appear ill -- sometimes septic patients are already on antibiotics." },
+    { front: "Why do beta blocker patients need special consideration in anaphylaxis?", back: "Beta blockers BLOCK the receptors epinephrine stimulates. Patients on beta blockers may be RESISTANT to epinephrine. May need higher doses or glucagon. Always tell the hospital about beta blocker use." },
+    { front: "Patient is on WARFARIN AND IBUPROFEN. Concern?", back: "Warfarin = anticoagulant. Ibuprofen (-profen = NSAID) = reduces platelet function. Combined = significantly increased bleeding risk. Report both at hospital handoff." },
+    { front: "Patient takes METFORMIN. Type 1 or Type 2? Does it cause hypoglycemia?", back: "Metformin (-formin) treats TYPE 2 diabetes. Unlike insulin, metformin itself does NOT typically cause hypoglycemia. However, the patient may take other diabetes drugs that do." }
+  ],
+  quiz: [
+    {
+      q: "Patient takes metoprolol, lisinopril, atorvastatin. Medical history inference:",
+      options: ["Diabetes and kidney disease", "Cardiovascular disease -- hypertension and high cholesterol", "Lung disease and autoimmune", "Neurological disease"],
+      answer: 1,
+      explanation: "Metoprolol (-olol = beta blocker), lisinopril (-pril = ACE inhibitor), atorvastatin (-statin = cholesterol) = classic cardiac medication triad. This patient has cardiovascular disease."
+    },
+    {
+      q: "A beta blocker patient in shock from internal bleeding. You expect heart rate to be:",
+      options: ["Above 120 bpm as expected", "Possibly normal or low despite significant blood loss", "Irregular", "Unaffected"],
+      answer: 1,
+      explanation: "Beta blockers suppress compensatory tachycardia. A 'normal' heart rate in a beta blocker patient with internal bleeding may represent severe, compensated shock the drug is masking."
+    },
+    {
+      q: "Patient on lisinopril develops sudden throat swelling and voice changes. This is:",
+      options: ["Minor expected side effect", "Angioedema -- life-threatening airway emergency", "Sign of heart failure worsening", "Anxiety -- reassure"],
+      answer: 1,
+      explanation: "ACE inhibitors (-pril) can cause angioedema -- swelling that can obstruct the airway. Rare but immediately life-threatening. Treat as an airway emergency."
+    },
+    {
+      q: "Albuterol's suffix (-buterol) is a beta-2 agonist. After administration in a cardiac patient, watch for:",
+      options: ["Hypotension", "Tachycardia", "Bradycardia", "Decreased O2 sat"],
+      answer: 1,
+      explanation: "Beta-2 agonists cause bronchodilation (good) but also stimulate HR (tachycardia side effect). Monitor HR after albuterol in cardiac patients."
+    },
+    {
+      q: "Patient is on warfarin AND ibuprofen. This combination is concerning because:",
+      options: ["They cancel each other out", "Both increase bleeding risk -- significantly increased danger", "Ibuprofen reverses anticoagulant effect", "Warfarin causes liver toxicity with NSAIDs"],
+      answer: 1,
+      explanation: "Warfarin prevents clotting. Ibuprofen (-profen = NSAID) reduces platelet function. Combined = significantly increased bleeding risk. Report both at handoff."
+    }
+  ]
+};
+
+const MT_L7 = {
+  moduleId: "MT", id: 7,
+  title: "Decode Real Terms",
+  subtitle: "No new content -- just you and 25 real clinical terms from your EMT lessons",
+  duration: "~1 hr total",
+  dispatch: {
+    call: `"Unit 14, respond to 3300 Harbor Drive. 58-year-old male, known hypertensive and tachycardic. Wife called 911 for sudden onset of hemiplegia and aphasia. Patient is afebrile. History of myocardial infarction, bilateral nephrectomy, and chronic obstructive pulmonary disease."`,
+    time: "8:22 AM", eta: "4 minutes",
+    hook: "Hypertensive. Tachycardic. Hemiplegia. Aphasia. Afebrile. Myocardial infarction. Bilateral nephrectomy. Chronic obstructive pulmonary disease. You can now decode every one of these. Let us confirm.",
+    bridge: "This lesson is pure practice. Every term comes from your upcoming EMT clinical modules. No new word parts -- just applying what you know. Go slowly. Break each word apart. This is the skill your TMCC class will test."
+  },
+  content: [
+    {
+      heading: "Decode the Dispatch",
+      body: `Work through each term. Break it apart completely. Try it yourself before reading.
+
+Hypertensive: hyper- (above normal) + tens (pressure) + -ive (pertaining to) = pertaining to above-normal pressure = high blood pressure
+
+Tachycardic: tachy- (fast) + cardi (heart) + -ic (pertaining to) = pertaining to fast heart rate = above 100 bpm
+
+Hemiplegia: hemi- (half) + -plegia (paralysis) = paralysis of one side of the body
+Sudden onset hemiplegia + speech difficulty = STROKE until proven otherwise. Time to CT is critical.
+
+Aphasia: a- (without) + -phasia (speech) = inability to speak or understand speech
+A stroke sign. Cincinnati Stroke Scale: can they follow commands? Can they repeat a phrase?
+
+Afebrile: a- (without) + febrile (fever) = without fever
+
+Myocardial infarction: my/o (muscle) + cardi (heart) + -al (pertaining to) + infarction (tissue death from lack of blood) = death of heart muscle = heart attack in his history
+
+Bilateral nephrectomy: bi-lateral (both sides) + nephr (kidney) + -ectomy (removed) = BOTH kidneys removed = patient is on dialysis
+
+Chronic obstructive pulmonary disease: chron (long time) + -ic + obstructive + pulmon/o (lung) + -ary + disease = long-term lung disease causing airflow obstruction = COPD`
+    },
+    {
+      heading: "25 Terms from Your EMT Modules",
+      body: `These all appear in your upcoming lessons. Use suffix-prefix-root to decode each.
+
+CARDIOVASCULAR:
+1. Bradycardia -- brady (slow) + cardi + -ia = slow heart rate
+2. Ventricular fibrillation -- ventricula (lower heart chamber) + -ar + fibrillation (chaotic quivering) = cardiac arrest rhythm
+3. Aortic stenosis -- aortic + stenosis (narrowing) = narrowed aortic valve
+4. Hemothorax -- hem/o (blood) + thorax (chest cavity) = blood in chest cavity
+5. Hypovolemia -- hypo (low) + vol (volume) + -emia = low blood volume
+
+RESPIRATORY:
+6. Apnea -- a (without) + -pnea = absence of breathing
+7. Tachypnea -- tachy (fast) + -pnea = fast breathing
+8. Pneumothorax -- pneum/o (air) + thorax = air outside the lung in the chest cavity
+9. Bronchospasm -- bronch/o (airways) + spasm = airway cramping
+10. Pulmonary edema -- pulmon/o (lung) + -ary + edema = fluid in the lungs
+
+NEUROLOGICAL:
+11. Cerebrovascular accident -- cerebr/o (brain) + vascular (vessels) + accident = stroke
+12. Hemiparesis -- hemi (half) + -paresis (weakness) = one-sided weakness
+13. Postictal -- post (after) + ictal (seizure) = state after a seizure
+14. Intracranial pressure -- intra (within) + cranial (skull) = pressure inside skull
+15. Encephalopathy -- encephal/o (brain) + -pathy = brain dysfunction
+
+TRAUMA AND ASSESSMENT:
+16. Subcutaneous emphysema -- sub + cutane + -ous + emphysema (air in tissue) = air trapped under skin -- feels like bubble wrap, sign of pneumothorax
+17. Hemoptysis -- hem/o (blood) + -ptysis (coughing up) = coughing blood
+18. Hypovolemic shock -- hypo + vol + -emic + shock = shock from low blood volume
+19. Periorbital ecchymosis -- peri (around) + orbital (eye) + ecchymosis (bruising) = bruising around the eyes -- "raccoon eyes" -- basilar skull fracture sign
+20. Epistaxis -- epi + staxis (dripping) = nosebleed
+
+MEDICAL EMERGENCIES:
+21. Hypoglycemia -- hypo + glyc (sugar) + -emia = low blood sugar
+22. Hyperglycemia -- hyper + glyc + -emia = high blood sugar
+23. Anaphylaxis -- immune protection goes into overdrive and causes harm
+24. Diaphoresis -- profuse sweating -- sign of sympathetic activation (pain, shock, MI)
+25. Syncope -- fainting or brief loss of consciousness. Learned as a whole term.`
+    },
+    {
+      heading: "Common Medical Abbreviations",
+      body: `Your TMCC class will also test abbreviations. Memorized, not decoded.
+
+VITAL SIGNS: BP = blood pressure, HR = heart rate, RR = respiratory rate, SpO2 = oxygen saturation, GCS = Glasgow Coma Scale (measures LOC -- eye, verbal, motor), LOC = level of consciousness
+
+ASSESSMENT: SOB = shortness of breath, CP = chest pain, AMS = altered mental status, N/V = nausea/vomiting, Hx = history, Sx = symptoms, Dx = diagnosis, Rx = prescription/treatment, c/o = complains of, s/p = status post (after a procedure)
+
+MEDICATION ROUTES: PO = by mouth (oral), SL = sublingual, IV = intravenous, IM = intramuscular, SC/SQ = subcutaneous, PRN = as needed
+
+KEY CONDITIONS: MI = myocardial infarction, CVA = cerebrovascular accident (stroke), CHF = congestive heart failure, COPD = chronic obstructive pulmonary disease, DM = diabetes mellitus, HTN = hypertension, AFib = atrial fibrillation, DVT = deep vein thrombosis, PE = pulmonary embolism`
+    },
+    {
+      heading: "How to Use This Knowledge on a Call",
+      body: `Step 1: Read the dispatch. Decode the terms before you arrive. Build your clinical picture.
+
+Step 2: Review the medication list. Identify drug classes by suffix. What conditions do they treat? What effects might mask your assessment findings?
+
+Step 3: Listen to the patient and family. When they say "he has hepatomegaly," you know what that means without asking.
+
+Step 4: Write your PCR. Use precise anatomical language. Not "left side of the chest" but "left lateral thorax." Not "near the wrist" but "distal forearm." Precision prevents miscommunication.
+
+Step 5: Give your verbal report. "72-year-old male, suspected CVA, presenting with right hemiplegia and expressive aphasia, onset 45 minutes ago, currently hypertensive at 188/102." The hospital team knows exactly what they are receiving.
+
+The most important thing: medical terminology is a TOOL for communication, not a barrier. The goal is never the longest word -- the goal is to communicate precisely. That is what your patients deserve.`
+    }
+  ],
+  flashcards: [
+    { front: "Decode: PERIORBITAL ECCHYMOSIS -- clinical significance?", back: "peri (around) + orbital (eye socket) + ecchymosis (bruising) = bruising around the eyes. Called raccoon eyes. DELAYED sign of basilar skull fracture -- appears hours after head trauma." },
+    { front: "Decode: SUBCUTANEOUS EMPHYSEMA -- what do you feel?", back: "sub + cutane + -ous + emphysema (air in tissue) = air under the skin. Feels like bubble wrap on palpation. Found near chest after trauma -- sign of pneumothorax or airway injury." },
+    { front: "Decode: HYPOVOLEMIC SHOCK -- every part.", back: "hypo (low) + vol (volume) + -emic (blood) + shock = shock from insufficient blood volume. Causes: hemorrhage, dehydration, burns. Signs: tachycardia, hypotension, diaphoresis, pallor." },
+    { front: "What does PRN mean on a medication order?", back: "PRN = pro re nata = as needed. Taken only when needed, not scheduled. Albuterol PRN = use inhaler when having breathing difficulty, not every day." },
+    { front: "Decode: VENTRICULAR FIBRILLATION -- what is happening?", back: "ventricula (ventricle, lower chambers) + -ar + fibrillation (chaotic quivering) = chaotic electrical activity in the ventricles. No effective pumping = cardiac arrest. Treat with CPR and defibrillation." },
+    { front: "What does S/P mean in a medical history?", back: "S/P = status post = after a procedure or event. S/P MI = history of myocardial infarction. S/P appendectomy = appendix removed. Tells you what has already happened to this patient." },
+    { front: "Decode: DIAPHORESIS -- what causes it in emergencies?", back: "Profuse sweating from sympathetic nervous system activation. In EMS: pain, shock, MI, severe anxiety. Diaphoretic = sweating heavily. A sign of significant physiologic stress." },
+    { front: "Decode: EPISTAXIS -- basic treatment?", back: "epi + staxis (dripping) = nosebleed. Lean FORWARD (not back -- prevents swallowing blood), pinch soft part of nose, direct pressure." },
+    { front: "GCS -- what does it measure and what are the 3 parts?", back: "Glasgow Coma Scale = level of consciousness. Three components: Eye opening (1-4), Verbal response (1-5), Motor response (1-6). Max 15 (fully conscious), min 3 (no response). GCS less than 8 = typically intubation threshold." },
+    { front: "Abbreviation challenge: Decode -- 65M s/p CABG, c/o SOB and CP, Hx HTN and DM", back: "65-year-old male, after coronary artery bypass surgery, complaining of shortness of breath and chest pain, history of hypertension and diabetes." },
+    { front: "Decode: ANAPHYLAXIS -- why does it not decode neatly?", back: "From Greek: ana (against/excessive) + phylaxis (protection). The body's own immune protection goes into overdrive and causes harm. Treat with epinephrine." },
+    { front: "Decode: ENCEPHALOPATHY vs AMS -- what is the difference?", back: "AMS (altered mental status) = what you OBSERVE. Encephalopathy (encephal/o + -pathy) = the medical term for the UNDERLYING brain dysfunction causing it. Hepatic encephalopathy = AMS from liver failure." }
+  ],
+  quiz: [
+    {
+      q: "A dispatch says your patient has 'expressive aphasia.' This means:",
+      options: ["They cannot understand what you say", "They cannot produce speech but may understand you", "They cannot move mouth or face", "They have no recent memory"],
+      answer: 1,
+      explanation: "Aphasia = without speech (a + phasia). Expressive aphasia = can understand but cannot produce words (Broca's area). Receptive aphasia = cannot understand. Both are stroke signs."
+    },
+    {
+      q: "A patient describes 8/10 substernal pain with diaphoresis. DIAPHORESIS means:",
+      options: ["Rapid breathing", "Profuse sweating", "Pale skin", "Chest tightening"],
+      answer: 1,
+      explanation: "Diaphoresis = profuse sweating. In the context of chest pain, a classic sign of myocardial infarction. The sympathetic nervous system activates during cardiac ischemia."
+    },
+    {
+      q: "Palpating a trauma patient's chest you feel a crunchy, crackly sensation under the skin. This is:",
+      options: ["Periorbital ecchymosis", "Subcutaneous emphysema", "Hemothorax", "Flail chest"],
+      answer: 1,
+      explanation: "Subcutaneous emphysema = air trapped under the skin. Feels like bubble wrap. Indicates air escaped from lung or airway into soft tissue. Sign of pneumothorax, rib fractures, or airway injury."
+    },
+    {
+      q: "PCR says 'S/P bilateral nephrectomy.' This patient:",
+      options: ["Has both kidneys inflamed", "Had kidney stones removed from both kidneys", "Has no kidney function -- both were surgically removed", "Has had kidney disease long-term"],
+      answer: 2,
+      explanation: "S/P = status post. Bilateral = both sides. Nephrectomy = nephr (kidney) + ectomy (removed). BOTH kidneys removed -- patient is on dialysis. Affects fluid management and drug dosing."
+    },
+    {
+      q: "A patient has 'raccoon eyes' 6 hours after head injury. Medical term and significance:",
+      options: ["Periorbital edema from inflammation", "Periorbital ecchymosis -- possible basilar skull fracture", "Bilateral conjunctival hemorrhage", "Normal bruising from direct eye trauma"],
+      answer: 1,
+      explanation: "Periorbital ecchymosis = bruising around both eyes. Delayed sign of basilar skull fracture -- blood tracks into periorbital region hours after injury. NOT immediately present at time of impact."
+    }
+  ]
+};
+
+const MT_L8 = {
+  moduleId: "MT", id: 8,
+  title: "Medical Terminology Quiz",
+  subtitle: "Full module assessment -- all six lessons",
+  duration: "~30 min",
+  dispatch: {
+    call: `"All units -- Medical Terminology Module Assessment. You have covered word building, anatomical location, body system roots, prefixes, suffixes, and pharmacology language."`,
+    time: "Assessment time", eta: "Ready when you are",
+    hook: "Everything in this quiz comes from a real patient chart, a real dispatch, or a real clinical scenario. These are not made-up test questions. They are the words you will encounter on your first call.",
+    bridge: "Work through each question by decoding, not guessing. If you get one wrong, read the explanation -- that is where the real learning happens."
+  },
+  content: [
+    {
+      heading: "What This Module Covered",
+      body: `Medical Terminology -- Prep Before the Prep
+
+Lesson 1 -- Word Building: Root + prefix + suffix + combining vowel. Decode rule: suffix first, prefix second, root last.
+
+Lesson 2 -- Location Terms: Anterior/posterior, superior/inferior, medial/lateral, proximal/distal, bilateral, superficial/deep, body cavities.
+
+Lesson 3 -- Body System Roots: Cardiovascular (cardi, angi, arteri, ven, hem), respiratory (pulm, pneum, bronch, trach), neurological (neur, encephal, cerebr, mening), GI and urinary (gastr, hepat, nephr, ur), musculoskeletal (oste, arthr, my, derm).
+
+Lesson 4 -- Prefixes: brady/tachy, hyper/hypo, poly, a/an, dys, anti, peri, epi, sub, endo, intra, inter, uni/bi/hemi/quad, pre/post.
+
+Lesson 5 -- Suffixes: -itis, -emia, -pathy, -oma, -algia, -ectomy, -oscopy, -plasty, -otomy, -stomy, -gram/-graphy/-graph, -logy, -megaly, -stenosis, -ptysis.
+
+Lesson 6 -- Pharmacology: -olol (beta blocker), -pril (ACE inhibitor), -statin (cholesterol), -dipine (calcium channel blocker), -terol/-buterol (bronchodilator), -formin (diabetes), -sone/-cort (corticosteroid), insulin, anticoagulants, antibiotics, opioids, NSAIDs.
+
+Lesson 7 -- Decode Practice: 25 real clinical terms, common abbreviations, full clinical scenarios.`
+    }
+  ],
+  flashcards: [
+    { front: "Quick fire: What does -itis mean?", back: "Inflammation. Gastritis, hepatitis, appendicitis, meningitis." },
+    { front: "Quick fire: What does tachy- mean?", back: "Fast/rapid. Tachycardia (>100 bpm). Tachypnea (>20/min)." },
+    { front: "Quick fire: What does -ectomy mean?", back: "Surgical removal. Appendectomy, cholecystectomy, nephrectomy." },
+    { front: "Quick fire: What does -pnea mean?", back: "Breathing. Dyspnea (difficult), apnea (absent), tachypnea (fast), bradypnea (slow)." },
+    { front: "Quick fire: What drug class ends in -olol?", back: "Beta blockers. Metoprolol, atenolol, carvedilol. They slow heart rate." },
+    { front: "Quick fire: Medial = toward...?", back: "Medial = toward the midline (center). Lateral = away from midline (outside)." },
+    { front: "Quick fire: What does -pathy mean?", back: "Disease or disorder. Neuropathy, cardiomyopathy, nephropathy." },
+    { front: "Quick fire: What does a- or an- mean?", back: "Without/absence of. Apnea = no breathing. Afebrile = no fever. Anemia = without normal blood." }
+  ],
+  quiz: [
+    {
+      q: "When decoding an unfamiliar medical term, the FIRST thing you identify is:",
+      options: ["The prefix", "The word root", "The suffix", "The combining vowel"],
+      answer: 2,
+      explanation: "Suffix first -- tells you WHAT is happening (inflammation, disease, removal, study of). Frames the meaning of the whole word."
+    },
+    {
+      q: "A patient chart says 'anterolateral wall MI.' The tissue death is located:",
+      options: ["Back and side of the heart", "Front and side of the heart", "Inside of the heart", "Below the heart"],
+      answer: 1,
+      explanation: "Anterior = front. Lateral = side. Anterolateral = front AND side. MI on the front-side of the heart wall -- corresponds to the LAD (left anterior descending) artery territory."
+    },
+    {
+      q: "Decode: BRONCHOSPASM tells you:",
+      options: ["Bronchi are inflamed", "Bronchi are involuntarily constricting shut", "Bleeding from the bronchi", "Bronchi are dilated"],
+      answer: 1,
+      explanation: "bronch/o (airways) + spasm = sudden involuntary constriction of the bronchi. Mechanism of an asthma attack. Airways clamp, making exhalation difficult."
+    },
+    {
+      q: "Patient on lisinopril develops sudden lip and tongue swelling. This is:",
+      options: ["Common expected side effect", "Angioedema -- life-threatening airway emergency from the ACE inhibitor", "Allergic reaction unrelated to medication", "Sign of dehydration"],
+      answer: 1,
+      explanation: "Lisinopril (-pril = ACE inhibitor). ACE inhibitors can cause angioedema -- swelling that can obstruct the airway. Treat as airway emergency."
+    },
+    {
+      q: "A patient fell and has 'proximal femur' pain. Where does it hurt?",
+      options: ["Near the knee", "Near the hip", "Mid-shaft femur", "At the ankle"],
+      answer: 1,
+      explanation: "Proximal = closest to the body/core. Femur runs from hip to knee. Proximal femur = HIP end. A proximal femur fracture = hip fracture. Common in elderly patients who fall."
+    },
+    {
+      q: "Decode: HYPERGLYCEMIA. Initial assessment action?",
+      options: ["Low blood sugar -- check glucose, give oral glucose", "High blood sugar -- check glucose, look for DKA signs", "Low blood pressure -- take BP", "High heart rate -- get ECG"],
+      answer: 1,
+      explanation: "hyper (above normal) + glyc (sugar) + -emia (blood condition) = above-normal blood sugar. Check glucose. Signs of severe: fruity breath, Kussmaul respirations, altered LOC = possible DKA."
+    },
+    {
+      q: "Patient had a 'colostomy' 2 years ago. This means:",
+      options: ["Colon entirely removed", "Surgical opening created from colon to skin surface", "Colon repaired surgically", "A scope was used to look inside the colon"],
+      answer: 1,
+      explanation: "col/o (colon) + -stomy (surgical opening to outside) = permanent surgically created opening from the colon to the abdominal skin. Patient uses an ostomy bag."
+    },
+    {
+      q: "Beta blocker patient in shock with heart rate of 78. This is concerning because:",
+      options: ["78 bpm is too fast for this patient", "78 bpm may mask compensatory tachycardia -- could be severe shock", "78 bpm is normal -- no concern", "Beta blockers cause shock"],
+      answer: 1,
+      explanation: "In shock, the body compensates with tachycardia. Beta blockers block this response. A 'normal' HR of 78 in a shocked patient on a beta blocker may represent severe, compensated shock."
+    },
+    {
+      q: "Decode: MYOCARDIAL INFARCTION -- what is happening?",
+      options: ["Heart muscle tumor", "Heart muscle disease causing weakness", "Death of heart muscle tissue from lack of blood supply", "Heart lining inflammation"],
+      answer: 2,
+      explanation: "my/o (muscle) + cardi (heart) + -al + infarction (tissue death from lack of blood) = death of heart muscle from blocked coronary artery. Heart attack."
+    },
+    {
+      q: "Patient is 'postictal.' This means they are:",
+      options: ["Currently seizing", "In the period after a seizure -- confused but seizure has ended", "Between two sequential seizures", "Having a partial seizure"],
+      answer: 1,
+      explanation: "post- (after) + ictal (seizure) = after the seizure. Normal confusion, exhaustion, and slow responsiveness following grand mal seizure. Can last minutes to hours."
+    },
+    {
+      q: "You hear 'bilateral rales' on auscultation. This means:",
+      options: ["Abnormal sounds on one side only", "Crackling sounds on both sides of the chest", "In the upper airways only", "Right louder than left"],
+      answer: 1,
+      explanation: "Bilateral = both sides. Rales = crackles. Bilateral rales = crackling on BOTH sides. Classic in pulmonary edema (CHF) or bilateral pneumonia."
+    },
+    {
+      q: "Decode: INTRACRANIAL HEMORRHAGE. This represents:",
+      options: ["Bleeding into a vein", "Bleeding inside the skull -- pressure on the brain", "Bleeding from chest wound", "Bleeding into abdomen"],
+      answer: 1,
+      explanation: "intra- (within) + cranial (skull) + hemorrhage (blood + excessive flow/rupture) = bleeding INSIDE the skull. Skull cannot expand -- blood accumulates and compresses brain. Neurosurgical emergency."
+    },
+    {
+      q: "Patient reports 'oliguria' after a new medication. In plain language:",
+      options: ["Excessive urination", "No urination", "Painful urination", "Decreased urine output"],
+      answer: 3,
+      explanation: "olig/o (few/scanty) + -uria (urine condition) = little urine output. Less than 400 mL/day. Suggests kidney injury from the medication, dehydration, or shock."
+    },
+    {
+      q: "Decode: PNEUMOTHORAX -- why is tension pneumothorax life-threatening?",
+      options: ["Air in lungs cannot be exhaled", "Air accumulates outside the lung, builds pressure each breath, compresses the heart", "Lung dissolves completely", "Air becomes infected rapidly"],
+      answer: 1,
+      explanation: "pneum/o (air) + thorax = air outside the lung in chest cavity. Tension: one-way valve effect lets air in but not out. Pressure builds, eventually compresses the heart (mediastinal shift). Immediately life-threatening."
+    },
+    {
+      q: "Warfarin patient falls down stairs. Compared to no warfarin:",
+      options: ["Same bleeding risk", "Significantly increased bleeding risk -- even minor trauma can cause life-threatening hemorrhage", "Protected from clots at injury site", "Treat exactly the same"],
+      answer: 1,
+      explanation: "Warfarin = anticoagulant. Cannot form normal clots. Even 'minor' falls carry risk of intracranial hemorrhage. Treat as high-priority. Transport to trauma-capable facility."
+    },
+    {
+      q: "Patient is 'diaphoretic with substernal chest pain.' Decoded:",
+      options: ["Dry skin and back pain", "Sweating heavily and pain behind the breastbone", "Pale and left-sided pain", "Rash and abdominal pain"],
+      answer: 1,
+      explanation: "Diaphoretic = profuse sweating. Sub- (under) + sternal (sternum/breastbone) = behind the breastbone. Classic MI presentation."
+    },
+    {
+      q: "Decode: HEPATOMEGALY on examination suggests:",
+      options: ["Liver is normal", "Liver is enlarged -- possible hepatitis, cirrhosis, CHF, or malignancy", "Liver is inflamed but not enlarged", "Liver was surgically removed"],
+      answer: 1,
+      explanation: "hepat/o (liver) + -megaly (enlargement) = enlarged liver. Palpable below right costal margin. Causes: alcoholic liver disease, hepatitis, portal hypertension, right-sided heart failure, liver cancer."
+    },
+    {
+      q: "Bilateral periorbital ecchymosis after head trauma. Significance:",
+      options: ["Minor bruising from direct eye trauma", "Possible basilar skull fracture sign, appearing hours after injury", "Normal after any facial trauma", "Sign of hypertensive emergency"],
+      answer: 1,
+      explanation: "Periorbital ecchymosis = bruising around both eyes (raccoon eyes). Blood tracks into periorbital region from basilar skull fracture. DELAYED -- may not appear until 6-12 hours after injury."
+    },
+    {
+      q: "Patient is 'afebrile' but has signs of infection. Concerning because:",
+      options: ["Afebrile means infection is minor", "Elderly and immunocompromised patients may have serious infection WITHOUT fever", "Afebrile confirms infection being treated", "Fever always accompanies serious infection"],
+      answer: 1,
+      explanation: "Afebrile = without fever. However, elderly, immunocompromised patients, and those in severe sepsis may not mount a fever. Afebrile does NOT mean not infected."
+    },
+    {
+      q: "Final integration: Patient with -olol, -pril, -statin, aspirin presents with crushing chest pain:",
+      options: ["Lung disease and diabetes", "Known cardiovascular disease -- classic cardiac medication regimen", "Kidney disease and liver problems", "Autoimmune condition"],
+      answer: 1,
+      explanation: "-olol = beta blocker. -pril = ACE inhibitor. -statin = cholesterol. Aspirin = antiplatelet. Textbook cardiac regimen. Combined with crushing chest pain = ACS until proven otherwise. Urgent."
+    }
+  ]
+};
+
 
 const L1 = {
   moduleId: 0, id: 1,
@@ -460,12 +1644,6 @@ const L6 = {
 };
 
 // --- MODULE 1  -  AIRWAY, LESSON 1 ---------------------------------------------
-// ============================================================
-// MODULE 1: SCENE SIZE-UP & SAFETY
-// NREMT Domain 1: 15-19% of exam
-// Lessons: L1 Scene Safety & Size-Up | L2 MOI & NOI | L3 Triage & MCI | L4 Module Quiz
-// ============================================================
-
 const M1L1 = {
   moduleId: 1, id: 1,
   title: "Scene Safety & Size-Up",
@@ -479,147 +1657,35 @@ const M1L1 = {
     bridge: "Scene size-up is not a checkbox -- it is the decision that determines whether you go home tonight. The most dangerous EMT is a brave one who charges in without thinking. Your brain is your best safety tool."
   },
   content: [
-    {
-      heading: "The First 60 Seconds",
-      body: `Before you leave the truck, you have already made critical decisions. Standard Precautions -- formerly called BSI (Body Substance Isolation) -- go on before you touch anything. Gloves are mandatory on every call. Eye protection when fluids are possible. Mask when airborne exposure is likely.
-
-The scene size-up happens the moment you pull up. You are reading the environment before you open the door:
-* Is the scene safe to enter?
-* What is the mechanism of injury or nature of illness?
-* How many patients?
-* What additional resources do I need?
-
-In the warehouse scenario above, three unconscious patients in an enclosed industrial space has one cause until proven otherwise: confined space atmospheric hazard. IDLH -- Immediately Dangerous to Life and Health. You do not go in without SCBA. Not even to check pulses. The most common cause of confined space rescue deaths is would-be rescuers who became victims.
-
-**The scene size-up framework (memorize this sequence):**
-1. Standard precautions -- on before you arrive
-2. Scene safety -- is it safe to enter?
-3. Mechanism of injury (MOI) or nature of illness (NOI)
-4. Number of patients
-5. Additional resources needed`
-    },
-    {
-      heading: "Scene Safety: Hazard Profiles",
-      body: `Every scene type has a threat profile. Learn these before you need them.
-
-**Traffic scenes:** Park apparatus to create a buffer zone. Place traffic cones or flares 50-100 feet upstream minimum. Wear a high-visibility vest. Never turn your back to traffic. Use the ambulance as a physical shield between you and oncoming vehicles.
-
-**Violence scenes:** Law enforcement secures the scene BEFORE you enter. A stabbing scene is not safe because the patient is on the ground -- the attacker may still be present. Stage outside until law enforcement gives the all-clear. If a scene becomes unsafe after you enter, get out. Your patient cannot benefit from a second victim.
-
-**Hazmat:** Identify placards from a safe distance. The North American Emergency Response Guidebook (ERG) identifies the substance and safe perimeter. Hot zone: contaminated area -- EMTs do not enter. Warm zone: decontamination by trained responders. Cold zone: where you set up treatment.
-
-**Structural hazards:** Downed power lines, fire, potential collapse. Do not assume a structure is stable. Do not touch downed electrical lines even if they appear dead -- energized lines can energize the ground in a radius around them. Stay 30 feet minimum from downed lines.
-
-**Industrial hazards:** Machinery, electrical equipment, confined spaces, unknown chemicals. Before entering any industrial building, ask: what do they make here? What chemicals are in use?`
-    },
-    {
-      heading: "Number of Patients and Resource Management",
-      body: `One of your first size-up tasks is patient count. If there are more patients than your crew can safely manage, call for additional units immediately -- not after you assess everyone.
-
-**The general rule:** One ambulance manages one critical patient well. Two ambulances manage two critical patients. Three or more patients may require multiple units plus a supervisor.
-
-**Call early.** Additional resources you do not end up needing can stage and return to service. Patients who die waiting for help you could have requested sooner cannot be brought back.
-
-**Who calls?** The first arriving unit. Do not wait for someone with more seniority. If you see it and need it, you call it.
-
-**Staging:** Direct additional incoming units to a staging area outside the immediate scene. Do not flood the scene with uncoordinated responders. Establish a clear treatment area and staging zone before additional units arrive.
-
-**Dispatch information is often inaccurate.** "One patient" routinely becomes three when you arrive. "Minor injury" becomes critical. Build a mental habit: add 20% to whatever dispatch tells you, and be prepared to adjust upward again when you get on scene.`
-    },
-    {
-      heading: "Standard Precautions: The Real Rules",
-      body: `Standard Precautions (formerly BSI) assumes every patient's blood and bodily fluids are potentially infectious. This is not optional.
-
-**Always:** Gloves before any patient contact. Non-latex preferred -- latex allergy is common in both patients and providers.
-
-**When fluids may splash:** Eye protection -- safety glasses or goggles. Face shield for suctioning, active bleeding trauma, or childbirth.
-
-**Respiratory precautions:** Surgical mask for known or suspected respiratory illness. N95 respirator for confirmed or suspected airborne pathogens (TB, measles, suspected novel respiratory illness). N95 masks require annual fit testing -- a mask that does not seal provides no protection.
-
-**Gown:** When significant clothing contamination is likely -- major trauma, active hemorrhage, delivery.
-
-**Sharps safety:** Never recap needles one-handed if avoidable. Sharps container goes to the scene, not just in the ambulance. If a needle-stick or splash exposure occurs: immediately wash the site, report to your supervisor, and seek medical evaluation within hours. The window for post-exposure prophylaxis for some pathogens is narrow.
-
-**After patient contact:** Remove PPE in the correct order. Gloves off last. Perform hand hygiene even after glove removal. Decontaminate all equipment and the stretcher after every patient contact.`
-    },
-    {
-      heading: "Situational Awareness Throughout the Call",
-      body: `Scene safety is not a one-time check at arrival. Conditions change throughout a call.
-
-**Know your exits:** When you enter any structure, note your exit routes before you focus on the patient. Never allow unknown persons to position themselves between you and the door.
-
-**Trust your instincts:** If something feels wrong, it probably is. There is no award for ignoring your instincts. You can always retreat and reassess.
-
-**Home positioning:** In residential calls, do not position yourself with your back to the door. Do not allow unknown persons to leave the room without knowing why. Be aware of weapons -- firearms are common in homes.
-
-**Environmental deterioration:** Weather, fire spread, structural instability, and crowd behavior can all change while you are working. Assign someone -- your partner, a firefighter -- to monitor scene conditions while you treat.
-
-**The golden rule of scene safety:** A dead EMT helps no one. Your first obligation on every call is to arrive, work, and go home safely. Everything else follows from that.`
-    }
+    { heading: "The First 60 Seconds", body: `Before you leave the truck, you have already made critical decisions. Standard Precautions go on before you touch anything. Gloves are mandatory on every call.\n\nThe scene size-up framework:\n1. Standard precautions\n2. Scene safety\n3. MOI or NOI\n4. Number of patients\n5. Additional resources needed\n\nThree unconscious patients in an enclosed industrial space has one cause until proven otherwise: confined space atmospheric hazard. IDLH -- Immediately Dangerous to Life and Health. You do not go in without SCBA.` },
+    { heading: "Scene Safety: Hazard Profiles", body: `**Traffic:** Park to create a buffer zone. Wear high-visibility vest. Never turn your back to traffic.\n\n**Violence:** Law enforcement secures BEFORE you enter. Stage until cleared.\n\n**Hazmat:** Identify placards from distance. Hot zone: contaminated, EMTs do not enter. Warm: decontamination. Cold: treatment.\n\n**Structural:** Downed power lines, fire, collapse. Stay 30 feet minimum from downed lines.\n\n**Industrial:** Ask what they manufacture and what chemicals are present.` },
+    { heading: "Number of Patients and Resources", body: `If patients exceed your crew's capacity, call for additional units immediately -- not after assessing everyone.\n\nCall early. Resources you do not use can stage. Patients without help cannot wait.\n\nDispatch information is often inaccurate. Build a mental habit: expect more than dispatch reports.` },
+    { heading: "Standard Precautions", body: `Assumes every patient's blood and fluids are potentially infectious.\n\n**Always:** Gloves on every patient contact.\n**When fluids may splash:** Eye protection or face shield.\n**Respiratory:** N95 for airborne pathogens -- requires annual fit testing.\n**Sharps:** Never recap needles. Needle-stick: wash site immediately, report, seek evaluation within hours.\n**After contact:** Remove PPE in order, hand hygiene last.` },
+    { heading: "Situational Awareness Throughout", body: `Scene safety is continuous -- not just at arrival.\n\nKnow your exits when you enter any structure. Never let unknown persons get between you and the door.\n\nTrust your instincts. If something feels wrong, it probably is. You can always retreat.\n\nThe golden rule: A dead EMT helps no one.` }
   ],
   flashcards: [
-    { front: "What are the 5 components of scene size-up in order?", back: "1. Standard precautions\n2. Scene safety\n3. MOI or NOI\n4. Number of patients\n5. Additional resources needed" },
-    { front: "What does BSI / Standard Precautions assume?", back: "That every patient's blood and bodily fluids are potentially infectious. Gloves on every patient contact, minimum." },
-    { front: "Three workers unconscious in a warehouse -- what do you suspect?", back: "Confined space atmospheric hazard (oxygen deficiency, toxic gas, or flammable atmosphere). Do NOT enter without SCBA. Stage and call technical rescue." },
-    { front: "What is the hot zone in hazmat?", back: "The contaminated area. EMTs do not enter the hot zone. Patients are decontaminated in the warm zone before reaching you in the cold zone." },
-    { front: "How far should you stay from downed power lines?", back: "Minimum 30 feet. Energized lines can energize the ground around them. Do not touch even if they appear dead." },
-    { front: "When do you call for additional resources at a scene?", back: "As soon as you determine patient count may exceed your crew's capacity -- not after you have assessed all patients." },
-    { front: "When should a violence scene be entered?", back: "Only after law enforcement has secured and cleared it. Stage outside until cleared." },
-    { front: "What respiratory protection is required for suspected TB or airborne pathogens?", back: "N95 respirator -- fit-tested annually. A surgical mask does NOT protect against airborne pathogens." },
-    { front: "What is IDLH?", back: "Immediately Dangerous to Life and Health -- atmospheric conditions that can cause death or irreversible injury. Requires SCBA to enter safely." },
-    { front: "Where do you direct additional incoming units at a multi-unit scene?", back: "To a staging area outside the scene perimeter. Do not flood the scene. Assign units from staging as needed." },
-    { front: "What is the correct order to remove PPE after patient contact?", back: "Remove gown and outer gloves first. Eye protection next. Mask. Inner gloves last. Hand hygiene after every step." },
-    { front: "What should you do immediately after a needle-stick exposure?", back: "Wash the site immediately. Report to supervisor. Seek medical evaluation within hours -- the window for post-exposure prophylaxis is narrow." }
+    { front: "5 scene size-up components in order?", back: "1. Standard precautions\n2. Scene safety\n3. MOI or NOI\n4. Number of patients\n5. Additional resources" },
+    { front: "Three unconscious workers in a warehouse -- what do you suspect?", back: "Confined space atmospheric hazard. Do NOT enter without SCBA. Stage and call technical rescue." },
+    { front: "What is the hot zone in hazmat?", back: "Contaminated area. EMTs do not enter. Patients decontaminated in warm zone before reaching cold zone treatment." },
+    { front: "Minimum distance from downed power lines?", back: "30 feet. Energized lines can energize the surrounding ground. Never assume a downed line is dead." },
+    { front: "When do you call for additional resources?", back: "As soon as patient count may exceed your crew's capacity -- not after assessing all patients." },
+    { front: "When can you enter a violence scene?", back: "Only after law enforcement has secured and cleared it." },
+    { front: "N95 vs surgical mask -- when is N95 required?", back: "N95 for airborne pathogens (TB, measles). Requires annual fit testing. Surgical mask is NOT airborne protection." },
+    { front: "What is IDLH?", back: "Immediately Dangerous to Life and Health. Atmospheric conditions requiring SCBA to enter safely." },
+    { front: "Correct PPE removal order?", back: "Gown/outer gloves first. Eye protection. Mask. Inner gloves last. Hand hygiene after every step." },
+    { front: "Needle-stick: immediate action?", back: "Wash site immediately. Report to supervisor. Medical evaluation within hours. Window for PEP is narrow." },
+    { front: "What does Standard Precautions assume?", back: "Every patient's blood and fluids are potentially infectious. Gloves minimum on every contact." },
+    { front: "Incoming units at multi-unit scene should:", back: "Stage at a designated area and be called forward by the Transport Officer or IC. Never self-dispatch to scene." }
   ],
   quiz: [
-    {
-      q: "You arrive at a warehouse with three workers unconscious inside. Your first action is:",
-      options: ["Enter immediately to check pulses", "Call for additional units and stage -- suspect atmospheric hazard", "Send your partner in while you call dispatch", "Enter with full PPE from your jump bag"],
-      answer: 1,
-      explanation: "Multiple unconscious victims in an enclosed industrial space = atmospheric hazard until proven otherwise. Do NOT enter without SCBA. Stage, call technical rescue, and treat patients once they are brought to the cold zone."
-    },
-    {
-      q: "You arrive at a stabbing scene. The patient is on the ground and appears critical. Law enforcement has not yet arrived. You should:",
-      options: ["Approach carefully and begin assessment", "Stage at a safe distance until law enforcement secures the scene", "Enter with your partner -- two is safer than one", "Treat from the perimeter without full assessment"],
-      answer: 1,
-      explanation: "A scene is not safe because the patient is down. The attacker may still be present. Stage until law enforcement clears the scene. Your safety is the first priority."
-    },
-    {
-      q: "Standard Precautions require you to wear an N95 respirator when:",
-      options: ["Any patient is coughing", "A patient has known or suspected airborne pathogen (TB, measles)", "Performing CPR on any patient", "Any patient has a fever"],
-      answer: 1,
-      explanation: "N95 is required for airborne pathogens like TB and measles. A surgical mask is used for droplet precautions. N95s require annual fit testing."
-    },
-    {
-      q: "You are working a motor vehicle crash when you notice the patient's agitated brother approaching with his hands in his pockets. You should:",
-      options: ["Continue working -- the patient is your priority", "Have your partner watch him while you work", "Reassess scene safety -- position near your exit and alert law enforcement", "Ask him to help hold an IV bag"],
-      answer: 2,
-      explanation: "Scene safety is ongoing. An agitated bystander approaching with concealed hands is a threat indicator. Know your exit, alert law enforcement, and do not let unknown persons get between you and your way out."
-    },
-    {
-      q: "Dispatch reports 'one patient, minor injury' at a construction site. You arrive to find a building partially collapsed with workers calling for help from inside. You should:",
-      options: ["Proceed with one-patient protocol", "Immediately request additional resources and establish scene command", "Enter the building to assess the full patient count", "Wait for dispatch to update the call"],
-      answer: 1,
-      explanation: "Dispatch information is frequently inaccurate. You are on scene -- you assess and call what you see. Request resources immediately. Do not enter a potentially unstable structure."
-    },
-    {
-      q: "A downed power line is across the road at your scene. It appears to not be sparking. Safe minimum distance:",
-      options: ["10 feet", "5 feet -- if it looks dead it is dead", "30 feet minimum", "Any distance -- only sparking lines are dangerous"],
-      answer: 2,
-      explanation: "30 feet minimum from downed power lines regardless of appearance. Energized lines can energize the ground around them. A line that appears dead may not be. Utility company must de-energize before anyone approaches."
-    },
-    {
-      q: "You remove your gloves after a bloody trauma call. The next correct step is:",
-      options: ["Proceed to the next task", "Hand hygiene even though you wore gloves", "Put on new gloves immediately", "Wipe hands with a dry towel"],
-      answer: 1,
-      explanation: "Hand hygiene is performed after glove removal. Gloves can have micro-tears and contamination can occur during removal. This is a fundamental component of Standard Precautions."
-    },
-    {
-      q: "At a scene with 6 patients, what is your immediate priority after scene safety?",
-      options: ["Begin treating the most critical patient", "Request additional resources before beginning treatment", "Triage all patients before calling for help", "Begin CPR on any patient in cardiac arrest"],
-      answer: 1,
-      explanation: "Six patients exceed any single crew's capacity. Call for resources immediately -- you cannot treat 6 patients alone. Resources you do not need can stage; patients you cannot treat may die."
-    }
+    { q: "You arrive at a warehouse, three workers unconscious inside. First action:", options: ["Enter immediately to check pulses", "Stage -- suspect atmospheric hazard, call technical rescue", "Send partner in while you call dispatch", "Enter with full PPE from jump bag"], answer: 1, explanation: "Multiple unconscious in enclosed industrial space = atmospheric hazard. Stage, call technical rescue. Do NOT enter without SCBA." },
+    { q: "Stabbing scene, patient critical, law enforcement not yet on scene:", options: ["Approach carefully and begin assessment", "Stage at safe distance until scene cleared", "Enter with partner for safety", "Treat from perimeter without full assessment"], answer: 1, explanation: "A scene is not safe because the patient is down. Stage until law enforcement clears. Your safety is priority." },
+    { q: "N95 respirator is required for:", options: ["Any coughing patient", "Known or suspected airborne pathogen (TB, measles)", "CPR on any patient", "Any fever"], answer: 1, explanation: "N95 for airborne pathogens only. Surgical mask is for droplet precautions. Annual fit testing required." },
+    { q: "Downed power line, appears not sparking. Minimum distance:", options: ["10 feet", "5 feet -- looks dead, probably is", "30 feet minimum", "Any distance -- only sparking lines are dangerous"], answer: 2, explanation: "30 feet minimum regardless of appearance. Ground around an energized line can also be energized." },
+    { q: "After removing gloves post-trauma call:", options: ["Proceed to next task", "Perform hand hygiene", "Put new gloves on immediately", "Wipe hands with dry towel"], answer: 1, explanation: "Hand hygiene after glove removal. Gloves can have micro-tears. Fundamental Standard Precautions." },
+    { q: "Six patients, two crews. Immediate priority after scene safety:", options: ["Treat most critical patient", "Request additional resources immediately", "Complete triage before calling for help", "Begin CPR on any arrest"], answer: 1, explanation: "Two crews cannot manage 6 patients. Call for resources immediately -- do not wait." },
+    { q: "Gas smell reported at your scene. You should:", options: ["Finish packaging before evacuating", "Evacuate immediately and reassess scene safety", "Identify source before reacting", "Continue -- bystanders often overreact"], answer: 1, explanation: "Gas smell = immediate threat indicator. Evacuate and reassess. Risk of explosion outweighs scene treatment." },
+    { q: "Dispatch: minor fender-bender, one patient. You arrive to find partial building collapse, workers calling for help:", options: ["Proceed with one-patient protocol", "Request additional resources and establish command immediately", "Enter to count patients", "Wait for dispatch to update"], answer: 1, explanation: "Dispatch is frequently inaccurate. You see it, you call it. Do not enter a potentially unstable structure." }
   ]
 };
 
@@ -632,143 +1698,35 @@ const M1L2 = {
     call: `"Unit 6 -- respond to I-80 westbound mile marker 14. Multi-vehicle MVA, at least two patients, one reported ejected. Semitruck involved. Fire is 4 minutes behind you."`,
     time: "2:47 PM", eta: "5 minutes",
     hook: "Ejected patient. Semitruck. Before you arrive, you already know this person is at high risk for cervical spine injury, internal bleeding, and head trauma. How? Mechanism of injury.",
-    bridge: "MOI and NOI are the detective work you do before you touch the patient. They shape everything -- how aggressively you search for hidden injuries, how fast you move, and where you take them. Master this and you think like a clinician, not a technician."
+    bridge: "MOI and NOI are the detective work you do before you touch the patient. They shape everything -- how aggressively you search for hidden injuries, how fast you move, and where you take them."
   },
   content: [
-    {
-      heading: "MOI vs NOI: Two Roads to the Same Assessment",
-      body: `Every patient call falls into one of two categories:
-
-**Mechanism of Injury (MOI)** -- Trauma. Energy was transferred to the body. The question is how much, where, and what structures were in the way.
-
-**Nature of Illness (NOI)** -- Medical. Something is going wrong internally -- a disease process, a metabolic crisis, a toxic exposure. The question is what system is failing and why.
-
-Some calls are both. A diabetic who crashes their car has a medical NOI (hypoglycemia) AND a trauma MOI. Always consider both.
-
-**Why this matters before you arrive:** MOI and NOI allow you to build a mental model of likely injuries and illness patterns before you have physical findings to confirm them. Dispatch tells you the address and the rough complaint -- your brain fills in the rest. "Motorcycle crash at highway speed" should immediately trigger: spine, head, chest, and long bone fractures. "Unresponsive elderly female" triggers: stroke, hypoglycemia, overdose, sepsis.
-
-This mental model is called your **index of suspicion** -- and it drives how aggressively you look for hidden injuries.`
-    },
-    {
-      heading: "MOI: The Physics of Injury",
-      body: `Trauma severity depends on kinetic energy transferred to the body:
-
-**KE = 1/2 x mass x velocity squared**
-
-Velocity matters more than mass. Double the speed = four times the energy. This is why:
-* A car at 60 mph causes far worse injury than the same car at 30 mph
-* High-velocity rifle rounds cause massive tissue destruction compared to handgun rounds
-* Each additional floor of a fall dramatically increases injury severity
-
-**Types of traumatic forces:**
-* **Blunt trauma:** Energy transferred without skin penetration. MVAs, falls, assaults. Organs compress, shear, and rupture internally while the skin may look intact.
-* **Penetrating trauma:** Object breaches the skin. Stab wounds, gunshots, impaled objects. Injury track depends on the object and velocity.
-* **Blast injury:** Multiple mechanisms simultaneously -- pressure wave, penetrating fragments, thermal, and blunt from being thrown.
-
-**Deceleration injuries:** When a body stops suddenly, organs keep moving. The aorta tears at its attachment points to the spine. The brain rebounds inside the skull. The unrestrained front-seat occupant at 45 mph travels at 45 mph until the windshield stops them. The liver and spleen continue traveling.`
-    },
-    {
-      heading: "Significant MOI: High-Risk Patterns",
-      body: `These patterns predict serious injury even when the patient appears okay. Significant MOI requires a full rapid trauma assessment and aggressive transport.
-
-**High-risk MOI patterns:**
-* High-speed MVA (>40 mph), rollover, ejection, or death of another occupant in the same vehicle
-* Fall greater than 20 feet (greater than 10 feet for children -- their anatomy is different)
-* Penetrating trauma to head, neck, chest, or abdomen
-* Motorcycle or bicycle crash at any speed
-* Pedestrian or cyclist struck by a motor vehicle
-* Blast injury of any kind
-* Unrestrained occupant in any significant crash
-
-**Ejection:** Increases mortality by approximately 300%. Automatic high MOI. Assume cervical spine injury, internal bleeding, and head trauma.
-
-**The hidden injury principle:** Significant MOI means you search aggressively for injuries the patient cannot feel (spinal cord injury, internal bleeding) or may not report (head injury causing AMS). You are not just treating what the patient tells you. You are finding what the body is not telling you.`
-    },
-    {
-      heading: "NOI: Reading Medical Emergencies",
-      body: `For medical patients, NOI shapes your assessment before you gather a single vital sign.
-
-**Common NOI patterns and what they suggest:**
-
-* **Unresponsive patient:** Stroke, hypoglycemia, overdose, cardiac arrest, head trauma -- these all look the same from the street. Your assessment protocol disambiguates them.
-* **Chest pain:** Cardiac, pulmonary, musculoskeletal, GI. Age, risk factors, and character of pain narrow the field.
-* **Difficulty breathing:** Asthma, COPD exacerbation, CHF, pneumothorax, anaphylaxis, pulmonary embolism. Work fast -- respiratory failure kills fast.
-* **Altered mental status:** Blood glucose is checked on every AMS patient. It is the most treatable cause and the fastest to kill.
-* **Abdominal pain:** GI bleed, ruptured ectopic pregnancy, appendicitis, aortic aneurysm. Know which ones are immediately life-threatening.
-
-**Dispatch clues to NOI:**
-* "Diabetic patient" = check blood glucose first
-* "Known cardiac history" = 12-lead and aspirin protocol
-* "Psychiatric patient" = rule out organic cause before assuming psych
-* "Elderly female, fell" = medical cause of fall is common (syncope, dysrhythmia)
-
-**Never anchor on the first explanation.** The "drunken" patient may be a head injury. The "psychiatric" patient may have low blood sugar. Rule out the immediately dangerous before settling on a diagnosis.`
-    },
-    {
-      heading: "Transport Decisions and the Golden Period",
-      body: `MOI and NOI determine not just how you assess but where you take your patient.
-
-**Trauma center criteria (significant MOI triggers rapid transport to trauma center):**
-* Penetrating injury to head, neck, chest, abdomen, or extremities proximal to elbow/knee
-* Significant blunt force MOI (see above)
-* Physiologic compromise: GCS < 14, RR < 10 or > 29, systolic BP < 90
-* Burns > 20% BSA or involving face/airway
-* Spinal injury with motor or sensory deficit
-
-**Specialty centers:** Beyond trauma centers, destination decisions include:
-* Stroke centers for suspected CVA (time to CT and intervention is critical)
-* STEMI-receiving facilities for suspected heart attacks
-* Burn centers for major burns
-* Pediatric trauma centers when available for pediatric major trauma
-
-**The Golden Period:** Trauma patients with internal hemorrhage need an operating room. Every minute of scene time beyond what is absolutely necessary increases mortality. For significant MOI: life threats only on scene, package fast, move to definitive care. You are the transport vehicle, not the definitive treatment.`
-    }
+    { heading: "MOI vs NOI", body: `**Mechanism of Injury (MOI)** -- Trauma. Energy was transferred to the body. The question is how much, where, and what structures were in the way.\n\n**Nature of Illness (NOI)** -- Medical. Something is going wrong internally.\n\nSome calls are both. A diabetic who crashes their car has a medical NOI AND a trauma MOI. Always consider both.\n\nMOI and NOI allow you to build a mental model of likely injuries before physical findings. This is your **index of suspicion** -- and it drives how aggressively you look for hidden injuries.` },
+    { heading: "MOI: Physics of Injury", body: `**KE = 1/2 x mass x velocity squared**\n\nVelocity matters more than mass. Double the speed = four times the energy.\n\n* Blunt trauma: no penetration -- organs compress, shear, rupture internally\n* Penetrating trauma: object breaches skin\n* Blast injury: multiple mechanisms simultaneously\n\n**Deceleration injuries:** When the body stops suddenly, organs keep moving. The aorta tears at attachment points. The brain rebounds inside the skull.` },
+    { heading: "Significant MOI Patterns", body: `These patterns predict serious injury even when the patient appears fine:\n* High-speed MVA (>40 mph), rollover, ejection, death of another occupant\n* Fall >20 feet (>10 feet for children)\n* Penetrating trauma to head, neck, chest, or abdomen\n* Motorcycle crash at any speed\n* Pedestrian struck by vehicle\n* Blast injury\n\n**Ejection:** Increases mortality ~300%. Assume cervical spine injury, internal bleeding, and head trauma automatically.` },
+    { heading: "NOI: Reading Medical Emergencies", body: `**Common NOI patterns:**\n* Unresponsive: stroke, hypoglycemia, overdose, cardiac arrest\n* Chest pain: cardiac, pulmonary, musculoskeletal\n* Difficulty breathing: asthma, COPD, CHF, pneumothorax, anaphylaxis\n* Altered mental status: **check blood glucose first** -- most treatable cause\n\nNever anchor on the first explanation. The drunk-appearing patient may have a head injury. Rule out immediately dangerous causes first.` },
+    { heading: "Transport Decisions", body: `**Trauma center criteria:**\n* Penetrating injury to trunk or proximal extremities\n* Significant blunt MOI\n* GCS < 14, RR < 10 or > 29, systolic BP < 90\n\n**Specialty centers:** Stroke centers for CVA, STEMI centers for heart attacks, burn centers.\n\n**The Golden Period:** Trauma patients with internal hemorrhage need an OR. Minimize scene time. You are the transport vehicle, not the definitive treatment.` }
   ],
   flashcards: [
     { front: "What is Mechanism of Injury (MOI)?", back: "How energy was transferred to the body during a traumatic event. Tells you what injuries to expect before physical examination." },
-    { front: "What is Nature of Illness (NOI)?", back: "The underlying medical process causing the patient's symptoms. Used to build your pre-assessment index of suspicion for medical patients." },
-    { front: "Formula for kinetic energy -- why does it matter?", back: "KE = 1/2 x mass x velocity squared. Velocity is squared, so doubling speed quadruples energy. Speed matters more than mass in trauma severity." },
-    { front: "What fall height is considered significant MOI for adults?", back: "Greater than 20 feet for adults. Greater than 10 feet for children (their anatomy differs -- lower threshold for serious injury)." },
-    { front: "Why is ejection from a vehicle high-risk MOI?", back: "Ejection increases mortality approximately 300%. Assume cervical spine injury, internal bleeding, and head trauma automatically." },
-    { front: "What is the index of suspicion?", back: "A mental model of likely injuries or illness built from MOI/NOI before physical findings confirm it. Drives how aggressively you search." },
-    { front: "Why is 'the patient looks fine' not reassuring after significant MOI?", back: "Significant MOI means hidden injuries are possible (internal bleeding, spinal cord injury). The patient may not feel or report what is killing them." },
-    { front: "What is the first thing to check in any AMS patient?", back: "Blood glucose. Hypoglycemia is the most treatable cause of AMS and can mimic stroke, intoxication, or psychiatric emergency." },
-    { front: "What is a deceleration injury?", back: "When the body stops suddenly but organs keep moving. Causes aortic tears at attachment points, brain rebound against skull, and liver/spleen laceration." },
-    { front: "Name 3 NOI patterns and what they suggest.", back: "Chest pain = cardiac/pulmonary; Difficulty breathing = asthma/CHF/pneumothorax; Unresponsive = stroke/hypoglycemia/overdose/arrest." },
-    { front: "What is the 'Golden Period' in trauma?", back: "The window during which definitive surgical care (OR) can prevent trauma death. Minimize scene time -- move critical trauma patients fast." },
-    { front: "When should you consider a 'drunken' patient to have a head injury instead?", back: "Always until proven otherwise. Altered mental status with recent trauma, no odor of alcohol, or atypical presentation should raise suspicion for head injury." }
+    { front: "What is Nature of Illness (NOI)?", back: "The underlying medical process causing symptoms. Builds your index of suspicion before physical assessment." },
+    { front: "KE formula -- why does velocity matter more?", back: "KE = 1/2 x mass x velocity squared. Doubling velocity quadruples energy (velocity is squared). Speed > mass in trauma." },
+    { front: "Significant fall height for adults vs children?", back: "Adults: >20 feet. Children: >10 feet. Different anatomy = lower threshold for serious injury in kids." },
+    { front: "Ejection from vehicle -- immediate assumptions?", back: "Cervical spine injury, internal bleeding, and head trauma. Mortality increases ~300%." },
+    { front: "What is the index of suspicion?", back: "Mental model of likely injuries built from MOI/NOI before physical findings. Drives how aggressively you search." },
+    { front: "First thing to check in any AMS patient?", back: "Blood glucose. Most treatable cause of AMS. Can mimic stroke, intoxication, or psychiatric emergency." },
+    { front: "What is a deceleration injury?", back: "Body stops suddenly, organs keep moving. Aortic tears, brain rebound, liver/spleen laceration." },
+    { front: "The Golden Period in trauma:", back: "Window during which surgical care can prevent death. Minimize scene time -- OR is the definitive treatment." },
+    { front: "Systolic BP below what = trauma center criterion?", back: "Systolic BP <90 mmHg. Indicates physiologic compromise -- hemorrhagic shock." },
+    { front: "Intoxicated-appearing patient, no odor of alcohol -- first priority?", back: "Check blood glucose immediately. Hypoglycemia mimics intoxication and is rapidly fatal without treatment." },
+    { front: "Both MOI and NOI can apply to the same patient -- example?", back: "A diabetic who crashes their car. Medical NOI (hypoglycemia caused the crash) AND trauma MOI (the crash itself)." }
   ],
   quiz: [
-    {
-      q: "A motorcyclist is down after a crash at highway speed. He is alert and denies pain. Your approach should be:",
-      options: ["Accept his denial and do a focused assessment of his chief complaint", "Perform a rapid full-body trauma assessment -- significant MOI means hidden injuries", "Immobilize only if he complains of neck pain", "Transport without full assessment since he is alert"],
-      answer: 1,
-      explanation: "Significant MOI (motorcycle crash at speed) requires a full rapid trauma assessment regardless of symptoms. Alert patients with significant MOI commonly have life-threatening injuries they cannot feel."
-    },
-    {
-      q: "A vehicle crashed at 60 mph will transfer approximately how much more kinetic energy than the same vehicle at 30 mph?",
-      options: ["Twice as much", "Three times as much", "Four times as much", "The same -- mass is what matters"],
-      answer: 2,
-      explanation: "KE = 1/2 x mass x velocity squared. Doubling velocity (30 to 60 mph) squares the multiplier: 2 squared = 4. The 60 mph crash transfers 4 times the kinetic energy."
-    },
-    {
-      q: "You arrive to find an elderly woman on the floor after a fall. Her daughter says 'She just tripped.' Your index of suspicion should include:",
-      options: ["Only musculoskeletal injury from the fall", "A medical event (syncope, dysrhythmia, stroke) that CAUSED the fall, plus fall injuries", "Only document what the daughter observed", "No hidden injuries -- she was ambulatory before the fall"],
-      answer: 1,
-      explanation: "Elderly patients frequently fall due to a medical event -- syncope, dysrhythmia, or stroke. The fall is the result, not the cause. Always consider what caused the fall, not just the injuries from it."
-    },
-    {
-      q: "Which patient should be transported to a trauma center rather than the nearest ED?",
-      options: ["25-year-old with isolated forearm laceration", "40-year-old unrestrained driver, rollover, GCS 12", "55-year-old bicyclist, minor fall, helmet intact, GCS 15", "30-year-old with road rash from low-speed bicycle fall"],
-      answer: 1,
-      explanation: "Unrestrained driver in a rollover crash meets significant MOI criteria. Altered GCS (12) confirms physiologic compromise. This patient needs a trauma center's surgical capability, not a general ED."
-    },
-    {
-      q: "Your patient appears intoxicated -- slurred speech, unsteady gait, confused. No odor of alcohol. Your first priority is:",
-      options: ["Treat as alcohol intoxication and transport for monitoring", "Check blood glucose immediately -- hypoglycemia can mimic intoxication", "Psychiatric evaluation", "Assess for drug use and call for law enforcement"],
-      answer: 1,
-      explanation: "No odor of alcohol with intoxication-like presentation = check blood glucose first. Hypoglycemia is rapidly fatal and immediately treatable. Never anchor on 'intoxication' without ruling out organic causes."
-    }
+    { q: "Motorcyclist down at highway speed, alert, denies pain. Your approach:", options: ["Focused assessment only -- he is alert", "Full rapid trauma assessment -- significant MOI = hidden injuries", "Immobilize only if he complains of neck pain", "Transport without full assessment"], answer: 1, explanation: "Significant MOI requires full rapid trauma assessment regardless of symptoms. High MOI patients can have life-threatening hidden injuries." },
+    { q: "Vehicle at 60 mph vs 30 mph -- energy difference:", options: ["Twice as much", "Three times as much", "Four times as much", "Same -- mass matters more"], answer: 2, explanation: "KE = 1/2 x mass x velocity squared. Doubling speed squares the multiplier: 2^2 = 4. Four times more energy." },
+    { q: "Elderly woman fell. Daughter says she tripped. Your assessment must include:", options: ["Fall injuries only", "A medical event (syncope, dysrhythmia) that CAUSED the fall, plus fall injuries", "Only what the daughter witnessed", "No hidden concerns"], answer: 1, explanation: "Elderly patients frequently fall because of a medical event. The fall is the result, not the cause." },
+    { q: "Which patient needs a trauma center?", options: ["25yo, isolated forearm laceration", "40yo unrestrained rollover, GCS 12", "55yo cyclist, minor fall, helmet on, GCS 15", "30yo, road rash, low-speed fall"], answer: 1, explanation: "Unrestrained rollover = significant MOI. GCS 12 = physiologic compromise. Trauma center required." },
+    { q: "Intoxicated appearance, slurred speech, confused, no alcohol odor. First priority:", options: ["Treat as alcohol intoxication", "Check blood glucose -- hypoglycemia mimics intoxication", "Psychiatric evaluation", "Call law enforcement"], answer: 1, explanation: "No odor of alcohol = check glucose first. Hypoglycemia is rapidly fatal and immediately reversible. Never anchor on intoxication." }
   ]
 };
 
@@ -779,160 +1737,38 @@ const M1L3 = {
   subtitle: "When patients outnumber resources, triage saves the most lives",
   duration: "~1.5 hrs total",
   dispatch: {
-    call: `"All units -- major vehicle accident on I-80 westbound at mile marker 47. Semi vs passenger bus. Initial report: 20-plus patients, multiple critical. Fire, EMS, and law enforcement responding. Establish command."`,
+    call: `"All units -- major vehicle accident on I-80 westbound at mile marker 47. Semi vs passenger bus. Initial report: 20-plus patients, multiple critical. Establish command."`,
     time: "4:15 PM", eta: "4 minutes",
     hook: "Twenty patients. Your crew. Four minutes. What do you do first?",
-    bridge: "Mass casualty incidents break every normal rule of EMS. You do not treat the worst patient first. You do not stay on scene until everyone is packaged. You triage -- and triage means making hard decisions that save the most lives possible from available resources."
+    bridge: "Mass casualty incidents break every normal rule of EMS. You do not treat the worst patient first. You triage -- making hard decisions that save the most lives."
   },
   content: [
-    {
-      heading: "What is an MCI and When Does Triage Apply?",
-      body: `A Mass Casualty Incident (MCI) is any event where the number of patients exceeds the immediate capacity of available resources to provide optimal care. That threshold is not a fixed number -- it depends on available resources.
-
-Two critical patients with one ambulance crew = MCI. Twenty patients with ten ambulances may not be.
-
-**When triage principles apply:**
-* Patient count exceeds available crew capacity
-* Injuries are severe enough that not all can receive immediate advanced care
-* Resources (personnel, equipment, transport) are limited relative to demand
-
-**The core triage principle:** Allocate limited resources to patients most likely to survive with intervention. This means you may bypass the most critically injured to reach those with better survivability. This is not abandonment -- it is evidence-based allocation.
-
-**The hardest lesson in MCI:** Doing the most good for the most people sometimes means doing less for one individual. Every EMS provider who works an MCI grapples with this. The triage system exists to make these decisions systematic and defensible.
-
-**MCI Declaration:** When you arrive and determine you have an MCI, declare it immediately. "Dispatch -- Unit 3 is declaring an MCI at this location. Initial estimate 20-plus patients. Activating MCI protocol. Requesting additional resources."
-
-Do not wait for confirmation. Do not wait for a supervisor. You saw it, you call it.`
-    },
-    {
-      heading: "START Triage: Simple Triage And Rapid Treatment",
-      body: `START is the standard MCI triage system used by most EMS agencies in the United States. It categorizes patients in approximately 30 seconds each using three assessments.
-
-**START triage sequence:**
-1. **Respirations** -- Is the patient breathing?
-2. **Perfusion** -- Is there adequate circulation? (radial pulse or capillary refill)
-3. **Mental status** -- Can the patient follow simple commands?
-
-**The four START categories:**
-
-**BLACK (Expectant/Deceased):**
-* No respirations after repositioning airway
-* Respirations that are clearly agonal (gasping, irregular)
-* Injuries incompatible with survival given available resources
-* These patients receive no immediate resources in an MCI
-
-**RED (Immediate):**
-* Respirations present but above 30/min
-* No radial pulse (delayed capillary refill > 2 seconds)
-* Cannot follow simple commands (altered mental status)
-* Can survive with immediate intervention
-
-**YELLOW (Delayed):**
-* Respirations present, below 30/min
-* Radial pulse present (capillary refill < 2 seconds)
-* Can follow commands
-* Stable enough to wait -- serious but not immediately life-threatening
-
-**GREEN (Minor/Walking Wounded):**
-* Walking and responsive
-* First step in START: direct all walking patients to a collection point. Anyone who can walk is GREEN.
-* Green patients may self-transport or can be assessed later`
-    },
-    {
-      heading: "ICS at an MCI: Command Structure",
-      body: `The Incident Command System (ICS) provides the organizational framework for managing an MCI. Every person on scene has one role and one supervisor.
-
-**First unit on scene automatically establishes command.** No exceptions. You do not wait for someone with more seniority. You do not hope someone else does it. You establish command and announce it on the radio.
-
-"Dispatch -- Unit 3 has arrived at I-80, mile marker 47. We are establishing I-80 Command. Initial report: bus and semi accident, approximately 20 patients. Requesting multiple additional ALS and BLS units, supervisor, and hospital notification."
-
-**EMS MCI functional areas:**
-* **Incident Command (IC):** Overall control, resource management, media, communication with hospitals
-* **Triage Group:** Rapid assessment and categorization of all patients using START
-* **Treatment Group:** Provides care in treatment areas organized by triage category
-* **Transport Group:** Manages ambulance loading, destination, and hospital notification
-
-**Medical Branch Director:** At large MCIs, a Medical Branch Director reports to the IC and oversees all EMS operations.
-
-**The rule of spans:** Each supervisor manages no more than 5-7 personnel. Beyond 7, communication breaks down. As an MCI grows, the command structure expands -- new supervisors are assigned to keep spans of control manageable.`
-    },
-    {
-      heading: "MCI Zones and Treatment Areas",
-      body: `Physical layout of an MCI scene is as important as patient care. Disorganized scenes kill patients through delayed transport.
-
-**Scene zones:**
-* **Hot zone:** Area of immediate hazard (wreckage, fire, hazmat). Extraction occurs here. Treatment does not.
-* **Warm zone:** Transition area. Patients are moved from hot to warm for initial stabilization.
-* **Cold zone:** Safe area. Treatment areas and staging are established here. No hazard.
-
-**Treatment area organization:**
-* **RED treatment area:** Immediate patients. Located closest to transport loading.
-* **YELLOW treatment area:** Delayed patients. Continuous monitoring for deterioration.
-* **GREEN collection point:** Walking wounded. Separated from critical patients to prevent them from flooding the treatment area.
-* **BLACK area:** Deceased and expectant patients. Separate, out of view of other patients and families.
-
-**Ambulance staging:** Incoming ambulances stage at a designated point and are called forward one at a time to load patients. This prevents traffic gridlock at the scene. A Transport Officer manages this.
-
-**Hospital notification:** Hospitals receive patient counts and injury patterns as early as possible to prepare. Spreading critical patients across multiple facilities prevents any one hospital from being overwhelmed.`
-    },
-    {
-      heading: "Special Considerations and After the MCI",
-      body: `**Pediatric patients in MCIs:** JumpSTART is a modified triage system for children under 8. Key difference: children who are not breathing receive 5 rescue breaths before being tagged black (since pediatric arrest is more often respiratory than cardiac in origin).
-
-**Retriage:** Patients are not triaged once. Delayed (YELLOW) patients can deteriorate to Immediate (RED). Patients in the treatment area must be continuously reassessed. Assign someone to walk through treatment areas and reassess regularly.
-
-**Documentation at MCIs:** Triage tags (physical tags attached to patients) document triage category, assessment findings, and treatments given. Tag number is your tracking system. Hospitals use tag numbers to match patients.
-
-**Hazmat MCIs:** Contaminated patients must be decontaminated before entering treatment areas. Non-contaminated providers do not enter the hot or warm zone. Decon corridor is established and patients are decontaminated systematically before reaching you.
-
-**Critical Incident Stress:** MCIs are psychologically traumatic for responders. Providers who work a mass casualty event -- especially one involving children -- need access to Critical Incident Stress Debriefing (CISD). This is not optional and it is not a sign of weakness. Peer support, CISD, and mental health resources are part of MCI after-action protocol.`
-    }
+    { heading: "What is an MCI?", body: `An MCI is any event where patient count exceeds the immediate capacity of available resources.\n\nTwo critical patients with one ambulance crew = MCI. Twenty patients with ten ambulances may not be.\n\n**Core principle:** Allocate limited resources to patients most likely to survive with intervention.\n\n**When you see it, you declare it.** Do not wait for a supervisor. Announce on radio immediately.` },
+    { heading: "START Triage", body: `START = Simple Triage And Rapid Treatment. ~30 seconds per patient. Three assessments:\n\n1. **Respirations** -- Is the patient breathing?\n2. **Perfusion** -- Radial pulse or capillary refill\n3. **Mental status** -- Follow simple commands?\n\n**BLACK:** No respirations after repositioning. No resources in MCI.\n**RED:** Breathing >30/min, no radial pulse, or cannot follow commands.\n**YELLOW:** Breathing <30/min, radial pulse present, follows commands.\n**GREEN:** Walking. Step 1: direct all walking patients to collection point.` },
+    { heading: "ICS at an MCI", body: `**First unit establishes command -- no exceptions.**\n\n"Dispatch -- Unit 3 establishing I-80 Command. Approximately 20 patients. Requesting multiple ALS/BLS units."\n\n**EMS groups:**\n* Triage Group\n* Treatment Group\n* Transport Group\n\n**Span of control:** No supervisor manages more than 5-7 people. As scene grows, add supervisory levels.` },
+    { heading: "MCI Zones and Treatment Areas", body: `**Zones:**\n* Hot: hazard area -- extraction only, no treatment\n* Warm: transition\n* Cold: safe -- treatment and staging\n\n**Treatment areas:**\n* RED: closest to transport loading\n* YELLOW: monitored for deterioration\n* GREEN: separated from critical patients\n* BLACK: out of view\n\nHospital notification as early as possible so they can prepare.` },
+    { heading: "Special Considerations", body: `**JumpSTART for children under 8:** Give 5 rescue breaths before tagging black. Pediatric arrest is often respiratory -- a brief ventilation may restart breathing.\n\n**Retriage:** YELLOW patients can deteriorate to RED. Reassess treatment areas continuously.\n\n**Critical Incident Stress Debriefing (CISD)** after MCIs is not optional and not a sign of weakness.` }
   ],
   flashcards: [
-    { front: "What is an MCI?", back: "Any incident where the number of patients exceeds the immediate capacity of available resources to provide optimal care." },
-    { front: "What does START stand for?", back: "Simple Triage And Rapid Treatment. The standard MCI triage system." },
-    { front: "What are the 4 START categories?", back: "BLACK (expectant/deceased), RED (immediate), YELLOW (delayed), GREEN (minor/walking wounded)" },
-    { front: "In START, what is the first step?", back: "Direct all walking patients to a collection point. Anyone who can walk is GREEN." },
-    { front: "RED criteria in START triage?", back: "Respirations > 30/min, OR no radial pulse (capillary refill > 2 sec), OR cannot follow simple commands. Can survive with immediate intervention." },
-    { front: "BLACK criteria in START triage?", back: "No respirations after airway repositioning, OR agonal breathing, OR unsurvivable injuries given available resources." },
-    { front: "Who establishes command at an MCI?", back: "The first arriving unit. Automatically. No exceptions. Announced on radio immediately." },
-    { front: "What are the 3 EMS functional areas at an MCI?", back: "Triage Group, Treatment Group, and Transport Group (all under Medical Branch or IC)." },
-    { front: "What is the difference between JumpSTART and START?", back: "JumpSTART is for children under 8. Key difference: non-breathing children get 5 rescue breaths before being tagged black." },
-    { front: "What is retriage and why is it necessary?", back: "Reassessing already-triaged patients because YELLOW patients can deteriorate to RED. Triage is not a one-time event at an MCI." },
-    { front: "What is the span of control rule in ICS?", back: "Each supervisor manages no more than 5-7 people. Beyond that, communication breaks down and a new supervisory level is added." },
-    { front: "Where is the treatment area located relative to scene zones?", back: "In the cold zone (safe area). Hot zone = extraction only. Warm zone = transition. Cold zone = treatment and staging." }
+    { front: "What is an MCI?", back: "Any incident where patient count exceeds immediate capacity of available resources to provide optimal care." },
+    { front: "START stands for?", back: "Simple Triage And Rapid Treatment." },
+    { front: "4 START categories in order of priority?", back: "RED (immediate), YELLOW (delayed), GREEN (minor), BLACK (expectant/deceased)" },
+    { front: "First step of START triage?", back: "Direct all walking patients to a collection point. Anyone ambulatory = GREEN automatically." },
+    { front: "RED criteria in START?", back: "Respirations >30/min, OR no radial pulse, OR cannot follow simple commands." },
+    { front: "BLACK criteria in START?", back: "No respirations after airway repositioning, or unsurvivable injuries given available resources." },
+    { front: "Who establishes command at first-arriving MCI unit?", back: "The first arriving unit. Automatically. Announced on radio immediately. No exceptions." },
+    { front: "Three EMS functional groups at an MCI?", back: "Triage Group, Treatment Group, Transport Group." },
+    { front: "JumpSTART key difference from START?", back: "Children under 8: give 5 rescue breaths before tagging black. Pediatric arrest is often respiratory." },
+    { front: "What is retriage?", back: "Reassessing already-triaged patients. YELLOW patients can deteriorate to RED. Ongoing, not one-time." },
+    { front: "ICS span of control rule?", back: "Each supervisor manages no more than 5-7 people. Beyond 7, add a supervisory level." },
+    { front: "Cold zone = ?", back: "Safe area. Where treatment areas and staging are set up. No hazard. Where EMTs work." }
   ],
   quiz: [
-    {
-      q: "You are the first unit to arrive at a bus accident with an estimated 15 patients. Your first action is:",
-      options: ["Begin treating the most visibly injured patient", "Triage all patients before doing anything else", "Declare MCI, request resources, establish command", "Wait for a supervisor to arrive before making decisions"],
-      answer: 2,
-      explanation: "First arriving unit declares MCI and establishes command immediately -- no supervisor needed. Resource requests happen at the same time. Triage begins once command is established and triage group is formed."
-    },
-    {
-      q: "Using START triage, a patient is breathing at 28/min, has a radial pulse, and can follow commands. This patient is:",
-      options: ["RED -- immediate", "YELLOW -- delayed", "GREEN -- minor", "BLACK -- expectant"],
-      answer: 1,
-      explanation: "YELLOW: Respirations < 30/min (28), radial pulse present, follows commands. This patient is serious but stable enough to wait. Monitor for deterioration."
-    },
-    {
-      q: "A patient has no respirations. You reposition the airway. Respirations do not return. In an MCI, this patient is tagged:",
-      options: ["RED -- attempt resuscitation", "YELLOW -- monitor", "BLACK -- expectant", "GREEN -- walking wounded"],
-      answer: 2,
-      explanation: "BLACK. In an MCI, a patient with no respirations after airway repositioning receives no immediate resources. In normal EMS you would begin CPR -- MCI triage changes this to save the most lives from limited resources."
-    },
-    {
-      q: "At a multi-vehicle accident, incoming ambulances should:",
-      options: ["Proceed directly to patients and self-assign", "Stage at a designated area and be called forward by the Transport Officer", "Park wherever space allows near the scene", "Begin transport immediately with any available patient"],
-      answer: 1,
-      explanation: "Incoming ambulances stage and are called forward one at a time. Uncontrolled ambulance traffic gridlocks the scene and prevents efficient transport. The Transport Officer manages this."
-    },
-    {
-      q: "A 6-year-old is not breathing at an MCI. Using JumpSTART, your first action is:",
-      options: ["Tag immediately BLACK", "Give 5 rescue breaths, then reassess", "Begin full CPR", "Tag YELLOW and monitor"],
-      answer: 1,
-      explanation: "JumpSTART for pediatric patients: give 5 rescue breaths before tagging BLACK. Children are more likely to arrest from respiratory causes than cardiac -- a brief ventilation may restart breathing."
-    }
+    { q: "First unit at bus accident, ~15 patients. First action:", options: ["Treat most visibly injured", "Triage all patients first", "Declare MCI, establish command, request resources", "Wait for supervisor"], answer: 2, explanation: "First arriving unit declares MCI and establishes command immediately. Resource requests and triage happen simultaneously." },
+    { q: "Patient breathing 28/min, radial pulse present, follows commands. START tag:", options: ["RED", "YELLOW", "GREEN", "BLACK"], answer: 1, explanation: "YELLOW: Respirations <30, radial pulse present, follows commands. Serious but stable." },
+    { q: "No respirations after airway repositioning. MCI tag:", options: ["RED -- begin resuscitation", "YELLOW -- monitor", "BLACK -- expectant", "GREEN"], answer: 2, explanation: "BLACK. No respirations after repositioning = no immediate resources allocated in MCI context." },
+    { q: "Incoming ambulances at an MCI should:", options: ["Proceed directly to patients", "Stage and await assignment from Transport Officer", "Park wherever space allows", "Self-assign to available patients"], answer: 1, explanation: "Staged incoming units called forward one at a time. Uncontrolled traffic gridlocks the scene." },
+    { q: "6-year-old not breathing at an MCI. JumpSTART directs:", options: ["Tag BLACK immediately", "Give 5 rescue breaths, then reassess", "Begin full CPR", "Tag YELLOW"], answer: 1, explanation: "JumpSTART: 5 rescue breaths before tagging black. Pediatric arrest often respiratory -- ventilation may restart breathing." }
   ]
 };
 
@@ -942,161 +1778,48 @@ const M1L4 = {
   subtitle: "Scene Size-Up & Safety -- full module assessment",
   duration: "~30 min",
   dispatch: {
-    call: `"All units -- Module 1 Assessment. You have covered scene safety and size-up, mechanism of injury and nature of illness, and triage in mass casualty incidents. This quiz covers all three lessons."`,
+    call: `"All units -- Module 1 Assessment. Scene Size-Up and Safety is 15-19% of the NREMT exam."`,
     time: "Assessment time", eta: "Ready when you are",
-    hook: "Scene Size-Up and Safety is 15-19% of the NREMT exam. These questions test whether you can think like a provider who arrives on scene safely and gathers the right information before touching a single patient.",
-    bridge: "Answer every question. Review every explanation whether you got it right or wrong. The NREMT will ask these questions in different ways -- understanding the reasoning matters more than memorizing the answer."
+    hook: "These questions test whether you can think like a provider who arrives safely and gathers the right information before touching a single patient.",
+    bridge: "Read every explanation whether right or wrong. The NREMT embeds these in clinical scenarios. The reasoning matters more than the answer."
   },
   content: [
-    {
-      heading: "What Module 1 Covers",
-      body: `**Domain: Scene Size-Up and Safety (NREMT: 15-19% of exam)**
-
-This module covers the first actions of every call -- the decisions made before and during your approach to the scene that determine whether you can safely work and what you are walking into.
-
-**Lesson 1 -- Scene Safety & Size-Up:**
-Standard precautions, scene safety by hazard type (traffic, violence, hazmat, structural), patient count and resource management, BSI/PPE rules, situational awareness throughout the call.
-
-**Lesson 2 -- MOI & NOI:**
-Mechanism of injury vs nature of illness, kinetic energy and trauma physics, significant MOI patterns, index of suspicion, NOI patterns for common medical presentations, transport destination decisions.
-
-**Lesson 3 -- Triage & MCI:**
-MCI declaration and command establishment, START triage (RPM: respirations, perfusion, mental status), four triage categories, JumpSTART for pediatrics, ICS roles at MCIs, scene zones, treatment area organization.`
-    }
+    { heading: "Module 1 Coverage", body: `**Domain 1: Scene Size-Up and Safety (15-19% of NREMT exam)**\n\n**L1:** Standard precautions, scene safety by hazard type (traffic, violence, hazmat, structural, industrial), patient count, resource management, situational awareness.\n\n**L2:** MOI vs NOI, kinetic energy physics, significant MOI patterns, index of suspicion, NOI patterns, transport destination decisions.\n\n**L3:** MCI declaration, START triage (RPM), four categories, JumpSTART, ICS command structure, scene zones, treatment areas.` }
   ],
   flashcards: [
-    { front: "NREMT Domain 1 covers what percentage of the exam?", back: "15-19% of the NREMT EMT exam." },
-    { front: "What are the 5 scene size-up components?", back: "1. Standard precautions 2. Scene safety 3. MOI or NOI 4. Number of patients 5. Additional resources" },
-    { front: "What does START assess in order?", back: "Respirations, Perfusion (pulse/capillary refill), Mental status (follows commands)" },
-    { front: "KE formula and significance?", back: "KE = 1/2 x mass x velocity squared. Doubling speed quadruples energy. Speed matters more than mass in trauma." },
-    { front: "Ejection from vehicle -- what do you assume?", back: "Cervical spine injury, internal bleeding, and head trauma. Mortality risk increases approximately 300% with ejection." },
-    { front: "What is the first step when arriving to any MCI as first unit?", back: "Declare MCI, establish command, request resources -- all announced on radio immediately." },
-    { front: "Confined space, multiple unconscious victims -- your action?", back: "Stage outside. Do NOT enter without SCBA. Suspect atmospheric hazard. Call technical rescue." },
-    { front: "YELLOW in START means?", back: "Delayed -- respirations < 30, radial pulse present, follows commands. Stable enough to wait but needs monitoring." }
+    { front: "Domain 1 percentage of NREMT exam?", back: "15-19%." },
+    { front: "5 scene size-up components?", back: "1. Standard precautions 2. Scene safety 3. MOI/NOI 4. Number of patients 5. Additional resources" },
+    { front: "START assesses in order:", back: "Respirations -- Perfusion (pulse) -- Mental status (commands)" },
+    { front: "KE formula:", back: "KE = 1/2 x mass x velocity squared. Speed matters more than mass." },
+    { front: "Ejection = what automatic assumptions?", back: "Cervical spine injury, internal bleeding, head trauma. ~300% increased mortality." },
+    { front: "First action as first MCI unit?", back: "Declare MCI, establish command, request resources. Announce on radio immediately." },
+    { front: "Confined space, multiple unconscious -- action?", back: "Stage. Do NOT enter without SCBA. Suspect atmospheric hazard. Call technical rescue." },
+    { front: "YELLOW in START:", back: "Delayed -- RR <30, radial pulse present, follows commands. Stable, needs monitoring." }
   ],
   quiz: [
-    {
-      q: "You arrive at a structural fire scene. A bystander tells you a victim is inside. You should:",
-      options: ["Enter to rescue the victim -- you have gloves and a mask", "Stage outside -- fire entry requires SCBA and fire department clearance", "Enter quickly and return before smoke overcomes you", "Assess the victim through a window"],
-      answer: 1,
-      explanation: "EMTs do not enter fire scenes. Carbon monoxide, structural instability, and smoke make entry without SCBA and proper protective equipment lethal. Fire department handles extraction. You treat outside."
-    },
-    {
-      q: "The single most important reason to call for additional resources early at a multi-patient scene is:",
-      options: ["It demonstrates good leadership", "Resources you don't need can stage -- patients without help cannot wait", "Protocol requires it", "To document the call correctly"],
-      answer: 1,
-      explanation: "Unused resources can return to service. Patients who die waiting for resources that were never called cannot be saved. Call early, call often. The cost of unused resources is far less than the cost of undertreated patients."
-    },
-    {
-      q: "An unresponsive 45-year-old male. No trauma history. First step:",
-      options: ["Start CPR", "Open airway and check breathing", "Check blood glucose", "Place AED"],
-      answer: 2,
-      explanation: "Airway and breathing are assessed first in every primary assessment. If not breathing, interventions follow. Blood glucose is important for AMS but cannot be the first action before confirming the patient has an airway."
-    },
-    {
-      q: "At an MCI, which patient gets RED (Immediate) tag?",
-      options: ["Walking, minor cuts", "Respirations 26/min, radial pulse present, follows commands", "Respirations 36/min, no radial pulse", "No respirations after airway repositioning"],
-      answer: 2,
-      explanation: "RED: Respirations > 30 OR no radial pulse OR cannot follow commands. Respirations 36/min alone qualifies as RED. The no-radial-pulse patient (capillary refill > 2 sec) is also RED."
-    },
-    {
-      q: "Nature of illness for a patient with sudden onset slurred speech and right arm weakness:",
-      options: ["Alcohol intoxication", "Hypoglycemia -- check glucose immediately", "Possible stroke -- time-sensitive transport to stroke center", "Psychiatric emergency"],
-      answer: 2,
-      explanation: "Sudden onset slurred speech + unilateral weakness = stroke until proven otherwise. This is time-sensitive -- stroke center transport and early notification. Check glucose but do not delay transport for medical workup."
-    },
-    {
-      q: "During a home visit, the patient's adult son becomes increasingly agitated and moves between you and the door. You should:",
-      options: ["Continue treating -- the patient is the priority", "Ask him to sit down politely and continue", "Recognize a threat indicator, reposition toward exit, alert law enforcement", "Have your partner physically move him"],
-      answer: 2,
-      explanation: "An agitated person positioning between you and your exit is a threat indicator. Scene safety is ongoing -- not just at arrival. Reposition, maintain situational awareness, alert law enforcement if needed."
-    },
-    {
-      q: "For START triage, the walking wounded are tagged:",
-      options: ["YELLOW, since they still need evaluation", "RED, since they may have hidden injuries", "GREEN -- anyone ambulatory goes to the collection point", "No tag until formally assessed"],
-      answer: 2,
-      explanation: "First step of START: direct all walking patients to a green collection point. This clears them from the immediate scene, allows you to focus on non-ambulatory patients, and categorizes them as GREEN automatically."
-    },
-    {
-      q: "A patient fell from a 25-foot ladder. He is alert and only complains of shoulder pain. You should:",
-      options: ["Focused assessment of the shoulder only", "Full rapid trauma assessment -- 25 feet is significant MOI", "Transport without assessment -- his own report guides care", "Assess only if he loses consciousness"],
-      answer: 1,
-      explanation: "25-foot fall is significant MOI (> 20 feet threshold). Significant MOI requires full rapid trauma assessment regardless of symptoms. Patients with high MOI can have life-threatening injuries they cannot feel."
-    },
-    {
-      q: "Your patient is a 70-year-old female found on the floor after an unwitnessed fall. Besides fall injuries, what must you consider?",
-      options: ["Only the fall injuries -- she tripped", "A medical event (syncope, dysrhythmia, stroke, hypoglycemia) that CAUSED the fall", "Abuse -- always suspect in elderly falls", "Nothing -- witness accounts are not available"],
-      answer: 1,
-      explanation: "Elderly patients frequently fall because of a medical event. The fall is the result, not the cause. Assess for syncope, dysrhythmia, stroke, and hypoglycemia as potential causes. The fall injuries are secondary."
-    },
-    {
-      q: "Which patient should be transported to a Level I trauma center rather than the nearest ED?",
-      options: ["30-year-old, isolated wrist fracture from fall", "22-year-old unrestrained driver, rollover at highway speed, GCS 11", "45-year-old cyclist, minor fall, helmet on, GCS 15", "60-year-old, fell from standing, hip pain, alert"],
-      answer: 1,
-      explanation: "Unrestrained driver in a rollover crash at highway speed = significant MOI. GCS 11 = altered mental status. This patient needs a trauma center's 24/7 surgical capability. An isolated fracture or minor fall does not."
-    },
-    {
-      q: "At a hazmat scene you are treating a patient in the cold zone. An untreated contaminated patient stumbles toward your treatment area. You should:",
-      options: ["Allow them in -- they need treatment", "Direct them to the decontamination corridor -- contaminated patients cannot enter the cold zone treatment area", "Treat them quickly and decon afterward", "Physically restrain them at the boundary"],
-      answer: 1,
-      explanation: "Contaminated patients cannot enter the cold zone treatment area. They contaminate equipment, personnel, and other patients. Direct them to the decon corridor. Decontamination must occur before treatment in the cold zone."
-    },
-    {
-      q: "You are 3 minutes from a reported 'minor fender-bender, one patient.' En route considerations should include:",
-      options: ["Minimal concern -- minor accidents rarely have serious injuries", "Possibility that actual conditions may differ significantly from dispatch report", "Drive at normal speed since it is a minor call", "Assume one patient, no additional resources needed"],
-      answer: 1,
-      explanation: "Dispatch information is frequently incomplete or inaccurate. 'Minor' calls regularly become serious on arrival. Approach every call with openness to a different scene than reported. 'Minor fender-bender' has been the scene of multiple fatalities."
-    },
-    {
-      q: "An ICS span of control means each supervisor manages:",
-      options: ["As many people as needed for the task", "No more than 5-7 personnel", "Only their own crew", "One person at a time at an MCI"],
-      answer: 1,
-      explanation: "ICS span of control: 5-7 people per supervisor, with 5 as ideal. Beyond 7, communication and coordination break down. As incidents grow, additional supervisory levels are added to maintain these ratios."
-    },
-    {
-      q: "CISD (Critical Incident Stress Debriefing) after an MCI is:",
-      options: ["Optional and only for providers who request it", "A required component of MCI after-action protocol, not a sign of weakness", "Only for providers who made errors", "Handled by the agency -- no provider participation required"],
-      answer: 1,
-      explanation: "CISD is a standard component of MCI response. MCIs -- especially those involving pediatric patients or mass casualties -- cause psychological trauma in responders. CISD access is not optional and seeking it is not weakness."
-    },
-    {
-      q: "N95 respirators require:",
-      options: ["No special preparation -- one size fits all", "Annual fit testing -- an improperly fitted N95 provides no protection", "Only cleaning and reuse", "Replacement only when visibly soiled"],
-      answer: 1,
-      explanation: "N95 respirators must be fit-tested annually. A respirator that does not properly seal provides no protection against airborne pathogens. This is a legal and safety requirement for providers."
-    },
-    {
-      q: "You are working a scene when a bystander shouts 'there is a gas smell.' You should:",
-      options: ["Finish packaging the patient before evacuating", "Evacuate the patient and yourself immediately and reassess scene safety", "Identify the source before reacting", "Continue working -- bystanders often overreact"],
-      answer: 1,
-      explanation: "Scene safety is continuous. A reported gas smell is an immediate threat indicator -- evacuate and reassess. The risk of explosion or asphyxiation outweighs any benefit of continued scene treatment. Reassess and re-enter only when safe."
-    },
-    {
-      q: "A pediatric patient (age 5) is unresponsive and not breathing at an MCI. JumpSTART protocol directs you to:",
-      options: ["Tag immediately BLACK -- same as adult START", "Begin full CPR protocol", "Give 5 rescue breaths and reassess", "Tag RED and begin immediate treatment"],
-      answer: 2,
-      explanation: "JumpSTART for children under 8: give 5 rescue breaths before tagging BLACK. Pediatric arrest is more often respiratory than cardiac -- a brief ventilation may restore breathing. This is the key difference from adult START."
-    },
-    {
-      q: "Which PPE is always required on every patient contact, without exception?",
-      options: ["Gown and eye protection", "Gloves", "N95 respirator", "Full face shield"],
-      answer: 1,
-      explanation: "Gloves are required on every patient contact. Additional PPE (eye protection, mask, gown) is added based on exposure risk. Gloves are the minimum non-negotiable baseline of Standard Precautions."
-    },
-    {
-      q: "A trauma patient's blood pressure is 84/60. This physiologic indicator suggests transport to:",
-      options: ["Nearest hospital regardless of capability", "Trauma center -- systolic BP < 90 is a trauma center criterion", "Cardiac center -- low BP suggests cardiac cause", "Observation hold at any facility"],
-      answer: 1,
-      explanation: "Systolic BP < 90 in a trauma patient meets physiologic criteria for trauma center transport. This patient is in compensated or decompensated shock and needs a trauma center's immediate surgical capability."
-    },
-    {
-      q: "What is the purpose of triage tagging with numbered tags at an MCI?",
-      options: ["To identify the patient's name for family notification", "To create a tracking system linking patient to triage findings, treatments, and destination hospital", "To assign priority for ambulance loading only", "Required by law for liability documentation"],
-      answer: 1,
-      explanation: "Triage tags provide a tracking system. The tag number links the patient to their triage category, assessment findings, treatments given, and transport destination. Hospitals use tag numbers to identify and track incoming MCI patients."
-    },
+    { q: "Structural fire, victim reportedly inside. You should:", options: ["Enter with gloves and mask", "Stage -- fire entry requires SCBA and fire department clearance", "Enter quickly and return before smoke builds", "Assess victim through window"], answer: 1, explanation: "EMTs do not enter fire scenes without SCBA. Fire department handles extraction. You treat outside." },
+    { q: "Most important reason to call resources early at multi-patient scene:", options: ["Demonstrates leadership", "Resources not needed can stage -- patients without help cannot wait", "Protocol requires it", "Documentation purposes"], answer: 1, explanation: "Unused resources return to service. Patients who die waiting for uncalled resources cannot be saved." },
+    { q: "Which patient gets RED tag?", options: ["Walking, minor cuts", "RR 26, radial pulse present, follows commands", "RR 36, no radial pulse", "No respirations after airway repositioning"], answer: 2, explanation: "RED: RR >30 OR no radial pulse OR cannot follow commands. RR 36 qualifies alone." },
+    { q: "Sudden slurred speech, right arm weakness -- NOI:", options: ["Alcohol intoxication", "Hypoglycemia -- check glucose", "Possible stroke -- stroke center transport", "Psychiatric emergency"], answer: 2, explanation: "Sudden onset slurred speech + unilateral weakness = stroke until proven otherwise. Time-sensitive." },
+    { q: "Patient fell 25 feet. Alert, only complains of shoulder pain. You should:", options: ["Focused shoulder assessment only", "Full rapid trauma assessment -- significant MOI", "Transport without assessment", "Assess only if consciousness changes"], answer: 1, explanation: "25 feet = significant MOI (>20 ft threshold). Full rapid trauma assessment required regardless of symptoms." },
+    { q: "Agitated bystander positions between you and the door. You should:", options: ["Continue working -- patient is priority", "Have partner watch while you work", "Recognize threat indicator, reposition toward exit, alert law enforcement", "Physically move him"], answer: 2, explanation: "Person blocking your exit = threat indicator. Scene safety is ongoing. Know your exit." },
+    { q: "Walking wounded at an MCI are tagged:", options: ["YELLOW -- still need evaluation", "RED -- may have hidden injuries", "GREEN -- ambulatory = collection point", "No tag until formally assessed"], answer: 2, explanation: "First step of START: all walking patients to green collection point. Ambulatory = GREEN." },
+    { q: "70yo female on floor after unwitnessed fall. Beyond fall injuries you must consider:", options: ["Fall injuries only", "A medical event (syncope, dysrhythmia) that CAUSED the fall", "Abuse always", "Nothing without witnesses"], answer: 1, explanation: "Elderly patients frequently fall because of a medical event. Assess the cause of the fall, not just injuries from it." },
+    { q: "Which patient needs Level I trauma center?", options: ["30yo, isolated wrist fracture", "22yo unrestrained rollover, GCS 11", "45yo cyclist, minor fall, helmet on, GCS 15", "60yo fell from standing, hip pain, alert"], answer: 1, explanation: "Unrestrained rollover + GCS 11 = significant MOI with physiologic compromise. Trauma center." },
+    { q: "Contaminated patient approaching your cold zone treatment area:", options: ["Allow in -- they need treatment", "Direct to decon corridor -- contaminated patients cannot enter cold zone", "Treat quickly and decon after", "Physically block at boundary"], answer: 1, explanation: "Contaminated patients cannot enter the cold zone. Decontamination must happen first." },
+    { q: "Dispatch: minor fender-bender, one patient. You arrive to find partial collapse, workers calling for help:", options: ["One-patient protocol", "Request resources, establish command immediately", "Enter to count patients", "Wait for dispatch update"], answer: 1, explanation: "Dispatch is frequently inaccurate. You see it, you call it. Do not enter potentially unstable structure." },
+    { q: "ICS span of control -- each supervisor manages:", options: ["As many as needed", "No more than 5-7", "Only their own crew", "One at a time"], answer: 1, explanation: "ICS: 5-7 people per supervisor maximum. Beyond 7, add a supervisory level." },
+    { q: "CISD after an MCI:", options: ["Optional -- only if requested", "Standard protocol -- not a sign of weakness", "Only for providers who made errors", "Agency handles it -- no provider participation"], answer: 1, explanation: "CISD is standard MCI after-action protocol. MCIs cause psychological trauma. Seeking support is not weakness." },
+    { q: "N95 respirators require:", options: ["No special preparation", "Annual fit testing", "Cleaning and reuse only", "Replacement when soiled only"], answer: 1, explanation: "Annual fit testing required. An improperly fitted N95 provides no protection against airborne pathogens." },
+    { q: "BLACK tag in START means:", options: ["Highest priority", "No treatment allocated -- expectant or deceased", "Delayed", "Minor walking wounded"], answer: 1, explanation: "BLACK = expectant. No respirations after repositioning. No resources allocated in MCI." },
+    { q: "JumpSTART applies to:", options: ["All MCI patients", "Children under 8", "Patients over 65", "Patients who cannot walk"], answer: 1, explanation: "JumpSTART = pediatric MCI triage for children under 8." },
+    { q: "N95 required (not just surgical mask) for:", options: ["Any coughing patient", "Airborne pathogens -- TB, measles", "All fever patients", "All respiratory complaints"], answer: 1, explanation: "N95 for airborne transmission. Surgical mask for droplet only. Different protection levels." },
+    { q: "Trauma patient, BP 84/60 -- transport to:", options: ["Nearest hospital", "Trauma center -- systolic <90 is a trauma center criterion", "Cardiac center", "Any observation facility"], answer: 1, explanation: "Systolic BP <90 in trauma = physiologic criterion for trauma center." },
+    { q: "MCI triage tags serve to:", options: ["Identify patient name", "Track patient from triage through treatment to hospital", "Assign loading priority only", "Satisfy legal requirements"], answer: 1, explanation: "Tag numbers link patient to triage category, treatments, and destination. Hospitals use them to track MCI patients." },
+    { q: "8 patients, 2 crews on scene. Correct action:", options: ["Triage and transport worst 2", "Request 6 units before triage", "Request resources while beginning triage", "Complete triage before requesting help"], answer: 2, explanation: "Call for resources AND triage simultaneously. Resources need lead time. Cannot wait until triage complete." }
   ]
 };
+
 
 const M2L1 = {
   moduleId: 2, id: 1,
@@ -2647,6 +3370,7 @@ const M5L6 = {
 
 const LESSON_DATA = {
   "0-1": L1, "0-2": L2, "0-3": L3, "0-4": L4, "0-5": L5, "0-6": L6,
+  "MT-1": MT_L1, "MT-2": MT_L2, "MT-3": MT_L3, "MT-4": MT_L4, "MT-5": MT_L5, "MT-6": MT_L6, "MT-7": MT_L7, "MT-8": MT_L8,
   "1-1": M1L1, "1-2": M1L2, "1-3": M1L3, "1-4": M1L4,
   "2-1": M2L1, "2-2": M2L2, "2-3": M2L3, "2-4": M2L4, "2-5": M2L5, "2-6": M2L6, "2-7": M2L7,
   "3-1": M3L1, "3-2": M3L2, "3-3": M3L3, "3-4": M3L4, "3-5": M3L5, "3-6": M3L6, "3-7": M3L7, "3-8": M3L8,
