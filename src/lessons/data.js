@@ -3,7 +3,7 @@
 
 const MODULES = [
   {
-    id: "MT", code: "PRE-CLASS", codeColor: "#16a34a", accentColor: "#16a34a",
+    id: -1, code: "PRE-CLASS", codeColor: "#16a34a", accentColor: "#16a34a",
     title: "MEDICAL TERMINOLOGY",
     desc: "The decode system for medical language. Learn it once, decode thousands of terms. Designed to complement NURS 140.",
     lessons: [
@@ -117,7 +117,7 @@ export { TOTAL_LESSONS };
 // ============================================================
 
 const MT_L1 = {
-  moduleId: "MT", id: 1,
+  moduleId: -1, id: 1,
   title: "How Medical Terms Are Built",
   subtitle: "Learn the system, not the words -- decode anything",
   duration: "~1 hr total",
@@ -318,7 +318,7 @@ You just read a medical dispatch correctly. This patient has a diseased heart mu
 };
 
 const MT_L2 = {
-  moduleId: "MT", id: 2,
+  moduleId: -1, id: 2,
   title: "Location & Direction Terms",
   subtitle: "The body's address system -- where things are and which way they face",
   duration: "~1 hr total",
@@ -453,7 +453,7 @@ Why this matters: When you say "the wound is on the anterior chest," every provi
 };
 
 const MT_L3 = {
-  moduleId: "MT", id: 3,
+  moduleId: -1, id: 3,
   title: "Word Roots by Body System",
   subtitle: "The building blocks -- organized by where they live in the body",
   duration: "~1.5 hrs total",
@@ -583,7 +583,7 @@ From the dispatch: Hepatomegaly = hepat/o + -megaly (enlargement) = enlarged liv
 };
 
 const MT_L4 = {
-  moduleId: "MT", id: 4,
+  moduleId: -1, id: 4,
   title: "Essential Prefixes",
   subtitle: "15 prefixes that modify everything -- speed, quantity, location, absence",
   duration: "~1 hr total",
@@ -705,7 +705,7 @@ Decoding this lesson's dispatch:
 };
 
 const MT_L5 = {
-  moduleId: "MT", id: 5,
+  moduleId: -1, id: 5,
   title: "Essential Suffixes",
   subtitle: "What is happening -- endings that tell you condition, procedure, or disease",
   duration: "~1 hr total",
@@ -831,7 +831,7 @@ Clinical picture: Coughing blood + sharp breathing pain + low oxygen = pulmonary
 };
 
 const MT_L6 = {
-  moduleId: "MT", id: 6,
+  moduleId: -1, id: 6,
   title: "Pharmacology Language",
   subtitle: "Reading medication lists -- what drug names tell you about what they do",
   duration: "~1 hr total",
@@ -959,7 +959,7 @@ Albuterol PRN (-buterol) = bronchodilator = asthma or COPD`
 };
 
 const MT_L7 = {
-  moduleId: "MT", id: 7,
+  moduleId: -1, id: 7,
   title: "Decode Real Terms",
   subtitle: "No new content -- just you and 25 real clinical terms from your EMT lessons",
   duration: "~1 hr total",
@@ -1107,7 +1107,7 @@ The most important thing: medical terminology is a TOOL for communication, not a
 };
 
 const MT_L8 = {
-  moduleId: "MT", id: 8,
+  moduleId: -1, id: 8,
   title: "Medical Terminology Quiz",
   subtitle: "Full module assessment -- all six lessons",
   duration: "~30 min",
@@ -1659,33 +1659,33 @@ const M1L1 = {
   content: [
     { heading: "The First 60 Seconds", body: `Before you leave the truck, you have already made critical decisions. Standard Precautions go on before you touch anything. Gloves are mandatory on every call.\n\nThe scene size-up framework:\n1. Standard precautions\n2. Scene safety\n3. MOI or NOI\n4. Number of patients\n5. Additional resources needed\n\nThree unconscious patients in an enclosed industrial space has one cause until proven otherwise: confined space atmospheric hazard. IDLH -- Immediately Dangerous to Life and Health. You do not go in without SCBA.` },
     { heading: "Scene Safety: Hazard Profiles", body: `**Traffic:** Park to create a buffer zone. Wear high-visibility vest. Never turn your back to traffic.\n\n**Violence:** Law enforcement secures BEFORE you enter. Stage until cleared.\n\n**Hazmat:** Identify placards from distance. Hot zone: contaminated, EMTs do not enter. Warm: decontamination. Cold: treatment.\n\n**Structural:** Downed power lines, fire, collapse. Stay 30 feet minimum from downed lines.\n\n**Industrial:** Ask what they manufacture and what chemicals are present.` },
-    { heading: "Number of Patients and Resources", body: `If patients exceed your crew's capacity, call for additional units immediately -- not after assessing everyone.\n\nCall early. Resources you do not use can stage. Patients without help cannot wait.\n\nDispatch information is often inaccurate. Build a mental habit: expect more than dispatch reports.` },
-    { heading: "Standard Precautions", body: `Assumes every patient's blood and fluids are potentially infectious.\n\n**Always:** Gloves on every patient contact.\n**When fluids may splash:** Eye protection or face shield.\n**Respiratory:** N95 for airborne pathogens -- requires annual fit testing.\n**Sharps:** Never recap needles. Needle-stick: wash site immediately, report, seek evaluation within hours.\n**After contact:** Remove PPE in order, hand hygiene last.` },
+    { heading: "Number of Patients and Resources", body: `If patients exceed your crew's capacity, call for additional units immediately -- not after assessing everyone.\n\nCall early. Resources you do not use can stage. Patients without help cannot wait.\n\nDispatch information is often inaccurate. Expect more than dispatch reports.` },
+    { heading: "Standard Precautions", body: `Assumes every patient's blood and fluids are potentially infectious.\n\n**Always:** Gloves on every patient contact.\n**Fluids:** Eye protection or face shield.\n**Respiratory:** N95 for airborne pathogens -- requires annual fit testing.\n**Sharps:** Never recap needles. Needle-stick: wash immediately, report, seek evaluation within hours.\n**After contact:** Remove PPE in correct order, hand hygiene last.` },
     { heading: "Situational Awareness Throughout", body: `Scene safety is continuous -- not just at arrival.\n\nKnow your exits when you enter any structure. Never let unknown persons get between you and the door.\n\nTrust your instincts. If something feels wrong, it probably is. You can always retreat.\n\nThe golden rule: A dead EMT helps no one.` }
   ],
   flashcards: [
     { front: "5 scene size-up components in order?", back: "1. Standard precautions\n2. Scene safety\n3. MOI or NOI\n4. Number of patients\n5. Additional resources" },
-    { front: "Three unconscious workers in a warehouse -- what do you suspect?", back: "Confined space atmospheric hazard. Do NOT enter without SCBA. Stage and call technical rescue." },
-    { front: "What is the hot zone in hazmat?", back: "Contaminated area. EMTs do not enter. Patients decontaminated in warm zone before reaching cold zone treatment." },
-    { front: "Minimum distance from downed power lines?", back: "30 feet. Energized lines can energize the surrounding ground. Never assume a downed line is dead." },
-    { front: "When do you call for additional resources?", back: "As soon as patient count may exceed your crew's capacity -- not after assessing all patients." },
+    { front: "Three unconscious workers in a warehouse -- suspect?", back: "Confined space atmospheric hazard. Do NOT enter without SCBA. Stage and call technical rescue." },
+    { front: "What is the hot zone in hazmat?", back: "Contaminated area. EMTs do not enter. Patients decontaminated in warm zone before reaching cold zone." },
+    { front: "Minimum distance from downed power lines?", back: "30 feet. Energized lines can energize the surrounding ground." },
+    { front: "When do you call for additional resources?", back: "As soon as patient count may exceed crew capacity -- not after assessing all patients." },
     { front: "When can you enter a violence scene?", back: "Only after law enforcement has secured and cleared it." },
-    { front: "N95 vs surgical mask -- when is N95 required?", back: "N95 for airborne pathogens (TB, measles). Requires annual fit testing. Surgical mask is NOT airborne protection." },
-    { front: "What is IDLH?", back: "Immediately Dangerous to Life and Health. Atmospheric conditions requiring SCBA to enter safely." },
-    { front: "Correct PPE removal order?", back: "Gown/outer gloves first. Eye protection. Mask. Inner gloves last. Hand hygiene after every step." },
-    { front: "Needle-stick: immediate action?", back: "Wash site immediately. Report to supervisor. Medical evaluation within hours. Window for PEP is narrow." },
+    { front: "N95 vs surgical mask?", back: "N95 for airborne pathogens (TB, measles). Annual fit testing required. Surgical mask is NOT airborne protection." },
+    { front: "What is IDLH?", back: "Immediately Dangerous to Life and Health. Requires SCBA to enter safely." },
+    { front: "PPE removal order?", back: "Gown/outer gloves. Eye protection. Mask. Inner gloves last. Hand hygiene after." },
+    { front: "Needle-stick immediate action?", back: "Wash site. Report to supervisor. Medical evaluation within hours." },
     { front: "What does Standard Precautions assume?", back: "Every patient's blood and fluids are potentially infectious. Gloves minimum on every contact." },
-    { front: "Incoming units at multi-unit scene should:", back: "Stage at a designated area and be called forward by the Transport Officer or IC. Never self-dispatch to scene." }
+    { front: "Incoming units at multi-unit scene:", back: "Stage at designated area. Called forward one at a time. Never self-dispatch." }
   ],
   quiz: [
-    { q: "You arrive at a warehouse, three workers unconscious inside. First action:", options: ["Enter immediately to check pulses", "Stage -- suspect atmospheric hazard, call technical rescue", "Send partner in while you call dispatch", "Enter with full PPE from jump bag"], answer: 1, explanation: "Multiple unconscious in enclosed industrial space = atmospheric hazard. Stage, call technical rescue. Do NOT enter without SCBA." },
-    { q: "Stabbing scene, patient critical, law enforcement not yet on scene:", options: ["Approach carefully and begin assessment", "Stage at safe distance until scene cleared", "Enter with partner for safety", "Treat from perimeter without full assessment"], answer: 1, explanation: "A scene is not safe because the patient is down. Stage until law enforcement clears. Your safety is priority." },
-    { q: "N95 respirator is required for:", options: ["Any coughing patient", "Known or suspected airborne pathogen (TB, measles)", "CPR on any patient", "Any fever"], answer: 1, explanation: "N95 for airborne pathogens only. Surgical mask is for droplet precautions. Annual fit testing required." },
-    { q: "Downed power line, appears not sparking. Minimum distance:", options: ["10 feet", "5 feet -- looks dead, probably is", "30 feet minimum", "Any distance -- only sparking lines are dangerous"], answer: 2, explanation: "30 feet minimum regardless of appearance. Ground around an energized line can also be energized." },
-    { q: "After removing gloves post-trauma call:", options: ["Proceed to next task", "Perform hand hygiene", "Put new gloves on immediately", "Wipe hands with dry towel"], answer: 1, explanation: "Hand hygiene after glove removal. Gloves can have micro-tears. Fundamental Standard Precautions." },
-    { q: "Six patients, two crews. Immediate priority after scene safety:", options: ["Treat most critical patient", "Request additional resources immediately", "Complete triage before calling for help", "Begin CPR on any arrest"], answer: 1, explanation: "Two crews cannot manage 6 patients. Call for resources immediately -- do not wait." },
-    { q: "Gas smell reported at your scene. You should:", options: ["Finish packaging before evacuating", "Evacuate immediately and reassess scene safety", "Identify source before reacting", "Continue -- bystanders often overreact"], answer: 1, explanation: "Gas smell = immediate threat indicator. Evacuate and reassess. Risk of explosion outweighs scene treatment." },
-    { q: "Dispatch: minor fender-bender, one patient. You arrive to find partial building collapse, workers calling for help:", options: ["Proceed with one-patient protocol", "Request additional resources and establish command immediately", "Enter to count patients", "Wait for dispatch to update"], answer: 1, explanation: "Dispatch is frequently inaccurate. You see it, you call it. Do not enter a potentially unstable structure." }
+    { q: "Three workers unconscious in a warehouse. First action:", options: ["Enter immediately", "Stage -- suspect atmospheric hazard, call technical rescue", "Send partner in while you call dispatch", "Enter with full PPE"], answer: 1, explanation: "Atmospheric hazard until proven otherwise. Stage, call technical rescue. Do NOT enter without SCBA." },
+    { q: "Stabbing scene, patient critical, law enforcement not yet on scene:", options: ["Approach carefully and begin assessment", "Stage until scene is cleared by law enforcement", "Enter with partner for safety", "Treat from perimeter"], answer: 1, explanation: "A scene is not safe because the patient is down. Stage until cleared. Your safety is priority." },
+    { q: "N95 respirator required for:", options: ["Any coughing patient", "Known or suspected airborne pathogen (TB, measles)", "CPR on any patient", "Any fever"], answer: 1, explanation: "N95 for airborne pathogens. Surgical mask is for droplet precautions only. Annual fit testing required." },
+    { q: "Downed power line, appears not sparking. Minimum distance:", options: ["10 feet", "5 feet", "30 feet minimum", "Any distance if not sparking"], answer: 2, explanation: "30 feet minimum regardless of appearance. Energized lines can energize the surrounding ground." },
+    { q: "After removing gloves post-trauma:", options: ["Proceed to next task", "Perform hand hygiene", "Put new gloves on immediately", "Wipe with dry towel"], answer: 1, explanation: "Hand hygiene after glove removal. Gloves can have micro-tears. Fundamental Standard Precautions." },
+    { q: "Six patients, two crews. Immediate priority after scene safety:", options: ["Treat most critical patient", "Request additional resources immediately", "Complete triage first", "Begin CPR on arrests"], answer: 1, explanation: "Two crews cannot manage 6 patients. Call for resources immediately." },
+    { q: "Gas smell reported at your scene:", options: ["Finish packaging before evacuating", "Evacuate immediately and reassess", "Identify source first", "Continue -- bystanders overreact"], answer: 1, explanation: "Gas smell = immediate threat indicator. Evacuate and reassess." },
+    { q: "Dispatch: minor fender-bender. You arrive to find partial collapse:", options: ["One-patient protocol", "Request resources and establish command immediately", "Enter to count patients", "Wait for dispatch update"], answer: 1, explanation: "Dispatch is frequently inaccurate. You see it, you call it. Do not enter unstable structure." }
   ]
 };
 
@@ -1701,32 +1701,32 @@ const M1L2 = {
     bridge: "MOI and NOI are the detective work you do before you touch the patient. They shape everything -- how aggressively you search for hidden injuries, how fast you move, and where you take them."
   },
   content: [
-    { heading: "MOI vs NOI", body: `**Mechanism of Injury (MOI)** -- Trauma. Energy was transferred to the body. The question is how much, where, and what structures were in the way.\n\n**Nature of Illness (NOI)** -- Medical. Something is going wrong internally.\n\nSome calls are both. A diabetic who crashes their car has a medical NOI AND a trauma MOI. Always consider both.\n\nMOI and NOI allow you to build a mental model of likely injuries before physical findings. This is your **index of suspicion** -- and it drives how aggressively you look for hidden injuries.` },
-    { heading: "MOI: Physics of Injury", body: `**KE = 1/2 x mass x velocity squared**\n\nVelocity matters more than mass. Double the speed = four times the energy.\n\n* Blunt trauma: no penetration -- organs compress, shear, rupture internally\n* Penetrating trauma: object breaches skin\n* Blast injury: multiple mechanisms simultaneously\n\n**Deceleration injuries:** When the body stops suddenly, organs keep moving. The aorta tears at attachment points. The brain rebounds inside the skull.` },
-    { heading: "Significant MOI Patterns", body: `These patterns predict serious injury even when the patient appears fine:\n* High-speed MVA (>40 mph), rollover, ejection, death of another occupant\n* Fall >20 feet (>10 feet for children)\n* Penetrating trauma to head, neck, chest, or abdomen\n* Motorcycle crash at any speed\n* Pedestrian struck by vehicle\n* Blast injury\n\n**Ejection:** Increases mortality ~300%. Assume cervical spine injury, internal bleeding, and head trauma automatically.` },
-    { heading: "NOI: Reading Medical Emergencies", body: `**Common NOI patterns:**\n* Unresponsive: stroke, hypoglycemia, overdose, cardiac arrest\n* Chest pain: cardiac, pulmonary, musculoskeletal\n* Difficulty breathing: asthma, COPD, CHF, pneumothorax, anaphylaxis\n* Altered mental status: **check blood glucose first** -- most treatable cause\n\nNever anchor on the first explanation. The drunk-appearing patient may have a head injury. Rule out immediately dangerous causes first.` },
-    { heading: "Transport Decisions", body: `**Trauma center criteria:**\n* Penetrating injury to trunk or proximal extremities\n* Significant blunt MOI\n* GCS < 14, RR < 10 or > 29, systolic BP < 90\n\n**Specialty centers:** Stroke centers for CVA, STEMI centers for heart attacks, burn centers.\n\n**The Golden Period:** Trauma patients with internal hemorrhage need an OR. Minimize scene time. You are the transport vehicle, not the definitive treatment.` }
+    { heading: "MOI vs NOI", body: `**Mechanism of Injury (MOI)** -- Trauma. Energy transferred to the body.\n\n**Nature of Illness (NOI)** -- Medical. Something going wrong internally.\n\nSome calls are both. A diabetic who crashes has a medical NOI AND a trauma MOI.\n\nMOI and NOI build your **index of suspicion** -- the mental model of likely injuries before you have physical findings.` },
+    { heading: "MOI: Physics of Injury", body: `**KE = 1/2 x mass x velocity squared**\n\nDouble the speed = four times the energy.\n\n* Blunt trauma: no penetration -- organs compress, shear, rupture internally\n* Penetrating trauma: object breaches skin\n* Blast injury: multiple mechanisms simultaneously\n\n**Deceleration injuries:** Body stops suddenly, organs keep moving. Aortic tears, brain rebound, liver/spleen laceration.` },
+    { heading: "Significant MOI Patterns", body: `These predict serious injury even when the patient looks fine:\n* High-speed MVA (>40 mph), rollover, ejection, death of another occupant\n* Fall >20 feet (>10 feet for children)\n* Penetrating trauma to head, neck, chest, or abdomen\n* Motorcycle crash at any speed\n* Pedestrian struck by vehicle\n* Blast injury\n\n**Ejection:** ~300% increased mortality. Assume cervical spine injury, internal bleeding, head trauma.` },
+    { heading: "NOI: Reading Medical Emergencies", body: `**Common patterns:**\n* Unresponsive: stroke, hypoglycemia, overdose, cardiac arrest\n* Chest pain: cardiac, pulmonary, musculoskeletal\n* Difficulty breathing: asthma, COPD, CHF, pneumothorax, anaphylaxis\n* Altered mental status: **check blood glucose first**\n\nNever anchor on the first explanation. Rule out immediately dangerous causes first.` },
+    { heading: "Transport Decisions", body: `**Trauma center criteria:**\n* Penetrating injury to trunk or proximal extremities\n* Significant blunt MOI\n* GCS < 14, RR < 10 or > 29, systolic BP < 90\n\n**Specialty centers:** Stroke, STEMI, burn.\n\n**The Golden Period:** Trauma patients with internal hemorrhage need an OR. Minimize scene time.` }
   ],
   flashcards: [
-    { front: "What is Mechanism of Injury (MOI)?", back: "How energy was transferred to the body during a traumatic event. Tells you what injuries to expect before physical examination." },
-    { front: "What is Nature of Illness (NOI)?", back: "The underlying medical process causing symptoms. Builds your index of suspicion before physical assessment." },
-    { front: "KE formula -- why does velocity matter more?", back: "KE = 1/2 x mass x velocity squared. Doubling velocity quadruples energy (velocity is squared). Speed > mass in trauma." },
-    { front: "Significant fall height for adults vs children?", back: "Adults: >20 feet. Children: >10 feet. Different anatomy = lower threshold for serious injury in kids." },
-    { front: "Ejection from vehicle -- immediate assumptions?", back: "Cervical spine injury, internal bleeding, and head trauma. Mortality increases ~300%." },
-    { front: "What is the index of suspicion?", back: "Mental model of likely injuries built from MOI/NOI before physical findings. Drives how aggressively you search." },
-    { front: "First thing to check in any AMS patient?", back: "Blood glucose. Most treatable cause of AMS. Can mimic stroke, intoxication, or psychiatric emergency." },
+    { front: "What is MOI?", back: "How energy was transferred to the body. Tells you what injuries to expect before physical examination." },
+    { front: "What is NOI?", back: "The underlying medical process causing symptoms. Builds index of suspicion before assessment." },
+    { front: "KE formula?", back: "KE = 1/2 x mass x velocity squared. Doubling speed quadruples energy." },
+    { front: "Significant fall height -- adults vs children?", back: "Adults: >20 feet. Children: >10 feet." },
+    { front: "Ejection from vehicle -- automatic assumptions?", back: "Cervical spine injury, internal bleeding, head trauma. ~300% increased mortality." },
+    { front: "What is the index of suspicion?", back: "Mental model of likely injuries built from MOI/NOI before physical findings." },
+    { front: "First thing to check in any AMS patient?", back: "Blood glucose. Most treatable cause. Can mimic stroke, intoxication, or psychiatric emergency." },
     { front: "What is a deceleration injury?", back: "Body stops suddenly, organs keep moving. Aortic tears, brain rebound, liver/spleen laceration." },
-    { front: "The Golden Period in trauma:", back: "Window during which surgical care can prevent death. Minimize scene time -- OR is the definitive treatment." },
-    { front: "Systolic BP below what = trauma center criterion?", back: "Systolic BP <90 mmHg. Indicates physiologic compromise -- hemorrhagic shock." },
-    { front: "Intoxicated-appearing patient, no odor of alcohol -- first priority?", back: "Check blood glucose immediately. Hypoglycemia mimics intoxication and is rapidly fatal without treatment." },
-    { front: "Both MOI and NOI can apply to the same patient -- example?", back: "A diabetic who crashes their car. Medical NOI (hypoglycemia caused the crash) AND trauma MOI (the crash itself)." }
+    { front: "The Golden Period in trauma?", back: "Window during which surgical care can prevent death. Minimize scene time." },
+    { front: "Systolic BP below what = trauma center criterion?", back: "Systolic BP <90 mmHg." },
+    { front: "Intoxicated appearance, no alcohol odor -- first action?", back: "Check blood glucose immediately. Hypoglycemia mimics intoxication and kills fast." },
+    { front: "MOI and NOI can both apply -- example?", back: "Diabetic who crashes: medical NOI (hypoglycemia) AND trauma MOI (the crash)." }
   ],
   quiz: [
-    { q: "Motorcyclist down at highway speed, alert, denies pain. Your approach:", options: ["Focused assessment only -- he is alert", "Full rapid trauma assessment -- significant MOI = hidden injuries", "Immobilize only if he complains of neck pain", "Transport without full assessment"], answer: 1, explanation: "Significant MOI requires full rapid trauma assessment regardless of symptoms. High MOI patients can have life-threatening hidden injuries." },
-    { q: "Vehicle at 60 mph vs 30 mph -- energy difference:", options: ["Twice as much", "Three times as much", "Four times as much", "Same -- mass matters more"], answer: 2, explanation: "KE = 1/2 x mass x velocity squared. Doubling speed squares the multiplier: 2^2 = 4. Four times more energy." },
-    { q: "Elderly woman fell. Daughter says she tripped. Your assessment must include:", options: ["Fall injuries only", "A medical event (syncope, dysrhythmia) that CAUSED the fall, plus fall injuries", "Only what the daughter witnessed", "No hidden concerns"], answer: 1, explanation: "Elderly patients frequently fall because of a medical event. The fall is the result, not the cause." },
-    { q: "Which patient needs a trauma center?", options: ["25yo, isolated forearm laceration", "40yo unrestrained rollover, GCS 12", "55yo cyclist, minor fall, helmet on, GCS 15", "30yo, road rash, low-speed fall"], answer: 1, explanation: "Unrestrained rollover = significant MOI. GCS 12 = physiologic compromise. Trauma center required." },
-    { q: "Intoxicated appearance, slurred speech, confused, no alcohol odor. First priority:", options: ["Treat as alcohol intoxication", "Check blood glucose -- hypoglycemia mimics intoxication", "Psychiatric evaluation", "Call law enforcement"], answer: 1, explanation: "No odor of alcohol = check glucose first. Hypoglycemia is rapidly fatal and immediately reversible. Never anchor on intoxication." }
+    { q: "Motorcyclist down at highway speed, alert, denies pain. Your approach:", options: ["Focused assessment -- he is alert", "Full rapid trauma assessment -- significant MOI = hidden injuries", "Immobilize only if he complains of neck pain", "Transport without full assessment"], answer: 1, explanation: "Significant MOI requires full rapid trauma assessment regardless of symptoms." },
+    { q: "Vehicle at 60 mph vs 30 mph -- kinetic energy difference:", options: ["Twice as much", "Three times as much", "Four times as much", "Same -- mass matters"], answer: 2, explanation: "KE = 1/2 x mass x velocity squared. Doubling speed squares the multiplier: 4x more energy." },
+    { q: "Elderly woman fell. Daughter says she tripped. You must consider:", options: ["Fall injuries only", "A medical event (syncope, dysrhythmia) that CAUSED the fall, plus fall injuries", "Only what the daughter witnessed", "Nothing additional"], answer: 1, explanation: "Elderly patients frequently fall because of a medical event. Assess the cause, not just the injuries." },
+    { q: "Which patient needs a trauma center?", options: ["25yo, isolated forearm laceration", "40yo unrestrained rollover, GCS 12", "55yo cyclist, minor fall, helmet on, GCS 15", "30yo, road rash, low-speed fall"], answer: 1, explanation: "Unrestrained rollover + GCS 12 = significant MOI with physiologic compromise. Trauma center." },
+    { q: "Intoxicated appearance, slurred speech, no alcohol odor. First priority:", options: ["Treat as alcohol intoxication", "Check blood glucose -- hypoglycemia mimics intoxication", "Psychiatric evaluation", "Call law enforcement"], answer: 1, explanation: "Check glucose first. Hypoglycemia is rapidly fatal and immediately reversible." }
   ]
 };
 
@@ -1737,38 +1737,38 @@ const M1L3 = {
   subtitle: "When patients outnumber resources, triage saves the most lives",
   duration: "~1.5 hrs total",
   dispatch: {
-    call: `"All units -- major vehicle accident on I-80 westbound at mile marker 47. Semi vs passenger bus. Initial report: 20-plus patients, multiple critical. Establish command."`,
+    call: `"All units -- major vehicle accident I-80 westbound mile marker 47. Semi vs passenger bus. 20-plus patients, multiple critical. Establish command."`,
     time: "4:15 PM", eta: "4 minutes",
     hook: "Twenty patients. Your crew. Four minutes. What do you do first?",
-    bridge: "Mass casualty incidents break every normal rule of EMS. You do not treat the worst patient first. You triage -- making hard decisions that save the most lives."
+    bridge: "MCIs break every normal rule of EMS. You do not treat the worst patient first. You triage -- making hard decisions that save the most lives."
   },
   content: [
-    { heading: "What is an MCI?", body: `An MCI is any event where patient count exceeds the immediate capacity of available resources.\n\nTwo critical patients with one ambulance crew = MCI. Twenty patients with ten ambulances may not be.\n\n**Core principle:** Allocate limited resources to patients most likely to survive with intervention.\n\n**When you see it, you declare it.** Do not wait for a supervisor. Announce on radio immediately.` },
-    { heading: "START Triage", body: `START = Simple Triage And Rapid Treatment. ~30 seconds per patient. Three assessments:\n\n1. **Respirations** -- Is the patient breathing?\n2. **Perfusion** -- Radial pulse or capillary refill\n3. **Mental status** -- Follow simple commands?\n\n**BLACK:** No respirations after repositioning. No resources in MCI.\n**RED:** Breathing >30/min, no radial pulse, or cannot follow commands.\n**YELLOW:** Breathing <30/min, radial pulse present, follows commands.\n**GREEN:** Walking. Step 1: direct all walking patients to collection point.` },
-    { heading: "ICS at an MCI", body: `**First unit establishes command -- no exceptions.**\n\n"Dispatch -- Unit 3 establishing I-80 Command. Approximately 20 patients. Requesting multiple ALS/BLS units."\n\n**EMS groups:**\n* Triage Group\n* Treatment Group\n* Transport Group\n\n**Span of control:** No supervisor manages more than 5-7 people. As scene grows, add supervisory levels.` },
-    { heading: "MCI Zones and Treatment Areas", body: `**Zones:**\n* Hot: hazard area -- extraction only, no treatment\n* Warm: transition\n* Cold: safe -- treatment and staging\n\n**Treatment areas:**\n* RED: closest to transport loading\n* YELLOW: monitored for deterioration\n* GREEN: separated from critical patients\n* BLACK: out of view\n\nHospital notification as early as possible so they can prepare.` },
-    { heading: "Special Considerations", body: `**JumpSTART for children under 8:** Give 5 rescue breaths before tagging black. Pediatric arrest is often respiratory -- a brief ventilation may restart breathing.\n\n**Retriage:** YELLOW patients can deteriorate to RED. Reassess treatment areas continuously.\n\n**Critical Incident Stress Debriefing (CISD)** after MCIs is not optional and not a sign of weakness.` }
+    { heading: "What is an MCI?", body: `An MCI is any event where patient count exceeds the immediate capacity of available resources.\n\nTwo critical patients with one crew = MCI.\n\n**Core principle:** Allocate limited resources to patients most likely to survive with intervention.\n\nWhen you see it, you declare it. Do not wait for a supervisor.` },
+    { heading: "START Triage", body: `START = Simple Triage And Rapid Treatment. About 30 seconds per patient.\n\n1. **Respirations** -- Is the patient breathing?\n2. **Perfusion** -- Radial pulse or capillary refill\n3. **Mental status** -- Follow simple commands?\n\n**BLACK:** No respirations after repositioning. No resources allocated.\n**RED:** Breathing >30/min, no radial pulse, or cannot follow commands.\n**YELLOW:** Breathing <30/min, radial pulse present, follows commands.\n**GREEN:** Walking. Step 1: direct all walking patients to collection point.` },
+    { heading: "ICS at an MCI", body: `**First unit establishes command -- no exceptions.**\n\n"Dispatch -- Unit 3 establishing I-80 Command. 20-plus patients. Requesting multiple ALS/BLS units."\n\n**EMS groups:**\n* Triage Group\n* Treatment Group\n* Transport Group\n\n**Span of control:** No supervisor manages more than 5-7 people.` },
+    { heading: "MCI Zones and Treatment Areas", body: `**Zones:**\n* Hot: hazard area -- extraction only\n* Warm: transition\n* Cold: safe -- treatment and staging\n\n**Treatment areas in cold zone:**\n* RED: closest to transport loading\n* YELLOW: monitored for deterioration\n* GREEN: away from critical patients\n* BLACK: out of view\n\nNotify hospitals early so they can prepare.` },
+    { heading: "Special Considerations", body: `**JumpSTART for children under 8:** Give 5 rescue breaths before tagging black. Pediatric arrest is often respiratory.\n\n**Retriage:** YELLOW patients can deteriorate to RED. Reassess treatment areas continuously.\n\n**CISD** after MCIs is not optional and not a sign of weakness.` }
   ],
   flashcards: [
-    { front: "What is an MCI?", back: "Any incident where patient count exceeds immediate capacity of available resources to provide optimal care." },
+    { front: "What is an MCI?", back: "Any incident where patient count exceeds immediate capacity of available resources." },
     { front: "START stands for?", back: "Simple Triage And Rapid Treatment." },
-    { front: "4 START categories in order of priority?", back: "RED (immediate), YELLOW (delayed), GREEN (minor), BLACK (expectant/deceased)" },
-    { front: "First step of START triage?", back: "Direct all walking patients to a collection point. Anyone ambulatory = GREEN automatically." },
-    { front: "RED criteria in START?", back: "Respirations >30/min, OR no radial pulse, OR cannot follow simple commands." },
-    { front: "BLACK criteria in START?", back: "No respirations after airway repositioning, or unsurvivable injuries given available resources." },
-    { front: "Who establishes command at first-arriving MCI unit?", back: "The first arriving unit. Automatically. Announced on radio immediately. No exceptions." },
-    { front: "Three EMS functional groups at an MCI?", back: "Triage Group, Treatment Group, Transport Group." },
-    { front: "JumpSTART key difference from START?", back: "Children under 8: give 5 rescue breaths before tagging black. Pediatric arrest is often respiratory." },
-    { front: "What is retriage?", back: "Reassessing already-triaged patients. YELLOW patients can deteriorate to RED. Ongoing, not one-time." },
-    { front: "ICS span of control rule?", back: "Each supervisor manages no more than 5-7 people. Beyond 7, add a supervisory level." },
-    { front: "Cold zone = ?", back: "Safe area. Where treatment areas and staging are set up. No hazard. Where EMTs work." }
+    { front: "4 START categories?", back: "BLACK (expectant), RED (immediate), YELLOW (delayed), GREEN (minor/walking)" },
+    { front: "First step of START?", back: "Direct all walking patients to collection point. Ambulatory = GREEN." },
+    { front: "RED criteria?", back: "Respirations >30/min, OR no radial pulse, OR cannot follow commands." },
+    { front: "BLACK criteria?", back: "No respirations after airway repositioning, or unsurvivable injuries." },
+    { front: "Who establishes command at first MCI unit?", back: "The first arriving unit. Automatically. Announced on radio immediately." },
+    { front: "Three EMS functional groups at MCI?", back: "Triage Group, Treatment Group, Transport Group." },
+    { front: "JumpSTART key difference?", back: "Children under 8: give 5 rescue breaths before tagging black." },
+    { front: "What is retriage?", back: "Reassessing already-triaged patients. YELLOW can deteriorate to RED. Ongoing." },
+    { front: "ICS span of control?", back: "No supervisor manages more than 5-7 people." },
+    { front: "Cold zone?", back: "Safe area. Where treatment areas and staging are set up. Where EMTs work." }
   ],
   quiz: [
-    { q: "First unit at bus accident, ~15 patients. First action:", options: ["Treat most visibly injured", "Triage all patients first", "Declare MCI, establish command, request resources", "Wait for supervisor"], answer: 2, explanation: "First arriving unit declares MCI and establishes command immediately. Resource requests and triage happen simultaneously." },
-    { q: "Patient breathing 28/min, radial pulse present, follows commands. START tag:", options: ["RED", "YELLOW", "GREEN", "BLACK"], answer: 1, explanation: "YELLOW: Respirations <30, radial pulse present, follows commands. Serious but stable." },
-    { q: "No respirations after airway repositioning. MCI tag:", options: ["RED -- begin resuscitation", "YELLOW -- monitor", "BLACK -- expectant", "GREEN"], answer: 2, explanation: "BLACK. No respirations after repositioning = no immediate resources allocated in MCI context." },
-    { q: "Incoming ambulances at an MCI should:", options: ["Proceed directly to patients", "Stage and await assignment from Transport Officer", "Park wherever space allows", "Self-assign to available patients"], answer: 1, explanation: "Staged incoming units called forward one at a time. Uncontrolled traffic gridlocks the scene." },
-    { q: "6-year-old not breathing at an MCI. JumpSTART directs:", options: ["Tag BLACK immediately", "Give 5 rescue breaths, then reassess", "Begin full CPR", "Tag YELLOW"], answer: 1, explanation: "JumpSTART: 5 rescue breaths before tagging black. Pediatric arrest often respiratory -- ventilation may restart breathing." }
+    { q: "First unit at bus accident, ~15 patients. First action:", options: ["Treat most visibly injured", "Triage all patients first", "Declare MCI, establish command, request resources", "Wait for supervisor"], answer: 2, explanation: "First arriving unit declares MCI and establishes command immediately." },
+    { q: "Patient breathing 28/min, radial pulse present, follows commands. START tag:", options: ["RED", "YELLOW", "GREEN", "BLACK"], answer: 1, explanation: "YELLOW: RR <30, radial pulse, follows commands. Serious but stable." },
+    { q: "No respirations after airway repositioning. MCI tag:", options: ["RED -- resuscitate", "YELLOW -- monitor", "BLACK -- expectant", "GREEN"], answer: 2, explanation: "BLACK. No resources allocated in MCI context." },
+    { q: "Incoming ambulances at MCI should:", options: ["Proceed to patients", "Stage and await assignment from Transport Officer", "Park wherever", "Self-assign to patients"], answer: 1, explanation: "Stage and be called forward one at a time. Prevents scene gridlock." },
+    { q: "6-year-old not breathing at MCI. JumpSTART directs:", options: ["Tag BLACK immediately", "Give 5 rescue breaths, then reassess", "Begin full CPR", "Tag YELLOW"], answer: 1, explanation: "JumpSTART: 5 rescue breaths before tagging black. Pediatric arrest often respiratory." }
   ]
 };
 
@@ -1780,43 +1780,43 @@ const M1L4 = {
   dispatch: {
     call: `"All units -- Module 1 Assessment. Scene Size-Up and Safety is 15-19% of the NREMT exam."`,
     time: "Assessment time", eta: "Ready when you are",
-    hook: "These questions test whether you can think like a provider who arrives safely and gathers the right information before touching a single patient.",
-    bridge: "Read every explanation whether right or wrong. The NREMT embeds these in clinical scenarios. The reasoning matters more than the answer."
+    hook: "These questions test whether you can think like a provider who arrives safely and gathers the right information before touching a patient.",
+    bridge: "Read every explanation whether right or wrong. The reasoning matters more than the answer."
   },
   content: [
-    { heading: "Module 1 Coverage", body: `**Domain 1: Scene Size-Up and Safety (15-19% of NREMT exam)**\n\n**L1:** Standard precautions, scene safety by hazard type (traffic, violence, hazmat, structural, industrial), patient count, resource management, situational awareness.\n\n**L2:** MOI vs NOI, kinetic energy physics, significant MOI patterns, index of suspicion, NOI patterns, transport destination decisions.\n\n**L3:** MCI declaration, START triage (RPM), four categories, JumpSTART, ICS command structure, scene zones, treatment areas.` }
+    { heading: "Module 1 Coverage", body: `**Domain 1: Scene Size-Up and Safety (15-19% of NREMT exam)**\n\n**L1:** Standard precautions, scene safety by hazard type, patient count, resource management, situational awareness.\n\n**L2:** MOI vs NOI, kinetic energy, significant MOI patterns, index of suspicion, transport destinations.\n\n**L3:** MCI declaration, START triage (RPM), four categories, JumpSTART, ICS command, scene zones.` }
   ],
   flashcards: [
     { front: "Domain 1 percentage of NREMT exam?", back: "15-19%." },
     { front: "5 scene size-up components?", back: "1. Standard precautions 2. Scene safety 3. MOI/NOI 4. Number of patients 5. Additional resources" },
-    { front: "START assesses in order:", back: "Respirations -- Perfusion (pulse) -- Mental status (commands)" },
+    { front: "START assesses in order:", back: "Respirations -- Perfusion -- Mental status" },
     { front: "KE formula:", back: "KE = 1/2 x mass x velocity squared. Speed matters more than mass." },
-    { front: "Ejection = what automatic assumptions?", back: "Cervical spine injury, internal bleeding, head trauma. ~300% increased mortality." },
+    { front: "Ejection = automatic assumptions?", back: "Cervical spine injury, internal bleeding, head trauma. ~300% increased mortality." },
     { front: "First action as first MCI unit?", back: "Declare MCI, establish command, request resources. Announce on radio immediately." },
-    { front: "Confined space, multiple unconscious -- action?", back: "Stage. Do NOT enter without SCBA. Suspect atmospheric hazard. Call technical rescue." },
-    { front: "YELLOW in START:", back: "Delayed -- RR <30, radial pulse present, follows commands. Stable, needs monitoring." }
+    { front: "Confined space, multiple unconscious -- action?", back: "Stage. Do NOT enter without SCBA. Call technical rescue." },
+    { front: "YELLOW in START:", back: "Delayed -- RR <30, radial pulse present, follows commands." }
   ],
   quiz: [
-    { q: "Structural fire, victim reportedly inside. You should:", options: ["Enter with gloves and mask", "Stage -- fire entry requires SCBA and fire department clearance", "Enter quickly and return before smoke builds", "Assess victim through window"], answer: 1, explanation: "EMTs do not enter fire scenes without SCBA. Fire department handles extraction. You treat outside." },
-    { q: "Most important reason to call resources early at multi-patient scene:", options: ["Demonstrates leadership", "Resources not needed can stage -- patients without help cannot wait", "Protocol requires it", "Documentation purposes"], answer: 1, explanation: "Unused resources return to service. Patients who die waiting for uncalled resources cannot be saved." },
-    { q: "Which patient gets RED tag?", options: ["Walking, minor cuts", "RR 26, radial pulse present, follows commands", "RR 36, no radial pulse", "No respirations after airway repositioning"], answer: 2, explanation: "RED: RR >30 OR no radial pulse OR cannot follow commands. RR 36 qualifies alone." },
-    { q: "Sudden slurred speech, right arm weakness -- NOI:", options: ["Alcohol intoxication", "Hypoglycemia -- check glucose", "Possible stroke -- stroke center transport", "Psychiatric emergency"], answer: 2, explanation: "Sudden onset slurred speech + unilateral weakness = stroke until proven otherwise. Time-sensitive." },
-    { q: "Patient fell 25 feet. Alert, only complains of shoulder pain. You should:", options: ["Focused shoulder assessment only", "Full rapid trauma assessment -- significant MOI", "Transport without assessment", "Assess only if consciousness changes"], answer: 1, explanation: "25 feet = significant MOI (>20 ft threshold). Full rapid trauma assessment required regardless of symptoms." },
-    { q: "Agitated bystander positions between you and the door. You should:", options: ["Continue working -- patient is priority", "Have partner watch while you work", "Recognize threat indicator, reposition toward exit, alert law enforcement", "Physically move him"], answer: 2, explanation: "Person blocking your exit = threat indicator. Scene safety is ongoing. Know your exit." },
-    { q: "Walking wounded at an MCI are tagged:", options: ["YELLOW -- still need evaluation", "RED -- may have hidden injuries", "GREEN -- ambulatory = collection point", "No tag until formally assessed"], answer: 2, explanation: "First step of START: all walking patients to green collection point. Ambulatory = GREEN." },
-    { q: "70yo female on floor after unwitnessed fall. Beyond fall injuries you must consider:", options: ["Fall injuries only", "A medical event (syncope, dysrhythmia) that CAUSED the fall", "Abuse always", "Nothing without witnesses"], answer: 1, explanation: "Elderly patients frequently fall because of a medical event. Assess the cause of the fall, not just injuries from it." },
-    { q: "Which patient needs Level I trauma center?", options: ["30yo, isolated wrist fracture", "22yo unrestrained rollover, GCS 11", "45yo cyclist, minor fall, helmet on, GCS 15", "60yo fell from standing, hip pain, alert"], answer: 1, explanation: "Unrestrained rollover + GCS 11 = significant MOI with physiologic compromise. Trauma center." },
-    { q: "Contaminated patient approaching your cold zone treatment area:", options: ["Allow in -- they need treatment", "Direct to decon corridor -- contaminated patients cannot enter cold zone", "Treat quickly and decon after", "Physically block at boundary"], answer: 1, explanation: "Contaminated patients cannot enter the cold zone. Decontamination must happen first." },
-    { q: "Dispatch: minor fender-bender, one patient. You arrive to find partial collapse, workers calling for help:", options: ["One-patient protocol", "Request resources, establish command immediately", "Enter to count patients", "Wait for dispatch update"], answer: 1, explanation: "Dispatch is frequently inaccurate. You see it, you call it. Do not enter potentially unstable structure." },
-    { q: "ICS span of control -- each supervisor manages:", options: ["As many as needed", "No more than 5-7", "Only their own crew", "One at a time"], answer: 1, explanation: "ICS: 5-7 people per supervisor maximum. Beyond 7, add a supervisory level." },
-    { q: "CISD after an MCI:", options: ["Optional -- only if requested", "Standard protocol -- not a sign of weakness", "Only for providers who made errors", "Agency handles it -- no provider participation"], answer: 1, explanation: "CISD is standard MCI after-action protocol. MCIs cause psychological trauma. Seeking support is not weakness." },
-    { q: "N95 respirators require:", options: ["No special preparation", "Annual fit testing", "Cleaning and reuse only", "Replacement when soiled only"], answer: 1, explanation: "Annual fit testing required. An improperly fitted N95 provides no protection against airborne pathogens." },
-    { q: "BLACK tag in START means:", options: ["Highest priority", "No treatment allocated -- expectant or deceased", "Delayed", "Minor walking wounded"], answer: 1, explanation: "BLACK = expectant. No respirations after repositioning. No resources allocated in MCI." },
-    { q: "JumpSTART applies to:", options: ["All MCI patients", "Children under 8", "Patients over 65", "Patients who cannot walk"], answer: 1, explanation: "JumpSTART = pediatric MCI triage for children under 8." },
-    { q: "N95 required (not just surgical mask) for:", options: ["Any coughing patient", "Airborne pathogens -- TB, measles", "All fever patients", "All respiratory complaints"], answer: 1, explanation: "N95 for airborne transmission. Surgical mask for droplet only. Different protection levels." },
-    { q: "Trauma patient, BP 84/60 -- transport to:", options: ["Nearest hospital", "Trauma center -- systolic <90 is a trauma center criterion", "Cardiac center", "Any observation facility"], answer: 1, explanation: "Systolic BP <90 in trauma = physiologic criterion for trauma center." },
-    { q: "MCI triage tags serve to:", options: ["Identify patient name", "Track patient from triage through treatment to hospital", "Assign loading priority only", "Satisfy legal requirements"], answer: 1, explanation: "Tag numbers link patient to triage category, treatments, and destination. Hospitals use them to track MCI patients." },
-    { q: "8 patients, 2 crews on scene. Correct action:", options: ["Triage and transport worst 2", "Request 6 units before triage", "Request resources while beginning triage", "Complete triage before requesting help"], answer: 2, explanation: "Call for resources AND triage simultaneously. Resources need lead time. Cannot wait until triage complete." }
+    { q: "Structural fire, victim reportedly inside. You should:", options: ["Enter with gloves and mask", "Stage -- fire entry requires SCBA and fire department clearance", "Enter quickly", "Assess through window"], answer: 1, explanation: "EMTs do not enter fire scenes without SCBA. Fire department handles extraction." },
+    { q: "Most important reason to call resources early:", options: ["Shows leadership", "Resources not needed can stage -- patients without help cannot wait", "Protocol requires it", "Documentation"], answer: 1, explanation: "Unused resources return to service. Patients who die waiting cannot be saved." },
+    { q: "Which patient gets RED tag?", options: ["Walking, minor cuts", "RR 26, radial pulse, follows commands", "RR 36, no radial pulse", "No respirations after repositioning"], answer: 2, explanation: "RED: RR >30 OR no radial pulse OR cannot follow commands." },
+    { q: "Sudden slurred speech, right arm weakness -- NOI:", options: ["Alcohol intoxication", "Hypoglycemia", "Possible stroke -- stroke center transport", "Psychiatric"], answer: 2, explanation: "Sudden onset + unilateral weakness = stroke until proven otherwise. Time-sensitive." },
+    { q: "Patient fell 25 feet, alert, only shoulder pain. You should:", options: ["Focused shoulder assessment only", "Full rapid trauma assessment -- significant MOI", "Transport without assessment", "Assess only if consciousness changes"], answer: 1, explanation: "25 feet = significant MOI (>20 ft). Full rapid trauma assessment required." },
+    { q: "Agitated bystander positions between you and door:", options: ["Continue working", "Have partner watch", "Recognize threat indicator, reposition toward exit, alert law enforcement", "Move him physically"], answer: 2, explanation: "Blocking your exit = threat indicator. Scene safety is ongoing." },
+    { q: "Walking wounded at MCI are tagged:", options: ["YELLOW", "RED", "GREEN -- ambulatory = collection point", "No tag until assessed"], answer: 2, explanation: "First step of START: all walking patients to green collection point." },
+    { q: "70yo female on floor after unwitnessed fall. Beyond fall injuries:", options: ["Fall injuries only", "A medical event (syncope, dysrhythmia) that CAUSED the fall", "Abuse always", "Nothing without witnesses"], answer: 1, explanation: "Elderly patients frequently fall because of a medical event. Assess the cause." },
+    { q: "Which patient needs Level I trauma center?", options: ["30yo, isolated wrist fracture", "22yo unrestrained rollover, GCS 11", "45yo cyclist, minor fall, helmet on, GCS 15", "60yo fell from standing, hip pain"], answer: 1, explanation: "Unrestrained rollover + GCS 11 = significant MOI with physiologic compromise." },
+    { q: "Contaminated patient approaching cold zone treatment area:", options: ["Allow in", "Direct to decon corridor", "Treat quickly and decon after", "Block at boundary"], answer: 1, explanation: "Contaminated patients cannot enter cold zone. Decon must happen first." },
+    { q: "Dispatch: minor fender-bender. Arrive to find partial collapse:", options: ["One-patient protocol", "Request resources and establish command immediately", "Enter to count patients", "Wait for dispatch update"], answer: 1, explanation: "Dispatch is frequently inaccurate. You see it, you call it." },
+    { q: "ICS span of control:", options: ["As many as needed", "No more than 5-7", "Own crew only", "One at a time"], answer: 1, explanation: "ICS: 5-7 people per supervisor maximum." },
+    { q: "CISD after MCI:", options: ["Optional", "Standard protocol -- not a sign of weakness", "Only for providers who made errors", "Agency handles it"], answer: 1, explanation: "CISD is standard MCI after-action protocol. Seeking support is not weakness." },
+    { q: "N95 respirators require:", options: ["No special preparation", "Annual fit testing", "Cleaning and reuse", "Replacement when soiled"], answer: 1, explanation: "Annual fit testing required. Improperly fitted N95 provides no protection." },
+    { q: "BLACK tag in START:", options: ["Highest priority", "No treatment allocated -- expectant or deceased", "Delayed", "Minor walking wounded"], answer: 1, explanation: "BLACK = expectant. No respirations after repositioning. No resources in MCI." },
+    { q: "JumpSTART applies to:", options: ["All MCI patients", "Children under 8", "Patients over 65", "Non-ambulatory patients"], answer: 1, explanation: "JumpSTART = pediatric MCI triage for children under 8." },
+    { q: "N95 required for:", options: ["Any coughing patient", "Airborne pathogens -- TB, measles", "All fever patients", "All respiratory complaints"], answer: 1, explanation: "N95 for airborne transmission. Surgical mask for droplet only." },
+    { q: "Trauma patient, BP 84/60 -- transport to:", options: ["Nearest hospital", "Trauma center -- systolic <90 is a criterion", "Cardiac center", "Any observation facility"], answer: 1, explanation: "Systolic BP <90 in trauma = physiologic criterion for trauma center." },
+    { q: "MCI triage tags serve to:", options: ["Identify name", "Track patient from triage through treatment to hospital", "Assign loading priority only", "Legal requirements"], answer: 1, explanation: "Tag numbers link patient to triage category, treatments, and destination." },
+    { q: "8 patients, 2 crews on scene:", options: ["Triage and transport worst 2", "Request 6 units before triage", "Request resources while beginning triage", "Complete triage before requesting help"], answer: 2, explanation: "Call for resources AND triage simultaneously. Cannot wait." }
   ]
 };
 
@@ -3370,7 +3370,7 @@ const M5L6 = {
 
 const LESSON_DATA = {
   "0-1": L1, "0-2": L2, "0-3": L3, "0-4": L4, "0-5": L5, "0-6": L6,
-  "MT-1": MT_L1, "MT-2": MT_L2, "MT-3": MT_L3, "MT-4": MT_L4, "MT-5": MT_L5, "MT-6": MT_L6, "MT-7": MT_L7, "MT-8": MT_L8,
+  "-1-1": MT_L1, "-1-2": MT_L2, "-1-3": MT_L3, "-1-4": MT_L4, "-1-5": MT_L5, "-1-6": MT_L6, "-1-7": MT_L7, "-1-8": MT_L8,
   "1-1": M1L1, "1-2": M1L2, "1-3": M1L3, "1-4": M1L4,
   "2-1": M2L1, "2-2": M2L2, "2-3": M2L3, "2-4": M2L4, "2-5": M2L5, "2-6": M2L6, "2-7": M2L7,
   "3-1": M3L1, "3-2": M3L2, "3-3": M3L3, "3-4": M3L4, "3-5": M3L5, "3-6": M3L6, "3-7": M3L7, "3-8": M3L8,

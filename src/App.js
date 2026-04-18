@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { supabase } from "./lib/supabase";
 import { shuffle, pickQuiz } from "./lib/helpers";
 import { MODULES, LESSON_DATA, TOTAL_LESSONS } from "./lessons/data";
+const getModule = (id) => MODULES.find(m => m.id === id);
+const getModuleIndex = (id) => MODULES.findIndex(m => m.id === id);
+const getNextModule = (id) => { const idx = getModuleIndex(id); return idx >= 0 && idx < MODULES.length - 1 ? MODULES[idx + 1] : null; };
 import "./App.css";
 import { EXAM_DOMAINS, EXAM_QUESTIONS, buildExamDeck } from "./examData";
 import Auth from "./components/Auth";
@@ -317,16 +320,20 @@ export default function App() {
 
   const isLessonUnlocked = (mId, lId) => {
     if (dev.unlockLessons) return true;
-    if (mId !== 0) return MODULES[0].lessons.every(l => isLessonCompleted(0, l.id));
+    if (mId === -1) { if (lId === 1) return true; return isLessonCompleted(-1, lId - 1); }
+    if (mId !== 0) { const fm = getModule(0); return fm ? fm.lessons.every(l => isLessonCompleted(0, l.id)) : false; }
     if (lId === 1) return true;
     return isLessonCompleted(mId, lId - 1);
   };
   const isModuleUnlocked = (mId) => {
     if (dev.unlockLessons) return true;
-    if (mId === 0) return true;
-    return MODULES[mId - 1].lessons.every(l => isLessonCompleted(mId - 1, l.id));
+    if (mId === -1 || mId === 0) return true;
+    const idx = getModuleIndex(mId);
+    if (idx <= 0) return true;
+    const prevMod = MODULES[idx - 1];
+    return prevMod ? prevMod.lessons.every(l => isLessonCompleted(prevMod.id, l.id)) : true;
   };
-  const isModuleCompleted = (mId) => MODULES[mId].lessons.every(l => isLessonCompleted(mId, l.id));
+  const isModuleCompleted = (mId) => { const m = getModule(mId); return m ? m.lessons.every(l => isLessonCompleted(mId, l.id)) : false; };
 
   const openLesson = (mId, lId) => {
     const ld = LESSON_DATA[`${mId}-${lId}`];
@@ -337,7 +344,7 @@ export default function App() {
     setFcDeck(ld ? shuffle(ld.flashcards) : []);
     setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false);
     quizStartScoreRef.current = null;
-    const openedIsModQuiz = ld ? ld.id === (MODULES[mId]?.lessons.length ?? 99) : false;
+    const openedIsModQuiz = ld ? ld.id === (getModule(mId)?.lessons.length ?? 99) : false;
     setQuizDeck(ld ? pickQuiz(ld.quiz, openedIsModQuiz ? 10 : 5) : []);
     setTabUnlocked(dev.skipToQuiz ? { scenario: true, lesson: true, flashcards: true, quiz: true, tutor: true } : { scenario: true, lesson: false, flashcards: false, quiz: false, tutor: true });
     setTutorMessages([]);
@@ -349,7 +356,7 @@ export default function App() {
 
   const unlockTab = (tab) => setTabUnlocked(prev => ({ ...prev, [tab]: true }));
   const activeLesson = activeModuleId !== null && activeLessonId !== null ? LESSON_DATA[`${activeModuleId}-${activeLessonId}`] : null;
-  const activeModule = activeModuleId !== null ? MODULES[activeModuleId] : null;
+  const activeModule = activeModuleId !== null ? getModule(activeModuleId) : null;
 
   const getResumeLesson = () => {
     for (const mod of MODULES) {
@@ -370,7 +377,7 @@ export default function App() {
       return { mId: activeModuleId, lId: lessons[idx + 1].id };
     }
     // Cross into next module if it has built content
-    const nextMod = MODULES[activeModuleId + 1];
+    const nextMod = getNextModule(activeModuleId);
     if (nextMod) {
       const firstBuilt = nextMod.lessons.find(l => LESSON_DATA[`${nextMod.id}-${l.id}`]);
       if (firstBuilt) return { mId: nextMod.id, lId: firstBuilt.id };
@@ -586,7 +593,7 @@ export default function App() {
             <div key={mod.id} className="zte-module-preview-card" style={{"--accent": mod.accentColor}}>
               <div className="zte-mpc-top">
                 <span className="zte-mpc-code" style={{color: mod.accentColor, borderColor: mod.accentColor}}>{mod.code}</span>
-                <span className="zte-mpc-num">MODULE {mod.id}</span>
+                <span className="zte-mpc-num">{mod.id === -1 ? "PRE-CLASS" : `MODULE ${mod.id}`}</span>
               </div>
               <h3 className="zte-mpc-title">{mod.title}</h3>
               <p className="zte-mpc-desc">{mod.desc}</p>
@@ -749,7 +756,7 @@ export default function App() {
             <div key={mod.id} className={`zte-curr-card ${!unlocked ? "locked" : ""}`} style={{"--accent": mod.accentColor}}>
               <div className="zte-curr-card-top">
                 <span className="zte-curr-code" style={{color: mod.accentColor, borderColor: mod.accentColor}}>{mod.code}</span>
-                <span className="zte-curr-mod-num">MODULE {mod.id}</span>
+                <span className="zte-curr-mod-num">{mod.id === -1 ? "PRE-CLASS" : `MODULE ${mod.id}`}</span>
               </div>
               <h3 className="zte-curr-card-title">{mod.title}</h3>
               <p className="zte-curr-card-desc">{mod.desc}</p>
@@ -768,7 +775,7 @@ export default function App() {
               </div>
               <button className={`zte-curr-cta ${!unlocked ? "locked-btn" : ""}`}
                 onClick={() => unlocked && openLesson(mod.id, mod.lessons[0].id)} disabled={!unlocked}>
-                {!unlocked ? `Complete Module ${mod.id - 1} first` : completed ? "Review Module ->" : "Start Module ->"}
+                {!unlocked ? `Complete ${mod.id - 1 === -1 ? "Pre-Class" : `Module ${mod.id - 1}`} first` : completed ? "Review Module ->" : "Start Module ->"}
               </button>
             </div>
           );
@@ -1113,7 +1120,7 @@ export default function App() {
     const alreadyDone = isLessonCompleted(activeModuleId, activeLessonId);
     const nextLesson = getNextLesson();
 
-    const isModQuiz = lesson.id === MODULES[activeModuleId].lessons.length;
+    const isModQuiz = lesson.id === getModule(activeModuleId).lessons.length;
     const PASS_THRESHOLD = isModQuiz ? 8 : 4;
     const priorScore = lessonScores[lessonKey] ?? null;
     const wasFlagged = priorScore !== null && priorScore < PASS_THRESHOLD;
@@ -1122,11 +1129,11 @@ export default function App() {
       if (!alreadyDone) {
         const updated = [...new Set([...completedLessons, lessonKey])];
         setCompletedLessons(updated);
-        const allKeys = MODULES[activeModuleId].lessons.map(l => `${activeModuleId}-${l.id}`);
+        const allKeys = getModule(activeModuleId).lessons.map(l => `${activeModuleId}-${l.id}`);
         if (allKeys.every(k => updated.includes(k))) {
           completedModuleRef.current = {
-            mod: MODULES[activeModuleId],
-            nextMod: MODULES[activeModuleId + 1] || null,
+            mod: getModule(activeModuleId),
+            nextMod: getNextModule(activeModuleId) || null,
             overallProgress: Math.round((updated.length / Object.keys(LESSON_DATA).length) * 100),
             completedKeys: updated,
           };
@@ -1325,7 +1332,7 @@ export default function App() {
             <div className="zte-lesson-main-header">
               <div className="zte-lesson-header-top">
                 <div>
-                  <div className="zte-lesson-breadcrumb">MODULE {mod.id} &middot; {mod.title}</div>
+                  <div className="zte-lesson-breadcrumb">{mod.id === -1 ? "PRE-CLASS" : `MODULE ${mod.id}`} &middot; {mod.title}</div>
                   <h1 className="zte-lesson-main-title">{lesson.title.toUpperCase()}</h1>
                 </div>
                 <div className="zte-lesson-switcher">
@@ -1538,10 +1545,10 @@ export default function App() {
                 const currentScores = { ...lessonScores, [lessonKey]: quizScore };
 
                 const remainingFlags = (!inReviewSession && justCleared)
-                  ? MODULES[activeModuleId].lessons.filter(l => {
+                  ? getModule(activeModuleId).lessons.filter(l => {
                       const k = `${activeModuleId}-${l.id}`;
                       if (l.id === activeLessonId) return false;
-                      const mq = l.id === MODULES[activeModuleId].lessons.length;
+                      const mq = l.id === getModule(activeModuleId).lessons.length;
                       const thresh = mq ? 8 : 4;
                       const s = currentScores[k] ?? null;
                       return s !== null && s < thresh;
@@ -1614,13 +1621,13 @@ export default function App() {
                         }}>Review {nextFlag.title} &rarr;</button>;
                       }
                       if (justCleared && !nextFlag) {
-                        const nextMod = MODULES[activeModuleId + 1];
+                        const nextMod = getNextModule(activeModuleId);
                         return nextMod
                           ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextMod.id, nextMod.lessons[0].id); }}>Start {nextMod.title} &rarr;</button>
                           : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>View Full Curriculum &rarr;</button>;
                       }
                       if (nextLesson) {
-                        return <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : 'Next Lesson ->'}</button>;
+                        return <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start ${nextLesson.mId === -1 ? "Pre-Class" : `Module ${nextLesson.mId}`} ->` : 'Next Lesson ->'}</button>;
                       }
                       return <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>;
                     })()}
@@ -1751,7 +1758,7 @@ export default function App() {
                   <div className="zte-tutor-disclaimer">AI Tutor is for learning only. Always follow your training program and medical director's protocols.</div>
                   <div className="zte-tutor-nav">
                     {nextLesson
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start Module ${nextLesson.mId} ->` : "Next Lesson ->"}</button>
+                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start ${nextLesson.mId === -1 ? "Pre-Class" : `Module ${nextLesson.mId}`} ->` : "Next Lesson ->"}</button>
                       : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>
                     }
                   </div>
