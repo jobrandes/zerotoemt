@@ -76,6 +76,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [progressLoaded, setProgressLoaded] = useState(false);
+  const [serverLoaded, setServerLoaded] = useState(false);
   const autoNavigated = useRef(false);
   const [tabUnlocked, setTabUnlocked] = useState({ scenario: true, lesson: false, flashcards: false, quiz: false, tutor: true });
   const [mediaOpen, setMediaOpen] = useState(null); // null | "video" | "model3d"
@@ -134,6 +135,7 @@ export default function App() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) { loadProgressFromServer(session.user.id); loadExamAccess(session.user.id); }
+      else { setServerLoaded(true); } // no user -- localStorage is the source of truth, ready to resume
       setAuthLoading(false);
     });
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -164,6 +166,7 @@ export default function App() {
       { user_id: userId, completed_lessons: merged, lesson_scores: mergedScores, updated_at: new Date().toISOString() },
       { onConflict: "user_id" }
     );
+    setServerLoaded(true);
   }
 
   // === EXAM SIMULATOR FUNCTIONS ===
@@ -292,13 +295,13 @@ export default function App() {
     if (user) saveProgress(completedLessons, lessonScores);
   }, [completedLessons, lessonScores, progressLoaded]);
 
-  // Auto-resume on page load once progress is loaded
+  // Auto-resume on page load -- wait for BOTH localStorage and Supabase to resolve
   useEffect(() => {
-    if (!progressLoaded || autoNavigated.current) return;
+    if (!progressLoaded || !serverLoaded || autoNavigated.current) return;
     autoNavigated.current = true;
     const r = getResumeLesson();
     if (r) openLesson(r.mId, r.lId);
-  }, [progressLoaded]);
+  }, [progressLoaded, serverLoaded]);
 
   // Refresh tutor follow-ups when student moves to a different lesson section
   useEffect(() => {
@@ -1355,10 +1358,17 @@ export default function App() {
                   const isLast = idx === mod.lessons.length - 1;
                   return (
                     <div key={l.id} className="zte-strip-item">
-                      <div className={`zte-strip-node ${done ? "done" : active ? "active" : !unlocked ? "locked" : "upcoming"}`}>
+                      <div
+                        className={`zte-strip-node ${done ? "done" : active ? "active" : !unlocked ? "locked" : "upcoming"}${(done || unlocked) ? " clickable" : ""}`}
+                        onClick={() => (done || unlocked) && openLesson(mod.id, l.id)}
+                        title={done || unlocked ? l.title : "Complete previous lessons first"}>
                         {done ? <span>&#10003;</span> : String(l.id).padStart(2,"0")}
                       </div>
-                      <div className={`zte-strip-label ${active ? "active" : ""}`}>{l.title}</div>
+                      <div
+                        className={`zte-strip-label ${active ? "active" : ""}${(done || unlocked) ? " clickable" : ""}`}
+                        onClick={() => (done || unlocked) && openLesson(mod.id, l.id)}>
+                        {l.title}
+                      </div>
                       {!isLast && <div className={`zte-strip-connector ${done ? "done" : ""}`}/>}
                     </div>
                   );
