@@ -614,3 +614,9 @@ html,body{background:var(--bg);}
 .zte-theme{display:flex;gap:6px;margin:0 0 14px;background:var(--light);border-radius:10px;padding:4px;}
 .zte-theme button{flex:1;min-height:40px;border:none;background:none;border-radius:7px;font-family:'Figtree',sans-serif;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;}
 .zte-theme button.on{background:var(--surface);color:var(--heading);box-shadow:0 1px 3px rgba(0,0,0,.2);}
+
+/* === GUEST LESSON === */
+.zte-hero-note{margin:12px 0 0;font-size:13px;color:var(--muted,#6b7280)}
+.zte-guest-cta{background:var(--surface,#fff);border:2px solid var(--navy);border-radius:14px;padding:20px;text-align:center;margin:8px 0;width:100%}
+.zte-guest-cta-title{font-family:'Anton',sans-serif;font-size:22px;letter-spacing:.5px;color:var(--heading,var(--navy));margin-bottom:6px}
+.zte-guest-cta p{margin:0 0 14px;font-size:15px;line-height:1.5;color:var(--text,#2d2d3d)}

@@ -81,6 +81,7 @@ export default function App() {
   const [legal, setLegal] = useState(null); // null | "privacy" | "terms"
   const [deleteStep, setDeleteStep] = useState(0); // 0 idle | 1 confirm | 2 deleting
   const [deleteError, setDeleteError] = useState("");
+  const [guest, setGuest] = useState(false); // guest = trying lesson 1 without an account
   const [authView, setAuthView] = useState(null); // null = public landing | "login" | "signup"
   const [progressLoaded, setProgressLoaded] = useState(false);
   const [serverLoaded, setServerLoaded] = useState(false);
@@ -329,6 +330,7 @@ export default function App() {
   const isLessonCompleted = (mId, lId) => completedLessons.includes(`${mId}-${lId}`);
 
   const isLessonUnlocked = (mId, lId) => {
+    if (!user) return mId === 0 && lId === 1; // guests get Lesson 1 only
     if (dev.unlockLessons) return true;
     if (mId === -1) { if (lId === 1) return true; return isLessonCompleted(-1, lId - 1); }
     if (mId !== 0) { const fm = getModule(0); return fm ? fm.lessons.every(l => isLessonCompleted(0, l.id)) : false; }
@@ -538,7 +540,18 @@ export default function App() {
     </footer>
   );
 
+  const guestActive = !user && guest && screen === "lesson" && activeModuleId === 0 && activeLessonId === 1;
+  const startGuest = () => { setGuest(true); openLesson(0, 1); window.scrollTo(0, 0); };
   const Nav = ({ showProgress = false }) => {
+    if (guestActive) return (
+      <nav className="zte-nav">
+        <button className="zte-logo" onClick={() => { setGuest(false); setScreen("home"); }}>ZERO <span>TO</span> EMT</button>
+        <div style={{display:"flex",gap:8,alignItems:"center",flexShrink:0}}>
+          <button className="zte-btn-signout" onClick={() => setAuthView("login")}>Log In</button>
+          <button className="zte-btn-cta" onClick={() => setAuthView("signup")}>Sign Up Free</button>
+        </div>
+      </nav>
+    );
     // Always derive something to show - first name, or email prefix as last resort
     const navName = displayName || user?.email?.split("@")[0] || "";
     const hasProgress = completedLessons.length > 0;
@@ -585,7 +598,7 @@ export default function App() {
   if (authLoading) return <div id="zte-root" style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh"}}><div style={{fontFamily:"Anton, sans-serif",fontSize:32,color:"var(--heading)"}}>ZERO <span style={{color:"#e8193c"}}>TO</span> EMT</div></div>;
   if (legal) return <Legal page={legal} onBack={() => setLegal(null)} onSwitch={setLegal} />;
   if (!user && authView) return <Auth initialMode={authView} onBack={() => setAuthView(null)} onLegal={setLegal} />;
-  if (!user) return (
+  if (!user && !guestActive) return (
     <div id="zte-root">
       <nav className="zte-nav">
         <button className="zte-logo" onClick={() => window.scrollTo({top:0,behavior:"smooth"})}>ZERO <span>TO</span> EMT</button>
@@ -601,8 +614,9 @@ export default function App() {
           <p className="zte-hero-desc">The only free, AI-powered platform built for people with zero medical background. Learn everything before your first EMT class even starts.</p>
           <div className="zte-hero-btns">
             <button className="zte-btn-hero-primary" onClick={() => setAuthView("signup")}>SIGN UP FREE</button>
-            <button className="zte-btn-hero-secondary" onClick={() => setAuthView("login")}>Log In</button>
+            <button className="zte-btn-hero-secondary" onClick={startGuest}>Try Lesson 1 free</button>
           </div>
+          <p className="zte-hero-note">No account needed to try it.</p>
         </div>
         <div className="zte-hero-right">
           <div className="zte-hero-card">
@@ -1260,7 +1274,7 @@ export default function App() {
     const mod = activeModule;
     const lessonKey = `${activeModuleId}-${activeLessonId}`;
     const alreadyDone = isLessonCompleted(activeModuleId, activeLessonId);
-    const nextLesson = getNextLesson();
+    const nextLesson = user ? getNextLesson() : null;
 
     const isModQuiz = lesson.id === getModule(activeModuleId).lessons.length;
     const PASS_THRESHOLD = isModQuiz ? 8 : 4;
@@ -1778,13 +1792,17 @@ export default function App() {
                       if (nextLesson) {
                         return <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start ${nextLesson.mId === -1 ? "Pre-Class" : `Module ${nextLesson.mId}`} \u2192` : 'Next Lesson \u2192'}</button>;
                       }
+                      if (!user) return <div className="zte-guest-cta"><div className="zte-guest-cta-title">That was 1 of {TOTAL_LESSONS} lessons.</div><p>Create a free account to save your progress and unlock the rest. Your progress from this lesson comes with you.</p><button className="zte-btn-primary" onClick={() => { completeLesson(); setAuthView("signup"); }}>Create Free Account &rarr;</button></div>;
                       return <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>;
                     })()}
                   </div>
                 </div>
                 );
               })()}
-              {lessonTab === "tutor" && (() => {
+              {lessonTab === "tutor" && !user && (
+                <div className="zte-guest-cta"><div className="zte-guest-cta-title">The AI Tutor is for members</div><p>Create a free account to ask the tutor anything about this lesson.</p><button className="zte-btn-primary" onClick={() => setAuthView("signup")}>Create Free Account &rarr;</button></div>
+              )}
+              {lessonTab === "tutor" && !!user && (() => {
                 // Determine tutor context based on where student is
                 const prevTab = tabUnlocked.quiz && quizDone ? "quiz-done"
                   : tabUnlocked.quiz ? "post-quiz-open"
@@ -1906,7 +1924,7 @@ export default function App() {
                   </div>
                   <div className="zte-tutor-disclaimer">AI Tutor is for learning only. Always follow your training program and medical director's protocols.</div>
                   <div className="zte-tutor-nav">
-                    {nextLesson
+                    {!user ? <div className="zte-guest-cta"><div className="zte-guest-cta-title">That was 1 of {TOTAL_LESSONS} lessons.</div><p>Create a free account to save your progress and unlock the rest. Your progress from this lesson comes with you.</p><button className="zte-btn-primary" onClick={() => { completeLesson(); setAuthView("signup"); }}>Create Free Account &rarr;</button></div> : nextLesson
                       ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start ${nextLesson.mId === -1 ? "Pre-Class" : `Module ${nextLesson.mId}`} \u2192` : "Next Lesson \u2192"}</button>
                       : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>
                     }
