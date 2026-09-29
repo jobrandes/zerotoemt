@@ -5,7 +5,7 @@ const MODULES = [
   {
     id: -1, code: "PRE-CLASS", codeColor: "#16a34a", accentColor: "#16a34a",
     title: "MEDICAL TERMINOLOGY",
-    desc: "The decode system for medical language. Learn it once, decode thousands of terms. Designed to complement NURS 140.",
+    desc: "The decode system for medical language. Learn it once, decode thousands of terms.",
     lessons: [
       { id: 1, title: "How Medical Terms Are Built", duration: "~1 hr total" },
       { id: 2, title: "Location & Direction Terms", duration: "~1 hr total" },
@@ -220,7 +220,7 @@ The pattern: You already knew most of these roots. You just did not know you kne
 
 Do not stress the rules too much right now. You will internalize them through use. The important thing: that "o" is not part of the meaning. It is just glue for pronunciation.
 
-The combining form = root + combining vowel written together: cardi/o, gastr/o, neur/o, hepat/o, nephr/o. You will see these in your TMCC course written exactly this way.`
+The combining form = root + combining vowel written together: cardi/o, gastr/o, neur/o, hepat/o, nephr/o. You will see these in your EMT course written exactly this way.`
     },
     {
       heading: "Your First Decoding Practice",
@@ -967,7 +967,7 @@ const MT_L7 = {
     call: `"Unit 14, respond to 3300 Harbor Drive. 58-year-old male, known hypertensive and tachycardic. Wife called 911 for sudden onset of hemiplegia and aphasia. Patient is afebrile. History of myocardial infarction, bilateral nephrectomy, and chronic obstructive pulmonary disease."`,
     time: "8:22 AM", eta: "4 minutes",
     hook: "Hypertensive. Tachycardic. Hemiplegia. Aphasia. Afebrile. Myocardial infarction. Bilateral nephrectomy. Chronic obstructive pulmonary disease. You can now decode every one of these. Let us confirm.",
-    bridge: "This lesson is pure practice. Every term comes from your upcoming EMT clinical modules. No new word parts -- just applying what you know. Go slowly. Break each word apart. This is the skill your TMCC class will test."
+    bridge: "This lesson is pure practice. Every term comes from your upcoming EMT clinical modules. No new word parts -- just applying what you know. Go slowly. Break each word apart. This is the skill your EMT class will test."
   },
   content: [
     {
@@ -1033,7 +1033,7 @@ MEDICAL EMERGENCIES:
     },
     {
       heading: "Common Medical Abbreviations",
-      body: `Your TMCC class will also test abbreviations. Memorized, not decoded.
+      body: `Your EMT class will also test abbreviations. Memorized, not decoded.
 
 VITAL SIGNS: BP = blood pressure, HR = heart rate, RR = respiratory rate, SpO2 = oxygen saturation, GCS = Glasgow Coma Scale (measures LOC -- eye, verbal, motor), LOC = level of consciousness
 
