@@ -536,3 +536,27 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
   .zte-rc-btns{flex-direction:column;}
   .zte-mc-review-session-btn{flex-direction:column;align-items:flex-start;gap:4px;}
 }
+
+/* === PUBLIC LANDING === */
+.zte-auth-back{background:none;border:none;color:var(--muted);font-family:'Figtree',sans-serif;font-size:13px;font-weight:600;cursor:pointer;padding:0 0 16px;}
+.zte-auth-back:hover{color:var(--navy);}
+.zte-how{background:var(--bg);padding:72px 48px 24px;}
+.zte-how-inner{max-width:none;}
+.zte-how .zte-section-title{margin-bottom:32px;}
+.zte-how-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
+.zte-how-step{background:white;border:1px solid var(--border);border-radius:14px;padding:20px;}
+.zte-how-num{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--red);margin-bottom:10px;}
+.zte-how-title{font-family:'Anton',sans-serif;font-size:22px;color:var(--navy);margin-bottom:6px;letter-spacing:.3px;}
+.zte-how-desc{font-size:14px;line-height:1.5;color:var(--muted);}
+.zte-final-cta{background:var(--red);padding:64px 48px;text-align:center;}
+.zte-final-cta-title{font-family:'Anton',sans-serif;font-size:clamp(36px,7vw,64px);color:white;line-height:1;margin-bottom:14px;}
+.zte-final-cta-desc{font-size:17px;color:rgba(255,255,255,.9);margin-bottom:28px;}
+.zte-final-cta .zte-btn-hero-primary{background:var(--navy);}
+.zte-final-cta .zte-btn-hero-primary:hover{background:#1a3360;}
+@media(max-width:900px){.zte-how-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:768px){
+  .zte-how{padding:48px 24px 8px;}
+  .zte-how-grid{grid-template-columns:1fr;}
+  .zte-final-cta{padding:48px 24px;}
+  .zte-final-cta .zte-btn-hero-primary{width:100%;}
+}

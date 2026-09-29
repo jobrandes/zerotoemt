@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { supabase } from "../lib/supabase";
 
-export default function Auth() {
-  const [mode, setMode] = useState("login"); // login | signup
+export default function Auth({ initialMode = "login", onBack }) {
+  const [mode, setMode] = useState(initialMode); // login | signup
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,6 +42,7 @@ export default function Auth() {
   return (
     <div className="zte-auth-wrap">
       <div className="zte-auth-card">
+        {onBack && <button className="zte-auth-back" onClick={onBack}>&larr; Back</button>}
         <div className="zte-logo" style={{fontSize: 24, marginBottom: 8}}>ZERO <span>TO</span> EMT</div>
         <div className="zte-tagline-mono" style={{marginBottom: 24}}>Free EMT Pre-Class Training</div>
 

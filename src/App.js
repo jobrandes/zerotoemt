@@ -75,6 +75,7 @@ export default function App() {
   const [completedLessons, setCompletedLessons] = useState([]);
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [authView, setAuthView] = useState(null); // null = public landing | "login" | "signup"
   const [progressLoaded, setProgressLoaded] = useState(false);
   const [serverLoaded, setServerLoaded] = useState(false);
   const autoNavigated = useRef(false);
@@ -426,6 +427,22 @@ export default function App() {
     setReviewQueue(null);
   };
 
+  const ExamTeaser = () => (
+      <section className="zte-soon">
+        <div className="zte-soon-inner">
+          <div className="zte-soon-tag">// COMING SOON</div>
+          <h2 className="zte-soon-title">NREMT EXAM<br/>SIMULATOR</h2>
+          <p className="zte-soon-desc">Timed, NREMT-style practice with a score breakdown by domain, so you know where you stand before you sit for the real thing.</p>
+          <ul className="zte-soon-list">
+            {['NREMT-style questions weighted by domain','Timed like the real exam','Domain-by-domain score breakdown','AI debrief tied to your results'].map((f,i) => (
+              <li key={i}><span className="zte-soon-check">&#10003;</span>{f}</li>
+            ))}
+          </ul>
+          <div className="zte-soon-note">Practice tool only &mdash; not affiliated with NREMT</div>
+        </div>
+      </section>
+  );
+
   const Footer = () => (
     <footer className="zte-footer">
       <div className="zte-footer-inner">
@@ -477,7 +494,95 @@ export default function App() {
 
   // -- HOME --
   if (authLoading) return <div id="zte-root" style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh"}}><div style={{fontFamily:"Anton, sans-serif",fontSize:32,color:"#0f1f3d"}}>ZERO <span style={{color:"#e8193c"}}>TO</span> EMT</div></div>;
-  if (!user) return <Auth />;
+  if (!user && authView) return <Auth initialMode={authView} onBack={() => setAuthView(null)} />;
+  if (!user) return (
+    <div id="zte-root">
+      <nav className="zte-nav">
+        <button className="zte-logo" onClick={() => window.scrollTo({top:0,behavior:"smooth"})}>ZERO <span>TO</span> EMT</button>
+        <div style={{display:"flex",gap:8,alignItems:"center",flexShrink:0}}>
+          <button className="zte-btn-signout" onClick={() => setAuthView("login")}>Log In</button>
+          <button className="zte-btn-cta" onClick={() => setAuthView("signup")}>Sign Up Free</button>
+        </div>
+      </nav>
+      <section className="zte-hero">
+        <div className="zte-hero-left">
+          <div className="zte-hero-eyebrow">EMT CERTIFICATION PREP</div>
+          <h1 className="zte-hero-title">ZERO<br/>TO<br/><span>EMT.</span></h1>
+          <p className="zte-hero-desc">The only free, AI-powered platform built for people with zero medical background. Learn everything before your first EMT class even starts.</p>
+          <div className="zte-hero-btns">
+            <button className="zte-btn-hero-primary" onClick={() => setAuthView("signup")}>SIGN UP FREE</button>
+            <button className="zte-btn-hero-secondary" onClick={() => setAuthView("login")}>Log In</button>
+          </div>
+        </div>
+        <div className="zte-hero-right">
+          <div className="zte-hero-card">
+            {[
+              { num: "6", label: "Modules", sub: "Foundation through Operations" },
+              { num: String(TOTAL_LESSONS), label: "Lessons", sub: "Each built around a real 911 call" },
+              { num: "AI", label: "Tutor", sub: "Built into every single lesson" },
+              { num: "100%", label: "Free", sub: "Free account. No credit card. Ever." },
+            ].map((item, i) => (
+              <div key={i} className="zte-hero-feature">
+                <div className="zte-hero-feature-text">
+                  <div className="zte-hero-feature-num">{item.num} <span>{item.label}</span></div>
+                  <div className="zte-hero-feature-sub">{item.sub}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="zte-how">
+        <div className="zte-how-inner">
+          <div className="zte-tagline-mono">HOW IT WORKS</div>
+          <h2 className="zte-section-title">EVERY LESSON, SAME LOOP</h2>
+          <div className="zte-how-grid">
+            {[
+              ["01","Scenario","Start with a real 911 call, so you know why it matters."],
+              ["02","Lesson","Short, plain-English teaching. No medical background needed."],
+              ["03","Flashcards","Lock in the terms and numbers you will be tested on."],
+              ["04","Quiz","Check yourself with NREMT-style questions."],
+              ["05","AI Tutor","Ask anything about the lesson, any time."],
+            ].map(([n,t,d]) => (
+              <div key={n} className="zte-how-step">
+                <div className="zte-how-num">{n}</div>
+                <div className="zte-how-title">{t}</div>
+                <div className="zte-how-desc">{d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="zte-home-curriculum">
+        <div className="zte-home-curriculum-header">
+          <h2 className="zte-section-title">THE CURRICULUM</h2>
+          <div className="zte-section-meta">NREMT-ALIGNED &middot; {TOTAL_LESSONS} LESSONS</div>
+        </div>
+        <div className="zte-module-grid">
+          {MODULES.map(mod => (
+            <div key={mod.id} className="zte-module-preview-card" style={{"--accent": mod.accentColor}}>
+              <div className="zte-mpc-top">
+                <span className="zte-mpc-code" style={{color: mod.accentColor, borderColor: mod.accentColor}}>{mod.code}</span>
+                <span className="zte-mpc-num">{mod.id === -1 ? "PRE-CLASS" : `MODULE ${mod.id}`}</span>
+              </div>
+              <h3 className="zte-mpc-title">{mod.title}</h3>
+              <p className="zte-mpc-desc">{mod.desc}</p>
+              <div className="zte-mpc-footer">
+                <span className="zte-mpc-count">{mod.lessons.length} lessons</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+      <ExamTeaser />
+      <section className="zte-final-cta">
+        <h2 className="zte-final-cta-title">SHOW UP TO CLASS READY.</h2>
+        <p className="zte-final-cta-desc">Free account. No credit card. Your progress syncs across every device.</p>
+        <button className="zte-btn-hero-primary" onClick={() => setAuthView("signup")}>SIGN UP FREE</button>
+      </section>
+      <Footer />
+    </div>
+  );
 
   if (screen === "home") return (
     <div id="zte-root">
@@ -612,19 +717,7 @@ export default function App() {
       </section>
 
       {/* Exam Simulator teaser (coming soon) */}
-      <section className="zte-soon">
-        <div className="zte-soon-inner">
-          <div className="zte-soon-tag">// COMING SOON</div>
-          <h2 className="zte-soon-title">NREMT EXAM<br/>SIMULATOR</h2>
-          <p className="zte-soon-desc">Timed, NREMT-style practice with a score breakdown by domain, so you know where you stand before you sit for the real thing.</p>
-          <ul className="zte-soon-list">
-            {['NREMT-style questions weighted by domain','Timed like the real exam','Domain-by-domain score breakdown','AI debrief tied to your results'].map((f,i) => (
-              <li key={i}><span className="zte-soon-check">&#10003;</span>{f}</li>
-            ))}
-          </ul>
-          <div className="zte-soon-note">Practice tool only &mdash; not affiliated with NREMT</div>
-        </div>
-      </section>
+      <ExamTeaser />
 
       <Footer />
     </div>
