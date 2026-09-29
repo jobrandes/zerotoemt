@@ -2028,7 +2028,8 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
           setTutorMessages(prev => [...prev, { role: "assistant", content: "The tutor is taking a short break. Please try again a little later." }]);
           return;
         }
-        const fullReply = data.content?.[0]?.text || `Sorry, I couldn't get a response. Try again.${data.upstream_status ? ` (error ${data.upstream_status}${data.type ? ": " + data.type : ""}${data.message ? " - " + String(data.message).slice(0, 160) : ""})` : ` (error ${response.status})`}`;
+        const textFromBlocks = Array.isArray(data.content) ? data.content.filter(b => b && b.type === "text" && typeof b.text === "string").map(b => b.text).join("\n\n") : "";
+        const fullReply = textFromBlocks || `Sorry, I couldn't get a response. Try again.${data.upstream_status ? ` (error ${data.upstream_status}${data.type ? ": " + data.type : ""}${data.message ? " - " + String(data.message).slice(0, 160) : ""})` : ` (error ${response.status}${Array.isArray(data.content) ? ", blocks: " + data.content.map(b => b && b.type).join("+") + (data.stop_reason ? ", stop: " + data.stop_reason : "") : ""})`}`;
 
         // Split reply from follow-ups  -  handle any whitespace variation
         const followupSplit = fullReply.split(/\n+FOLLOWUPS:\n/);
