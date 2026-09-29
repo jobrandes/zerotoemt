@@ -448,9 +448,11 @@ export default function App() {
       <div className="zte-nav-links">
         <button className={`zte-nav-link ${screen === "home" ? "active" : ""}`} onClick={() => setScreen("home")}>Home</button>
         <button className={`zte-nav-link ${screen === "curriculum" ? "active" : ""}`} onClick={() => setScreen("curriculum")}>Curriculum</button>
-        <button className={`zte-nav-link zte-nav-exam-btn ${screen === "exam" ? "active" : ""}`} onClick={() => setScreen("exam")}>
-          Exam {(hasExamAccess || dev.examAccess) ? <span style={{color:'var(--green)'}}>&#10003;</span> : <span style={{opacity:.5}}>&#128274;</span>}
-        </button>
+        {devMode && (
+          <button className={`zte-nav-link zte-nav-exam-btn ${screen === "exam" ? "active" : ""}`} onClick={() => setScreen("exam")}>
+            Exam {(hasExamAccess || dev.examAccess) ? <span style={{color:'var(--green)'}}>&#10003;</span> : <span style={{opacity:.5}}>&#128274;</span>}
+          </button>
+        )}
       </div>
       <div style={{display:"flex",gap:8,alignItems:"center",flexShrink:0}}>
         {navName && <span className="zte-nav-welcome">Hey, {navName}</span>}
@@ -462,7 +464,7 @@ export default function App() {
         ) : (
           <>
             <button className="zte-btn-cta" onClick={() => { const r = getResumeLesson(); openLesson(r ? r.mId : 0, r ? r.lId : 1); }}>
-              {hasProgress ? `Continue (${progress}%)` : "Start Free ->"}
+              {hasProgress ? `Continue (${progress}%)` : "Start Learning"}
             </button>
             <button className="zte-btn-signout" onClick={() => supabase.auth.signOut()}>Sign Out</button>
             <button className={`zte-btn-devmode ${devMode ? "on" : ""}`} onClick={() => setDevPanelOpen(o => !o)} title="Toggle dev mode">{devMode ? "DEV ON" : "DEV"}</button>
@@ -563,9 +565,9 @@ export default function App() {
           <div className="zte-hero-card">
             {[
               { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="9" height="9" rx="2"/><rect x="16" y="4" width="9" height="9" rx="2"/><rect x="3" y="17" width="9" height="9" rx="2"/><rect x="16" y="17" width="9" height="9" rx="2"/></svg>, num: "6", label: "Modules", sub: "Foundation through Operations" },
-              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 4h18a1 1 0 011 1v18a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M8 10h12M8 14h12M8 18h7"/></svg>, num: "40+", label: "Lessons", sub: "Each built around a real 911 call" },
+              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M5 4h18a1 1 0 011 1v18a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z"/><path d="M8 10h12M8 14h12M8 18h7"/></svg>, num: `${TOTAL_LESSONS}`, label: "Lessons", sub: "Each built around a real 911 call" },
               { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="14" cy="10" r="5"/><path d="M4 24c0-5.52 4.48-10 10-10s10 4.48 10 10"/><path d="M19 5l2 2-2 2"/></svg>, num: "AI", label: "Tutor", sub: "Built into every single lesson" },
-              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 3l2.5 8H24l-6.5 4.7 2.5 8L14 19.4 8 23.7l2.5-8L4 11h7.5z"/></svg>, num: "100%", label: "Free", sub: "No account. No credit card. Ever." },
+              { icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 3l2.5 8H24l-6.5 4.7 2.5 8L14 19.4 8 23.7l2.5-8L4 11h7.5z"/></svg>, num: "100%", label: "Free", sub: "Free account. No credit card. Ever." },
             ].map((item, i) => (
               <div key={i} className="zte-hero-feature">
                 <div className="zte-hero-feature-icon">{item.icon}</div>
@@ -579,7 +581,7 @@ export default function App() {
         </div>
       </section>
       <div className="zte-stats-bar">
-        {[["6","CORE MODULES"],["40+","LESSONS"],["5","NREMT DOMAINS"],["0","PRIOR KNOWLEDGE"],["Free","ALWAYS"]].map(([n,l],i) => (
+        {[["6","CORE MODULES"],[String(TOTAL_LESSONS),"LESSONS"],["5","NREMT DOMAINS"],["0","PRIOR KNOWLEDGE"],["Free","ALWAYS"]].map(([n,l],i) => (
           <div key={i} className="zte-stat">
             <div className="zte-stat-num">{n}</div>
             <div className="zte-stat-label">{l}</div>
@@ -609,68 +611,20 @@ export default function App() {
         </div>
       </section>
 
-      {/* Exam Simulator Promo */}
-      <div className="zte-exam-promo">
-        <div className="zte-exam-promo-inner">
-          <div className="zte-exam-promo-left">
-            <div className="zte-tagline-mono" style={{color:'var(--red)',marginBottom:12}}>COMING SOON</div>
-            <h2 className="zte-exam-promo-title">NREMT EXAM<br/>SIMULATOR</h2>
-            <p className="zte-exam-promo-desc">120 questions. 2 hours. Full domain scoring. AI debrief. Know if you're ready before you sit for the real thing.</p>
-            <div className="zte-exam-promo-features">
-              {['120 NREMT-weighted questions','2-hour timer, just like the real exam','Domain breakdown: Airway, Cardiology, Trauma, Medical, Ops','AI debrief tied to your exact results','Unlimited retakes'].map((f,i) => (
-                <div key={i} className="zte-exam-promo-feature">
-                  <span style={{color:'var(--green)'}}>&#10003;</span>
-                  <span>{f}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="zte-exam-promo-right">
-            <div className="zte-exam-promo-price-card">
-              <div style={{fontFamily:"Space Mono,monospace",fontSize:9,letterSpacing:2,color:'rgba(255,255,255,.4)',marginBottom:8}}>ONE-TIME</div>
-              <div style={{fontFamily:"Anton,sans-serif",fontSize:64,color:'white',lineHeight:1,marginBottom:4}}>$29</div>
-              <div style={{fontSize:12,color:'rgba(255,255,255,.4)',marginBottom:20}}>Unlimited retakes included</div>
-              {(hasExamAccess || dev.examAccess)
-                ? <button className="zte-exam-promo-cta" style={{background:'var(--green)'}} onClick={() => setScreen('exam')}>Go to Exam &#8594;</button>
-                : <button className="zte-exam-promo-cta" onClick={() => setScreen('exam')}>Learn More &#8594;</button>
-              }
-              <div style={{fontFamily:"Space Mono,monospace",fontSize:8,color:'rgba(255,255,255,.2)',marginTop:12,lineHeight:1.5}}>Practice tool only &mdash; not affiliated with NREMT</div>
-            </div>
-          </div>
+      {/* Exam Simulator teaser (coming soon) */}
+      <section className="zte-soon">
+        <div className="zte-soon-inner">
+          <div className="zte-soon-tag">// COMING SOON</div>
+          <h2 className="zte-soon-title">NREMT EXAM<br/>SIMULATOR</h2>
+          <p className="zte-soon-desc">Timed, NREMT-style practice with a score breakdown by domain, so you know where you stand before you sit for the real thing.</p>
+          <ul className="zte-soon-list">
+            {['NREMT-style questions weighted by domain','Timed like the real exam','Domain-by-domain score breakdown','AI debrief tied to your results'].map((f,i) => (
+              <li key={i}><span className="zte-soon-check">&#10003;</span>{f}</li>
+            ))}
+          </ul>
+          <div className="zte-soon-note">Practice tool only &mdash; not affiliated with NREMT</div>
         </div>
-      </div>
-
-
-      {/* Exam Simulator Promo */}
-      <div className="zte-exam-promo">
-        <div className="zte-exam-promo-inner">
-          <div className="zte-exam-promo-left">
-            <div className="zte-tagline-mono" style={{color:'var(--red)',marginBottom:12}}>COMING SOON</div>
-            <h2 className="zte-exam-promo-title">NREMT EXAM<br/>SIMULATOR</h2>
-            <p className="zte-exam-promo-desc">120 questions. 2 hours. Full domain scoring. AI debrief. Know if you're ready before you sit for the real thing.</p>
-            <div className="zte-exam-promo-features">
-              {['120 NREMT-weighted questions','2-hour timer, just like the real exam','Domain breakdown: Airway, Cardiology, Trauma, Medical, Ops','AI debrief tied to your exact results','Unlimited retakes'].map((f,i) => (
-                <div key={i} className="zte-exam-promo-feature">
-                  <span style={{color:'var(--green)'}}>&#10003;</span>
-                  <span>{f}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="zte-exam-promo-right">
-            <div className="zte-exam-promo-price-card">
-              <div style={{fontFamily:"Space Mono,monospace",fontSize:9,letterSpacing:2,color:'rgba(255,255,255,.4)',marginBottom:8}}>ONE-TIME</div>
-              <div style={{fontFamily:"Anton,sans-serif",fontSize:64,color:'white',lineHeight:1,marginBottom:4}}>$29</div>
-              <div style={{fontSize:12,color:'rgba(255,255,255,.4)',marginBottom:20}}>Unlimited retakes included</div>
-              {(hasExamAccess || dev.examAccess)
-                ? <button className="zte-exam-promo-cta" style={{background:'var(--green)'}} onClick={() => setScreen('exam')}>Go to Exam &#8594;</button>
-                : <button className="zte-exam-promo-cta" onClick={() => setScreen('exam')}>Learn More &#8594;</button>
-              }
-              <div style={{fontFamily:"Space Mono,monospace",fontSize:8,color:'rgba(255,255,255,.2)',marginTop:12,lineHeight:1.5}}>Practice tool only &mdash; not affiliated with NREMT</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      </section>
 
       <Footer />
     </div>

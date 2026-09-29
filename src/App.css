@@ -170,9 +170,9 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-fc-back{background:var(--red);transform:rotateY(180deg);}
 .zte-fc-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:16px;}
 .zte-fc-text{font-size:20px;font-weight:600;color:white;line-height:1.4;}
-.zte-fc-hint{font-size:11px;color:rgba(255,255,255,.35);margin-top:20px;font-style:italic;}
+.zte-fc-hint{font-size:12px;color:rgba(255,255,255,.6);margin-top:20px;font-style:italic;}
 .zte-fc-controls{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
-.zte-fc-counter{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);}
+.zte-fc-counter{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted);white-space:nowrap;padding:0 12px;}
 .zte-quiz-meta{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
 .zte-quiz-q{font-size:20px;font-weight:700;color:var(--navy);line-height:1.4;margin-bottom:24px;}
 .zte-quiz-options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
@@ -252,6 +252,18 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-btn-devmode:hover{opacity:1;}
 .zte-btn-devmode.on{background:var(--red);border-color:var(--red);color:white;opacity:1;}
 
+
+/* === COMING SOON TEASER === */
+.zte-soon{background:var(--navy);padding:72px 48px;border-top:1px solid rgba(255,255,255,.08);}
+.zte-soon-inner{max-width:720px;margin:0 auto;}
+.zte-soon-tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:3px;color:var(--red);margin-bottom:16px;}
+.zte-soon-title{font-family:'Anton',sans-serif;font-size:clamp(40px,8vw,72px);line-height:.95;color:white;margin-bottom:20px;letter-spacing:.5px;}
+.zte-soon-desc{font-size:17px;line-height:1.65;color:rgba(255,255,255,.75);max-width:520px;margin-bottom:28px;}
+.zte-soon-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin-bottom:28px;}
+.zte-soon-list li{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.4;color:rgba(255,255,255,.9);}
+.zte-soon-check{color:#4ade80;font-weight:700;flex-shrink:0;}
+.zte-soon-note{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(255,255,255,.5);}
+
 /* === MOBILE === */
 @media(max-width:768px){
   .zte-hero{padding:40px 24px;}
@@ -287,7 +299,33 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
   .zte-btn-secondary{width:100%;justify-content:center;}
   .zte-results-btns{flex-direction:column;}
   .zte-explanation{font-size:14px;margin-top:12px;}
-}i
+}
+
+/* === MOBILE ROUND 1 === */
+@media(max-width:768px){
+  .zte-nav{gap:8px;}
+  .zte-logo{font-size:18px;}
+  .zte-btn-cta{padding:9px 14px;font-size:13px;}
+  .zte-btn-cta.progress-btn{padding:7px 12px;font-size:12px;}
+  .zte-progress-mini{width:80px;}
+  .zte-btn-signout{padding:8px 10px;}
+  .zte-btn-devmode:not(.on){display:none;}
+  .zte-hero-btns{flex-direction:column;gap:12px;}
+  .zte-hero-btns button{width:100%;text-align:center;}
+  .zte-stats-bar{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 12px;}
+  .zte-stats-bar .zte-stat:last-child{grid-column:1/-1;}
+  .zte-lesson-switcher{display:none;}
+  .zte-lesson-header-top{margin-bottom:14px;}
+  .zte-lesson-main-title{font-size:26px;}
+  .zte-fc-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .zte-fc-counter{grid-column:1/-1;grid-row:1;text-align:center;padding:0;}
+  .zte-fc-face{padding:24px;}
+  .zte-lesson-tab{white-space:nowrap;flex-shrink:0;}
+  .zte-lesson-tabs{overflow-x:auto;scrollbar-width:none;}
+  .zte-soon{padding:48px 24px;}
+  .zte-soon-list{grid-template-columns:1fr;}
+}
+
 
 /* ============================================================
    MODULE COMPLETE OVERLAY
