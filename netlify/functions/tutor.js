@@ -9,7 +9,6 @@ exports.handler = async function(event) {
     const body = JSON.parse(event.body);
 
     console.log("API Key present:", !!process.env.ANTHROPIC_API_KEY);
-    console.log("API Key prefix:", process.env.ANTHROPIC_API_KEY?.slice(0, 10));
     console.log("Messages count:", body.messages?.length);
 
     const payload = JSON.stringify({

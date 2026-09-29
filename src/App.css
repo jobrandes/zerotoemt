@@ -584,3 +584,23 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
   .zte-mpc-code,.zte-mpc-num,.zte-mpc-count,.zte-section-meta,.zte-stat-label,.zte-lesson-breadcrumb,.zte-quiz-meta,.zte-fc-label,.zte-media-card-label,.zte-mpc-btn{font-size:11px;}
   .zte-curr-lesson-dur{font-size:11px;}
 }
+
+/* === LEGAL, ACCOUNT DELETION === */
+.zte-legal{max-width:720px;margin:0 auto;padding:48px 24px 96px;}
+.zte-legal-h1{font-family:'Anton',sans-serif;font-size:clamp(36px,7vw,56px);color:var(--navy);line-height:1;margin:8px 0 8px;}
+.zte-legal-meta{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--muted);margin-bottom:32px;}
+.zte-legal-section{margin-bottom:24px;}
+.zte-legal-h2{font-family:'Anton',sans-serif;font-size:22px;color:var(--navy);margin-bottom:8px;letter-spacing:.3px;}
+.zte-legal p{font-size:16px;line-height:1.7;color:var(--text);}
+.zte-legal-contact{margin-top:8px;}
+.zte-legal-switch{margin-top:24px;background:none;border:none;color:var(--navy);font-family:'Figtree',sans-serif;font-weight:700;font-size:15px;cursor:pointer;text-decoration:underline;padding:8px 0;min-height:44px;}
+.zte-footer-links{display:flex;gap:20px;margin:16px 0 8px;}
+.zte-footer-links button{background:none;border:none;color:rgba(255,255,255,.7);font-family:'Figtree',sans-serif;font-size:13px;cursor:pointer;text-decoration:underline;padding:8px 0;min-height:44px;}
+.zte-footer-links button:hover{color:white;}
+.zte-auth-link{background:none;border:none;color:var(--navy);font-size:inherit;font-family:inherit;text-decoration:underline;cursor:pointer;padding:0;}
+.zte-sheet-links{display:flex;justify-content:space-between;gap:12px;margin-top:14px;}
+.zte-sheet-links button{background:none;border:none;color:var(--muted);font-family:'Figtree',sans-serif;font-size:14px;cursor:pointer;padding:10px 4px;min-height:44px;}
+.zte-sheet-links button.danger{color:var(--red);font-weight:600;}
+.zte-sheet-warn{font-size:15px;line-height:1.5;color:var(--text);margin-bottom:16px;}
+.zte-btn-danger{width:100%;background:var(--red);color:white;border:none;padding:14px;border-radius:8px;font-family:'Figtree',sans-serif;font-weight:700;font-size:15px;cursor:pointer;}
+.zte-btn-danger:disabled{opacity:.6;cursor:not-allowed;}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { supabase } from "../lib/supabase";
 
-export default function Auth({ initialMode = "login", onBack }) {
+export default function Auth({ initialMode = "login", onBack, onLegal }) {
   const [mode, setMode] = useState(initialMode); // login | signup
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
@@ -96,6 +96,13 @@ export default function Auth({ initialMode = "login", onBack }) {
         </div>
 
         <div className="zte-auth-disclaimer">Free forever. No credit card. No spam.</div>
+        {mode === "signup" && onLegal && (
+          <div className="zte-auth-disclaimer">
+            By creating an account you agree to our{" "}
+            <button className="zte-auth-link" onClick={() => onLegal("terms")}>Terms</button> and{" "}
+            <button className="zte-auth-link" onClick={() => onLegal("privacy")}>Privacy Policy</button>.
+          </div>
+        )}
       </div>
     </div>
   );

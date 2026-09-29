@@ -8,6 +8,7 @@ const getNextModule = (id) => { const idx = getModuleIndex(id); return idx >= 0 
 import "./App.css";
 import { EXAM_DOMAINS, EXAM_QUESTIONS, buildExamDeck } from "./examData";
 import Auth from "./components/Auth";
+import Legal from "./components/Legal";
 
 function renderBold(text) {
   return text.split(/\*\*(.*?)\*\*/g).map((p, i) =>
@@ -76,6 +77,9 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [accountOpen, setAccountOpen] = useState(false);
+  const [legal, setLegal] = useState(null); // null | "privacy" | "terms"
+  const [deleteStep, setDeleteStep] = useState(0); // 0 idle | 1 confirm | 2 deleting
+  const [deleteError, setDeleteError] = useState("");
   const [authView, setAuthView] = useState(null); // null = public landing | "login" | "signup"
   const [progressLoaded, setProgressLoaded] = useState(false);
   const [serverLoaded, setServerLoaded] = useState(false);
@@ -444,6 +448,27 @@ export default function App() {
       </section>
   );
 
+  const deleteAccount = async () => {
+    setDeleteStep(2);
+    setDeleteError("");
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch("/.netlify/functions/delete-account", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${session?.access_token || ""}` },
+      });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(out.error || "Could not delete the account.");
+      try { localStorage.removeItem("zte-progress"); localStorage.removeItem("zte-scores"); } catch {}
+      setAccountOpen(false);
+      setDeleteStep(0);
+      await supabase.auth.signOut();
+    } catch (e) {
+      setDeleteError(e.message || "Could not delete the account.");
+      setDeleteStep(1);
+    }
+  };
+
   const TabBar = () => {
     const navName = displayName || user?.email?.split("@")[0] || "";
     const tab = (id, label, icon, onClick, active) => (
@@ -466,8 +491,24 @@ export default function App() {
               <div className="zte-sheet-handle" />
               <div className="zte-sheet-title">{navName ? `Hey, ${navName}` : "Your account"}</div>
               {user?.email && <div className="zte-sheet-sub">{user.email}</div>}
-              <button className="zte-btn-primary" style={{width:"100%",justifyContent:"center"}} onClick={() => { setAccountOpen(false); supabase.auth.signOut(); }}>Sign Out</button>
-              <button className="zte-btn-secondary" style={{width:"100%",marginTop:10}} onClick={() => setAccountOpen(false)}>Close</button>
+              {deleteStep === 0 ? (
+                <>
+                  <button className="zte-btn-primary" style={{width:"100%",justifyContent:"center"}} onClick={() => { setAccountOpen(false); supabase.auth.signOut(); }}>Sign Out</button>
+                  <button className="zte-btn-secondary" style={{width:"100%",marginTop:10}} onClick={() => setAccountOpen(false)}>Close</button>
+                  <div className="zte-sheet-links">
+                    <button onClick={() => { setAccountOpen(false); setLegal("privacy"); }}>Privacy</button>
+                    <button onClick={() => { setAccountOpen(false); setLegal("terms"); }}>Terms</button>
+                    <button className="danger" onClick={() => setDeleteStep(1)}>Delete account</button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="zte-sheet-warn">This permanently deletes your account, progress and quiz scores. It cannot be undone.</p>
+                  {deleteError && <div className="zte-auth-error">{deleteError}</div>}
+                  <button className="zte-btn-danger" disabled={deleteStep === 2} onClick={deleteAccount}>{deleteStep === 2 ? "Deleting..." : "Delete my account forever"}</button>
+                  <button className="zte-btn-secondary" style={{width:"100%",marginTop:10}} disabled={deleteStep === 2} onClick={() => { setDeleteStep(0); setDeleteError(""); }}>Cancel</button>
+                </>
+              )}
             </div>
           </div>
         )}
@@ -481,6 +522,10 @@ export default function App() {
         <div className="zte-footer-logo">ZERO <span>TO</span> EMT</div>
         <div className="zte-footer-disclaimer">
           <strong>Educational Use Only.</strong> Zero to EMT is a free study preparation platform designed to help students prepare for EMT coursework and the NREMT certification exam. The content on this site is for educational and informational purposes only. It does not constitute medical advice, clinical guidance, or professional medical training. It is not a substitute for formal EMT certification, accredited coursework, or the judgment of a licensed medical professional. Zero to EMT is not affiliated with, endorsed by, or approved by the National Registry of Emergency Medical Technicians (NREMT) or any state EMS regulatory body. Always follow the protocols established by your training program and medical director.
+        </div>
+        <div className="zte-footer-links">
+          <button onClick={() => setLegal("privacy")}>Privacy Policy</button>
+          <button onClick={() => setLegal("terms")}>Terms of Use</button>
         </div>
         <div className="zte-footer-copy">&copy; {new Date().getFullYear()} Zero to EMT &middot; Built for future EMTs &middot; Always free</div>
       </div>
@@ -526,7 +571,8 @@ export default function App() {
 
   // -- HOME --
   if (authLoading) return <div id="zte-root" style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh"}}><div style={{fontFamily:"Anton, sans-serif",fontSize:32,color:"#0f1f3d"}}>ZERO <span style={{color:"#e8193c"}}>TO</span> EMT</div></div>;
-  if (!user && authView) return <Auth initialMode={authView} onBack={() => setAuthView(null)} />;
+  if (legal) return <Legal page={legal} onBack={() => setLegal(null)} onSwitch={setLegal} />;
+  if (!user && authView) return <Auth initialMode={authView} onBack={() => setAuthView(null)} onLegal={setLegal} />;
   if (!user) return (
     <div id="zte-root">
       <nav className="zte-nav">
