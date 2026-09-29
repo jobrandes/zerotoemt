@@ -1,6 +1,6 @@
 // Privacy Policy and Terms of Use. Plain-language templates -- have them reviewed before charging money.
 const UPDATED = "September 28, 2026";
-const CONTACT_EMAIL = "jobrandes@gmail.com"; // set to a public contact address to show it on both pages
+const CONTACT_EMAIL = "jobrandes+zerotoemt@gmail.com"; // set to a public contact address to show it on both pages
 
 const Section = ({ title, children }) => (
   <section className="zte-legal-section">
