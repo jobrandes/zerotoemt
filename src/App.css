@@ -58,7 +58,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
 .zte-curr-hero{background:var(--navy);padding:56px 48px 48px;}
 .zte-tagline-mono{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--red);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
 .zte-tagline-mono::before{content:'//';color:var(--red);opacity:0.5;}
-.zte-curr-title{font-family:'Anton',sans-serif;font-size:clamp(36px,6vw,60px);color:white;line-height:.95;margin-bottom:20px;}
+.zte-curr-title{font-family:'Anton',sans-serif;font-size:clamp(36px,6vw,60px);color:white;line-height:1.08;margin-bottom:20px;}
 .zte-curr-sub{font-size:16px;color:rgba(255,255,255,.65);max-width:560px;line-height:1.6;}
 .zte-curr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;padding:48px;max-width:1200px;margin:0 auto;}
 .zte-curr-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:28px;transition:all .2s;}
@@ -321,6 +321,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
   .zte-fc-counter{grid-column:1/-1;grid-row:1;text-align:center;padding:0;}
   .zte-fc-face{padding:24px;}
   .zte-lesson-tab{white-space:nowrap;flex-shrink:0;}
+  .zte-nav.dev-on .zte-btn-signout{display:none;}
   .zte-lesson-tabs{overflow-x:auto;scrollbar-width:none;}
   .zte-soon{padding:48px 24px;}
   .zte-soon-list{grid-template-columns:1fr;}

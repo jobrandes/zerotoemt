@@ -443,7 +443,7 @@ export default function App() {
     const navName = displayName || user?.email?.split("@")[0] || "";
     const hasProgress = completedLessons.length > 0;
     return (
-    <nav className="zte-nav">
+    <nav className={`zte-nav${devMode ? " dev-on" : ""}`}>
       <button className="zte-logo" onClick={() => setScreen("home")}>ZERO <span>TO</span> EMT</button>
       <div className="zte-nav-links">
         <button className={`zte-nav-link ${screen === "home" ? "active" : ""}`} onClick={() => setScreen("home")}>Home</button>
@@ -732,7 +732,7 @@ export default function App() {
               </div>
               <button className={`zte-curr-cta ${!unlocked ? "locked-btn" : ""}`}
                 onClick={() => unlocked && openLesson(mod.id, mod.lessons[0].id)} disabled={!unlocked}>
-                {!unlocked ? `Complete ${mod.id - 1 === -1 ? "Pre-Class" : `Module ${mod.id - 1}`} first` : completed ? "Review Module ->" : "Start Module ->"}
+                {!unlocked ? `Complete ${mod.id - 1 === -1 ? "Pre-Class" : `Module ${mod.id - 1}`} first` : completed ? "Review Module \u2192" : "Start Module \u2192"}
               </button>
             </div>
           );
@@ -1493,8 +1493,8 @@ export default function App() {
                       }
                     }}>
                     {quizAnswered
-                      ? (quizIndex < quizDeck.length - 1 ? "Continue ->" : "See Results ->")
-                      : (quizIndex < quizDeck.length - 1 ? "Next Question ->" : "Submit Answer ->")
+                      ? (quizIndex < quizDeck.length - 1 ? "Continue \u2192" : "See Results \u2192")
+                      : (quizIndex < quizDeck.length - 1 ? "Next Question \u2192" : "Submit Answer \u2192")
                     }
                   </button>
                 </div>
@@ -1591,7 +1591,7 @@ export default function App() {
                           : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>View Full Curriculum &rarr;</button>;
                       }
                       if (nextLesson) {
-                        return <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start ${nextLesson.mId === -1 ? "Pre-Class" : `Module ${nextLesson.mId}`} ->` : 'Next Lesson ->'}</button>;
+                        return <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start ${nextLesson.mId === -1 ? "Pre-Class" : `Module ${nextLesson.mId}`} \u2192` : 'Next Lesson \u2192'}</button>;
                       }
                       return <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>;
                     })()}
@@ -1710,19 +1710,19 @@ export default function App() {
                     <input
                       className="zte-tutor-input"
                       type="text"
-                      placeholder="Ask anything about this lesson..."
+                      placeholder="Ask about this lesson..."
                       value={tutorInput}
                       onChange={e => setTutorInput(e.target.value)}
                       onKeyDown={e => { if (e.key === "Enter" && tutorInput.trim() && !tutorLoading) sendTutorMessage(situationContext); }}
                     />
                     <button className="zte-tutor-send" disabled={!tutorInput.trim() || tutorLoading} onClick={() => sendTutorMessage(situationContext)}>
-                      {tutorLoading ? "..." : "Send ->"}
+                      {tutorLoading ? "..." : "Send \u2192"}
                     </button>
                   </div>
                   <div className="zte-tutor-disclaimer">AI Tutor is for learning only. Always follow your training program and medical director's protocols.</div>
                   <div className="zte-tutor-nav">
                     {nextLesson
-                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start ${nextLesson.mId === -1 ? "Pre-Class" : `Module ${nextLesson.mId}`} ->` : "Next Lesson ->"}</button>
+                      ? <button className="zte-btn-primary" onClick={() => { completeLesson(); openLesson(nextLesson.mId, nextLesson.lId); }}>{nextLesson.mId !== activeModuleId ? `Start ${nextLesson.mId === -1 ? "Pre-Class" : `Module ${nextLesson.mId}`} \u2192` : "Next Lesson \u2192"}</button>
                       : <button className="zte-btn-primary" onClick={() => { completeLesson(); setScreen("curriculum"); }}>Back to Curriculum &rarr;</button>
                     }
                   </div>
