@@ -2023,6 +2023,11 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
         }
         const data = await response.json().catch(() => ({}));
         if (!data.content) console.error("Tutor error", response.status, data);
+        if (!data.content && /credit balance/i.test(String(data.message || ""))) {
+          // Billing problem on our side: never show that text to students.
+          setTutorMessages(prev => [...prev, { role: "assistant", content: "The tutor is taking a short break. Please try again a little later." }]);
+          return;
+        }
         const fullReply = data.content?.[0]?.text || `Sorry, I couldn't get a response. Try again.${data.upstream_status ? ` (error ${data.upstream_status}${data.type ? ": " + data.type : ""}${data.message ? " - " + String(data.message).slice(0, 160) : ""})` : ` (error ${response.status})`}`;
 
         // Split reply from follow-ups  -  handle any whitespace variation
