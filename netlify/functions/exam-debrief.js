@@ -7,6 +7,22 @@ export default async (req) => {
     return new Response("Method not allowed", { status: 405 });
   }
 
+  // Signed-in users only. Without this, anyone could spend the Anthropic key through this endpoint.
+  const auth = req.headers.get("authorization") || "";
+  const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
+  const supaUrl = Netlify.env.get("SUPABASE_URL") || Netlify.env.get("REACT_APP_SUPABASE_URL");
+  const anon = Netlify.env.get("REACT_APP_SUPABASE_ANON_KEY");
+  let signedIn = false;
+  if (token && supaUrl && anon) {
+    try {
+      const who = await fetch(`${supaUrl}/auth/v1/user`, { headers: { apikey: anon, Authorization: `Bearer ${token}` } });
+      signedIn = who.ok;
+    } catch {
+      signedIn = false;
+    }
+  }
+  if (!signedIn) return new Response("Please sign in.", { status: 401 });
+
   let body;
   try {
     body = await req.json();
@@ -14,7 +30,13 @@ export default async (req) => {
     return new Response("Invalid JSON", { status: 400 });
   }
 
-  const { message, examResults, conversationHistory = [] } = body;
+  const { examResults } = body;
+  const message = typeof body.message === "string" ? body.message.slice(0, 2000) : "";
+  // Keep only well-formed recent turns, each clipped, so a caller can't inflate the request.
+  const conversationHistory = (Array.isArray(body.conversationHistory) ? body.conversationHistory : [])
+    .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
+    .slice(-10)
+    .map((m) => ({ role: m.role, content: m.content.slice(0, 2000) }));
 
   if (!message) {
     return new Response("Missing message", { status: 400 });

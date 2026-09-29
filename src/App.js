@@ -81,6 +81,8 @@ export default function App() {
   const [legal, setLegal] = useState(null); // null | "privacy" | "terms"
   const [deleteStep, setDeleteStep] = useState(0); // 0 idle | 1 confirm | 2 deleting
   const [deleteError, setDeleteError] = useState("");
+  const [tutorLeft, setTutorLeft] = useState(null); // guests: free tutor questions left today (from server)
+  const [tutorLimit, setTutorLimit] = useState(false); // true once the server says the free preview / daily cap is used up
   const [guest, setGuest] = useState(false); // guest = trying lesson 1 without an account
   const [authView, setAuthView] = useState(null); // null = public landing | "login" | "signup"
   const [progressLoaded, setProgressLoaded] = useState(false);
@@ -1799,10 +1801,7 @@ export default function App() {
                 </div>
                 );
               })()}
-              {lessonTab === "tutor" && !user && (
-                <div className="zte-guest-cta"><div className="zte-guest-cta-title">The AI Tutor is for members</div><p>Create a free account to ask the tutor anything about this lesson.</p><button className="zte-btn-primary" onClick={() => setAuthView("signup")}>Create Free Account &rarr;</button></div>
-              )}
-              {lessonTab === "tutor" && !!user && (() => {
+              {lessonTab === "tutor" && (() => {
                 // Determine tutor context based on where student is
                 const prevTab = tabUnlocked.quiz && quizDone ? "quiz-done"
                   : tabUnlocked.quiz ? "post-quiz-open"
@@ -1909,6 +1908,10 @@ export default function App() {
                     )}
                   </div>
 
+                  {!user && !tutorLimit && tutorLeft !== null && <div className="zte-tutor-left">{tutorLeft} free {tutorLeft === 1 ? "question" : "questions"} left today</div>}
+                  {!user && tutorLimit ? (
+                    <div className="zte-guest-cta"><div className="zte-guest-cta-title">Want to keep asking?</div><p>Create a free account for the full AI Tutor on every lesson.</p><button className="zte-btn-primary" onClick={() => { setAuthView("signup"); }}>Create Free Account &rarr;</button></div>
+                  ) : (
                   <div className="zte-tutor-input-row">
                     <input
                       className="zte-tutor-input"
@@ -1922,6 +1925,7 @@ export default function App() {
                       {tutorLoading ? "..." : "Send \u2192"}
                     </button>
                   </div>
+                  )}
                   <div className="zte-tutor-disclaimer">AI Tutor is for learning only. Always follow your training program and medical director's protocols.</div>
                   <div className="zte-tutor-nav">
                     {!user ? <div className="zte-guest-cta"><div className="zte-guest-cta-title">That was 1 of {TOTAL_LESSONS} lessons.</div><p>Create a free account to save your progress and unlock the rest. Your progress from this lesson comes with you.</p><button className="zte-btn-primary" onClick={() => { completeLesson(); setAuthView("signup"); }}>Create Free Account &rarr;</button></div> : nextLesson
@@ -1993,14 +1997,30 @@ FOLLOWUPS:
 The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start with a number and period. This block will be parsed and removed from the display  -  the student will only see it as clickable buttons, not text. Make the follow-ups specific to what was just discussed, progressively deeper, and written as things the student would naturally want to ask next.`;
 
       try {
+        const { data: sessionData } = await supabase.auth.getSession();
+        const accessToken = sessionData?.session?.access_token;
         const response = await fetch("/.netlify/functions/tutor", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}) },
           body: JSON.stringify({
             system: systemPrompt,
+            guest: !accessToken,
             messages: newMessages.map(m => ({ role: m.role, content: m.content }))
           })
         });
+        const leftHeader = response.headers.get("x-tutor-remaining");
+        if (!accessToken && leftHeader !== null) setTutorLeft(Number(leftHeader));
+        if (!accessToken && response.ok && leftHeader !== null && Number(leftHeader) === 0) setTutorLimit(true); // last free answer: show the sign-up prompt right after it
+        if (response.status === 429) {
+          setTutorLimit(true);
+          setTutorLeft(0);
+          setTutorMessages(prev => [...prev, { role: "assistant", content: accessToken ? "You have reached today's tutor limit. It resets tomorrow." : "That was your last free tutor question for today." }]);
+          return;
+        }
+        if (response.status === 401 || response.status === 503) {
+          setTutorMessages(prev => [...prev, { role: "assistant", content: response.status === 401 ? "Please sign in again to use the tutor." : "The tutor is unavailable right now. Try again in a bit." }]);
+          return;
+        }
         const data = await response.json();
         const fullReply = data.content?.[0]?.text || "Sorry, I couldn't get a response. Try again.";
 

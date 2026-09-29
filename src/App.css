@@ -620,3 +620,4 @@ html,body{background:var(--bg);}
 .zte-guest-cta{background:var(--surface,#fff);border:2px solid var(--navy);border-radius:14px;padding:20px;text-align:center;margin:8px 0;width:100%}
 .zte-guest-cta-title{font-family:'Anton',sans-serif;font-size:22px;letter-spacing:.5px;color:var(--heading,var(--navy));margin-bottom:6px}
 .zte-guest-cta p{margin:0 0 14px;font-size:15px;line-height:1.5;color:var(--text,#2d2d3d)}
+.zte-tutor-left{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted,#6b7280);text-align:center;margin:4px 0 8px}
