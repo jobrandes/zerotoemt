@@ -3378,4 +3378,20 @@ const LESSON_DATA = {
   "5-1": M5L1, "5-2": M5L2, "5-3": M5L3, "5-4": M5L4, "5-5": M5L5, "5-6": M5L6
 };
 
+// Time estimates derived from real content size (reading ~180 wpm, ~25 sec per flashcard,
+// ~45 sec per quiz question x 5, plus any video). Replaces hand-typed placeholders.
+const countWords = (o) => typeof o === "string" ? o.split(/\s+/).filter(Boolean).length
+  : Array.isArray(o) ? o.reduce((a, x) => a + countWords(x), 0)
+  : (o && typeof o === "object") ? Object.values(o).reduce((a, x) => a + countWords(x), 0) : 0;
+MODULES.forEach(m => m.lessons.forEach(l => {
+  const d = LESSON_DATA[`${m.id}-${l.id}`];
+  if (!d) return;
+  const video = d.video ? (parseInt(d.video.duration, 10) || 0) : 0;
+  const raw = (countWords(d.dispatch) + countWords(d.content)) / 180
+    + Math.min((d.flashcards || []).length, 14) * 0.4 + 5 * 0.75 + video;
+  const mins = Math.max(10, Math.round(raw / 5) * 5);
+  l.duration = `~${mins} min`;
+  d.duration = l.duration;
+}));
+
 export { MODULES, LESSON_DATA };
