@@ -77,6 +77,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
   const [accountOpen, setAccountOpen] = useState(false);
+  const [theme, setTheme] = useState(() => { try { return localStorage.getItem("zte-theme") || "system"; } catch { return "system"; } });
   const [legal, setLegal] = useState(null); // null | "privacy" | "terms"
   const [deleteStep, setDeleteStep] = useState(0); // 0 idle | 1 confirm | 2 deleting
   const [deleteError, setDeleteError] = useState("");
@@ -493,6 +494,11 @@ export default function App() {
               {user?.email && <div className="zte-sheet-sub">{user.email}</div>}
               {deleteStep === 0 ? (
                 <>
+                  <div className="zte-theme" role="group" aria-label="Appearance">
+                    {[["system","Auto"],["light","Light"],["dark","Dark"]].map(([v,l]) => (
+                      <button key={v} className={theme === v ? "on" : ""} onClick={() => setTheme(v)} aria-pressed={theme === v}>{l}</button>
+                    ))}
+                  </div>
                   <button className="zte-btn-primary" style={{width:"100%",justifyContent:"center"}} onClick={() => { setAccountOpen(false); supabase.auth.signOut(); }}>Sign Out</button>
                   <button className="zte-btn-secondary" style={{width:"100%",marginTop:10}} onClick={() => setAccountOpen(false)}>Close</button>
                   <div className="zte-sheet-links">
@@ -569,8 +575,14 @@ export default function App() {
     );
   };
 
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "system") root.removeAttribute("data-theme"); else root.setAttribute("data-theme", theme);
+    try { if (theme === "system") localStorage.removeItem("zte-theme"); else localStorage.setItem("zte-theme", theme); } catch {}
+  }, [theme]);
+
   // -- HOME --
-  if (authLoading) return <div id="zte-root" style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh"}}><div style={{fontFamily:"Anton, sans-serif",fontSize:32,color:"#0f1f3d"}}>ZERO <span style={{color:"#e8193c"}}>TO</span> EMT</div></div>;
+  if (authLoading) return <div id="zte-root" style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh"}}><div style={{fontFamily:"Anton, sans-serif",fontSize:32,color:"var(--heading)"}}>ZERO <span style={{color:"#e8193c"}}>TO</span> EMT</div></div>;
   if (legal) return <Legal page={legal} onBack={() => setLegal(null)} onSwitch={setLegal} />;
   if (!user && authView) return <Auth initialMode={authView} onBack={() => setAuthView(null)} onLegal={setLegal} />;
   if (!user) return (
