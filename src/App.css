@@ -560,3 +560,27 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-se
   .zte-final-cta{padding:48px 24px;}
   .zte-final-cta .zte-btn-hero-primary{width:100%;}
 }
+
+/* === iOS-STYLE TAB BAR, SAFE AREAS, TAP TARGETS === */
+.zte-tabbar{display:none;}
+.zte-sheet-overlay{position:fixed;inset:0;background:rgba(15,31,61,.5);z-index:300;display:flex;align-items:flex-end;justify-content:center;animation:zte-mc-fadein .2s ease;}
+.zte-sheet{background:white;width:100%;max-width:480px;border-radius:20px 20px 0 0;padding:12px 20px calc(24px + env(safe-area-inset-bottom));}
+.zte-sheet-handle{width:40px;height:5px;border-radius:3px;background:var(--border);margin:0 auto 18px;}
+.zte-sheet-title{font-family:'Anton',sans-serif;font-size:26px;color:var(--navy);margin-bottom:4px;}
+.zte-sheet-sub{font-size:14px;color:var(--muted);margin-bottom:20px;word-break:break-all;}
+@media(max-width:768px){
+  .zte-tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:200;background:rgba(255,255,255,.94);-webkit-backdrop-filter:saturate(180%) blur(16px);backdrop-filter:saturate(180%) blur(16px);border-top:1px solid var(--border);padding:6px 8px calc(6px + env(safe-area-inset-bottom));}
+  .zte-tab{flex:1;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:none;border:none;color:var(--muted);font-family:'Figtree',sans-serif;font-size:11px;font-weight:600;cursor:pointer;border-radius:10px;}
+  .zte-tab.active{color:var(--red);}
+  .zte-tab:active{background:var(--light);}
+  #zte-root:has(.zte-tabbar){padding-bottom:calc(64px + env(safe-area-inset-bottom));}
+  .zte-signout-app{display:none;}
+  .zte-nav{padding-top:env(safe-area-inset-top);height:calc(60px + env(safe-area-inset-top));}
+  .zte-lesson-nav{padding-bottom:calc(16px + env(safe-area-inset-bottom));}
+  .zte-strip-node.clickable::after{content:'';position:absolute;inset:-10px;}
+  .zte-lesson-tab{min-height:44px;}
+  .zte-media-btn{min-height:44px;}
+  .zte-btn-cta{min-height:40px;}
+  .zte-mpc-code,.zte-mpc-num,.zte-mpc-count,.zte-section-meta,.zte-stat-label,.zte-lesson-breadcrumb,.zte-quiz-meta,.zte-fc-label,.zte-media-card-label,.zte-mpc-btn{font-size:11px;}
+  .zte-curr-lesson-dur{font-size:11px;}
+}

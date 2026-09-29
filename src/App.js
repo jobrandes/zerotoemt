@@ -75,6 +75,7 @@ export default function App() {
   const [completedLessons, setCompletedLessons] = useState([]);
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [accountOpen, setAccountOpen] = useState(false);
   const [authView, setAuthView] = useState(null); // null = public landing | "login" | "signup"
   const [progressLoaded, setProgressLoaded] = useState(false);
   const [serverLoaded, setServerLoaded] = useState(false);
@@ -443,6 +444,37 @@ export default function App() {
       </section>
   );
 
+  const TabBar = () => {
+    const navName = displayName || user?.email?.split("@")[0] || "";
+    const tab = (id, label, icon, onClick, active) => (
+      <button key={id} className={`zte-tab${active ? " active" : ""}`} onClick={onClick} aria-label={label} aria-current={active ? "page" : undefined}>
+        {icon}
+        <span>{label}</span>
+      </button>
+    );
+    const svgProps = { width: 24, height: 24, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round" };
+    return (
+      <>
+        <nav className="zte-tabbar" aria-label="Main">
+          {tab("home", "Home", <svg {...svgProps}><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>, () => setScreen("home"), screen === "home")}
+          {tab("learn", "Learn", <svg {...svgProps}><path d="M4 5h6a3 3 0 013 3v12a2 2 0 00-2-2H4z"/><path d="M20 5h-6a3 3 0 00-3 3v12a2 2 0 012-2h7z"/></svg>, () => setScreen("curriculum"), screen === "curriculum")}
+          {tab("account", "Account", <svg {...svgProps}><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>, () => setAccountOpen(true), accountOpen)}
+        </nav>
+        {accountOpen && (
+          <div className="zte-sheet-overlay" onClick={() => setAccountOpen(false)}>
+            <div className="zte-sheet" role="dialog" aria-label="Account" onClick={e => e.stopPropagation()}>
+              <div className="zte-sheet-handle" />
+              <div className="zte-sheet-title">{navName ? `Hey, ${navName}` : "Your account"}</div>
+              {user?.email && <div className="zte-sheet-sub">{user.email}</div>}
+              <button className="zte-btn-primary" style={{width:"100%",justifyContent:"center"}} onClick={() => { setAccountOpen(false); supabase.auth.signOut(); }}>Sign Out</button>
+              <button className="zte-btn-secondary" style={{width:"100%",marginTop:10}} onClick={() => setAccountOpen(false)}>Close</button>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  };
+
   const Footer = () => (
     <footer className="zte-footer">
       <div className="zte-footer-inner">
@@ -483,7 +515,7 @@ export default function App() {
             <button className="zte-btn-cta" onClick={() => { const r = getResumeLesson(); openLesson(r ? r.mId : 0, r ? r.lId : 1); }}>
               {hasProgress ? `Continue (${progress}%)` : "Start Learning"}
             </button>
-            <button className="zte-btn-signout" onClick={() => supabase.auth.signOut()}>Sign Out</button>
+            <button className="zte-btn-signout zte-signout-app" onClick={() => supabase.auth.signOut()}>Sign Out</button>
             <button className={`zte-btn-devmode ${devMode ? "on" : ""}`} onClick={() => setDevPanelOpen(o => !o)} title="Toggle dev mode">{devMode ? "DEV ON" : "DEV"}</button>
           </>
         )}
@@ -720,6 +752,7 @@ export default function App() {
       <ExamTeaser />
 
       <Footer />
+      <TabBar />
     </div>
   );
 
@@ -832,6 +865,7 @@ export default function App() {
         })}
       </div>
       <Footer />
+      <TabBar />
     </div>
   );
 
