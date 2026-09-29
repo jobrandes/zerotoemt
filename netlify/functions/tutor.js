@@ -16,7 +16,7 @@ const MAX_MESSAGES = 12;
 const MAX_MESSAGE_CHARS = 2000;
 const MAX_SYSTEM_CHARS = 20000;
 
-const USER_MODEL = "claude-sonnet-4-20250514";
+const USER_MODEL = "claude-sonnet-5-5";
 const GUEST_MODEL = "claude-haiku-4-5-20251001";
 
 const ALLOWED_ORIGIN = /^(https:\/\/([a-z0-9-]+--)?zerotoemt\.netlify\.app|http:\/\/localhost(:\d+)?)$/;
@@ -145,9 +145,19 @@ export function createHandler({ env = defaultEnv, fetchFn = fetch, storeFn = () 
     }
 
     const text = await upstream.text();
-    if (!upstream.ok) console.log("tutor: upstream status", upstream.status);
+    if (!upstream.ok) {
+      // Log and pass back the API's error type/message (never the key) so failures are diagnosable.
+      let detail = {};
+      try { detail = JSON.parse(text)?.error || {}; } catch { /* not JSON */ }
+      console.log("tutor: upstream status", upstream.status, detail.type, detail.message);
+      return json(
+        { error: "upstream_error", upstream_status: upstream.status, type: detail.type || null, message: detail.message || null },
+        502,
+        remaining !== null ? { "x-tutor-remaining": String(remaining) } : {}
+      );
+    }
     return new Response(text, {
-      status: upstream.ok ? 200 : 502,
+      status: 200,
       headers: {
         "Content-Type": "application/json",
         ...(remaining !== null ? { "x-tutor-remaining": String(remaining) } : {}),

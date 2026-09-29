@@ -2021,8 +2021,9 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
           setTutorMessages(prev => [...prev, { role: "assistant", content: response.status === 401 ? "Please sign in again to use the tutor." : "The tutor is unavailable right now. Try again in a bit." }]);
           return;
         }
-        const data = await response.json();
-        const fullReply = data.content?.[0]?.text || "Sorry, I couldn't get a response. Try again.";
+        const data = await response.json().catch(() => ({}));
+        if (!data.content) console.error("Tutor error", response.status, data);
+        const fullReply = data.content?.[0]?.text || `Sorry, I couldn't get a response. Try again.${data.upstream_status ? ` (error ${data.upstream_status}${data.type ? ": " + data.type : ""})` : ` (error ${response.status})`}`;
 
         // Split reply from follow-ups  -  handle any whitespace variation
         const followupSplit = fullReply.split(/\n+FOLLOWUPS:\n/);
