@@ -9,6 +9,8 @@ import "./App.css";
 import { EXAM_DOMAINS, EXAM_QUESTIONS, buildExamDeck } from "./examData";
 import Auth from "./components/Auth";
 import Legal from "./components/Legal";
+// The AI tutor costs real money to run. It stays off until REACT_APP_TUTOR_ENABLED=true is set in the build environment.
+const TUTOR_ENABLED = process.env.REACT_APP_TUTOR_ENABLED === "true";
 
 function renderBold(text) {
   return text.split(/\*\*(.*?)\*\*/g).map((p, i) =>
@@ -613,7 +615,7 @@ export default function App() {
         <div className="zte-hero-left">
           <div className="zte-hero-eyebrow">EMT CERTIFICATION PREP</div>
           <h1 className="zte-hero-title">ZERO<br/>TO<br/><span>EMT.</span></h1>
-          <p className="zte-hero-desc">The only free, AI-powered platform built for people with zero medical background. Learn everything before your first EMT class even starts.</p>
+          <p className="zte-hero-desc">{TUTOR_ENABLED ? "The only free, AI-powered platform" : "The only free platform"} built for people with zero medical background. Learn everything before your first EMT class even starts.</p>
           <div className="zte-hero-btns">
             <button className="zte-btn-hero-primary" onClick={() => setAuthView("signup")}>SIGN UP FREE</button>
             <button className="zte-btn-hero-secondary" onClick={startGuest}>Try Lesson 1 free</button>
@@ -625,7 +627,7 @@ export default function App() {
             {[
               { num: "6", label: "Modules", sub: "Foundation through Operations" },
               { num: String(TOTAL_LESSONS), label: "Lessons", sub: "Each built around a real 911 call" },
-              { num: "AI", label: "Tutor", sub: "Built into every single lesson" },
+              { num: "AI", label: "Tutor", sub: TUTOR_ENABLED ? "Built into every single lesson" : "Coming soon" },
               { num: "100%", label: "Free", sub: "Free account. No credit card. Ever." },
             ].map((item, i) => (
               <div key={i} className="zte-hero-feature">
@@ -648,7 +650,7 @@ export default function App() {
               ["02","Lesson","Short, plain-English teaching. No medical background needed."],
               ["03","Flashcards","Lock in the terms and numbers you will be tested on."],
               ["04","Quiz","Check yourself with NREMT-style questions."],
-              ["05","AI Tutor","Ask anything about the lesson, any time."],
+              ["05","AI Tutor", TUTOR_ENABLED ? "Ask anything about the lesson, any time." : "Coming soon: ask anything about the lesson, any time."],
             ].map(([n,t,d]) => (
               <div key={n} className="zte-how-step">
                 <div className="zte-how-num">{n}</div>
@@ -763,7 +765,7 @@ export default function App() {
         <div className="zte-hero-left">
           <div className="zte-hero-eyebrow">{completedLessons.length > 0 ? `WELCOME BACK${displayName ? ", " + displayName.toUpperCase() : ""}` : "EMT CERTIFICATION PREP"}</div>
           <h1 className="zte-hero-title">ZERO<br/>TO<br/><span>EMT.</span></h1>
-          <p className="zte-hero-desc">The only free, AI-powered platform built for people with zero medical background. Learn everything before your first EMT class even starts.</p>
+          <p className="zte-hero-desc">{TUTOR_ENABLED ? "The only free, AI-powered platform" : "The only free platform"} built for people with zero medical background. Learn everything before your first EMT class even starts.</p>
           <div className="zte-hero-btns">
             <button className="zte-btn-hero-primary" onClick={() => { const r = getResumeLesson(); openLesson(r ? r.mId : 0, r ? r.lId : 1); }}>{completedLessons.length > 0 ? "CONTINUE LEARNING" : "START LEARNING FREE"}</button>
             <button className="zte-btn-hero-secondary" onClick={() => setScreen("curriculum")}>See Curriculum</button>
@@ -1756,7 +1758,7 @@ export default function App() {
 
                   <div className="zte-results-btns">
                     <button className="zte-btn-secondary" onClick={() => { setQuizIndex(0); setQuizSelected(null); setQuizAnswered(false); setQuizScore(0); setQuizDone(false); quizStartScoreRef.current = lessonScores[lessonKey] ?? null; setQuizDeck(pickQuiz(lesson.quiz, isModQuiz ? 10 : 5)); }}>Retake Quiz</button>
-                    <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>Ask AI Tutor</button>
+                    {TUTOR_ENABLED && <button className="zte-btn-tutor" onClick={() => { unlockTab("tutor"); setTutorMessages([]); setTutorFollowUps([]); setLessonTab("tutor"); }}>Ask AI Tutor</button>}
                     {(() => {
                       if (inReviewSession) {
                         if (hasNextInQueue) {
@@ -1856,6 +1858,16 @@ export default function App() {
                   "post-quiz-open": `The student has started the quiz but hasn't finished it yet.`,
                   "quiz-done": `The student just completed the quiz and scored ${quizScore} out of ${quizDeck.length}. ${quizScore < 3 ? "They struggled  -  focus on reinforcing the core concepts." : quizScore === quizDeck.length ? "They got a perfect score  -  they can go deeper." : "They did okay but have some gaps to fill."}`,
                 }[prevTab];
+
+                if (!TUTOR_ENABLED) return (
+                  <div className="zte-tutor-panel">
+                    <div className="zte-tutor-header"><div className="zte-tutor-title">AI Tutor</div></div>
+                    <div className="zte-tutor-soon">
+                      <div className="zte-tutor-soon-badge">Coming soon</div>
+                      <p>An AI tutor that answers your questions about each lesson is on the way. For now, use the lesson, flashcards and quiz, and ask your instructor about anything that is unclear.</p>
+                    </div>
+                  </div>
+                );
 
                 return (
                 <div className="zte-tutor-panel">
