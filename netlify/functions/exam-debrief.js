@@ -2,10 +2,15 @@
 // AI debrief function for the NREMT exam simulator
 // Separate from tutor.js -- different context, different system prompt
 
+import { getStore } from "@netlify/blobs";
+
 export default async (req) => {
   if (req.method !== "POST") {
     return new Response("Method not allowed", { status: 405 });
   }
+
+  // Server-side kill switch: AI stays off until AI_FEATURES_ENABLED is "true".
+  if (Netlify.env.get("AI_FEATURES_ENABLED") !== "true") return new Response("Coming soon.", { status: 503 });
 
   // Signed-in users only. Without this, anyone could spend the Anthropic key through this endpoint.
   const auth = req.headers.get("authorization") || "";
@@ -13,15 +18,29 @@ export default async (req) => {
   const supaUrl = Netlify.env.get("SUPABASE_URL") || Netlify.env.get("REACT_APP_SUPABASE_URL");
   const anon = Netlify.env.get("REACT_APP_SUPABASE_ANON_KEY");
   let signedIn = false;
+  let userId = null;
   if (token && supaUrl && anon) {
     try {
       const who = await fetch(`${supaUrl}/auth/v1/user`, { headers: { apikey: anon, Authorization: `Bearer ${token}` } });
       signedIn = who.ok;
+      if (who.ok) userId = (await who.json())?.id || null;
     } catch {
       signedIn = false;
     }
   }
   if (!signedIn) return new Response("Please sign in.", { status: 401 });
+
+  // Small per-user daily limit, so one account cannot run up the bill.
+  try {
+    const store = getStore("tutor-usage");
+    const key = `debrief:${userId}:${new Date().toISOString().slice(0, 10)}`;
+    const used = Number(await store.get(key)) || 0;
+    if (used >= 10) return new Response("Daily debrief limit reached.", { status: 429 });
+    await store.set(key, String(used + 1));
+  } catch (e) {
+    console.error("exam-debrief: usage store error:", e?.message);
+    return new Response("Service unavailable.", { status: 503 });
+  }
 
   let body;
   try {
@@ -112,8 +131,8 @@ ZERO TO EMT CURRICULUM REFERENCE (for study recommendations):
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-5-5",
-        max_tokens: 1024,
+        model: Netlify.env.get("TUTOR_MODEL") || "claude-haiku-4-5-20251001",
+        max_tokens: 700,
         system: systemPrompt,
         messages,
       }),

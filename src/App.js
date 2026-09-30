@@ -2054,9 +2054,10 @@ The word FOLLOWUPS must be in all-caps followed by a colon. Each item must start
         if (!accessToken && leftHeader !== null) setTutorLeft(Number(leftHeader));
         if (!accessToken && response.ok && leftHeader !== null && Number(leftHeader) === 0) setTutorLimit(true); // last free answer: show the sign-up prompt right after it
         if (response.status === 429) {
+          const busy = await response.json().then(d => d && d.error === "busy").catch(() => false);
           setTutorLimit(true);
           setTutorLeft(0);
-          setTutorMessages(prev => [...prev, { role: "assistant", content: accessToken ? "You have reached today's tutor limit. It resets tomorrow." : "That was your last free tutor question for today." }]);
+          setTutorMessages(prev => [...prev, { role: "assistant", content: busy ? "The tutor is very busy today. Please try again tomorrow." : accessToken ? "You have reached today's tutor limit. It resets tomorrow." : "That was your last free tutor question for today." }]);
           return;
         }
         if (response.status === 401 || response.status === 503) {

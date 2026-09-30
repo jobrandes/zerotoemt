@@ -10,14 +10,19 @@
 
 import { getStore } from "@netlify/blobs";
 
-const USER_DAILY_LIMIT = 60;
+// Cost controls. All AI features are OFF unless the server env var AI_FEATURES_ENABLED is "true",
+// so the endpoint cannot spend money even if someone calls it directly.
+const USER_DAILY_LIMIT = 20;
 const GUEST_DAILY_LIMIT = 3;
+// Hard ceiling on total tutor calls per day across everyone. Override with TUTOR_GLOBAL_DAILY_LIMIT.
+const DEFAULT_GLOBAL_DAILY_LIMIT = 200;
 const MAX_MESSAGES = 12;
 const MAX_MESSAGE_CHARS = 2000;
 const MAX_SYSTEM_CHARS = 20000;
 
-const USER_MODEL = "claude-sonnet-5-5";
-const GUEST_MODEL = "claude-haiku-4-5-20251001";
+// Everyone gets the cheaper model by default. Override with TUTOR_MODEL if you ever want to upgrade.
+const DEFAULT_MODEL = "claude-haiku-4-5-20251001";
+const MAX_REPLY_TOKENS = 500;
 
 const ALLOWED_ORIGIN = /^(https:\/\/([a-z0-9-]+--)?zerotoemt\.netlify\.app|http:\/\/localhost(:\d+)?)$/;
 
@@ -94,6 +99,9 @@ export function createHandler({ env = defaultEnv, fetchFn = fetch, storeFn = () 
 
     if (isGuest && body?.guest !== true) return json({ error: "Please sign in to use the tutor." }, 401);
 
+    // Server-side kill switch: AI stays off until AI_FEATURES_ENABLED is "true".
+    if (env("AI_FEATURES_ENABLED") !== "true") return json({ error: "coming_soon" }, 503);
+
     const apiKey = env("ANTHROPIC_API_KEY");
     if (!apiKey) return json({ error: "Tutor is not configured." }, 503);
 
@@ -103,6 +111,10 @@ export function createHandler({ env = defaultEnv, fetchFn = fetch, storeFn = () 
       const store = storeFn();
       const ip = context.ip || req.headers.get("x-nf-client-connection-ip") || "unknown";
       const who = isGuest ? `guest:${ip}` : `user:${userId}`;
+      // Global daily ceiling first, so a flood of new accounts still cannot run up the bill.
+      const globalLimit = Number(env("TUTOR_GLOBAL_DAILY_LIMIT")) || DEFAULT_GLOBAL_DAILY_LIMIT;
+      const globalSpent = await spend(store, `global:${today()}`, globalLimit);
+      if (!globalSpent.ok) return json({ error: "busy" }, 429, { "x-tutor-remaining": "0" });
       const spent = await spend(store, `${who}:${today()}`, isGuest ? GUEST_DAILY_LIMIT : USER_DAILY_LIMIT);
       remaining = spent.remaining;
       if (!spent.ok) {
@@ -133,8 +145,8 @@ export function createHandler({ env = defaultEnv, fetchFn = fetch, storeFn = () 
           "anthropic-version": "2023-06-01",
         },
         body: JSON.stringify({
-          model: isGuest ? GUEST_MODEL : USER_MODEL,
-          max_tokens: isGuest ? 500 : 800,
+          model: env("TUTOR_MODEL") || DEFAULT_MODEL,
+          max_tokens: MAX_REPLY_TOKENS,
           system: guestNote + system,
           messages,
         }),
