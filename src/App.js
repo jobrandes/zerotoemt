@@ -1940,6 +1940,7 @@ export default function App() {
             </div>
           </main>
         </div>
+        {user && <TabBar />}
       </div>
     );
 
