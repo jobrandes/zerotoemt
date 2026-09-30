@@ -657,3 +657,16 @@ html,body{background:var(--bg);}
 .zte-sources-title{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
 .zte-sources ul{margin:0 0 8px;padding-left:18px;}
 .zte-sources p{margin:0;font-size:12px;opacity:.85;}
+
+/* === LESSON BODY BULLETS === */
+.zte-bullet{display:flex;gap:10px;margin:2px 0;}
+.zte-bullet-dot{color:var(--red);flex-shrink:0;}
+/* === MOBILE: tighter lesson header, denser reading === */
+@media(max-width:768px){
+  .zte-lesson-header-top{margin-bottom:10px;}
+  .zte-lesson-breadcrumb{margin-bottom:4px;}
+  .zte-strip-node{width:24px;height:24px;}
+  .zte-strip-connector{top:12px;left:calc(50% + 12px);right:calc(-50% + 12px);}
+  .zte-content-body{line-height:1.65;}
+  .zte-content-heading{margin-bottom:10px;}
+}

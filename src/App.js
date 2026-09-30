@@ -19,6 +19,24 @@ function renderBold(text) {
   );
 }
 
+// Renders lesson body text: **bold**, and lines starting with "* " or "- " as real bullets.
+function renderBody(text) {
+  const lines = text.split("\n");
+  return lines.map((line, i) => {
+    const m = line.match(/^\s*[*-]\s+(.*)$/);
+    const last = i === lines.length - 1;
+    if (m) {
+      return (
+        <span className="zte-bullet" key={i}>
+          <span className="zte-bullet-dot" aria-hidden="true">&bull;</span>
+          <span>{renderBold(m[1])}</span>
+        </span>
+      );
+    }
+    return <span key={i}>{renderBold(line)}{last ? "" : "\n"}</span>;
+  });
+}
+
 function Model3DEmbed({ model }) {
   if (!model?.sketchfabId) return null;
   return (
@@ -1587,7 +1605,7 @@ export default function App() {
                     <div className="zte-progress-fill" style={{width: `${((lessonStep + 1) / lesson.content.length) * 100}%`}}/>
                   </div>
                   <h2 className="zte-content-heading">{lesson.content[lessonStep].heading}</h2>
-                  <p className="zte-content-body">{renderBold(lesson.content[lessonStep].body)}</p>
+                  <p className="zte-content-body">{renderBody(lesson.content[lessonStep].body)}</p>
 
                   {lessonStep === 0 && (lesson.video || lesson.model3d) && (
                     <div className="zte-media-card">
