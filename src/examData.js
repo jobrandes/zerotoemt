@@ -74,10 +74,10 @@ export const EXAM_QUESTIONS = [
       "Corner of the mouth to the earlobe",
       "Tip of the nose to the earlobe",
       "Center of the mouth to the angle of the jaw",
-      "Nostril to the tragus of the ear"
+      "Bridge of the nose to the chin"
     ],
     answer: 1,
-    explanation: "An NPA is sized from the tip of the nose to the earlobe. This estimates the distance from the nostril to the nasopharynx. An OPA is sized from the corner of the mouth to the earlobe."
+    explanation: "An NPA is sized from the tip of the nose to the earlobe, which estimates the distance from the nostril to the back of the throat. An OPA is sized from the corner of the mouth to the earlobe, or from the center of the lips to the angle of the jaw."
   },
   {
     id: "air-006", domain: "airway",
@@ -125,7 +125,7 @@ export const EXAM_QUESTIONS = [
       "80-95%"
     ],
     answer: 3,
-    explanation: "A properly fitted non-rebreather mask at 15 LPM delivers approximately 80-95% FiO2. The reservoir bag must remain at least one-third full during inhalation. This is the highest FiO2 deliverable without intubation or a CPAP device."
+    explanation: "A properly fitted non-rebreather mask at 15 LPM delivers approximately 80-95% FiO2, the highest oxygen concentration among the masks EMTs use. Pre-fill the reservoir bag before placing the mask on the patient, and adjust the flow so the bag does not collapse when the patient inhales."
   },
   {
     id: "air-010", domain: "airway",
@@ -141,7 +141,7 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "air-011", domain: "airway",
-    q: "Your COPD patient is in moderate respiratory distress with SpO2 of 88%. You should:",
+    q: "Your COPD patient is in moderate respiratory distress with an SpO2 of 84%. You should:",
     options: [
       "Withhold oxygen -- COPD patients lose their drive to breathe with supplemental O2",
       "Apply oxygen, titrate to an SpO2 of 88-92%, and monitor closely",
@@ -177,19 +177,19 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "air-014", domain: "airway",
-    q: "A patient has SpO2 of 96% but is breathing at 28 breaths per minute with accessory muscle use. You should:",
+    q: "A patient has an SpO2 of 92% but is breathing at 28 breaths per minute with accessory muscle use. You should:",
     options: [
-      "Monitor only, since an SpO2 of 96% is acceptable and reassuring",
+      "Monitor only, since an SpO2 of 92% is acceptable and reassuring",
       "Apply a nasal cannula at 2 LPM",
       "Place in Fowler's position and reassess in 5 minutes",
       "Apply a non-rebreather and prepare to assist ventilations"
     ],
     answer: 3,
-    explanation: "SpO2 is a lagging indicator. A patient working this hard to maintain 96% is in significant distress and may decompensate quickly. Treat the patient, not the number. Apply high-flow oxygen and prepare to assist ventilations if they tire."
+    explanation: "SpO2 alone can be falsely reassuring. A patient working this hard to breathe, with an SpO2 already below 94%, is in significant distress and may decompensate quickly. Give high-concentration oxygen and be ready to assist ventilations. Treat the patient, not the number."
   },
   {
     id: "air-015", domain: "airway",
-    q: "The DOPE mnemonic for deteriorating intubated patients stands for:",
+    q: "An ALS crew has intubated your patient and you are helping during transport when the patient suddenly deteriorates. The DOPE mnemonic for troubleshooting stands for:",
     options: [
       "Displaced tube, Obstruction, Pneumothorax, Equipment failure",
       "Difficult airway, Oxygen failure, Pneumonia, Esophageal placement",
@@ -233,11 +233,11 @@ export const EXAM_QUESTIONS = [
       "30-40 breaths per minute"
     ],
     answer: 2,
-    explanation: "Infants are ventilated at 20-30 breaths per minute (one breath every 2-3 seconds). Children 1-8 years: 12-20 breaths per minute. Adults: 10-12 breaths per minute. Use only the chest rise visible -- infants need very small tidal volumes."
+    explanation: "Infants and children with a pulse are ventilated at 20-30 breaths per minute (one breath every 2-3 seconds). Adults get one breath every 6 seconds, about 10 per minute. Use only enough volume to see the chest rise."
   },
   {
     id: "air-019", domain: "airway",
-    q: "Which finding is most consistent with adequate artificial ventilation?",
+    q: "Which finding is the most immediate, reliable sign that each breath is reaching the lungs?",
     options: [
       "SpO2 rising from 82% to 91%",
       "Audible air movement from the mouth",
@@ -261,7 +261,7 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "air-021", domain: "airway",
-    q: "A responsive patient has a clenched jaw after a seizure and cannot keep his airway open on his own. Which adjunct is most appropriate?",
+    q: "A patient is altered after a seizure, with a clenched jaw, snoring respirations, and an intact gag reflex. Which adjunct is most appropriate?",
     options: [
       "An oropharyngeal airway pushed past the tongue",
       "A tongue depressor to hold the jaw open",
@@ -297,11 +297,11 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "air-024", domain: "airway",
-    q: "You are ventilating a cardiac arrest patient at 10 breaths per minute. During CPR compressions, you should:",
+    q: "Your cardiac arrest patient now has an advanced airway in place, and you are ventilating at 10 breaths per minute. During CPR compressions, you should:",
     options: [
       "Continue compressions without pausing for breaths",
       "Stop compressions during each ventilation",
-      "Deliver ventilations only during the compression pause",
+      "Pause compressions for 10 seconds after every 30 compressions",
       "Ventilate at 30:2 regardless of airway status"
     ],
     answer: 0,
@@ -353,19 +353,19 @@ export const EXAM_QUESTIONS = [
       "Remove the inner cannula and suction the stoma"
     ],
     answer: 3,
-    explanation: "For a tracheostomy with obstruction, remove the inner cannula (if the device has one -- most home trach tubes do) and suction the stoma. If unable to clear, remove the entire tube, suction the stoma, and ventilate via stoma with a pediatric mask or via mouth/nose if the stoma closes."
+    explanation: "For a tracheostomy with an obstruction, remove the inner cannula (if the tube has one) and suction the stoma. If the airway is still blocked, ventilate with a BVM over the stoma or attached to the tube, follow local protocol or medical direction for tube changes, request ALS, and transport rapidly."
   },
   {
     id: "air-029", domain: "airway",
-    q: "The preferred method to confirm BVM ventilation effectiveness in the field is:",
+    q: "The first and most reliable sign that BVM ventilation is effective is:",
     options: [
       "Auscultating over the epigastrium",
       "Watching for bilateral chest rise",
-      "Checking end-tidal CO2 if available",
+      "Feeling for a pulse at the wrist",
       "Monitoring skin color change"
     ],
     answer: 1,
-    explanation: "Bilateral chest rise is the primary field confirmation of effective BVM ventilation. Epigastric sounds indicate gastric inflation. End-tidal CO2 is excellent confirmation if available. Skin color is a late and unreliable indicator."
+    explanation: "Bilateral chest rise is the primary field confirmation of effective BVM ventilation. Epigastric sounds indicate gastric inflation. End-tidal CO2 is an excellent additional confirmation where available, and a rising SpO2 confirms oxygenation over time."
   },
   {
     id: "air-030", domain: "airway",
@@ -377,7 +377,7 @@ export const EXAM_QUESTIONS = [
       "Left-sided tension pneumothorax"
     ],
     answer: 3,
-    explanation: "Tension pneumothorax: absent breath sounds on the affected side, tracheal deviation AWAY from the affected side, severe respiratory distress, hypotension. Tracheal deviation is a late sign. This is an immediate life threat requiring needle decompression."
+    explanation: "Tension pneumothorax: absent breath sounds on the affected side, tracheal deviation AWAY from it (a late sign, often absent), severe respiratory distress, and hypotension. This is an immediate life threat. Give high-flow oxygen, assist ventilations as needed, request ALS (needle decompression is an ALS skill), and transport rapidly to a trauma center."
   },
 
   // ============================================================
@@ -412,13 +412,13 @@ export const EXAM_QUESTIONS = [
     id: "card-003", domain: "cardiology",
     q: "An AED analyzes and advises 'no shock recommended.' You should:",
     options: [
-      "Check for a pulse -- if absent, resume CPR immediately",
+      "Resume CPR immediately, starting with compressions, and reanalyze in 2 minutes",
       "Continue to analyze for another 2 minutes before resuming CPR",
       "Assume the patient has a perfusing rhythm and check vital signs",
       "Administer epinephrine and re-analyze"
     ],
     answer: 0,
-    explanation: "'No shock recommended' means the rhythm is not VF or pulseless VT. In cardiac arrest, this means PEA or asystole. Check for a pulse -- if absent, immediately resume CPR. Do not delay compressions waiting for the AED to reanalyze."
+    explanation: "After 'no shock advised', do not stop to check for a pulse. Resume compressions right away and reanalyze after 2 minutes of CPR. The rhythm is PEA or asystole, which is not shockable."
   },
   {
     id: "card-004", domain: "cardiology",
@@ -430,7 +430,7 @@ export const EXAM_QUESTIONS = [
       "Pulmonary embolism"
     ],
     answer: 1,
-    explanation: "ST elevation in leads II, III, and aVF indicates inferior STEMI (right coronary artery occlusion). Anterior STEMI involves V1-V4. Lateral STEMI involves I, aVL, V5-V6. Inferior STEMI requires a right-sided 12-lead to rule out right ventricular involvement before giving nitroglycerin."
+    explanation: "ST elevation in II, III, and aVF indicates an inferior STEMI (usually the right coronary artery). Anterior STEMI involves V1-V4. An inferior MI can involve the right ventricle, which depends on preload, so nitroglycerin can cause severe hypotension. Use caution and follow protocol or medical direction."
   },
   {
     id: "card-005", domain: "cardiology",
@@ -458,15 +458,15 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "card-007", domain: "cardiology",
-    q: "A patient in atrial fibrillation with a rapid ventricular response (HR 140, BP 88/60, altered mental status) should be treated with:",
+    q: "A patient in atrial fibrillation with a rapid ventricular response (HR 140, BP 88/60, altered mental status) is unstable. What is the appropriate EMT-B action?",
     options: [
-      "Synchronized cardioversion",
+      "Give oxygen, transport rapidly, and request ALS",
       "Unsynchronized defibrillation",
       "Vagal maneuvers",
       "Rate-controlling medications only"
     ],
     answer: 0,
-    explanation: "Unstable tachycardia with serious signs and symptoms (hypotension, altered mental status, chest pain, signs of shock) requires immediate synchronized cardioversion. Vagal maneuvers and medications are for stable patients. Unsynchronized defibrillation is for VF and pulseless VT."
+    explanation: "Rapid heart rate with hypotension and altered mental status is unstable. Support the airway and oxygen, transport rapidly, and request ALS, who can perform synchronized cardioversion. An AED is only for pulseless VF or VT."
   },
   {
     id: "card-008", domain: "cardiology",
@@ -478,7 +478,7 @@ export const EXAM_QUESTIONS = [
       "Early advanced life support by paramedics on scene"
     ],
     answer: 1,
-    explanation: "The Chain of Survival: 1) Early recognition and activation, 2) Early CPR, 3) Early defibrillation, 4) Early advanced life support, 5) Post-arrest care. Every link matters -- a delay at any point reduces survival."
+    explanation: "Chain of Survival (adult out-of-hospital): 1) recognition and activation of the emergency response, 2) early CPR, 3) rapid defibrillation, 4) advanced resuscitation, 5) post-arrest care, 6) recovery. Each link depends on the one before it."
   },
   {
     id: "card-009", domain: "cardiology",
@@ -518,15 +518,15 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "card-012", domain: "cardiology",
-    q: "Nitroglycerin can be given a maximum of how many times for chest pain in the prehospital setting?",
+    q: "Under standard protocol, with medical direction approval, the maximum number of nitroglycerin doses for chest pain is:",
     options: [
-      "Only 1 tablet, then reassess and call medical direction for more",
+      "Only 1 dose, regardless of how the patient responds",
       "As many as needed until the pain goes away completely",
       "A maximum of 2 doses, regardless of the response",
       "Up to 3 doses, 5 minutes apart, if SBP stays above 90"
     ],
     answer: 3,
-    explanation: "Protocol typically allows up to 3 doses of nitroglycerin (0.4 mg SL) every 5 minutes if systolic BP remains above 90 and pain is not relieved. Reassess BP after each dose. Medical direction authorization required in some systems."
+    explanation: "Standard protocol allows up to 3 doses of nitroglycerin (0.4 mg SL), 5 minutes apart, if systolic BP stays above 90 and pain persists. Count doses the patient took on their own, and follow local protocol and medical direction."
   },
   {
     id: "card-013", domain: "cardiology",
@@ -542,7 +542,7 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "card-014", domain: "cardiology",
-    q: "A patient has a regular pulse of 180 bpm, BP 110/70, and is alert and anxious but has no chest pain. This rhythm is most likely:",
+    q: "A patient has a regular pulse of 180 bpm and BP 110/70, and is alert and anxious with no chest pain. The monitor shows a regular, narrow-complex tachycardia. This rhythm is most likely:",
     options: [
       "Unstable ventricular tachycardia",
       "Stable supraventricular tachycardia",
@@ -622,7 +622,7 @@ export const EXAM_QUESTIONS = [
       "Esophageal spasm"
     ],
     answer: 1,
-    explanation: "Women, elderly patients, and diabetics frequently present with atypical ACS symptoms: fatigue, dyspnea, nausea, jaw or shoulder pain -- without classic chest pressure. ST changes confirm cardiac ischemia. Do not dismiss atypical presentations. Treat as ACS."
+    explanation: "Women, elderly patients, and diabetics often present with atypical ACS symptoms: fatigue, dyspnea, nausea, and jaw or shoulder pain, sometimes without chest pain. ST depression suggests ischemia and supports treating this as possible ACS."
   },
   {
     id: "card-021", domain: "cardiology",
@@ -634,31 +634,31 @@ export const EXAM_QUESTIONS = [
       "Increase energy to compensate for the pacemaker"
     ],
     answer: 2,
-    explanation: "Use the AED on patients with pacemakers. Place pads at least 1 inch (some protocols say 3 inches) from the device. The AED may not recognize pacemaker spikes as a shockable rhythm -- if VF is visible and AED advises no shock, consider overriding per protocol."
+    explanation: "Use the AED on patients with pacemakers. Place pads about 1 inch from the device and never directly over it, then follow the AED's prompts."
   },
   {
     id: "card-022", domain: "cardiology",
-    q: "After a successful defibrillation, you have return of spontaneous circulation. Your priority is:",
+    q: "After ROSC, the most appropriate first action is:",
     options: [
       "Transport to the nearest emergency department immediately",
       "Resume CPR for 2 more minutes to confirm ROSC",
       "Administer additional epinephrine",
-      "Transport to a PCI-capable facility if STEMI is suspected"
+      "Reassess airway, breathing, and pulse, and support oxygenation"
     ],
     answer: 3,
-    explanation: "Post-ROSC care includes: prevent re-arrest, support hemodynamics, and if STEMI is suspected, transport to a PCI-capable facility (cath lab). Time from arrest to balloon is a key outcome predictor. Coordinate with receiving facility during transport."
+    explanation: "After ROSC, reassess ABCs, support ventilation and oxygenation (SpO2 94-98%, avoid hyperventilation), monitor for re-arrest, and transport. Choose a PCI-capable facility if STEMI is suspected."
   },
   {
     id: "card-023", domain: "cardiology",
-    q: "A patient has a BP of 220/120 and a severe headache. She has no neurological deficits. This is best described as:",
+    q: "A patient has a BP of 220/120 and a severe headache. She has no neurological deficits. What is the best EMT-B management?",
     options: [
-      "Hypertensive emergency -- treat aggressively in the field",
-      "Normal variation for her age",
-      "Hypertensive urgency -- transport and monitor",
-      "Hemorrhagic stroke -- treat with aspirin"
+      "Give medication to lower the blood pressure rapidly",
+      "Treat it as a normal variation for her age",
+      "Keep her calm, monitor, and transport",
+      "Assume a hemorrhagic stroke and give her aspirin"
     ],
     answer: 2,
-    explanation: "Hypertensive urgency: severely elevated BP without end-organ damage (no neuro deficits, no chest pain, no renal failure). Hypertensive emergency: elevated BP WITH end-organ damage. Neither should be rapidly corrected in the field -- rapid BP reduction can cause stroke or MI. Transport for controlled reduction."
+    explanation: "Do not try to lower the BP in the field. Rapid reduction can cause stroke or MI. Keep her calm, monitor, watch for neurological changes, chest pain, or dyspnea, and transport. Hospital staff handle controlled reduction."
   },
   {
     id: "card-024", domain: "cardiology",
@@ -714,7 +714,7 @@ export const EXAM_QUESTIONS = [
     options: [
       "Increasing the shock energy",
       "High-quality CPR for 2 minutes",
-      "Establishing IV access for epinephrine",
+      "Giving a fluid bolus",
       "Reassessing the ECG leads for correct placement"
     ],
     answer: 1,
@@ -738,11 +738,11 @@ export const EXAM_QUESTIONS = [
     options: [
       "Give a fourth dose of nitroglycerin and reassess the pain",
       "Establish IV access and run a 500 mL fluid bolus wide open",
-      "Get a 12-lead, transmit it, and transport rapidly",
+      "Transport rapidly to a PCI-capable facility; get a 12-lead en route",
       "Wait on scene for ALS backup to arrive before moving"
     ],
     answer: 2,
-    explanation: "This patient is in cardiogenic shock from likely STEMI. The priority is getting this patient to a PCI-capable facility as fast as possible. Obtain and transmit a 12-lead en route. Do not delay transport waiting for ALS. Every minute of delay = more myocardium lost."
+    explanation: "This is possible STEMI with early shock. The priority is getting the patient to a PCI-capable facility as fast as possible. Acquire and transmit a 12-lead en route if trained and equipped, and do not delay transport for it. Further nitroglycerin is not appropriate at this blood pressure."
   },
   {
     id: "card-031", domain: "cardiology",
@@ -804,7 +804,7 @@ export const EXAM_QUESTIONS = [
       "Gently push the bowel back into the abdomen and cover it",
       "Cover with a dry sterile dressing and apply firm pressure",
       "Cover with a moist sterile dressing, no pressure",
-      "Cover with an occlusive dressing and tape all four sides"
+      "Wrap the bowel in a dry towel and leave it exposed to air"
     ],
     answer: 2,
     explanation: "Evisceration treatment: cover with a moist sterile dressing (saline-soaked if available) to prevent desiccation. Do NOT push organs back in -- risk of contamination and further injury. Do NOT apply direct pressure over the organs. Keep the patient warm and transport rapidly."
@@ -814,12 +814,12 @@ export const EXAM_QUESTIONS = [
     q: "The Golden Hour concept in trauma refers to:",
     options: [
       "The strict time limit for all field treatment before transport",
-      "The maximum acceptable scene time for all trauma patients",
-      "The window when surgical care improves survival",
+      "A rule that scene time may never exceed 60 minutes",
+      "The first hour, when surgical care most improves survival",
       "The time limit for spinal immobilization"
     ],
     answer: 2,
-    explanation: "The Golden Hour is the concept that major trauma patients who reach definitive surgical care within approximately one hour of injury have significantly better survival rates. This drives the 'load and go' philosophy -- minimize scene time, transport rapidly to a trauma center."
+    explanation: "The Golden Hour is a concept, not a strict limit: major trauma patients who reach definitive surgical care within roughly an hour of injury have better survival. It is a reason to keep scene time short (ideally 10 minutes or less for critical patients) and transport promptly."
   },
   {
     id: "tra-003", domain: "trauma",
@@ -835,7 +835,7 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "tra-004", domain: "trauma",
-    q: "A tourniquet applied to a patient's arm should be:",
+    q: "A tourniquet used for life-threatening bleeding from a patient's arm should be:",
     options: [
       "Applied directly over the wound and tightened for maximum pressure",
       "Placed 2-3 inches above the wound and tightened until bleeding stops",
@@ -849,13 +849,13 @@ export const EXAM_QUESTIONS = [
     id: "tra-005", domain: "trauma",
     q: "A patient has a sucking chest wound (open pneumothorax). Treatment is:",
     options: [
-      "Seal all four sides of an occlusive dressing",
-      "Apply an occlusive dressing sealed on three sides",
-      "Apply a dry sterile dressing and tape all four sides",
+      "Apply a dry gauze dressing over the wound and leave it loose",
+      "Apply an occlusive dressing (vented if available) and watch for tension signs",
+      "Apply direct pressure over the wound with a bulky dressing",
       "Leave open to allow air to escape"
     ],
     answer: 1,
-    explanation: "Open pneumothorax (sucking chest wound): apply a vented chest seal or three-sided occlusive dressing. The open side allows air to escape during exhalation, preventing tension pneumothorax from developing. A four-sided seal can trap air and cause tension."
+    explanation: "Open pneumothorax (sucking chest wound): cover with an occlusive dressing, using a vented chest seal if available (some courses teach a three-sided dressing, so follow your protocol). Monitor closely, and if the patient worsens with signs of tension pneumothorax, lift a corner of the seal to release trapped air."
   },
   {
     id: "tra-006", domain: "trauma",
@@ -873,13 +873,13 @@ export const EXAM_QUESTIONS = [
     id: "tra-007", domain: "trauma",
     q: "A patient was ejected from a vehicle in a high-speed collision. He is alert with a GCS of 14. Spinal motion restriction should be:",
     options: [
-      "Applied to every patient based on the mechanism alone, whatever the exam shows",
-      "Based on assessment findings: mechanism, symptoms, and neuro exam",
+      "Skipped if he denies neck and back pain",
+      "Applied: ejection is high-risk and a GCS of 14 is altered",
       "Applied only if the patient complains of neck or back pain right now",
       "Skipped, since an alert and oriented patient has no spinal injury"
     ],
     answer: 1,
-    explanation: "Current spinal motion restriction guidelines use a combination of mechanism, pain/tenderness, neuro deficits, altered mental status, and distracting injuries. Ejection from a vehicle is a high-risk mechanism. This patient warrants full spinal precautions based on mechanism even without overt symptoms."
+    explanation: "Ejection is a high-risk mechanism, and a GCS of 14 is an altered mental status, so he cannot be reliably cleared. Apply spinal motion restriction. Current guidance weighs mechanism, symptoms, neurological findings, and mental status together."
   },
   {
     id: "tra-008", domain: "trauma",
@@ -951,7 +951,7 @@ export const EXAM_QUESTIONS = [
       "Place in Trendelenburg to increase cerebral perfusion"
     ],
     answer: 1,
-    explanation: "For severe TBI, ventilate at 10-12/min (normal rate). Hyperventilation causes cerebral vasoconstriction and reduces cerebral blood flow -- harmful unless herniation is occurring (Cushing's triad, blown pupil). Elevate head 30 degrees, avoid hypoxia, avoid hypotension. Trendelenburg increases ICP."
+    explanation: "For severe TBI, ventilate at a normal rate (about 10-12 per minute) and avoid hyperventilation, which causes cerebral vasoconstriction and reduces blood flow. Hyperventilate only briefly for active signs of herniation. Avoid hypoxia and hypotension, and if there is no spinal concern, elevate the head about 30 degrees (reverse Trendelenburg if spinal motion restriction is in place)."
   },
   {
     id: "tra-014", domain: "trauma",
@@ -987,7 +987,7 @@ export const EXAM_QUESTIONS = [
       "36%"
     ],
     answer: 1,
-    explanation: "Rule of Nines: Head/neck = 9%, each arm = 9%, anterior trunk = 18%, posterior trunk = 18%, each leg = 18%, perineum = 1%. The entire anterior trunk (chest and abdomen) = 18%. Accurate BSA calculation drives fluid resuscitation decisions and transport destination."
+    explanation: "Rule of Nines (adult): head and neck 9%, each arm 9%, anterior trunk 18%, posterior trunk 18%, each leg 18%, perineum 1%. The BSA estimate helps decide transport destination, such as a burn center."
   },
   {
     id: "tra-017", domain: "trauma",
@@ -1023,7 +1023,7 @@ export const EXAM_QUESTIONS = [
       "Traumatic brain injury with herniation"
     ],
     answer: 0,
-    explanation: "Uncontrolled external hemorrhage is the most common preventable cause of trauma death. This drove the 'Stop the Bleed' campaign and the Hartford Consensus emphasizing tourniquets and wound packing. Hemorrhage control is the highest priority after scene safety and airway in trauma."
+    explanation: "Uncontrolled external hemorrhage is the leading preventable cause of trauma death, which is why current guidance puts massive bleeding control first (MARCH or XABCDE) and drove the Stop the Bleed campaign. Airway and breathing remain critical right after."
   },
   {
     id: "tra-020", domain: "trauma",
@@ -1032,7 +1032,7 @@ export const EXAM_QUESTIONS = [
       "Remove the object gently so you can assess the eye",
       "Stabilize the object and cover both eyes",
       "Apply light direct pressure over the object",
-      "Cover only the injured eye and transport at once"
+      "Cover only the injured eye and let him keep looking around"
     ],
     answer: 1,
     explanation: "Impaled objects in the eye: never remove, never apply pressure. Stabilize the object with a cup or ring dressing. Cover BOTH eyes -- consensual movement means the good eye moving will move the injured eye too, worsening damage. Transport to an ophthalmology-capable facility."
@@ -1047,7 +1047,7 @@ export const EXAM_QUESTIONS = [
       "Elevating the legs to treat shock"
     ],
     answer: 1,
-    explanation: "Unstable pelvic fractures can cause massive hemorrhage into the pelvic cavity. A pelvic binder (or improvised sheet wrap at the level of the greater trochanters) reduces pelvic volume and tamponades bleeding. Log rolling is contraindicated -- it disrupts the clot. Minimize movement."
+    explanation: "Unstable pelvic fractures can cause massive bleeding into the pelvis. Apply a pelvic binder or sheet wrap, avoid rocking or log rolling, and use a scoop stretcher or minimal-movement lift. PASG is no longer used."
   },
   {
     id: "tra-022", domain: "trauma",
@@ -1071,14 +1071,14 @@ export const EXAM_QUESTIONS = [
       "Start CPR immediately, since he is hypotensive"
     ],
     answer: 0,
-    explanation: "Tension pneumothorax: decreased breath sounds on the affected side, tracheal deviation AWAY from it, hypotension and JVD. Give high-flow oxygen, support ventilation, transport rapidly, and request ALS for needle decompression."
+    explanation: "Tension pneumothorax: decreased breath sounds on the affected side, hypotension, JVD, and tracheal deviation away from it (a late sign that is often absent). Give high-flow oxygen, support ventilation, transport rapidly, and request ALS for needle decompression."
   },
   {
     id: "tra-024", domain: "trauma",
     q: "A patient involved in a high-speed MVA has an abdominal contusion at the seatbelt line. He is hemodynamically stable. You should:",
     options: [
       "Reassure him -- seatbelts prevent serious injury",
-      "Maintain a high index of suspicion for hollow organ injury and internal bleeding",
+      "Suspect hollow organ injury and bleeding; transport to a trauma center",
       "Focus only on extremity injuries since internal injuries cannot be treated in the field",
       "Delay transport until symptoms develop"
     ],
@@ -1097,22 +1097,22 @@ export const EXAM_QUESTIONS = [
       "I (Insulin)",
       "E (Epilepsy or seizure)",
       "U (Uremia, or kidney failure)",
-      "S (Stroke, shock, or sepsis)"
+      "S (Stroke)"
     ],
     answer: 0,
-    explanation: "AEIOU-TIPS: Alcohol, Epilepsy, Insulin (hypoglycemia), Overdose/Opiates, Uremia (renal failure), Trauma, Infection, Psychiatric, Stroke/Structural. T = Trauma and T in some versions also includes Toxins. Systematic use prevents missing reversible causes."
+    explanation: "AEIOU-TIPS: Alcohol, Epilepsy, Insulin (low or high blood sugar), Overdose, Uremia (kidney failure), Trauma, Infection, Psychosis, Stroke. The I reminds you to check the blood glucose early, because hypoglycemia is fast to fix and dangerous to miss."
   },
   {
     id: "med-002", domain: "medical",
     q: "A diabetic patient is found unresponsive with a blood glucose of 38 mg/dL. After establishing an airway, you should:",
     options: [
       "Administer oral glucose gel and wait to see whether he wakes up",
-      "Give glucose per protocol: IM glucagon or IV dextrose if he cannot swallow",
+      "Give oxygen, manage the airway, and request ALS for glucagon or dextrose",
       "Transport immediately without any glucose treatment, since the airway is the only priority",
       "Administer insulin to stabilize the glucose level"
     ],
     answer: 1,
-    explanation: "An unresponsive patient cannot safely receive oral glucose (aspiration risk). Oral glucose requires ability to swallow. For unresponsive hypoglycemia: IM glucagon or IV dextrose per protocol. Never give oral glucose to an unresponsive patient."
+    explanation: "An unresponsive patient cannot safely receive oral glucose because of the aspiration risk. Manage the airway, give oxygen, and give glucagon only if it is in your scope and protocol; otherwise request ALS for dextrose. Never give insulin."
   },
   {
     id: "med-003", domain: "medical",
@@ -1132,15 +1132,15 @@ export const EXAM_QUESTIONS = [
     options: [
       "Hold the patient down firmly to prevent injury to himself",
       "Insert a bite stick or an airway adjunct to prevent tongue biting",
-      "Protect from injury, maintain airway, give oxygen, and transport",
+      "Protect him, keep the airway open, give oxygen, and request ALS",
       "Wait for the seizure to stop by itself before doing anything"
     ],
     answer: 2,
-    explanation: "Seizure management: protect from injury (remove hazards, pad surroundings), do NOT restrain, do NOT insert anything into the mouth, maintain airway position (lateral if possible), high-flow oxygen, time the seizure, IV diazepam or IM midazolam per protocol for status epilepticus (>5 minutes)."
+    explanation: "Protect him from injury (remove hazards, do not restrain), keep the airway open, give oxygen, note the time, and request ALS. A seizure lasting more than 5 minutes is status epilepticus and needs a benzodiazepine per protocol. Never put anything in his mouth."
   },
   {
     id: "med-005", domain: "medical",
-    q: "A patient presents with sudden onset of the worst headache of his life. He is alert with a stiff neck and photophobia. You should suspect:",
+    q: "A patient has a sudden onset of the worst headache of his life. He is alert, afebrile, with a stiff neck and photophobia. You should suspect:",
     options: [
       "Tension headache from stress and neck strain",
       "Migraine with aura",
@@ -1172,7 +1172,7 @@ export const EXAM_QUESTIONS = [
       "Corticosteroids IV to reduce airway inflammation"
     ],
     answer: 0,
-    explanation: "Epinephrine 0.3 mg IM (1:1,000) into the lateral thigh is the first and most important treatment for anaphylaxis. It counteracts vasodilation, bronchospasm, and angioedema. Antihistamines and corticosteroids are adjuncts -- they are too slow to treat the acute reaction. Do not delay epinephrine."
+    explanation: "Epinephrine IM (0.3 mg adult, 0.15 mg for children under about 30 kg) into the lateral thigh is the first and most important treatment for anaphylaxis. Antihistamines, steroids and albuterol are adjuncts only."
   },
   {
     id: "med-008", domain: "medical",
@@ -1220,7 +1220,7 @@ export const EXAM_QUESTIONS = [
       "Hyperthyroidism"
     ],
     answer: 2,
-    explanation: "Heat stroke: high core temperature (above 104 degreesF), altered mental status, hot skin (classically dry in classic heat stroke, may be wet in exertional). Confusion or loss of consciousness is the defining feature. Cool immediately (ice packs to neck/armpits/groin, cool water misting with fanning) and transport rapidly. This is a true emergency."
+    explanation: "Heat stroke: core temperature at or above 104 F (40 C), altered mental status, and hot skin that is often dry. Cool the patient aggressively and transport rapidly."
   },
   {
     id: "med-012", domain: "medical",
@@ -1260,7 +1260,7 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "med-015", domain: "medical",
-    q: "A patient with a history of atrial fibrillation presents with sudden onset one-sided weakness and slurred speech that started 45 minutes ago. She is hemodynamically stable. The most critical time-sensitive intervention is:",
+    q: "A patient with a history of atrial fibrillation has sudden one-sided weakness and slurred speech that started 45 minutes ago. She is hemodynamically stable. After checking her blood glucose, the most critical time-sensitive intervention is:",
     options: [
       "Administer aspirin immediately",
       "Rapid transport to a stroke center -- thrombolytics have a treatment window",
@@ -1268,7 +1268,7 @@ export const EXAM_QUESTIONS = [
       "Position supine with legs elevated"
     ],
     answer: 1,
-    explanation: "Ischemic stroke: tPA (thrombolytic) can be given within 3-4.5 hours of symptom onset at a stroke center. Every minute of delay = loss of approximately 1.9 million neurons. Rapid transport and pre-notification are critical. Check glucose (hypoglycemia mimics stroke). Do not give aspirin until hemorrhagic stroke is ruled out."
+    explanation: "In ischemic stroke, thrombolytics can be given within roughly 3-4.5 hours of last known well at a stroke center. Do not give aspirin until a hemorrhagic stroke is ruled out. Check glucose, note the last known well time, and transport rapidly to a stroke center with pre-notification."
   },
   {
     id: "med-016", domain: "medical",
@@ -1344,7 +1344,7 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "med-022", domain: "medical",
-    q: "A patient with altered mental status has a blood glucose of 28 mg/dL. After giving oral glucose, she begins to improve but then rapidly deteriorates again. The most likely reason is:",
+    q: "A patient who is awake and able to swallow has a blood glucose of 28 mg/dL. After giving oral glucose, she begins to improve but then rapidly deteriorates again. The most likely reason is:",
     options: [
       "The oral glucose was ineffective",
       "She has a long-acting insulin or sulfonylurea overdose causing recurrent hypoglycemia",
@@ -1352,7 +1352,7 @@ export const EXAM_QUESTIONS = [
       "The glucometer reading was inaccurate"
     ],
     answer: 1,
-    explanation: "Recurrent hypoglycemia after treatment suggests a long-acting agent (NPH insulin, glargine, sulfonylurea medications like glipizide). These patients require transport and IV glucose infusion -- a single glucose correction will wear off. Always transport hypoglycemic patients who took long-acting medications."
+    explanation: "Recurrent hypoglycemia after treatment suggests a long-acting agent (NPH insulin, glargine, sulfonylureas). Transport, recheck glucose often, and request ALS-level care, because she may need repeated treatment and observation."
   },
   {
     id: "med-023", domain: "medical",
@@ -1392,7 +1392,7 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "med-026", domain: "medical",
-    q: "Which assessment finding most reliably indicates adequate perfusion?",
+    q: "Which finding is the most sensitive early indicator of adequate cerebral perfusion?",
     options: [
       "Normal blood pressure",
       "Normal mental status",
@@ -1412,11 +1412,11 @@ export const EXAM_QUESTIONS = [
       "Anticholinergic overdose with hot, dry skin"
     ],
     answer: 2,
-    explanation: "Beta-blocker and calcium channel blocker overdoses cause bradycardia and hypotension by blocking cardiac chronotropy and inotropy. This is life-threatening. Treatment includes atropine for bradycardia, high-dose insulin therapy, calcium, and vasopressors -- all in-hospital. Field treatment: supportive care, rapid transport."
+    explanation: "Beta-blocker and calcium channel blocker overdoses cause bradycardia and hypotension by blocking the heart's response to stress. EMT care is airway, oxygen, supportive care, and rapid transport with ALS. ALS and hospital care can include atropine, calcium, glucagon, high-dose insulin, and vasopressors."
   },
   {
     id: "med-028", domain: "medical",
-    q: "A patient has facial swelling and stridor after starting a new ACE inhibitor medication last week. This is most likely:",
+    q: "A patient has facial swelling and stridor after starting a new ACE inhibitor medication last week. Which condition is most likely?",
     options: [
       "Anaphylaxis requiring epinephrine",
       "ACE inhibitor-induced angioedema",
@@ -1424,7 +1424,7 @@ export const EXAM_QUESTIONS = [
       "Ludwig's angina"
     ],
     answer: 1,
-    explanation: "ACE inhibitor-induced angioedema can occur weeks to years after starting the medication. It causes facial, tongue, and airway swelling from bradykinin accumulation. It does NOT typically respond to epinephrine, antihistamines, or steroids the way IgE-mediated anaphylaxis does. Airway management is the priority -- this can be rapidly fatal."
+    explanation: "ACE inhibitor-induced angioedema can occur weeks to years after starting the medication. It is bradykinin-mediated, so it does not respond well to antihistamines or steroids. Epinephrine may still be tried per local protocol or medical direction when the airway is threatened. The airway is the priority: give oxygen, prepare to assist ventilation, and transport rapidly."
   },
   {
     id: "med-029", domain: "medical",
@@ -1440,7 +1440,7 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "med-030", domain: "medical",
-    q: "A patient presents with sudden onset of unilateral facial drooping that has been present for 3 days. He has no other neurological symptoms. This is most likely:",
+    q: "A patient has a unilateral facial droop that involves the forehead on the affected side and has been present, unchanged, for 3 days. He reports no arm weakness, speech change, or other neurological symptoms. This is most consistent with:",
     options: [
       "Ischemic stroke -- activate stroke protocol immediately",
       "Hemorrhagic stroke from a ruptured vessel",
@@ -1448,7 +1448,7 @@ export const EXAM_QUESTIONS = [
       "TIA with persistent deficits"
     ],
     answer: 2,
-    explanation: "Bell's palsy is peripheral cranial nerve VII palsy causing unilateral facial weakness including the forehead (upper and lower face affected). Stroke spares the forehead (central lesion, contralateral upper face preserved). Bell's palsy is gradual, isolated, and not a stroke emergency -- but always confirm with stroke screening."
+    explanation: "Bell's palsy is a peripheral cranial nerve VII palsy: the whole side of the face droops, including the forehead. A stroke usually spares the forehead and often comes with arm weakness or speech changes. Still assess with a stroke scale, and if there is any doubt or the onset is recent, treat it as a stroke."
   },
   {
     id: "med-031", domain: "medical",
@@ -1472,7 +1472,7 @@ export const EXAM_QUESTIONS = [
       "TIA only occurs in patients under 60 and never repeats"
     ],
     answer: 1,
-    explanation: "TIA (transient ischemic attack): stroke symptoms that fully resolve, by definition within 24 hours (usually minutes). No permanent neuronal injury. However, TIA is a major stroke warning -- risk of subsequent stroke is highest in the first 48 hours. Treat TIA with the same urgency as stroke."
+    explanation: "A TIA has stroke symptoms that resolve completely, usually within minutes to an hour, with no permanent injury. It is a warning sign of a later stroke, so every TIA needs transport and evaluation."
   },
   {
     id: "med-033", domain: "medical",
@@ -1520,11 +1520,11 @@ export const EXAM_QUESTIONS = [
       "Normal third-trimester hypertension that needs no treatment"
     ],
     answer: 2,
-    explanation: "Eclampsia = pre-eclampsia plus seizures. Severe pre-eclampsia (BP >160/110, headache, visual changes, epigastric pain after 20 weeks) is a pre-eclamptic emergency with high seizure risk. Left lateral position, high-flow oxygen, IV magnesium per protocol, rapid transport to OB-capable facility."
+    explanation: "Eclampsia is pre-eclampsia plus seizures. Severe pre-eclampsia (BP above 160/110, headache, visual changes) carries a high seizure risk. Keep her in a dim, quiet setting, lay her on her left side, have suction ready, and transport emergently. Request ALS for magnesium per protocol."
   },
   {
     id: "med-037", domain: "medical",
-    q: "Which medication is used to treat symptomatic hypoglycemia in a patient who cannot receive anything by mouth and IV access cannot be established?",
+    q: "Which medication treats symptomatic hypoglycemia in a patient who is unresponsive and cannot swallow, when it is in your local protocol?",
     options: [
       "Insulin",
       "Glucagon IM",
@@ -1532,7 +1532,7 @@ export const EXAM_QUESTIONS = [
       "Epinephrine IM"
     ],
     answer: 1,
-    explanation: "Glucagon IM (1 mg in adults) stimulates hepatic glycogen breakdown, releasing glucose. Used when IV access cannot be established and the patient is unresponsive. Onset 10-20 minutes. Requires adequate hepatic glycogen stores -- may be ineffective in malnourished or alcoholic patients. Oral glucose is only for responsive patients who can swallow."
+    explanation: "Glucagon IM (1 mg in adults) stimulates the liver to release glucose. It is used per local protocol when the patient cannot take oral glucose and IV access is not available."
   },
   {
     id: "med-038", domain: "medical",
@@ -1544,7 +1544,7 @@ export const EXAM_QUESTIONS = [
       "Administer epinephrine to raise the blood pressure right away"
     ],
     answer: 1,
-    explanation: "Septic shock prehospital priorities: high-flow oxygen, IV access (two large-bore IVs), fluid resuscitation (30 mL/kg crystalloid is the hospital goal), obtain blood cultures if possible, rapid transport. Early antibiotics are hospital-initiated. Temperature management: treat fever only if severe. Goal is perfusion restoration."
+    explanation: "EMT priorities in suspected septic shock: high-flow oxygen, keep the patient warm and supine, request ALS, and transport rapidly with pre-notification. IV fluids and antibiotics are ALS and hospital care."
   },
   {
     id: "med-039", domain: "medical",
@@ -1637,19 +1637,19 @@ export const EXAM_QUESTIONS = [
 
   {
     id: "ops-001", domain: "operations",
-    q: "The first arriving unit at a multi-vehicle crash with multiple patients should:",
+    q: "The first arriving unit at a mass casualty incident with many patients should:",
     options: [
-      "Begin triaging patients immediately",
+      "Begin treating the closest patient",
       "Establish incident command and announce to dispatch",
       "Wait for additional units before taking any action",
       "Contact medical direction for guidance"
     ],
     answer: 1,
-    explanation: "First unit on scene automatically assumes Incident Command. Announce to dispatch: 'Unit X is on scene establishing [location] Command.' Size up the incident, call for resources, establish ICS structure. Begin triage only after establishing command -- freelancing creates chaos at MCIs."
+    explanation: "The first unit on scene automatically assumes Incident Command. Announce this to dispatch, size up the scene, and call for resources. Begin triage only after command is established."
   },
   {
     id: "ops-002", domain: "operations",
-    q: "START triage: a patient is not breathing after you reposition the airway. You should tag him:",
+    q: "An adult patient is not breathing after you reposition his airway (START). You should tag him:",
     options: [
       "Red (Immediate)",
       "Yellow (Delayed)",
@@ -1657,7 +1657,7 @@ export const EXAM_QUESTIONS = [
       "Green (Minor)"
     ],
     answer: 2,
-    explanation: "START triage: if the patient is not breathing after simple airway repositioning, tag Black (Expectant). In an MCI, resources cannot be committed to a patient with unsurvivable injuries. This is the hardest MCI reality. Move to the next patient. (Exception: pediatric START/JumpSTART may differ for children.)"
+    explanation: "In an MCI with limited resources, an adult who is not breathing after airway repositioning is tagged Black (Expectant). Children use JumpSTART and get 5 rescue breaths first."
   },
   {
     id: "ops-003", domain: "operations",
@@ -1669,15 +1669,15 @@ export const EXAM_QUESTIONS = [
       "Black (Expectant)"
     ],
     answer: 2,
-    explanation: "START triage: respiratory rate >30 or <10 = Red (Immediate). This patient has a rate of 32 -- immediately Red based on respiratory rate alone. No further assessment needed for triage category. Tag and move."
+    explanation: "START: a respiratory rate above 30 is Red (Immediate). This patient's rate of 32 makes him Red on respiratory rate alone."
   },
   {
     id: "ops-004", domain: "operations",
     q: "The Incident Command System (ICS) uses a span of control of:",
     options: [
-      "2-3 subordinates per supervisor",
+      "1-2 subordinates per supervisor",
       "3-7 subordinates per supervisor",
-      "5-10 subordinates per supervisor",
+      "8-12 subordinates per supervisor",
       "No defined limit"
     ],
     answer: 1,
@@ -1685,7 +1685,7 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "ops-005", domain: "operations",
-    q: "At a hazmat incident, EMTs operate in which zone?",
+    q: "At a hazmat incident, a beginner EMT without hazmat training treats patients in which zone?",
     options: [
       "Hot zone, for immediate patient access",
       "Cold zone, after decontamination",
@@ -1699,13 +1699,13 @@ export const EXAM_QUESTIONS = [
     id: "ops-006", domain: "operations",
     q: "A patient refuses transport after a fall with a head laceration. He is alert and oriented x4. To complete a proper refusal, you must:",
     options: [
-      "Document capacity and risks explained, and get a witnessed signature",
+      "Document capacity, risks, alternatives, and a witnessed signature",
       "Get his signature on the form and leave right away, since he is alert",
       "Call his family member and let them make the decision for him",
       "Contact medical direction to override his refusal and force transport"
     ],
     answer: 0,
-    explanation: "Informed refusal requires: documented decision-making capacity, explanation of risks of refusal, alternatives offered, instructions to call 911 if symptoms worsen, and patient plus witness signatures. A signature alone without documented capacity and risk explanation is legally insufficient."
+    explanation: "Informed refusal requires documented decision-making capacity, an explanation of the risks and alternatives, advice to call 911 if symptoms worsen, and a signature with a witness. Contact medical direction per local protocol."
   },
   {
     id: "ops-007", domain: "operations",
@@ -1733,7 +1733,7 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "ops-009", domain: "operations",
-    q: "The most dangerous moment during emergency vehicle operation is:",
+    q: "Where do most emergency-vehicle collisions occur?",
     options: [
       "Highway driving at high speed",
       "Navigating intersections",
@@ -1741,7 +1741,7 @@ export const EXAM_QUESTIONS = [
       "Driving in adverse weather"
     ],
     answer: 1,
-    explanation: "Intersections are the most lethal moment in emergency driving. Drivers do not always yield even with lights and sirens. Protocol: Reduce speed, Alert drivers, Slow to confirm all lanes are clear before proceeding. Near-stop before entering the intersection. Never assume an intersection is clear."
+    explanation: "Intersections are the most dangerous point in emergency driving because other drivers do not always yield. Slow to a near stop, make eye contact with other drivers, and confirm all lanes are clear before proceeding."
   },
   {
     id: "ops-010", domain: "operations",
@@ -1760,7 +1760,7 @@ export const EXAM_QUESTIONS = [
     q: "Which of the following is an emergency move, appropriate despite potential spinal risk?",
     options: [
       "A patient with a possible ankle fracture on a staircase",
-      "A patient with altered mental status in a car with the airbag deployed",
+      "A conscious patient sitting in a car after a minor collision, with no hazards",
       "An unconscious patient in a building on fire",
       "A patient with neck pain after a low-speed MVA"
     ],
@@ -1789,7 +1789,7 @@ export const EXAM_QUESTIONS = [
       "Any sequence is acceptable as long as you work quickly"
     ],
     answer: 0,
-    explanation: "Donning: mask/respirator, gown, eye protection, gloves. Doffing starts with the most contaminated items: gloves first, then gown and eye protection, and the mask last. Wash your hands afterward."
+    explanation: "Donning: gown, mask or respirator, eye protection, gloves. Doffing starts with the most contaminated items: gloves, then eye protection, then gown, and the mask last. Wash your hands afterward."
   },
   {
     id: "ops-014", domain: "operations",
@@ -1817,7 +1817,7 @@ export const EXAM_QUESTIONS = [
   },
   {
     id: "ops-016", domain: "operations",
-    q: "At the scene of a crime, your priorities for evidence preservation include:",
+    q: "At a crime scene that law enforcement has made safe, your evidence-preservation priority is:",
     options: [
       "Do not enter the scene until law enforcement clears it",
       "Touch only what care requires and document it",
@@ -1845,11 +1845,11 @@ export const EXAM_QUESTIONS = [
     options: [
       "Intentionally harming a patient by acting with malicious intent",
       "Treating a competent patient without any consent at all",
-      "Failure to act as a reasonably prudent EMT would",
+      "Failure to meet the standard of care that causes harm",
       "Abandoning a patient after care has been started"
     ],
     answer: 2,
-    explanation: "Negligence requires four elements: Duty (you had an obligation to act), Breach (you failed to meet the standard of care), Causation (the breach caused the harm), and Damages (the patient suffered actual harm). Abandonment is a separate legal concept (ending care without transfer). Treating without consent is battery."
+    explanation: "Negligence requires four elements: duty (you had an obligation to act), breach (you failed to meet the standard of care), causation, and damages (harm resulted). All four must be present."
   },
 
   // ============================================================
@@ -1932,25 +1932,25 @@ export const EXAM_QUESTIONS = [
     id: "spc-007", domain: "special",
     q: "An infant is found limp and pulseless. The correct CPR compression technique for a single rescuer is:",
     options: [
-      "2 fingers on the sternum, one finger-width below the nipple line",
+      "2 fingers on the lower half of the sternum, just below the nipple line",
       "Heel of one hand on the lower sternum",
       "Two thumbs encircling the chest with fingers wrapped around the back (two-rescuer technique)",
       "3 fingers in the center of the chest"
     ],
     answer: 0,
-    explanation: "Infant single-rescuer CPR: 2 fingers on the sternum, just below the nipple line. Depth: approximately 1.5 inches (4 cm), one-third the chest diameter. Two-rescuer technique uses two thumbs with hands encircling the chest -- preferred when available. Rate: 100-120/min. 30:2 ratio without advanced airway."
+    explanation: "Infant single-rescuer CPR: 2 fingers on the lower half of the sternum, just below the nipple line. Compress about one third of the chest depth (about 1.5 inches) at 100-120 per minute, at a ratio of 30 compressions to 2 breaths."
   },
   {
     id: "spc-008", domain: "special",
-    q: "A 14-year-old refuses treatment for a laceration, stating she does not want her parents called. You should:",
+    q: "A 14-year-old with a minor, stable laceration does not want her parents called. You should:",
     options: [
       "Honor her refusal -- she is old enough to decide",
-      "Treat and transport -- minors cannot independently refuse care",
-      "Contact her parents and await their decision before treating",
+      "Try to reach a guardian while continuing care",
+      "Leave her with no care until her parents arrive",
       "Leave the scene since she refuses"
     ],
     answer: 1,
-    explanation: "Minors (under 18 in most states) cannot independently refuse emergency medical care. Parental or guardian consent is required. Exceptions to parental consent requirement: emancipated minors (married, military, financially independent, court-ordered), emergency situations, and certain conditions (STIs, substance abuse, mental health) in some states."
+    explanation: "Minors generally cannot give informed refusal. Try to reach a parent or guardian while continuing assessment and care, and involve medical direction and law enforcement per protocol. In any true emergency, implied consent applies."
   },
   {
     id: "spc-009", domain: "special",
@@ -1962,11 +1962,11 @@ export const EXAM_QUESTIONS = [
       "Parental smoking only"
     ],
     answer: 1,
-    explanation: "SIDS risk factors: prone (stomach) or side sleeping, soft bedding, co-sleeping, parental smoking (pre- and postnatal), prematurity. 'Back to Sleep' (supine positioning) significantly reduced SIDS rates. When you arrive to a possible SIDS call, begin resuscitation and document scene conditions for investigation."
+    explanation: "SIDS risk factors: prone (stomach) or side sleeping, soft bedding, co-sleeping, parental smoking, and overheating. Begin resuscitation unless there are obvious signs of death (rigor mortis, dependent lividity), be compassionate with the family, and document the scene conditions."
   },
   {
     id: "spc-010", domain: "special",
-    q: "An elderly patient with dementia is found confused at her baseline. Her caregiver reports she seems more confused than usual. You should:",
+    q: "An elderly patient with known dementia is confused. Her caregiver reports she has been much more confused than usual since yesterday. You should:",
     options: [
       "This is her baseline -- no action required",
       "Assess for acute causes of worsening confusion: infection, medication change, metabolic cause",
@@ -2018,11 +2018,11 @@ export const EXAM_QUESTIONS = [
     options: [
       "Tachycardia with normal blood pressure",
       "Hypotension",
-      "Mottled skin",
+      "Irritability with cool hands and feet",
       "Prolonged capillary refill"
     ],
     answer: 1,
-    explanation: "Children compensate for shock very well by increasing heart rate -- BP is maintained until very late in the shock progression (decompensated). Hypotension in a child is a very late, ominous, pre-arrest sign. Tachycardia, mottling, prolonged cap refill, and altered mental status are EARLY signs of shock in children."
+    explanation: "Children compensate for shock by increasing heart rate, so tachycardia, cool extremities, delayed capillary refill and irritability are early (compensated) signs. Hypotension is a late, ominous sign of decompensation."
   },
   {
     id: "spc-015", domain: "special",
@@ -2041,21 +2041,21 @@ export const EXAM_QUESTIONS = [
     q: "Gestational age matters in obstetric emergencies because:",
     options: [
       "It has no clinical significance in the prehospital setting",
-      "Viability of the fetus generally begins around 24 weeks, affecting resuscitation decisions",
+      "Viability begins around 24 weeks, which affects destination and care planning",
       "It determines which hospital the patient should be transported to regardless of clinical status",
       "All obstetric emergencies are treated identically regardless of gestational age"
     ],
     answer: 1,
-    explanation: "Fetal viability generally begins around 24 weeks gestation. Before viability, maternal survival is the sole focus. After viability, both maternal and fetal outcomes are considered. Gestational age also determines risk of complications: pre-eclampsia and placenta previa are more common in later pregnancy."
+    explanation: "Fetal viability generally begins around 24 weeks. Gestational age affects the destination (an obstetric or NICU-capable hospital) and the care plan. The EMT always resuscitates the mother."
   },
   {
     id: "spc-017", domain: "special",
-    q: "An elderly patient on multiple medications presents with confusion, urinary incontinence, and falls. These symptoms are collectively known as:",
+    q: "An elderly patient presents with confusion, urinary incontinence, and repeated falls. These non-specific findings are best described as:",
     options: [
       "Normal aging that needs no evaluation",
       "Early dementia that has not been diagnosed yet",
       "Geriatric syndromes: non-specific signs of acute illness",
-      "Polypharmacy toxicity from too many medications"
+      "Diagnosed dementia"
     ],
     answer: 2,
     explanation: "Geriatric syndromes: non-specific presentations (confusion, falls, incontinence, functional decline) that represent the end result of multiple underlying problems in elderly patients. These are often the only signs of serious illness (UTI, MI, pneumonia) in older adults who may not mount typical responses. Always investigate."
