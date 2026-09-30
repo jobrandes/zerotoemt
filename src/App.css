@@ -631,3 +631,12 @@ html,body{background:var(--bg);}
   .zte-btn-cta{min-height:44px;}
   .zte-logo{min-height:44px;}
 }
+
+/* === MOBILE LESSON NAV: one slim row + scroll fade === */
+@media(max-width:768px){
+  .zte-lesson-nav{flex-wrap:nowrap;gap:10px;align-items:center;padding:10px 16px calc(10px + env(safe-area-inset-bottom));}
+  .zte-lesson-nav .zte-btn-secondary{width:auto;flex:0 0 auto;padding-left:18px;padding-right:18px;}
+  .zte-lesson-nav .zte-btn-primary{width:auto;flex:1 1 auto;}
+  .zte-lesson-nav .zte-step-counter{flex:0 0 auto;margin-left:0;white-space:nowrap;font-size:11px;}
+  .zte-lesson-nav::before{content:"";position:absolute;left:0;right:0;top:-28px;height:28px;pointer-events:none;background:linear-gradient(to bottom,rgba(0,0,0,0),var(--white));}
+}
