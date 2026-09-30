@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { supabase } from "./lib/supabase";
 import { shuffle, pickQuiz } from "./lib/helpers";
 import { MODULES, LESSON_DATA, TOTAL_LESSONS } from "./lessons/data";
+import { MODULE_SOURCES, LAST_REVIEWED } from "./lessons/sources";
 const getModule = (id) => MODULES.find(m => m.id === id);
 const getModuleIndex = (id) => MODULES.findIndex(m => m.id === id);
 const getNextModule = (id) => { const idx = getModuleIndex(id); return idx >= 0 && idx < MODULES.length - 1 ? MODULES[idx + 1] : null; };
@@ -1617,6 +1618,16 @@ export default function App() {
                           {mediaOpen === "model3d" && <Model3DEmbed model={lesson.model3d} />}
                         </div>
                       )}
+                    </div>
+                  )}
+
+                  {lessonStep === lesson.content.length - 1 && (MODULE_SOURCES[String(lesson.moduleId)] || []).length > 0 && (
+                    <div className="zte-sources">
+                      <div className="zte-sources-title">Sources &middot; Last reviewed {LAST_REVIEWED}</div>
+                      <ul>
+                        {MODULE_SOURCES[String(lesson.moduleId)].map(src => <li key={src}>{src}</li>)}
+                      </ul>
+                      <p>Study aid only. Always follow your course, your state protocols and your medical director.</p>
                     </div>
                   )}
 
