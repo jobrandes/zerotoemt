@@ -2075,6 +2075,15 @@ export const EXAM_META = {
 };
 
 // Weighted random selection -- pulls targetCount from each domain
+function fisherYates(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 export function buildExamDeck(questions, totalCount = 120) {
   const byDomain = {};
   questions.forEach(q => {
@@ -2085,7 +2094,7 @@ export function buildExamDeck(questions, totalCount = 120) {
   const selected = [];
   Object.entries(EXAM_DOMAINS).forEach(([domain, config]) => {
     const pool = byDomain[domain] || [];
-    const shuffled = [...pool].sort(() => Math.random() - 0.5);
+    const shuffled = fisherYates(pool);
     const count = Math.min(config.target, shuffled.length);
     selected.push(...shuffled.slice(0, count));
   });
@@ -2095,12 +2104,16 @@ export function buildExamDeck(questions, totalCount = 120) {
   if (remaining > 0) {
     const selectedIds = new Set(selected.map(q => q.id));
     const leftovers = questions
-      .filter(q => !selectedIds.has(q.id))
-      .sort(() => Math.random() - 0.5)
-      .slice(0, remaining);
+      .filter(q => !selectedIds.has(q.id));
+    leftovers.splice(0, leftovers.length, ...fisherYates(leftovers).slice(0, remaining));
     selected.push(...leftovers);
   }
 
-  // Final shuffle
-  return selected.sort(() => Math.random() - 0.5);
+  // Final shuffle, and shuffle each question's options so the correct answer
+  // is not always in the same slot (the bank is written with B far too often).
+  return fisherYates(selected).map(q => {
+    const correctText = q.options[q.answer];
+    const opts = fisherYates(q.options);
+    return { ...q, options: opts, answer: opts.indexOf(correctText) };
+  });
 }
