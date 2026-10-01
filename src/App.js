@@ -9,6 +9,8 @@ const getNextModule = (id) => { const idx = getModuleIndex(id); return idx >= 0 
 import "./App.css";
 import { EXAM_DOMAINS, EXAM_QUESTIONS, buildExamDeck } from "./examData";
 import Auth from "./components/Auth";
+import ReviewSession from "./components/ReviewSession";
+import { loadLocal as loadReviewLocal, saveLocal as saveReviewLocal, recordAnswer, mergeItems, resolveDue, prune, dayNum, REVIEW_BATCH } from "./lib/review";
 import Legal from "./components/Legal";
 // The AI tutor costs real money to run. It stays off until REACT_APP_TUTOR_ENABLED=true is set in the build environment.
 const TUTOR_ENABLED = process.env.REACT_APP_TUTOR_ENABLED === "true";
@@ -108,6 +110,9 @@ export default function App() {
   const [authView, setAuthView] = useState(null); // null = public landing | "login" | "signup"
   const [progressLoaded, setProgressLoaded] = useState(false);
   const [serverLoaded, setServerLoaded] = useState(false);
+  const [reviewItems, setReviewItems] = useState(() => loadReviewLocal());
+  const [reviewSynced, setReviewSynced] = useState(false); // true once the server copy has been merged in
+  const [reviewSession, setReviewSession] = useState([]);
   const autoNavigated = useRef(false);
   const [tabUnlocked, setTabUnlocked] = useState({ scenario: true, lesson: false, flashcards: false, quiz: false, tutor: true });
   const [mediaOpen, setMediaOpen] = useState(null); // null | "video" | "model3d"
@@ -198,7 +203,50 @@ export default function App() {
       { onConflict: "user_id" }
     );
     setServerLoaded(true);
+    // Spaced review schedule. Separate from progress so a missing table can never break saving.
+    try {
+      const { data: rv, error: rvErr } = await supabase.from("review_items").select("items").eq("user_id", userId).maybeSingle();
+      if (!rvErr) {
+        setReviewItems(prev => prune(mergeItems(prev, rv?.items || {}), LESSON_DATA));
+        setReviewSynced(true);
+      }
+    } catch {}
   }
+
+  // Keep the review schedule on the device, and on the server once it has been merged.
+  useEffect(() => {
+    saveReviewLocal(reviewItems);
+    if (!user || !reviewSynced) return;
+    const t = setTimeout(() => {
+      supabase.from("review_items").upsert(
+        { user_id: user.id, items: reviewItems, updated_at: new Date().toISOString() },
+        { onConflict: "user_id" }
+      ).then(() => {}, () => {});
+    }, 1000);
+    return () => clearTimeout(t);
+  }, [reviewItems, reviewSynced, user]);
+
+  const recordReview = (lessonKey, question, correct) =>
+    setReviewItems(prev => recordAnswer(prev, lessonKey, question, correct));
+  const dueNow = resolveDue(reviewItems, LESSON_DATA, dayNum());
+  const reviewTotal = Object.keys(reviewItems).length;
+  function startReview() {
+    setReviewSession(resolveDue(reviewItems, LESSON_DATA, dayNum(), REVIEW_BATCH));
+    setScreen("review");
+  }
+  const ReviewBanner = () => {
+    if (!user || reviewTotal === 0) return null;
+    const due = dueNow.length;
+    return (
+      <div className={`zte-review-banner${due > 0 ? " due" : ""}`}>
+        <div>
+          <div className="zte-review-banner-title">{due > 0 ? `${due} question${due === 1 ? "" : "s"} ready to review` : "Review: all caught up"}</div>
+          <div className="zte-review-banner-sub">{due > 0 ? "Questions you missed, coming back so they stick." : `${reviewTotal} on the schedule. They will show up here when due.`}</div>
+        </div>
+        {due > 0 && <button className="zte-btn-primary" onClick={startReview}>Start review</button>}
+      </div>
+    );
+  };
 
   // === EXAM SIMULATOR FUNCTIONS ===
   async function loadExamAccess(userId) {
@@ -485,7 +533,7 @@ export default function App() {
       });
       const out = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(out.error || "Could not delete the account.");
-      try { localStorage.removeItem("zte-progress"); localStorage.removeItem("zte-scores"); } catch {}
+      try { localStorage.removeItem("zte-progress"); localStorage.removeItem("zte-scores"); localStorage.removeItem("zte-review"); } catch {}
       setAccountOpen(false);
       setDeleteStep(0);
       await supabase.auth.signOut();
@@ -780,6 +828,7 @@ export default function App() {
         </div>
       )}
       <Nav />
+      <ReviewBanner />
       <section className="zte-hero">
         <div className="zte-hero-left">
           <div className="zte-hero-eyebrow">{completedLessons.length > 0 ? `WELCOME BACK${displayName ? ", " + displayName.toUpperCase() : ""}` : "EMT CERTIFICATION PREP"}</div>
@@ -848,6 +897,21 @@ export default function App() {
 
       <Footer />
       <TabBar />
+    </div>
+  );
+
+  // -- REVIEW (spaced repetition) --
+  if (screen === "review") return (
+    <div id="zte-root">
+      <Nav />
+      <div className="zte-lesson-content">
+        <ReviewSession
+          items={reviewSession}
+          onAnswer={(it, ok) => recordReview(it.lessonKey, it.q.q, ok)}
+          onExit={() => setScreen("curriculum")}
+        />
+      </div>
+      {user && <TabBar />}
     </div>
   );
 
@@ -921,6 +985,7 @@ export default function App() {
         </div>
       )}
       <Nav />
+      <ReviewBanner />
       <div className="zte-curr-hero">
         <div className="zte-tagline-mono">FULL CURRICULUM</div>
         <h1 className="zte-curr-title">SIX MODULES.<br/>EVERYTHING YOU NEED.</h1>
@@ -1717,7 +1782,9 @@ export default function App() {
                     style={quizSelected === null ? {opacity:0.4,cursor:'not-allowed'} : {}}
                     onClick={() => {
                       if (!quizAnswered) {
-                        if (quizSelected === quizDeck[quizIndex].answer) setQuizScore(s => s+1);
+                        const wasRight = quizSelected === quizDeck[quizIndex].answer;
+                        if (wasRight) setQuizScore(s => s+1);
+                        recordReview(lessonKey, quizDeck[quizIndex].q, wasRight);
                         setQuizAnswered(true);
                       } else {
                         if (quizIndex < quizDeck.length - 1) { setQuizIndex(i => i+1); setQuizSelected(null); setQuizAnswered(false); }

@@ -35,6 +35,7 @@ export default async (req) => {
   const owned = [
     ["progress", "user_id"],
     ["exam_access", "user_id"],
+    ["review_items", "user_id"],
     ["exam_results", "user_id"],
     ["feedback", "user_id"],
     ["profiles", "id"],
