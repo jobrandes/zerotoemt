@@ -9,6 +9,7 @@ const getNextModule = (id) => { const idx = getModuleIndex(id); return idx >= 0 
 import "./App.css";
 import { EXAM_DOMAINS, EXAM_QUESTIONS, buildExamDeck } from "./examData";
 import Auth from "./components/Auth";
+import ReportLink from "./components/ReportLink";
 import ReviewSession from "./components/ReviewSession";
 import { loadLocal as loadReviewLocal, saveLocal as saveReviewLocal, recordAnswer, mergeItems, resolveDue, prune, dayNum, REVIEW_BATCH } from "./lib/review";
 import Legal from "./components/Legal";
@@ -1777,6 +1778,9 @@ export default function App() {
                   </div>
                   {quizAnswered && (
                     <div className="zte-explanation">{quizDeck[quizIndex].explanation}</div>
+                  )}
+                  {quizAnswered && (
+                    <ReportLink where={`Lesson ${lessonKey}`} question={quizDeck[quizIndex].q} />
                   )}
                   <button className="zte-btn-primary" disabled={quizSelected === null}
                     style={quizSelected === null ? {opacity:0.4,cursor:'not-allowed'} : {}}

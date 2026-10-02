@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { shuffle } from "../lib/helpers";
+import ReportLink from "./ReportLink";
 
 // One review sitting: questions come from the student's missed list, one at a time.
 // onAnswer(item, correct) is called once per question so the schedule can update.
@@ -78,6 +79,7 @@ export default function ReviewSession({ items, onAnswer, onExit }) {
         })}
       </div>
       {answered && <div className="zte-explanation">{cur.q.explanation}</div>}
+      {answered && <ReportLink where={"Review, lesson " + cur.lessonKey} question={cur.q.q} />}
       <button className="zte-btn-primary" disabled={picked === null}
         style={picked === null ? { opacity: 0.4, cursor: "not-allowed" } : {}} onClick={submit}>
         {answered ? (last ? "See Results \u2192" : "Continue \u2192") : "Check Answer \u2192"}

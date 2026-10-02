@@ -682,3 +682,7 @@ html,body{background:var(--bg);}
   .zte-review-banner{padding:12px 16px;flex-wrap:wrap;}
   .zte-review-banner .zte-btn-primary{width:100%;}
 }
+
+/* === REPORT A PROBLEM === */
+.zte-report-link{display:inline-block;margin:0 0 16px;font-size:13px;color:var(--text);opacity:.7;text-decoration:underline;min-height:44px;line-height:44px;}
+.zte-report-link:hover{opacity:1;}
